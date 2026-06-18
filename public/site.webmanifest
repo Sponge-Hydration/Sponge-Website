@@ -1,0 +1,12 @@
+{
+  "name": "Sponge Hydration Tracker",
+  "short_name": "Sponge",
+  "description": "The smart hydration tracker that clips to any water bottle.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b6bcb",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
