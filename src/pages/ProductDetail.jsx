@@ -12,6 +12,8 @@ export default function ProductDetail() {
   const navigate = useNavigate()
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
+  const gallery = product?.gallery?.length ? product.gallery : product?.img ? [product.img] : []
+  const [activeImg, setActiveImg] = useState(0)
 
   useSEO({
     title: product
@@ -53,8 +55,24 @@ export default function ProductDetail() {
         </div>
 
         <div className="pdp">
-          <div className="pdp__media" aria-hidden="true">
-            <span>{product.emoji}</span>
+          <div className="pdp__gallery">
+            <div className="pdp__main">
+              <img src={gallery[activeImg]} alt={product.name} />
+            </div>
+            {gallery.length > 1 && (
+              <div className="pdp__thumbs">
+                {gallery.map((src, i) => (
+                  <button
+                    key={src}
+                    className={`pdp__thumb${i === activeImg ? ' is-active' : ''}`}
+                    onClick={() => setActiveImg(i)}
+                    aria-label={`View image ${i + 1}`}
+                  >
+                    <img src={src} alt="" loading="lazy" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="pdp__info">

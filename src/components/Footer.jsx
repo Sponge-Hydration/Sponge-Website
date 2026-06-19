@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer__grid">
           <div className="footer__brand">
-            <div className="brand"><span className="brand__mark" aria-hidden="true">💧</span> Sponge</div>
+            <div className="brand"><img className="brand__logo brand__logo--light" src="/media/logo/mark-white.png" alt="" aria-hidden="true" /> Sponge</div>
             <p>The smart hydration tracker that clips to any water bottle and helps you hit your daily water goal — automatically.</p>
           </div>
           <div>

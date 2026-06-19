@@ -48,11 +48,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="device" aria-hidden="true">
-            <div className="device__cap" />
-            <div className="device__water"><div className="device__wave" /></div>
-            <div className="device__pill"><i className="dot" />Tracking sips</div>
-            <div className="device__clip"><strong>1.4L</strong><span>today · 78% of goal</span></div>
+          <div className="hero__media">
+            <img className="hero__video" src="/media/lifestyle/closeup.jpg" alt="Sponge hydration tracker on a bottle" />
+            <div className="hero__pill"><i className="dot" />Tracking sips</div>
+            <div className="hero__stat"><strong>1.4L</strong><span>today · 78% of goal</span></div>
           </div>
         </div>
       </section>
@@ -67,8 +66,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Problem */}
+      {/* Product showcase */}
       <section className="section">
+        <div className="container">
+          <SectionHead eyebrow="Meet Sponge" title="One tiny tracker. Every sip, counted.">
+            Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
+          </SectionHead>
+          <div className="showcase">
+            <video
+              className="showcase__video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/media/video/device-anim-poster.jpg"
+            >
+              <source src="/media/video/device-anim.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
+
+      {/* Problem */}
+      <section className="section section--tint">
         <div className="container section-head">
           <span className="eyebrow">The problem</span>
           <h2>Most people are dehydrated — and don’t even know it</h2>
@@ -81,16 +101,33 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="section section--tint" id="how">
+      <section className="section" id="how">
         <div className="container">
           <SectionHead eyebrow="How it works" title="Snap, sip, repeat">
             A genuinely passive hydration tracker. Three steps, then it disappears into your day.
           </SectionHead>
           <div className="steps">
-            <div className="step"><div className="step__n">1</div><h3>Snap it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
-            <div className="step"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip — zero logging.</p></div>
-            <div className="step"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
+            <div className="step step--media">
+              <img className="step__img" src="/media/how/step1-snap.jpg" alt="Sponge tracker clipped onto a water bottle" />
+              <div className="step__body"><div className="step__n">1</div><h3>Snap it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
+            </div>
+            <div className="step step--media">
+              <img className="step__img" src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with Sponge during a workout" />
+              <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip — zero logging.</p></div>
+            </div>
+            <div className="step step--media">
+              <img className="step__img step__img--app" src="/media/how/step3-app.png" alt="Sponge app showing hydration progress" />
+              <div className="step__body"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Lifestyle band */}
+      <section className="lifestyle-band" aria-hidden="true">
+        <img src="/media/lifestyle/track.jpg" alt="" />
+        <div className="lifestyle-band__overlay">
+          <p className="lifestyle-band__quote">Hydration that keeps up with you — on the track, at the desk, everywhere.</p>
         </div>
       </section>
 
@@ -116,14 +153,7 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container split">
           <div className="split__media">
-            <div className="phone" aria-hidden="true">
-              <div className="phone__screen">
-                <div className="phone__ring"><div>78%</div></div>
-                <div className="phone__row">📱 Social <span className="lock">🔒</span></div>
-                <div className="phone__row">🎮 Games <span className="lock">🔒</span></div>
-                <div className="phone__row">💧 Drink 380ml to unlock</div>
-              </div>
-            </div>
+            <img className="appshot" src="/media/app/applock.png" alt="Sponge app locking Facebook until a hydration goal is reached" />
           </div>
           <div>
             <span className="eyebrow">The hydration hack for your phone</span>

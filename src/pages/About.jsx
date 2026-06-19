@@ -25,6 +25,12 @@ export default function About() {
       </section>
 
       <section className="section">
+        <div className="container">
+          <img className="about-banner" src="/media/lifestyle/desk.jpg" alt="Sponge tracker on a water bottle at a desk" />
+        </div>
+      </section>
+
+      <section className="section section--tint">
         <div className="container prose">
           <h2>Our mission</h2>
           <p>
@@ -47,9 +53,13 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section section--tint">
+      <section className="section">
         <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: 'clamp(24px,3.4vw,34px)', fontWeight: 800, marginBottom: 14 }}>Meet the people building Sponge</h2>
+          <figure className="founders">
+            <img src="/media/team/founders.jpg" alt="Sponge co-founders Chris and Nathan" />
+            <figcaption>Co-founders Christopher Miglio and Nathan Katzaroff.</figcaption>
+          </figure>
+          <h2 style={{ fontSize: 'clamp(24px,3.4vw,34px)', fontWeight: 800, margin: '8px 0 14px' }}>Meet the people building Sponge</h2>
           <Link to="/team" className="btn btn--primary btn--lg">See the team</Link>
         </div>
       </section>

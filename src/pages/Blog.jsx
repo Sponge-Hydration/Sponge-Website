@@ -20,7 +20,9 @@ export default function Blog() {
         <div className="features">
           {blogPosts.map((p) => (
             <article className="blog-card" key={p.slug}>
-              <div className="blog-card__media" aria-hidden="true">💧</div>
+              <Link to={`/blog/${p.slug}`} className="blog-card__media">
+                {p.cover ? <img src={p.cover} alt={p.title} loading="lazy" /> : <span aria-hidden="true">💧</span>}
+              </Link>
               <div className="blog-card__body">
                 <span className="blog-card__tag">{p.tag}</span>
                 <h3><Link to={`/blog/${p.slug}`}>{p.title}</Link></h3>

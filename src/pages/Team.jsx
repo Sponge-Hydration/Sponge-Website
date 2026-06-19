@@ -13,12 +13,18 @@ export default function Team() {
     <section className="section">
       <div className="container">
         <SectionHead eyebrow="Team" title="The people behind Sponge">
-          A small team of athletes, engineers, and designers obsessed with making hydration effortless.
+          A small team obsessed with making hydration effortless.
         </SectionHead>
+        <figure className="founders">
+          <img src="/media/team/founders.jpg" alt="Sponge co-founders Chris and Nathan" />
+          <figcaption>Co-founders Christopher Miglio and Nathan Katzaroff.</figcaption>
+        </figure>
         <div className="features">
           {team.map((m) => (
             <article className="team-card" key={m.name}>
-              <div className="team-card__av">{m.initial}</div>
+              {m.img
+                ? <img className="team-card__photo" src={m.img} alt={m.name} loading="lazy" />
+                : <div className="team-card__av">{m.initial}</div>}
               <h3>{m.name}</h3>
               <span className="team-card__role">{m.role}</span>
               <p>{m.bio}</p>

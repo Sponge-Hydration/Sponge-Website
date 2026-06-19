@@ -30,6 +30,12 @@ export default function Caregivers() {
 
       <section className="section">
         <div className="container">
+          <img className="about-banner" src="/media/lifestyle/closeup.jpg" alt="Close-up of the Sponge tracker clipped to a water bottle" />
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="container">
           <SectionHead eyebrow="How it helps" title="Hydration monitoring that respects their independence">
             They keep their normal bottle and routine. You get visibility and alerts.
           </SectionHead>

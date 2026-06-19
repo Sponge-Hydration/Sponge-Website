@@ -9,7 +9,16 @@ export const products = [
     price: 59.99,
     compareAt: 79.99,
     badge: 'Pre-order',
-    emoji: '💧',
+    emoji: '\u{1F4A7}',
+    img: '/media/products/single.jpg',
+    gallery: [
+      '/media/gallery/g1-white-vertical.jpg',
+      '/media/gallery/g2-black-vertical.jpg',
+      '/media/gallery/g3-side-profile.jpg',
+      '/media/gallery/g5-packaging.jpg',
+      '/media/lifestyle/gym.jpg',
+      '/media/lifestyle/desk.jpg',
+    ],
     short: 'Magnetic clip-on hydration tracking device that auto-logs every sip from the bottle you already own.',
     features: [
       'Works with any water bottle',
@@ -28,7 +37,14 @@ export const products = [
     price: 109.99,
     compareAt: 159.98,
     badge: 'Best value',
-    emoji: '💧💧',
+    emoji: '\u{1F4A7}\u{1F4A7}',
+    img: '/media/products/twopack.jpg',
+    gallery: [
+      '/media/products/twopack.jpg',
+      '/media/gallery/g1-white-vertical.jpg',
+      '/media/gallery/g2-black-vertical.jpg',
+      '/media/gallery/g5-packaging.jpg',
+    ],
     short: 'Two Sponge trackers so you never have to move it between bottles. Save $50 vs. buying separately.',
     features: [
       'Two Sponge hydration trackers',
@@ -47,7 +63,14 @@ export const products = [
     price: 199.99,
     compareAt: 299.96,
     badge: 'Save $100',
-    emoji: '💧💧💧💧',
+    emoji: '\u{1F4A7}\u{1F4A7}\u{1F4A7}\u{1F4A7}',
+    img: '/media/products/family.jpg',
+    gallery: [
+      '/media/products/family.jpg',
+      '/media/gallery/g5-packaging.jpg',
+      '/media/gallery/g1-white-vertical.jpg',
+      '/media/gallery/g2-black-vertical.jpg',
+    ],
     short: 'Four trackers with shared family dashboard — ideal for households and caregivers monitoring loved ones.',
     features: [
       'Four Sponge hydration trackers',
@@ -84,36 +107,39 @@ export const blogPosts = [
   {
     slug: 'how-much-water-should-you-drink',
     title: 'How Much Water Should You Actually Drink a Day?',
-    excerpt: 'The “8 glasses a day” rule is a myth. Here’s how to find the hydration target that fits your body, activity, and climate.',
+    excerpt: 'The "8 glasses a day" rule is a myth. Here is how to find the hydration target that fits your body, activity, and climate.',
     date: '2026-05-28',
     readTime: '6 min read',
     tag: 'Hydration science',
+    cover: '/media/lifestyle/desk.jpg',
     body: [
-      'The familiar “eight 8-ounce glasses” guideline is easy to remember and almost entirely made up. Your real water needs depend on your body weight, how active you are, the climate you live in, and even what you eat.',
+      'The familiar "eight 8-ounce glasses" guideline is easy to remember and almost entirely made up. Your real water needs depend on your body weight, how active you are, the climate you live in, and even what you eat.',
       'A more useful starting point is roughly half an ounce to one ounce of water per pound of body weight per day, adjusted up for exercise and hot weather. But the only way to know whether you are actually meeting your needs is to measure — which is exactly the gap a hydration tracker like Sponge fills.',
       'Instead of guessing, Sponge records every sip automatically and learns your patterns over time, then sets a personalized daily goal that reflects what your body actually needs rather than a one-size-fits-all number.',
     ],
   },
   {
     slug: 'signs-of-dehydration',
-    title: '7 Subtle Signs You’re Dehydrated (That Aren’t Thirst)',
-    excerpt: 'By the time you feel thirsty you’re already behind. These quieter signals show up first.',
+    title: '7 Subtle Signs You Are Dehydrated (That Are Not Thirst)',
+    excerpt: 'By the time you feel thirsty you are already behind. These quieter signals show up first.',
     date: '2026-05-12',
     readTime: '5 min read',
     tag: 'Health',
+    cover: '/media/lifestyle/closeup.jpg',
     body: [
       'Thirst is a late signal. Long before you feel it, mild dehydration shows up as afternoon fatigue, brain fog, headaches, dry skin, irritability, sugar cravings, and dark-colored urine.',
-      'The problem is that these symptoms are easy to blame on something else — a bad night’s sleep, too much screen time, a skipped meal. That is why so many people are chronically under-hydrated without realizing it.',
+      'The problem is that these symptoms are easy to blame on something else — a bad night of sleep, too much screen time, a skipped meal. That is why so many people are chronically under-hydrated without realizing it.',
       'Passive tracking removes the guesswork. When Sponge shows that you have only had 600ml by 3pm, the cause of that 3pm slump suddenly becomes obvious — and fixable.',
     ],
   },
   {
     slug: 'smart-bottle-vs-clip-on-tracker',
     title: 'Smart Water Bottle vs. Clip-On Tracker: Which Is Better?',
-    excerpt: 'Smart bottles force you to give up the bottle you love. Here’s why a clip-on hydration tracking device is the smarter buy.',
+    excerpt: 'Smart bottles force you to give up the bottle you love. Here is why a clip-on hydration tracking device is the smarter buy.',
     date: '2026-04-30',
     readTime: '7 min read',
     tag: 'Comparison',
+    cover: '/media/lifestyle/track.jpg',
     body: [
       'Smart water bottles bundle the sensor into the bottle itself. That sounds convenient until you realize you now own one tracked bottle and a cabinet full of untracked ones — and you have to drink from the right one to get any data.',
       'A clip-on hydration tracker takes the opposite approach: the intelligence lives in a small device that attaches to whatever bottle you already use. Your favorite insulated bottle, the glass on your desk, the tumbler in your car — all tracked.',
@@ -125,8 +151,7 @@ export const blogPosts = [
 export const blogBySlug = (slug) => blogPosts.find((p) => p.slug === slug)
 
 export const team = [
-  { initial: 'A', name: 'Alex Rivera', role: 'Co-founder & CEO', bio: 'Former endurance athlete who got tired of forgetting to drink water during long training blocks.' },
-  { initial: 'M', name: 'Maya Chen', role: 'Co-founder & Head of Product', bio: 'Hardware designer focused on tiny, low-power sensors that disappear into everyday objects.' },
-  { initial: 'J', name: 'Jordan Patel', role: 'Head of Engineering', bio: 'Builds the app and firmware that turn raw sip data into habits that stick.' },
-  { initial: 'S', name: 'Sam Okafor', role: 'Head of Care', bio: 'Leads the caregiver program, helping families monitor hydration for the people they love.' },
+  { initial: 'N', name: 'Nathan Katzaroff', role: 'Co-founder', img: '/media/team/nathan.jpg', bio: 'Leads brand and growth — on a mission to make hydration something you never have to think about.' },
+  { initial: 'C', name: 'Christopher Miglio', role: 'Co-founder', img: '/media/team/chris.jpg', bio: 'Heads product and hardware, obsessing over a tiny sensor that disappears onto the bottle you already own.' },
+  { initial: 'D', name: 'Dom', role: 'Engineering', img: '/media/team/dom.jpg', bio: 'Builds the app and firmware that turn raw sip data into habits that actually stick.' },
 ]

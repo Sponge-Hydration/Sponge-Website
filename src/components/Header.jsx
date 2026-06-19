@@ -18,7 +18,7 @@ export default function Header() {
     <header className="header">
       <div className="container header__inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
-          <span className="brand__mark" aria-hidden="true">💧</span>
+          <img className="brand__logo" src="/media/logo/mark.png" alt="" aria-hidden="true" />
           Sponge
         </Link>
 

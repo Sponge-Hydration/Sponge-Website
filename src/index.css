@@ -491,3 +491,100 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .footer__legal { display: flex; gap: 16px; }
 .footer__legal a { display: inline; margin: 0; }
 .persona { text-decoration: none; }
+
+/* ============================================================
+   Media additions: logos, hero video, showcase, galleries
+   ============================================================ */
+
+/* Brand logo image */
+.brand__logo { width: 34px; height: 34px; object-fit: contain; }
+.brand__logo--light { width: 30px; height: 30px; }
+
+/* Hero video */
+.hero__media { position: relative; margin: 0 auto; width: min(360px, 84%); }
+.hero__video {
+  width: 100%; aspect-ratio: 9 / 16; object-fit: cover;
+  border-radius: 34px; border: 6px solid #fff; background: #0c1d34;
+  box-shadow: var(--shadow-lg);
+}
+.hero__pill {
+  position: absolute; top: 22px; left: -22px; background: #fff; padding: 9px 14px;
+  border-radius: 999px; box-shadow: var(--shadow-md); font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; gap: 7px;
+}
+.hero__pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #2ec28a; }
+.hero__stat {
+  position: absolute; bottom: 32px; right: -24px; width: 92px; padding: 12px 10px; text-align: center;
+  background: #fff; border-radius: 16px; box-shadow: var(--shadow-md); border: 1px solid var(--line);
+}
+.hero__stat strong { display: block; font-size: 22px; font-weight: 900; color: var(--blue-600); }
+.hero__stat span { font-size: 11px; color: var(--muted); font-weight: 600; }
+@media (max-width: 520px) { .hero__stat { right: -10px; } .hero__pill { left: -10px; } }
+
+/* Product showcase video */
+.showcase {
+  max-width: 940px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-lg); background: #0c1d34;
+}
+.showcase__video { width: 100%; display: block; }
+
+/* Steps with media */
+.step--media { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.step__img { width: 100%; height: 210px; object-fit: cover; }
+.step__img--app { object-fit: contain; background: var(--grad-deep); padding: 16px 0; }
+.step__body { padding: 30px 28px 34px; }
+.step__body .step__n { margin-bottom: 16px; }
+
+/* Lifestyle band */
+.lifestyle-band { position: relative; height: clamp(280px, 42vw, 460px); overflow: hidden; }
+.lifestyle-band img { width: 100%; height: 100%; object-fit: cover; }
+.lifestyle-band__overlay {
+  position: absolute; inset: 0; display: flex; align-items: flex-end;
+  background: linear-gradient(to top, rgba(7, 41, 77, 0.78), rgba(7, 41, 77, 0.05) 60%); padding: 44px;
+}
+.lifestyle-band__quote { color: #fff; font-size: clamp(20px, 3vw, 32px); font-weight: 800; max-width: 720px; margin: 0; line-height: 1.2; }
+
+/* App screenshot (transparent phone PNG) */
+.appshot { width: min(300px, 78%); margin: 0 auto; filter: drop-shadow(0 26px 44px rgba(10, 45, 80, 0.24)); }
+
+/* Product card image */
+.product-card__media { height: 230px; padding: 0; }
+.product-card__media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* PDP gallery */
+.pdp__gallery { display: flex; flex-direction: column; gap: 14px; }
+.pdp__main {
+  aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; background: #fff;
+  border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+}
+.pdp__main img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+.pdp__thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.pdp__thumb { border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; aspect-ratio: 1; padding: 0; }
+.pdp__thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.pdp__thumb.is-active { border-color: var(--blue-500); box-shadow: 0 0 0 3px var(--aqua-100); }
+@media (max-width: 560px) { .pdp__thumbs { grid-template-columns: repeat(4, 1fr); } }
+
+/* Team photos + founders */
+.team-card__photo { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; margin: 0 auto 14px; display: block; box-shadow: var(--shadow-sm); }
+.founders { max-width: 620px; margin: 0 auto 44px; }
+.founders img { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.founders figcaption { text-align: center; color: var(--muted); font-size: 14px; margin-top: 12px; }
+
+/* About / caregiver banner */
+.about-banner { width: 100%; max-height: 460px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+
+/* Setup video */
+.setup-video { max-width: 760px; margin: 42px auto 0; }
+.setup-video video { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #000; display: block; }
+.setup-video__cap { text-align: center; color: var(--muted); font-size: 14px; margin-top: 12px; }
+
+/* Blog cover */
+.blog-card__media { padding: 0; overflow: hidden; }
+.blog-card__media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Dashboard app strip */
+.app-strip { margin-top: 40px; background: var(--grad-deep); border-radius: var(--radius-lg); padding: 44px 32px; text-align: center; color: #fff; }
+.app-strip h3 { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 10px; }
+.app-strip > p { color: rgba(255, 255, 255, 0.82); max-width: 560px; margin: 0 auto 30px; }
+.app-strip__shots { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+.app-strip__shots img { width: 148px; filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.32)); }

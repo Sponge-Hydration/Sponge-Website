@@ -31,8 +31,8 @@ export default function Products() {
           {products.map((p) => (
             <article className="product-card" key={p.id}>
               <div className="product-card__badge">{p.badge}</div>
-              <Link to={`/shop/p/${p.slug}`} className="product-card__media" aria-hidden="true">
-                <span>{p.emoji}</span>
+              <Link to={`/shop/p/${p.slug}`} className="product-card__media">
+                <img src={p.img} alt={p.name} loading="lazy" />
               </Link>
               <div className="product-card__body">
                 <h3><Link to={`/shop/p/${p.slug}`}>{p.name}</Link></h3>
