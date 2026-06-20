@@ -537,14 +537,14 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 
 /* Steps with media */
 .step--media { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-.step__img { width: 100%; height: 210px; object-fit: cover; object-position: center 20%; }
+.step__img { width: 100%; height: 210px; object-fit: cover; object-position: top; }
 .step__img--app { object-fit: contain; background: var(--grad-deep); padding: 16px 0; }
 .step__body { padding: 30px 28px 34px; }
 .step__body .step__n { margin-bottom: 16px; }
 
 /* Lifestyle band */
 .lifestyle-band { position: relative; height: clamp(280px, 42vw, 460px); overflow: hidden; }
-.lifestyle-band img { width: 100%; height: 100%; object-fit: cover; }
+.lifestyle-band img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
 .lifestyle-band__overlay {
   position: absolute; inset: 0; display: flex; align-items: flex-end;
   background: linear-gradient(to top, rgba(7, 41, 77, 0.78), rgba(7, 41, 77, 0.05) 60%); padding: 44px;
@@ -556,7 +556,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 
 /* Product card image */
 .product-card__media { height: 230px; padding: 0; }
-.product-card__media img { width: 100%; height: 100%; object-fit: contain; padding: 18px; background: radial-gradient(120% 100% at 50% 0, var(--aqua-100), var(--surface-tint)); }
+.product-card__media img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
 /* PDP gallery */
 .pdp__gallery { display: flex; flex-direction: column; gap: 14px; }
@@ -578,7 +578,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .founders figcaption { text-align: center; color: var(--muted); font-size: 14px; margin-top: 12px; }
 
 /* About / caregiver banner */
-.about-banner { width: 100%; max-height: 460px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.about-banner { width: 100%; max-height: 460px; object-fit: cover; object-position: top; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 
 /* Setup video */
 .setup-video { max-width: 760px; margin: 42px auto 0; }
