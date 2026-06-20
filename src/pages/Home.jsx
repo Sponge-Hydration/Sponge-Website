@@ -49,7 +49,9 @@ export default function Home() {
           </div>
 
           <div className="hero__media">
-            <img className="hero__video" src="/media/lifestyle/closeup.jpg" alt="Sponge hydration tracker on a bottle" />
+            <video className="hero__video" autoPlay muted loop playsInline poster="/media/video/hero-poster.jpg">
+              <source src="/media/video/hero.mp4" type="video/mp4" />
+            </video>
             <div className="hero__pill"><i className="dot" />Tracking sips</div>
             <div className="hero__stat"><strong>1.4L</strong><span>today · 78% of goal</span></div>
           </div>
