@@ -520,6 +520,13 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .hero__stat strong { display: block; font-size: 22px; font-weight: 900; color: var(--blue-600); }
 .hero__stat span { font-size: 11px; color: var(--muted); font-weight: 600; }
 @media (max-width: 520px) { .hero__stat { right: -10px; } .hero__pill { left: -10px; } }
+@media (max-width: 939px) {
+  .hero__grid > :first-child { text-align: center; }
+  .hero__cta { justify-content: center; }
+  .hero__note { justify-content: center; }
+  .hero__rating { justify-content: center; }
+  .hero__sub { margin-left: auto; margin-right: auto; }
+}
 
 /* Product showcase video */
 .showcase {
@@ -530,7 +537,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 
 /* Steps with media */
 .step--media { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-.step__img { width: 100%; height: 210px; object-fit: cover; }
+.step__img { width: 100%; height: 210px; object-fit: cover; object-position: center 20%; }
 .step__img--app { object-fit: contain; background: var(--grad-deep); padding: 16px 0; }
 .step__body { padding: 30px 28px 34px; }
 .step__body .step__n { margin-bottom: 16px; }
@@ -549,7 +556,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 
 /* Product card image */
 .product-card__media { height: 230px; padding: 0; }
-.product-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.product-card__media img { width: 100%; height: 100%; object-fit: contain; padding: 18px; background: radial-gradient(120% 100% at 50% 0, var(--aqua-100), var(--surface-tint)); }
 
 /* PDP gallery */
 .pdp__gallery { display: flex; flex-direction: column; gap: 14px; }
