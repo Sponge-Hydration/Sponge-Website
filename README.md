@@ -32,8 +32,17 @@ src/
 public/         robots.txt, sitemap.xml, manifest, favicon
 ```
 
+## Deployment
+
+Hosted on **Cloudflare Pages** (project `spongehydration`). Pushes to `main`
+auto-deploy via GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)).
+
+Checkout uses **Stripe hosted Checkout** with the order flow handled by Cloudflare
+Pages Functions in [`functions/api/`](functions/api/). Paid orders are logged to a
+Google Sheet and trigger confirmation emails — see
+[docs/order-integrations.md](docs/order-integrations.md) for setup.
+
 ## Notes
 
-- Checkout is a front-end demo and does not process real payments.
 - The dashboard uses sample data for preview purposes.
 - Product imagery uses placeholders pending real photos.
