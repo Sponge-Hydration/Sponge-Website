@@ -35,7 +35,7 @@ export default function Dashboard() {
         <div className="dash-head">
           <div>
             <span className="eyebrow">Dashboard</span>
-            <h1 className="page-title" style={{ margin: '12px 0 4px' }}>Good afternoon, Jordan 👋</h1>
+            <h1 className="page-title" style={{ margin: '12px 0 4px' }}>Good afternoon, Nathan 👋</h1>
             <p style={{ color: 'var(--ink-soft)', margin: 0 }}>Here’s how your hydration is going today.</p>
           </div>
           <div className="dash-device">

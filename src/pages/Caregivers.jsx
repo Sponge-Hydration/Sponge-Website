@@ -30,7 +30,7 @@ export default function Caregivers() {
 
       <section className="section">
         <div className="container">
-          <img className="about-banner" src="/media/lifestyle/closeup.jpg" alt="Close-up of the Sponge tracker clipped to a water bottle" />
+          <img className="about-banner" src="/media/lifestyle/caregiver.jpg" alt="Sponge tracker on a water bottle within easy reach at home" />
         </div>
       </section>
 
