@@ -187,9 +187,18 @@ export default function Home() {
             One simple hydration tracker, a lot of people it quietly helps every day.
           </SectionHead>
           <div className="personas">
-            <article className="persona"><div className="persona__emoji">🏃</div><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></article>
-            <article className="persona"><div className="persona__emoji">💼</div><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></article>
-            <Link to="/caregivers" className="persona"><div className="persona__emoji">🩺</div><h3>Caregivers &amp; families</h3><p>Keep an eye on a loved one’s hydration with effortless tracking and shared progress. See our caregiver program →</p></Link>
+            <article className="persona">
+              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two friends playing basketball at an outdoor court" loading="lazy" />
+              <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></div>
+            </article>
+            <article className="persona">
+              <img className="persona__img" src="/media/personas/professional.jpg" alt="Water bottle with Sponge tracker on a work desk" loading="lazy" />
+              <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
+            </article>
+            <Link to="/caregivers" className="persona">
+              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="Adult daughter with her mother and a tracked water bottle at home" loading="lazy" />
+              <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Keep an eye on a loved one’s hydration with effortless tracking and shared progress. See our caregiver program →</p></div>
+            </Link>
           </div>
         </div>
       </section>

@@ -67,9 +67,9 @@ export const products = [
     compareAt: 299.96,
     badge: 'Save $100',
     emoji: '\u{1F4A7}\u{1F4A7}\u{1F4A7}\u{1F4A7}',
-    img: '/media/products/family.jpg',
+    img: '/media/products/family.png',
     gallery: [
-      '/media/products/family.jpg',
+      '/media/products/family.png',
       '/media/gallery/g5-packaging.jpg',
       '/media/gallery/g1-white-vertical.jpg',
       '/media/gallery/g2-black-vertical.jpg',
@@ -144,7 +144,7 @@ export const blogPosts = [
     date: '2026-05-12',
     readTime: '5 min read',
     tag: 'Health',
-    cover: '/media/lifestyle/closeup.jpg',
+    cover: '/media/lifestyle/gym.jpg',
     body: [
       'Thirst is a late signal. Long before you feel it, mild dehydration shows up as afternoon fatigue, brain fog, headaches, dry skin, irritability, sugar cravings, and dark-colored urine.',
       'The problem is that these symptoms are easy to blame on something else — a bad night of sleep, too much screen time, a skipped meal. That is why so many people are chronically under-hydrated without realizing it.',
@@ -172,5 +172,5 @@ export const blogBySlug = (slug) => blogPosts.find((p) => p.slug === slug)
 export const team = [
   { initial: 'N', name: 'Nathan Katzaroff', role: 'Co-founder', img: '/media/team/nathan.jpg', bio: 'Leads brand and growth — on a mission to make hydration something you never have to think about.' },
   { initial: 'C', name: 'Christopher Miglio', role: 'Co-founder', img: '/media/team/chris.jpg', bio: 'Heads product and hardware, obsessing over a tiny sensor that disappears onto the bottle you already own.' },
-  { initial: 'D', name: 'Dom', role: 'Engineering', img: '/media/team/dom.jpg', bio: 'Builds the app and firmware that turn raw sip data into habits that actually stick.' },
+  { initial: 'D', name: 'Dominic Dal Porto', role: 'Engineering', img: '/media/team/dom.jpg', bio: 'Builds the app and firmware that turn raw sip data into habits that actually stick.' },
 ]
