@@ -6,6 +6,7 @@ export const products = [
     slug: 'sponge-clip',
     name: 'Sponge Hydration Tracker',
     tagline: 'The clip-on tracker for any water bottle',
+    clips: 1,
     price: 59.99,
     compareAt: 79.99,
     badge: 'Pre-order',
@@ -34,6 +35,7 @@ export const products = [
     slug: 'sponge-2-pack',
     name: 'Sponge 2-Pack',
     tagline: 'One for home, one for the gym',
+    clips: 2,
     price: 109.99,
     compareAt: 159.98,
     badge: 'Best value',
@@ -60,6 +62,7 @@ export const products = [
     slug: 'sponge-family-pack',
     name: 'Sponge Family Pack',
     tagline: 'Hydration for the whole household',
+    clips: 4,
     price: 199.99,
     compareAt: 299.96,
     badge: 'Save $100',
@@ -85,6 +88,22 @@ export const products = [
 
 export const productById = (id) => products.find((p) => p.id === id)
 export const productBySlug = (slug) => products.find((p) => p.slug === slug)
+
+// Color options a customer can choose for each Sponge clip.
+export const colorOptions = [
+  { id: 'light-blue', label: 'Light Blue', hex: '#7cc4ff' },
+  { id: 'dark-blue', label: 'Dark Blue', hex: '#1e3a8a' },
+  { id: 'black', label: 'Black', hex: '#1a1a1a' },
+  { id: 'white', label: 'White', hex: '#f4f4f5' },
+  { id: 'light-gray', label: 'Light Gray', hex: '#cbd5e1' },
+  { id: 'pink', label: 'Pink', hex: '#f9a8d4' },
+]
+export const DEFAULT_COLOR = 'light-blue'
+export const colorById = (id) => colorOptions.find((c) => c.id === id)
+export const colorLabel = (id) => colorById(id)?.label || id
+
+// How many physical clips a product contains (multi-packs hold several).
+export const clipsFor = (id) => productById(id)?.clips || 1
 
 export const faqs = [
   { q: 'What is a hydration tracker and how does Sponge work?', a: 'A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each sip automatically and sync to the free Sponge app — so you never have to log water by hand.' },

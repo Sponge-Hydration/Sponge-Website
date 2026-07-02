@@ -8,6 +8,8 @@ dist-ssr/
 # Local env / editor
 .env
 .env.local
+.dev.vars
+.cf-token
 *.local
 .DS_Store
 .vscode/
@@ -18,3 +20,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.log
+
+# Wrangler local cache
+.wrangler/

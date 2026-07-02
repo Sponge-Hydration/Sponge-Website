@@ -1,0 +1,24 @@
+# Copy this file to .dev.vars (gitignored) for local `wrangler pages dev`.
+# Use your TEST-mode secret key — never the live key.
+STRIPE_SECRET_KEY=sk_test_xxx
+
+# Webhook signing secret. Locally, run `stripe listen --forward-to
+# localhost:8788/api/webhook` and paste the whsec_... it prints here.
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+
+# --- Gmail API (OAuth2) for confirmation + team emails ---
+# From Google Cloud OAuth client + a refresh token for the sending account.
+GMAIL_CLIENT_ID=xxx.apps.googleusercontent.com
+GMAIL_CLIENT_SECRET=xxx
+GMAIL_REFRESH_TOKEN=xxx
+# Sending identity (must be the account or a verified "Send as" alias):
+ORDER_FROM_EMAIL=team@spongehydration.com
+TEAM_EMAIL=team@spongehydration.com
+
+# --- Google Sheet (service account, Sheets API) ---
+# From the downloaded service-account JSON: client_email and private_key.
+GOOGLE_SA_EMAIL=sponge-sheets-writer@your-project.iam.gserviceaccount.com
+# Paste the private_key exactly as it appears in the JSON (keep the \n escapes).
+GOOGLE_SA_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----\n"
+GOOGLE_SHEET_ID=1I8-142hZTfvZ1YCVRaTAAmRwLVTs7Lm63ikBhLbSal4
+SHEET_TAB_NAME=2026

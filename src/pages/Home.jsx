@@ -29,8 +29,8 @@ export default function Home() {
             <span className="eyebrow">★ 4.9/5 from 120+ early customers</span>
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
-              Sponge is a tiny clip-on hydration tracking device that automatically tracks your
-              water intake — every sip, from the bottle you already own. Snap it on, drink, and let
+              Sponge is a clip-on hydration tracking device that automatically tracks your
+              water intake — every sip, from the bottle you already own. Clip it on, drink, and let
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
@@ -71,7 +71,7 @@ export default function Home() {
       {/* Product showcase */}
       <section className="section">
         <div className="container">
-          <SectionHead eyebrow="Meet Sponge" title="One tiny tracker. Every sip, counted.">
+          <SectionHead eyebrow="Meet Sponge" title="One tracker. Every sip, counted.">
             Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
           </SectionHead>
           <div className="showcase">
@@ -105,13 +105,13 @@ export default function Home() {
       {/* How it works */}
       <section className="section" id="how">
         <div className="container">
-          <SectionHead eyebrow="How it works" title="Snap, sip, repeat">
+          <SectionHead eyebrow="How it works" title="Clip, sip, repeat">
             A genuinely passive hydration tracker. Three steps, then it disappears into your day.
           </SectionHead>
           <div className="steps">
             <div className="step step--media">
               <img className="step__img" src="/media/how/step1-snap.jpg" alt="Sponge tracker clipped onto a water bottle" />
-              <div className="step__body"><div className="step__n">1</div><h3>Snap it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
+              <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
             </div>
             <div className="step step--media">
               <img className="step__img" src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with Sponge during a workout" />
