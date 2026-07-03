@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSEO } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
+import SetupExplainer from '../components/SetupExplainer'
 import { faqs } from '../data'
 
 export default function HowItWorks() {
@@ -18,22 +19,10 @@ export default function HowItWorks() {
       <section className="section">
         <div className="container">
           <SectionHead eyebrow="Setup" title="Up and running in two minutes">
-            No tools, no complicated pairing. Three steps and you’re tracking.
+            No tools, no complicated pairing. Watch how Sponge goes from the box to tracking
+            every sip — then explore each step yourself.
           </SectionHead>
-          <div className="steps">
-            <div className="step step--media">
-              <img className="step__img step__img--app" src="/media/app/settings.png" alt="Sponge app device settings" />
-              <div className="step__body"><div className="step__n">1</div><h3>Charge it</h3><p>Top up your Sponge over USB-C. A full charge lasts about 8 days.</p></div>
-            </div>
-            <div className="step step--media">
-              <img className="step__img step__img--app" src="/media/app/goal.png" alt="Setting a daily hydration goal in the Sponge app" />
-              <div className="step__body"><div className="step__n">2</div><h3>Pair the app</h3><p>Download the free Sponge app, open it, and connect over Bluetooth. The app calibrates your bottle size.</p></div>
-            </div>
-            <div className="step step--media">
-              <img className="step__img" src="/media/how/step1-snap.jpg" alt="Sponge tracker clipped onto a water bottle" />
-              <div className="step__body"><div className="step__n">3</div><h3>Clip &amp; go</h3><p>Snap Sponge magnetically onto your bottle. Every sip from now on is tracked automatically.</p></div>
-            </div>
-          </div>
+          <SetupExplainer />
           <div className="setup-video">
             <video controls muted playsInline poster="/media/video/app-demo-poster.jpg" preload="none">
               <source src="/media/video/app-demo.mp4" type="video/mp4" />
