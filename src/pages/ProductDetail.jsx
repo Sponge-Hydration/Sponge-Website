@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSEO } from '../components/useSEO'
 import { Stars, usd } from '../components/bits'
+import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
 
@@ -112,9 +113,9 @@ export default function ProductDetail() {
             </div>
 
             <div className="pdp__meta">
-              <span>🚚 {product.ships}</span>
-              <span>🛡️ 30-day money-back guarantee</span>
-              <span>📱 Free iOS &amp; Android app included</span>
+              <span><TruckIcon size={15} /> {product.ships}</span>
+              <span><ShieldIcon size={15} /> 30-day money-back guarantee</span>
+              <span><PhoneIcon size={15} /> Free iOS &amp; Android app included</span>
             </div>
           </div>
         </div>

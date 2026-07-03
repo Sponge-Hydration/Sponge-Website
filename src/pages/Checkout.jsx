@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useSEO } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
+import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
 
 export default function Checkout() {
   useSEO({ title: 'Checkout | Sponge Hydration', description: 'Complete your Sponge pre-order.', path: '/checkout' })
@@ -27,7 +28,7 @@ export default function Checkout() {
     return (
       <section className="section">
         <div className="container empty-state">
-          <div className="empty-state__emoji">🎉</div>
+          <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
           <h2>Order confirmed!</h2>
           <p>
             Thanks for pre-ordering Sponge. Payment received — we’ve sent a confirmation to your
@@ -46,7 +47,7 @@ export default function Checkout() {
     return (
       <section className="section">
         <div className="container empty-state">
-          <div className="empty-state__emoji">🛒</div>
+          <div className="empty-state__icon" aria-hidden="true"><CartIcon size={56} /></div>
           <h2>Nothing to check out</h2>
           <p>Your cart is empty.</p>
           <Link to="/products" className="btn btn--primary btn--lg">Shop Sponge</Link>
@@ -113,7 +114,7 @@ export default function Checkout() {
               >
                 {loading ? 'Redirecting…' : `Pay with card — ${usd(subtotal)}`}
               </button>
-              <p className="checkout-form__demo">🔒 Payments are processed securely by Stripe.</p>
+              <p className="checkout-form__demo"><LockIcon size={14} /> Payments are processed securely by Stripe.</p>
             </fieldset>
           </div>
 
@@ -121,13 +122,13 @@ export default function Checkout() {
             <h3>Order summary</h3>
             {items.map((i) => (
               <div className="cart-summary__line" key={i.id}>
-                <span>{i.emoji} {i.name} × {i.qty}</span>
+                <span>{i.name} × {i.qty}</span>
                 <span>{usd(i.lineTotal)}</span>
               </div>
             ))}
             <div className="cart-summary__row"><span>Shipping</span><span>Free</span></div>
             <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(subtotal)}</span></div>
-            <p className="cart-summary__note">🛡️ 30-day money-back guarantee · Ships in ~8 weeks</p>
+            <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>
           </aside>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useSEO } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
+import { DropletIcon } from '../components/icons'
 import { blogPosts } from '../data'
 
 export default function Blog() {
@@ -21,7 +22,7 @@ export default function Blog() {
           {blogPosts.map((p) => (
             <article className="blog-card" key={p.slug}>
               <Link to={`/blog/${p.slug}`} className="blog-card__media">
-                {p.cover ? <img src={p.cover} alt={p.title} loading="lazy" /> : <span aria-hidden="true">💧</span>}
+                {p.cover ? <img src={p.cover} alt={p.title} loading="lazy" /> : <span aria-hidden="true"><DropletIcon size={40} /></span>}
               </Link>
               <div className="blog-card__body">
                 <span className="blog-card__tag">{p.tag}</span>

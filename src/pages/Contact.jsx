@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSEO } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
+import { CheckCircleIcon } from '../components/icons'
 
 export default function Contact() {
   useSEO({
@@ -20,7 +21,7 @@ export default function Contact() {
         <div className="contact-layout">
           {sent ? (
             <div className="empty-state" style={{ padding: '40px 20px' }}>
-              <div className="empty-state__emoji">✅</div>
+              <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
               <h2>Thanks — message sent!</h2>
               <p>We’ll get back to you within one business day.</p>
             </div>

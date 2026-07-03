@@ -1,4 +1,5 @@
 import { useSEO } from '../components/useSEO'
+import { BatteryIcon, DropletIcon, FilmIcon, FlameIcon, GamepadIcon, LockIcon, PhoneIcon } from '../components/icons'
 
 const week = [
   { d: 'Mon', pct: 96 },
@@ -35,12 +36,12 @@ export default function Dashboard() {
         <div className="dash-head">
           <div>
             <span className="eyebrow">Dashboard</span>
-            <h1 className="page-title" style={{ margin: '12px 0 4px' }}>Good afternoon, Nathan 👋</h1>
+            <h1 className="page-title" style={{ margin: '12px 0 4px' }}>Good afternoon, Nathan</h1>
             <p style={{ color: 'var(--ink-soft)', margin: 0 }}>Here’s how your hydration is going today.</p>
           </div>
           <div className="dash-device">
-            <span className="dash-device__name">🔵 Sponge · Desk bottle</span>
-            <span className="dash-device__batt">🔋 64% · synced 2 min ago</span>
+            <span className="dash-device__name"><DropletIcon size={14} /> Sponge · Desk bottle</span>
+            <span className="dash-device__batt"><BatteryIcon size={14} /> 64% · synced 2 min ago</span>
           </div>
         </div>
 
@@ -64,7 +65,7 @@ export default function Dashboard() {
           <div className="dash-card">
             <h3>This week</h3>
             <div className="dash-stats">
-              <div><strong>6</strong><span>day streak 🔥</span></div>
+              <div><strong>6</strong><span>day streak <FlameIcon size={13} /></span></div>
               <div><strong>86%</strong><span>avg. goal hit</span></div>
               <div><strong>2.2L</strong><span>daily average</span></div>
             </div>
@@ -87,9 +88,9 @@ export default function Dashboard() {
           <div className="dash-card dash-card--lock">
             <h3>App lock</h3>
             <p className="dash-card__hint">Unlocks at 100% of today’s goal.</p>
-            <div className="dash-lock-row">📱 Social <span className="lock">🔒 locked</span></div>
-            <div className="dash-lock-row">🎮 Games <span className="lock">🔒 locked</span></div>
-            <div className="dash-lock-row">🎬 Streaming <span className="unlock">✓ unlocked</span></div>
+            <div className="dash-lock-row"><PhoneIcon size={15} /> Social <span className="lock"><LockIcon size={12} /> locked</span></div>
+            <div className="dash-lock-row"><GamepadIcon size={15} /> Games <span className="lock"><LockIcon size={12} /> locked</span></div>
+            <div className="dash-lock-row"><FilmIcon size={15} /> Streaming <span className="unlock">✓ unlocked</span></div>
             <div className="dash-progress">
               <div className="dash-progress__fill" style={{ width: `${pct}%` }} />
             </div>

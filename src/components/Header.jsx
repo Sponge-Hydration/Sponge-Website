@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../cart/CartContext'
+import { CartIcon, CloseIcon, MenuIcon } from './icons'
 
 const links = [
   { to: '/products', label: 'Products' },
@@ -35,7 +36,7 @@ export default function Header() {
 
         <div className="header__cta">
           <Link to="/cart" className="cart-btn" aria-label={`Cart, ${count} items`}>
-            <span aria-hidden="true">🛒</span>
+            <CartIcon size={22} />
             {count > 0 && <span className="cart-badge">{count}</span>}
           </Link>
           <Link to="/products" className="btn btn--primary header__order">Order Now</Link>
@@ -45,7 +46,7 @@ export default function Header() {
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
-            {open ? '✕' : '☰'}
+            {open ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
           </button>
         </div>
       </div>

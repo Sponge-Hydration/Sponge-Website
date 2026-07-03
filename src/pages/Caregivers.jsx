@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useSEO } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
+import { EyeIcon, BellIcon, SparklesIcon, UsersIcon, TrendingUpIcon, ShieldIcon } from '../components/icons'
 
 export default function Caregivers() {
   useSEO({
@@ -40,12 +41,12 @@ export default function Caregivers() {
             They keep their normal bottle and routine. You get visibility and alerts.
           </SectionHead>
           <div className="features">
-            <article className="feature"><div className="feature__icon">👀</div><h3>Remote visibility</h3><p>See your loved one’s daily intake from your own phone, wherever you are. No need to call and ask.</p></article>
-            <article className="feature"><div className="feature__icon">🔔</div><h3>Low-hydration alerts</h3><p>Get notified if they’re falling behind their goal so you can send a gentle reminder in time.</p></article>
-            <article className="feature"><div className="feature__icon">🧓</div><h3>Zero learning curve</h3><p>They just drink from their usual bottle. Nothing to set up, charge daily, or remember.</p></article>
-            <article className="feature"><div className="feature__icon">👨‍👩‍👧</div><h3>Shared family dashboard</h3><p>Multiple family members can follow along and split the caregiving load.</p></article>
-            <article className="feature"><div className="feature__icon">📈</div><h3>Trends over time</h3><p>Spot patterns — like dips on hot days — and share clear data with their doctor.</p></article>
-            <article className="feature"><div className="feature__icon">🛡️</div><h3>Private & secure</h3><p>Data is shared only with the family members you invite. You stay in control.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><EyeIcon size={30} /></div><h3>Remote visibility</h3><p>See your loved one’s daily intake from your own phone, wherever you are. No need to call and ask.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Low-hydration alerts</h3><p>Get notified if they’re falling behind their goal so you can send a gentle reminder in time.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><SparklesIcon size={30} /></div><h3>Zero learning curve</h3><p>They just drink from their usual bottle. Nothing to set up, charge daily, or remember.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><UsersIcon size={30} /></div><h3>Shared family dashboard</h3><p>Multiple family members can follow along and split the caregiving load.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><TrendingUpIcon size={30} /></div><h3>Trends over time</h3><p>Spot patterns — like dips on hot days — and share clear data with their doctor.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><ShieldIcon size={30} /></div><h3>Private & secure</h3><p>Data is shared only with the family members you invite. You stay in control.</p></article>
           </div>
         </div>
       </section>

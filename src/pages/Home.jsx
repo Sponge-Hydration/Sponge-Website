@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom'
 import { useSEO } from '../components/useSEO'
 import { Stars, SectionHead } from '../components/bits'
+import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, TargetIcon } from '../components/icons'
 import { testimonials } from '../data'
 
 const features = [
-  { icon: '💧', title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink — no buttons, no manual logging, no guessing how much water you’ve had.' },
-  { icon: '🧲', title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.' },
-  { icon: '🔋', title: '8-day battery', text: 'Go a full week-plus between charges, then top up in a couple of hours over USB-C. Charge it Sunday, forget about it.' },
-  { icon: '📱', title: 'Free iOS & Android app', text: 'Your hydration syncs automatically to a clean dashboard with daily goals, streaks, and trends you can actually act on.' },
-  { icon: '🔒', title: 'App-lock motivation', text: 'Choose the apps that distract you and Sponge keeps them locked until you hit your water goal. Hydration with real follow-through.' },
-  { icon: '🎯', title: 'Personalized goals', text: 'Goals adapt to your body, activity, and climate, so your target reflects what you actually need — not a generic 8 glasses.' },
+  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink — no buttons, no manual logging, no guessing how much water you’ve had.' },
+  { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.' },
+  { icon: BatteryIcon, title: '8-day battery', text: 'Go a full week-plus between charges, then top up in a couple of hours over USB-C. Charge it Sunday, forget about it.' },
+  { icon: PhoneIcon, title: 'Free iOS & Android app', text: 'Your hydration syncs automatically to a clean dashboard with daily goals, streaks, and trends you can actually act on.' },
+  { icon: LockIcon, title: 'App-lock motivation', text: 'Choose the apps that distract you and Sponge keeps them locked until you hit your water goal. Hydration with real follow-through.' },
+  { icon: TargetIcon, title: 'Personalized goals', text: 'Goals adapt to your body, activity, and climate, so your target reflects what you actually need — not a generic 8 glasses.' },
 ]
 
 export default function Home() {
@@ -110,11 +111,11 @@ export default function Home() {
           </SectionHead>
           <div className="steps">
             <div className="step step--media">
-              <img className="step__img" src="/media/how/step1-snap.jpg" alt="Sponge tracker clipped onto a water bottle" />
+              <img className="step__img" src="/media/how/step1-snap.jpg" alt="Setting a bottle down with the Sponge tracker attached underneath, status light glowing" />
               <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img" src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with Sponge during a workout" />
+              <img className="step__img" src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
               <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip — zero logging.</p></div>
             </div>
             <div className="step step--media">
@@ -129,7 +130,7 @@ export default function Home() {
       <section className="lifestyle-band" aria-hidden="true">
         <img src="/media/lifestyle/track.jpg" alt="" />
         <div className="lifestyle-band__overlay">
-          <p className="lifestyle-band__quote">Hydration that keeps up with you — on the track, at the desk, everywhere.</p>
+          <p className="lifestyle-band__quote">Hydration that keeps up with you — on the court, at the desk, everywhere.</p>
         </div>
       </section>
 
@@ -142,7 +143,7 @@ export default function Home() {
           <div className="features">
             {features.map((f) => (
               <article className="feature" key={f.title}>
-                <div className="feature__icon" aria-hidden="true">{f.icon}</div>
+                <div className="feature__icon" aria-hidden="true"><f.icon size={30} /></div>
                 <h3>{f.title}</h3>
                 <p>{f.text}</p>
               </article>
@@ -192,7 +193,7 @@ export default function Home() {
               <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></div>
             </article>
             <article className="persona">
-              <img className="persona__img" src="/media/personas/professional.jpg" alt="Water bottle with Sponge tracker on a work desk" loading="lazy" />
+              <img className="persona__img" src="/media/personas/professional.jpg" alt="Water bottles with the Sponge tracker on a sunny kitchen counter" loading="lazy" />
               <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
             </article>
             <Link to="/caregivers" className="persona">

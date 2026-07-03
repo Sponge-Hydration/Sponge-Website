@@ -3,6 +3,7 @@ import { useSEO } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { colorOptions, productById } from '../data'
+import { BulbIcon, CartIcon, ShieldIcon } from '../components/icons'
 
 export default function Cart() {
   useSEO({ title: 'Your Cart | Sponge Hydration', description: 'Review your Sponge order before checkout.', path: '/cart' })
@@ -27,7 +28,7 @@ export default function Cart() {
     return (
       <section className="section">
         <div className="container empty-state">
-          <div className="empty-state__emoji">🛒</div>
+          <div className="empty-state__icon" aria-hidden="true"><CartIcon size={56} /></div>
           <h2>Your cart is empty</h2>
           <p>Add a Sponge hydration tracker to get started.</p>
           <Link to="/products" className="btn btn--primary btn--lg">Shop Sponge</Link>
@@ -48,7 +49,7 @@ export default function Cart() {
             {pairs >= 1 && (
               <div className="cart-upsell">
                 <span className="cart-upsell__text">
-                  💡 Switch {pairs > 1 ? `${pairs} pairs` : 'your pair'} of single clips to the
+                  <BulbIcon size={15} /> Switch {pairs > 1 ? `${pairs} pairs` : 'your pair'} of single clips to the
                   2-Pack and save <strong>{usd(packSavings)}</strong>.
                 </span>
                 <button type="button" className="btn btn--primary btn--sm" onClick={switchToTwoPack}>
@@ -58,7 +59,7 @@ export default function Cart() {
             )}
             {items.map((i) => (
               <div className="cart-row" key={i.uid}>
-                <div className="cart-row__media" aria-hidden="true">{i.emoji}</div>
+                <div className="cart-row__media" aria-hidden="true"><img src={i.img} alt="" loading="lazy" /></div>
                 <div className="cart-row__info">
                   <Link to={`/shop/p/${i.slug}`} className="cart-row__name">{i.name}</Link>
                   <span className="cart-row__sub">{i.tagline}</span>
@@ -110,7 +111,7 @@ export default function Cart() {
             <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)}</span></div>
             <Link to="/checkout" className="btn btn--primary btn--lg btn--block">Checkout</Link>
             <Link to="/products" className="cart-summary__cont">← Continue shopping</Link>
-            <p className="cart-summary__note">🛡️ 30-day money-back guarantee · Ships in ~8 weeks</p>
+            <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>
           </aside>
         </div>
       </div>

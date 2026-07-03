@@ -16,7 +16,7 @@ export default function Account() {
       <div className="container auth">
         <div className="auth__card">
           <div className="brand" style={{ justifyContent: 'center', marginBottom: 8 }}>
-            <span className="brand__mark" aria-hidden="true">💧</span> Sponge
+            <img className="brand__logo" src="/media/logo/mark.png" alt="" aria-hidden="true" /> Sponge
           </div>
           <h1>{mode === 'signin' ? 'Welcome back' : 'Create your account'}</h1>
           <p className="auth__sub">
