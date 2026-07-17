@@ -1,0 +1,16 @@
+# Cloudflare Pages redirects. Evaluated top to bottom.
+# NOTE: no SPA catch-all (/* -> /index.html 200) — routes are prerendered to
+# static files, so unmatched paths correctly fall through to 404.html.
+
+# Canonical host: apex -> www (only fires once spongehydration.com is live).
+https://spongehydration.com/*  https://www.spongehydration.com/:splat  301!
+
+# Legacy Squarespace paths -> current routes (301).
+/products-1            /products          301
+/sponge-for-caregivers  /caregivers       301
+/aboutus              /about             301
+/accounts             /account           301
+/terms-of-service     /legal/terms       301
+/privacy-policy       /legal/privacy     301
+/return-policy        /legal/returns     301
+/warranty-policy      /legal/warranty    301

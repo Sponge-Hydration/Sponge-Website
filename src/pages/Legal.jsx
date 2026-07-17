@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 
 const PAGES = {
   terms: {
@@ -39,15 +39,11 @@ const PAGES = {
 export default function Legal() {
   const { doc } = useParams()
   const page = PAGES[doc]
-  useSEO({
-    title: page ? `${page.title} | Sponge Hydration` : 'Not found | Sponge',
-    description: page ? `${page.title} for Sponge Hydration.` : 'Page not found.',
-    path: `/legal/${doc || ''}`,
-  })
 
   if (!page) {
     return (
       <section className="section">
+        <Seo title="Not found | Sponge" description="Page not found." path={`/legal/${doc || ''}`} noindex />
         <div className="container empty-state">
           <h2>Page not found</h2>
           <Link to="/" className="btn btn--primary">Back home</Link>
@@ -58,6 +54,7 @@ export default function Legal() {
 
   return (
     <section className="section">
+      <Seo title={`${page.title} | Sponge Hydration`} description={`${page.title} for Sponge Hydration.`} path={`/legal/${doc}`} />
       <div className="container prose">
         <h1 style={{ fontSize: 34, fontWeight: 800, marginBottom: 8 }}>{page.title}</h1>
         <p style={{ color: 'var(--muted)', marginBottom: 24 }}>Last updated June 2026</p>

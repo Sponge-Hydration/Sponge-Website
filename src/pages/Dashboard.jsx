@@ -1,4 +1,4 @@
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { BatteryIcon, DropletIcon, FilmIcon, FlameIcon, GamepadIcon, LockIcon, PhoneIcon } from '../components/icons'
 
 const week = [
@@ -20,18 +20,18 @@ const sips = [
 ]
 
 export default function Dashboard() {
-  useSEO({
-    title: 'Your Hydration Dashboard | Sponge',
-    description: 'Track your daily water intake, streaks, and trends with the Sponge hydration dashboard.',
-    path: '/dashboard',
-  })
-
   const goal = 2600
   const current = 1110
   const pct = Math.round((current / goal) * 100)
 
   return (
     <section className="section dashboard">
+      <Seo
+        title="Your Hydration Dashboard | Sponge"
+        description="Track your daily water intake, streaks, and trends with the Sponge hydration dashboard."
+        path="/dashboard"
+        noindex
+      />
       <div className="container">
         <div className="dash-head">
           <div>

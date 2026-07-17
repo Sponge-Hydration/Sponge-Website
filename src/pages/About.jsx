@@ -1,17 +1,15 @@
 import { Link } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 
 export default function About() {
-  useSEO({
-    title: 'About Sponge | Why We Built a Smarter Hydration Tracker',
-    description:
-      'Sponge was founded to make hydration effortless. Learn our story and mission to help people drink more water with a clip-on hydration tracking device that works with any bottle.',
-    path: '/about',
-  })
-
   return (
     <>
+      <Seo
+        title="About Sponge | Why We Built a Smarter Hydration Tracker"
+        description="Sponge was founded to make hydration effortless. Learn our story and mission to help people drink more water with a clip-on hydration tracking device that works with any bottle."
+        path="/about"
+      />
       <section className="hero hero--sub">
         <div className="container">
           <span className="eyebrow">Our story</span>

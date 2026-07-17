@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { Stars, usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { productBySlug } from '../data'
@@ -16,19 +16,10 @@ export default function ProductDetail() {
   const gallery = product?.gallery?.length ? product.gallery : product?.img ? [product.img] : []
   const [activeImg, setActiveImg] = useState(0)
 
-  useSEO({
-    title: product
-      ? `${product.name} — ${usd(product.price)} | Sponge Hydration Tracker`
-      : 'Product not found | Sponge',
-    description: product
-      ? `${product.short} ${product.ships}. Free app, 8-day battery, 30-day money-back guarantee.`
-      : 'This product could not be found.',
-    path: `/shop/p/${slug || ''}`,
-  })
-
   if (!product) {
     return (
       <section className="section">
+        <Seo title="Product not found | Sponge" description="This product could not be found." path={`/shop/p/${slug || ''}`} noindex />
         <div className="container" style={{ textAlign: 'center' }}>
           <h2>Product not found</h2>
           <p style={{ color: 'var(--ink-soft)' }}>We couldn’t find that product.</p>
@@ -50,6 +41,11 @@ export default function ProductDetail() {
 
   return (
     <section className="section">
+      <Seo
+        title={`${product.name} — ${usd(product.price)} | Sponge Hydration Tracker`}
+        description={`${product.short} ${product.ships}. Free app, 8-day battery, 30-day money-back guarantee.`}
+        path={`/shop/p/${product.slug}`}
+      />
       <div className="container">
         <div className="breadcrumb">
           <Link to="/products">Shop</Link> <span>/</span> {product.name}

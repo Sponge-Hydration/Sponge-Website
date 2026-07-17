@@ -1,16 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead, Stars, usd } from '../components/bits'
 import { products } from '../data'
 import { useCart } from '../cart/CartContext'
 
 export default function Products() {
-  useSEO({
-    title: 'Shop the Sponge Hydration Tracker | Single, 2-Pack & Family Pack',
-    description:
-      'Order the Sponge hydration tracking device. Choose a single tracker, a money-saving 2-pack, or the family pack with a shared dashboard. Free app, 8-day battery, 30-day guarantee.',
-    path: '/products',
-  })
   const { add } = useCart()
   const navigate = useNavigate()
 
@@ -21,6 +15,11 @@ export default function Products() {
 
   return (
     <section className="section">
+      <Seo
+        title="Shop the Sponge Hydration Tracker | Single, 2-Pack & Family Pack"
+        description="Order the Sponge hydration tracking device. Choose a single tracker, a money-saving 2-pack, or the family pack with a shared dashboard. Free app, 8-day battery, 30-day guarantee."
+        path="/products"
+      />
       <div className="container">
         <SectionHead eyebrow="Shop" title="Choose your Sponge">
           Every option includes the free iOS &amp; Android app, app-lock, an 8-day battery, and a

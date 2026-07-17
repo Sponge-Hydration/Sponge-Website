@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { Stars, SectionHead } from '../components/bits'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, TargetIcon } from '../components/icons'
 import { testimonials } from '../data'
@@ -14,15 +14,13 @@ const features = [
 ]
 
 export default function Home() {
-  useSEO({
-    title: 'Sponge Hydration Tracker | Smart Water Intake Tracker for Any Bottle',
-    description:
-      'Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 8-day battery. Pre-order $59.99.',
-    path: '/',
-  })
-
   return (
     <>
+      <Seo
+        title="Sponge Hydration Tracker | Smart Water Intake Tracker for Any Bottle"
+        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 8-day battery. Pre-order $59.99."
+        path="/"
+      />
       {/* Hero */}
       <section className="hero" id="top">
         <div className="container hero__grid">

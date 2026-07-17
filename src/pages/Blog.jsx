@@ -1,19 +1,17 @@
 import { Link } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import { DropletIcon } from '../components/icons'
 import { blogPosts } from '../data'
 
 export default function Blog() {
-  useSEO({
-    title: 'The Sponge Blog | Hydration Science, Tips & Tracker Guides',
-    description:
-      'Practical guides on how much water to drink, signs of dehydration, and choosing the right hydration tracking device — from the team behind Sponge.',
-    path: '/blog',
-  })
-
   return (
     <section className="section">
+      <Seo
+        title={'The Sponge Blog | Hydration Science, Tips & Tracker Guides'}
+        description="Practical guides on how much water to drink, signs of dehydration, and choosing the right hydration tracking device — from the team behind Sponge."
+        path="/blog"
+      />
       <div className="container">
         <SectionHead eyebrow="Blog" title="Hydration, explained">
           Science-backed guides on drinking more water and getting the most from your hydration tracker.

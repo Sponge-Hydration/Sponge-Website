@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { colorOptions, productById } from '../data'
 import { BulbIcon, CartIcon, ShieldIcon } from '../components/icons'
 
 export default function Cart() {
-  useSEO({ title: 'Your Cart | Sponge Hydration', description: 'Review your Sponge order before checkout.', path: '/cart' })
   const { items, subtotal, add, setColor, remove } = useCart()
 
   // Upsell: nudge customers with 2+ single clips toward the cheaper 2-Pack.
@@ -27,6 +26,7 @@ export default function Cart() {
   if (items.length === 0) {
     return (
       <section className="section">
+        <Seo title="Your Cart | Sponge Hydration" description="Review your Sponge order before checkout." path="/cart" noindex />
         <div className="container empty-state">
           <div className="empty-state__icon" aria-hidden="true"><CartIcon size={56} /></div>
           <h2>Your cart is empty</h2>
@@ -42,6 +42,7 @@ export default function Cart() {
 
   return (
     <section className="section">
+      <Seo title="Your Cart | Sponge Hydration" description="Review your Sponge order before checkout." path="/cart" noindex />
       <div className="container">
         <h1 className="page-title">Your cart</h1>
         <div className="cart-layout">

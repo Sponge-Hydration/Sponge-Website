@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import { CheckCircleIcon } from '../components/icons'
 
 export default function Contact() {
-  useSEO({
-    title: 'Contact Sponge | Support & Sales',
-    description: 'Get in touch with the Sponge team about orders, the caregiver program, or hydration tracker support.',
-    path: '/contact',
-  })
   const [sent, setSent] = useState(false)
 
   return (
     <section className="section">
+      <Seo
+        title={'Contact Sponge | Support & Sales'}
+        description="Get in touch with the Sponge team about orders, the caregiver program, or hydration tracker support."
+        path="/contact"
+      />
       <div className="container">
         <SectionHead eyebrow="Contact" title="We’d love to hear from you">
           Questions about an order, the caregiver program, or your Sponge? Send a note and we’ll reply within one business day.

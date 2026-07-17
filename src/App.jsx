@@ -1,8 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import { ScrollToTop } from './components/bits'
-
+import Layout from './components/Layout'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
@@ -19,45 +15,49 @@ import Contact from './pages/Contact'
 import Account from './pages/Account'
 import Legal from './pages/Legal'
 import NotFound from './pages/NotFound'
+import { products, blogPosts } from './data'
 
-export default function App() {
-  return (
-    <>
-      <a href="#main" className="skip-link">Skip to content</a>
-      <ScrollToTop />
-      <Header />
-      <main id="main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/shop/p/:slug" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/caregivers" element={<Caregivers />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/legal/:doc" element={<Legal />} />
+// react-router data routes, consumed by vite-react-ssg for prerendering.
+// Legacy Squarespace paths are handled by 301s in public/_redirects, not here.
+export const routes = [
+  {
+    path: '/',
+    element: <Layout />,
+    entry: 'src/components/Layout.jsx',
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'products', element: <Products /> },
+      {
+        path: 'shop/p/:slug',
+        element: <ProductDetail />,
+        getStaticPaths: () => products.map((p) => `shop/p/${p.slug}`),
+      },
+      { path: 'cart', element: <Cart /> },
+      { path: 'checkout', element: <Checkout /> },
+      { path: 'dashboard', element: <Dashboard /> },
+      { path: 'caregivers', element: <Caregivers /> },
+      { path: 'how-it-works', element: <HowItWorks /> },
+      { path: 'blog', element: <Blog /> },
+      {
+        path: 'blog/:slug',
+        element: <BlogPost />,
+        getStaticPaths: () => blogPosts.map((p) => `blog/${p.slug}`),
+      },
+      { path: 'about', element: <About /> },
+      { path: 'team', element: <Team /> },
+      { path: 'contact', element: <Contact /> },
+      { path: 'account', element: <Account /> },
+      // Prerendered to dist/404.html; Cloudflare Pages serves it with a real 404
+      // status for unmatched paths. The '*' route below handles client-side nav.
+      { path: '404', element: <NotFound /> },
+      {
+        path: 'legal/:doc',
+        element: <Legal />,
+        getStaticPaths: () => ['legal/terms', 'legal/privacy', 'legal/returns', 'legal/warranty'],
+      },
+      { path: '*', element: <NotFound /> },
+    ],
+  },
+]
 
-          {/* Legacy URL redirects (match the old site's paths) */}
-          <Route path="/products-1" element={<Navigate to="/products" replace />} />
-          <Route path="/sponge-for-caregivers" element={<Navigate to="/caregivers" replace />} />
-          <Route path="/aboutus" element={<Navigate to="/about" replace />} />
-          <Route path="/accounts" element={<Navigate to="/account" replace />} />
-          <Route path="/terms-of-service" element={<Navigate to="/legal/terms" replace />} />
-          <Route path="/privacy-policy" element={<Navigate to="/legal/privacy" replace />} />
-          <Route path="/return-policy" element={<Navigate to="/legal/returns" replace />} />
-          <Route path="/warranty-policy" element={<Navigate to="/legal/warranty" replace />} />
-
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
-    </>
-  )
-}
+export default routes

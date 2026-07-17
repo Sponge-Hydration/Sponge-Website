@@ -1,16 +1,15 @@
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import { team } from '../data'
 
 export default function Team() {
-  useSEO({
-    title: 'Meet the Team | Sponge Hydration',
-    description: 'The people building Sponge — the clip-on hydration tracker that works with any water bottle.',
-    path: '/team',
-  })
-
   return (
     <section className="section">
+      <Seo
+        title="Meet the Team | Sponge Hydration"
+        description="The people building Sponge — the clip-on hydration tracker that works with any water bottle."
+        path="/team"
+      />
       <div className="container">
         <SectionHead eyebrow="Team" title="The people behind Sponge">
           A small team obsessed with making hydration effortless.

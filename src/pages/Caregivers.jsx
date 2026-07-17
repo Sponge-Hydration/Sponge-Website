@@ -1,18 +1,16 @@
 import { Link } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import { EyeIcon, BellIcon, SparklesIcon, UsersIcon, TrendingUpIcon, ShieldIcon } from '../components/icons'
 
 export default function Caregivers() {
-  useSEO({
-    title: 'Sponge for Caregivers | Remote Hydration Monitoring for Loved Ones',
-    description:
-      'Help an aging parent or loved one stay hydrated. The Sponge caregiver program tracks their water intake automatically and alerts you if they fall behind — no app skills required on their end.',
-    path: '/caregivers',
-  })
-
   return (
     <>
+      <Seo
+        title="Sponge for Caregivers | Remote Hydration Monitoring for Loved Ones"
+        description="Help an aging parent or loved one stay hydrated. The Sponge caregiver program tracks their water intake automatically and alerts you if they fall behind — no app skills required on their end."
+        path="/caregivers"
+      />
       <section className="hero hero--sub">
         <div className="container">
           <span className="eyebrow">For caregivers</span>

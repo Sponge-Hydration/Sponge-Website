@@ -1,21 +1,20 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import SetupExplainer from '../components/SetupExplainer'
 import { faqs } from '../data'
 
 export default function HowItWorks() {
-  useSEO({
-    title: 'Setup & FAQ | How the Sponge Hydration Tracker Works',
-    description:
-      'Set up your Sponge hydration tracker in two minutes: charge, pair the app, clip it on. Plus answers to common questions about battery, accuracy, bottles, and returns.',
-    path: '/how-it-works',
-  })
   const [open, setOpen] = useState(0)
 
   return (
     <>
+      <Seo
+        title={'Setup & FAQ | How the Sponge Hydration Tracker Works'}
+        description="Set up your Sponge hydration tracker in two minutes: charge, pair the app, clip it on. Plus answers to common questions about battery, accuracy, bottles, and returns."
+        path="/how-it-works"
+      />
       <section className="section">
         <div className="container">
           <SectionHead eyebrow="Setup" title="Up and running in two minutes">

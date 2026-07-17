@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 
 export default function Account() {
-  useSEO({
-    title: 'Sign In | Sponge Account',
-    description: 'Sign in to your Sponge account to view your hydration dashboard and manage your orders.',
-    path: '/account',
-  })
   const [mode, setMode] = useState('signin')
   const navigate = useNavigate()
 
   return (
     <section className="section">
+      <Seo
+        title="Sign In | Sponge Account"
+        description="Sign in to your Sponge account to view your hydration dashboard and manage your orders."
+        path="/account"
+        noindex
+      />
       <div className="container auth">
         <div className="auth__card">
           <div className="brand" style={{ justifyContent: 'center', marginBottom: 8 }}>

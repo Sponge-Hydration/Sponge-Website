@@ -6,7 +6,7 @@
   "description": "Marketing site for Sponge — the smart hydration tracker that clips to any water bottle.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite-react-ssg build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.2"
+    "vite": "^5.4.2",
+    "vite-react-ssg": "^0.8.9"
   }
 }

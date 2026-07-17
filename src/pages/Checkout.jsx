@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
 
 export default function Checkout() {
-  useSEO({ title: 'Checkout | Sponge Hydration', description: 'Complete your Sponge pre-order.', path: '/checkout' })
   const { items, subtotal, clear } = useCart()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -27,6 +26,7 @@ export default function Checkout() {
   if (success) {
     return (
       <section className="section">
+        <Seo title="Checkout | Sponge Hydration" description="Complete your Sponge pre-order." path="/checkout" noindex />
         <div className="container empty-state">
           <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
           <h2>Order confirmed!</h2>
@@ -46,6 +46,7 @@ export default function Checkout() {
   if (items.length === 0) {
     return (
       <section className="section">
+        <Seo title="Checkout | Sponge Hydration" description="Complete your Sponge pre-order." path="/checkout" noindex />
         <div className="container empty-state">
           <div className="empty-state__icon" aria-hidden="true"><CartIcon size={56} /></div>
           <h2>Nothing to check out</h2>
@@ -95,6 +96,7 @@ export default function Checkout() {
 
   return (
     <section className="section">
+      <Seo title="Checkout | Sponge Hydration" description="Complete your Sponge pre-order." path="/checkout" noindex />
       <div className="container">
         <h1 className="page-title">Checkout</h1>
         <div className="checkout-layout">

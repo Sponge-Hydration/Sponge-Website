@@ -1,20 +1,15 @@
 import { Link, useParams } from 'react-router-dom'
-import { useSEO } from '../components/useSEO'
+import { Seo } from '../components/useSEO'
 import { blogBySlug, blogPosts } from '../data'
 
 export default function BlogPost() {
   const { slug } = useParams()
   const post = blogBySlug(slug)
 
-  useSEO({
-    title: post ? `${post.title} | Sponge Blog` : 'Article not found | Sponge',
-    description: post ? post.excerpt : 'This article could not be found.',
-    path: `/blog/${slug || ''}`,
-  })
-
   if (!post) {
     return (
       <section className="section">
+        <Seo title="Article not found | Sponge" description="This article could not be found." path={`/blog/${slug || ''}`} noindex />
         <div className="container empty-state">
           <h2>Article not found</h2>
           <Link to="/blog" className="btn btn--primary">Back to blog</Link>
@@ -27,6 +22,7 @@ export default function BlogPost() {
 
   return (
     <section className="section">
+      <Seo title={`${post.title} | Sponge Blog`} description={post.excerpt} path={`/blog/${post.slug}`} />
       <div className="container">
         <div className="breadcrumb"><Link to="/blog">Blog</Link> <span>/</span> {post.tag}</div>
         <article className="article">
