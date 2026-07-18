@@ -133,6 +133,11 @@ export function customerEmailHtml(order) {
       <div style="padding:8px 32px 32px;color:#111;line-height:1.55;">
         <p style="font-size:15px;margin:0 0 14px;">Hi ${firstName(order)},</p>
         <p style="font-size:15px;color:#444;margin:0 0 8px;">Thank you for ordering from Sponge Hydration, we have received your order. Please expect a tracking number as soon as your order ships out.</p>
+        ${
+          order.statusUrl
+            ? `<div style="text-align:center;margin:20px 0 4px;"><a href="${order.statusUrl}" style="display:inline-block;background:#0b6bcb;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 28px;border-radius:8px;">View your order status</a></div>`
+            : ''
+        }
         <h3 style="font-size:15px;margin:26px 0 4px;color:#111;">Order summary</h3>
         <p style="font-size:14px;color:#444;margin:0 0 8px;">Order number: <strong>${orderNo}</strong></p>
         ${itemsTable(order)}

@@ -160,6 +160,35 @@ function orderToRow(o, orderNumber) {
   ]
 }
 
+// Column indices in the "2026" layout (0-based) for reads.
+const COL = { orderNumber: 0, name: 3, email: 4, itemsSummary: 19, status: 20, tracking: 22, deliveryDate: 23 }
+
+// Look up a single order's row by its Order Number (column A). Returns the
+// fulfillment fields the status page needs, or null if not found.
+export async function getOrderRow(env, orderNumber) {
+  const tab = env.SHEET_TAB_NAME || DEFAULT_TAB
+  const token = await getAccessToken(env)
+  const range = encodeURIComponent(`${tab}!A2:Y`)
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEET_ID}/values/${range}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  if (!res.ok) throw new Error(`Sheets read error ${res.status}: ${await res.text()}`)
+  const data = await res.json()
+  const target = String(orderNumber)
+  const row = (data.values || []).find((r) => String(r[COL.orderNumber]) === target)
+  if (!row) return null
+  const g = (i) => (row[i] != null ? String(row[i]).trim() : '')
+  return {
+    orderNumber: g(COL.orderNumber),
+    name: g(COL.name),
+    itemsSummary: g(COL.itemsSummary),
+    status: g(COL.status),
+    trackingNumber: g(COL.tracking),
+    deliveryDate: g(COL.deliveryDate),
+  }
+}
+
 // Next sequential order number (self-contained; used by the webhook so the
 // same number can go on both the sheet row and the confirmation email).
 export async function nextOrderNumber(env) {

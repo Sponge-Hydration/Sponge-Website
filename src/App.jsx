@@ -13,6 +13,7 @@ import About from './pages/About'
 import Team from './pages/Team'
 import Contact from './pages/Contact'
 import Account from './pages/Account'
+import OrderStatus from './pages/OrderStatus'
 import Legal from './pages/Legal'
 import NotFound from './pages/NotFound'
 import { products, blogPosts } from './data'
@@ -47,6 +48,7 @@ export const routes = [
       { path: 'team', element: <Team /> },
       { path: 'contact', element: <Contact /> },
       { path: 'account', element: <Account /> },
+      { path: 'order-status', element: <OrderStatus /> },
       // Prerendered to dist/404.html; Cloudflare Pages serves it with a real 404
       // status for unmatched paths. The '*' route below handles client-side nav.
       { path: '404', element: <NotFound /> },

@@ -13,6 +13,7 @@
 
 import { gmailConfigured, sendGmail, customerEmailHtml, teamEmailHtml } from './_integrations.js'
 import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets.js'
+import { makeStatusToken } from './_status-token.js'
 
 const TOLERANCE_SECONDS = 300 // reject events older than 5 minutes (replay guard)
 
@@ -113,6 +114,12 @@ async function handleCheckoutCompleted(session, env) {
   // Base URL for absolute asset links in emails (logo). Defaults in the
   // template to the pages.dev URL; set SITE_URL to the custom domain post-cutover.
   order.siteUrl = env.SITE_URL
+
+  // Signed "view order status" link (30-day-post-delivery expiry enforced server-side).
+  if (env.STATUS_TOKEN_SECRET) {
+    const base = env.SITE_URL || 'https://sponge-website.pages.dev'
+    order.statusUrl = `${base}/order-status?token=${await makeStatusToken(orderNumber, env.STATUS_TOKEN_SECRET)}`
+  }
 
   console.log('✅ Order paid:', JSON.stringify(order))
 
