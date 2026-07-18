@@ -34,7 +34,7 @@ export async function onRequestGet({ request, env }) {
     }
   }
 
-  const tracking = await getTracking(env, row.trackingNumber)
+  const tracking = getTracking(row.trackingNumber)
   return json({
     orderNumber: row.orderNumber,
     name: row.name || null,
