@@ -104,26 +104,34 @@ function shippingBlock(order) {
   return `<p style="font-size:15px;color:#444;"><strong>Shipping to</strong><br>${lines}</p>`
 }
 
+function firstName(order) {
+  const full = (order.shipping && order.shipping.name) || ''
+  const f = full.trim().split(/\s+/)[0]
+  return f || 'there'
+}
+
 export function customerEmailHtml(order) {
-  return `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:auto;color:#111;">
-    <h1 style="font-size:22px;">Your Sponge order is confirmed 🎉</h1>
-    <p style="font-size:15px;color:#444;">Thanks for your order! Payment received — your hydration tracker ships in about 8 weeks. We'll email you tracking when it's on the way.</p>
+  const orderNo = order.orderNumber || order.sessionId
+  return `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:auto;color:#111;line-height:1.5;">
+    <p style="font-size:15px;">Hi ${firstName(order)},</p>
+    <p style="font-size:15px;color:#444;">Thank you for ordering from Sponge Hydration, we have received your order. Please expect a tracking number as soon as your order ships out.</p>
+    <h3 style="font-size:16px;margin:24px 0 6px;">Order summary</h3>
+    <p style="font-size:14px;color:#444;margin:0 0 10px;">Order number: <strong>${orderNo}</strong></p>
     ${itemsTable(order)}
     ${shippingBlock(order)}
-    <p style="font-size:13px;color:#888;margin-top:24px;">Order reference: ${order.sessionId}</p>
-    <p style="font-size:13px;color:#888;">Questions? Just reply to this email.</p>
+    <p style="font-size:13px;color:#888;margin-top:24px;">Questions? Just reply to this email.</p>
   </div>`
 }
 
 export function teamEmailHtml(order) {
   return `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:auto;color:#111;">
-    <h1 style="font-size:20px;">New order received</h1>
+    <h1 style="font-size:20px;">New order received — ${order.orderNumber || ''}</h1>
     <p style="font-size:15px;color:#444;"><strong>${order.email || 'unknown'}</strong> · ${money(
       order.amount,
       order.currency
     )}</p>
     ${itemsTable(order)}
     ${shippingBlock(order)}
-    <p style="font-size:13px;color:#888;margin-top:24px;">Session: ${order.sessionId} · Status: ${order.paymentStatus}</p>
+    <p style="font-size:13px;color:#888;margin-top:24px;">Order ${order.orderNumber || ''} · Session: ${order.sessionId} · Status: ${order.paymentStatus}</p>
   </div>`
 }

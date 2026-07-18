@@ -12,7 +12,7 @@
 //   STRIPE_SECRET_KEY — used to fetch the order's line items for fulfillment.
 
 import { gmailConfigured, sendGmail, customerEmailHtml, teamEmailHtml } from './_integrations.js'
-import { sheetsConfigured, appendOrderToSheet } from './_sheets.js'
+import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets.js'
 
 const TOLERANCE_SECONDS = 300 // reject events older than 5 minutes (replay guard)
 
@@ -101,6 +101,16 @@ async function handleCheckoutCompleted(session, env) {
     },
   }
 
+  // Assign the order number once so the sheet row and confirmation email match.
+  let orderNumber = ''
+  try {
+    if (sheetsConfigured(env)) orderNumber = String(await nextOrderNumber(env))
+  } catch (e) {
+    console.warn('order number lookup failed:', e?.message || e)
+  }
+  if (!orderNumber) orderNumber = `SPNG-${session.id.slice(-6).toUpperCase()}`
+  order.orderNumber = orderNumber
+
   console.log('✅ Order paid:', JSON.stringify(order))
 
   // Fire the three side effects independently — a failure in one must not
@@ -114,7 +124,7 @@ async function handleCheckoutCompleted(session, env) {
       gmailConfigured(env) && order.email
         ? sendGmail(env, {
             to: order.email,
-            subject: 'Your Sponge order is confirmed 🎉',
+            subject: `Sponge Hydration Order Confirmed - Order Number: ${order.orderNumber}`,
             html: customerEmailHtml(order),
           })
         : Promise.reject(new Error('Gmail not configured or no customer email')),

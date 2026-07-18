@@ -160,10 +160,23 @@ function orderToRow(o, orderNumber) {
   ]
 }
 
+// Next sequential order number (self-contained; used by the webhook so the
+// same number can go on both the sheet row and the confirmation email).
+export async function nextOrderNumber(env) {
+  const tab = env.SHEET_TAB_NAME || DEFAULT_TAB
+  const token = await getAccessToken(env)
+  return getNextOrderNumber(env, token, tab)
+}
+
 export async function appendOrderToSheet(env, order) {
   const tab = env.SHEET_TAB_NAME || DEFAULT_TAB
   const token = await getAccessToken(env)
   await ensureTab(env, token, tab)
-  const orderNumber = await getNextOrderNumber(env, token, tab)
+  // Reuse the number the webhook already computed (keeps sheet + email in sync);
+  // fall back to computing it here if not provided.
+  const orderNumber =
+    order.orderNumber != null && order.orderNumber !== ''
+      ? order.orderNumber
+      : await getNextOrderNumber(env, token, tab)
   return appendValues(env, token, tab, [orderToRow(order, orderNumber)])
 }
