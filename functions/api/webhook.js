@@ -110,6 +110,9 @@ async function handleCheckoutCompleted(session, env) {
   }
   if (!orderNumber) orderNumber = `SPNG-${session.id.slice(-6).toUpperCase()}`
   order.orderNumber = orderNumber
+  // Base URL for absolute asset links in emails (logo). Defaults in the
+  // template to the pages.dev URL; set SITE_URL to the custom domain post-cutover.
+  order.siteUrl = env.SITE_URL
 
   console.log('✅ Order paid:', JSON.stringify(order))
 

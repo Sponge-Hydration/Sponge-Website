@@ -73,36 +73,11 @@ export async function appendToSheet(env, order) {
 
 // --- Email templates -----------------------------------------------------
 
+const DEFAULT_SITE = 'https://sponge-website.pages.dev'
+const logoUrl = (order) => `${order.siteUrl || DEFAULT_SITE}/media/logo/full.png`
+
 const money = (n, currency = 'usd') =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.toUpperCase() }).format(n)
-
-function itemsTable(order) {
-  const rows = (order.items || [])
-    .map(
-      (i) =>
-        `<tr><td style="padding:6px 0;">${i.qty} × ${i.description}</td><td style="padding:6px 0;text-align:right;">${money(
-          i.amount,
-          order.currency
-        )}</td></tr>`
-    )
-    .join('')
-  return `<table style="width:100%;border-collapse:collapse;font-size:15px;">${rows}
-    <tr><td style="padding-top:10px;border-top:1px solid #eee;font-weight:700;">Total</td>
-    <td style="padding-top:10px;border-top:1px solid #eee;text-align:right;font-weight:700;">${money(
-      order.amount,
-      order.currency
-    )}</td></tr></table>`
-}
-
-function shippingBlock(order) {
-  const s = order.shipping
-  if (!s?.address) return ''
-  const a = s.address
-  const lines = [s.name, a.line1, a.line2, `${a.city || ''} ${a.state || ''} ${a.postal_code || ''}`, a.country]
-    .filter(Boolean)
-    .join('<br>')
-  return `<p style="font-size:15px;color:#444;"><strong>Shipping to</strong><br>${lines}</p>`
-}
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.toUpperCase() }).format(n || 0)
 
 function firstName(order) {
   const full = (order.shipping && order.shipping.name) || ''
@@ -110,22 +85,67 @@ function firstName(order) {
   return f || 'there'
 }
 
+// Itemized order summary. Line-item descriptions already carry the color(s),
+// e.g. "Sponge 2-Pack — Black, Pink" or "Sponge Hydration Tracker — Light Blue".
+function itemsTable(order) {
+  const rows = (order.items || [])
+    .map(
+      (i) => `<tr>
+        <td style="padding:10px 0;border-bottom:1px solid #eef1f4;">${i.description}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #eef1f4;text-align:center;color:#444;">${i.qty}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #eef1f4;text-align:right;white-space:nowrap;">${money(i.amount, order.currency)}</td>
+      </tr>`
+    )
+    .join('')
+  return `<table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 4px;">
+    <thead>
+      <tr style="color:#8a95a1;font-size:11px;letter-spacing:.04em;text-transform:uppercase;">
+        <th align="left" style="padding:0 0 6px;">Item</th>
+        <th align="center" style="padding:0 0 6px;">Qty</th>
+        <th align="right" style="padding:0 0 6px;">Price</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+    <tfoot>
+      <tr><td style="padding:10px 0 0;color:#444;">Shipping</td><td></td><td style="padding:10px 0 0;text-align:right;color:#444;">Free</td></tr>
+      <tr style="font-weight:700;font-size:15px;"><td style="padding:6px 0;">Total</td><td></td><td style="padding:6px 0;text-align:right;">${money(order.amount, order.currency)}</td></tr>
+    </tfoot>
+  </table>`
+}
+
+function shippingBlock(order) {
+  const s = order.shipping
+  if (!s?.address) return ''
+  const a = s.address
+  const cityLine = [`${a.city || ''}${a.city && a.state ? ',' : ''} ${a.state || ''} ${a.postal_code || ''}`.trim()]
+  const lines = [s.name, a.line1, a.line2, ...cityLine, a.country].filter(Boolean).join('<br>')
+  return `<h3 style="font-size:15px;margin:26px 0 6px;color:#111;">Shipping address</h3>
+    <p style="font-size:14px;color:#444;margin:0;line-height:1.55;">${lines}</p>`
+}
+
 export function customerEmailHtml(order) {
   const orderNo = order.orderNumber || order.sessionId
-  return `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:auto;color:#111;line-height:1.5;">
-    <p style="font-size:15px;">Hi ${firstName(order)},</p>
-    <p style="font-size:15px;color:#444;">Thank you for ordering from Sponge Hydration, we have received your order. Please expect a tracking number as soon as your order ships out.</p>
-    <h3 style="font-size:16px;margin:24px 0 6px;">Order summary</h3>
-    <p style="font-size:14px;color:#444;margin:0 0 10px;">Order number: <strong>${orderNo}</strong></p>
-    ${itemsTable(order)}
-    ${shippingBlock(order)}
-    <p style="font-size:13px;color:#888;margin-top:24px;">Questions? Just reply to this email.</p>
+  return `<div style="background:#f4f6f8;padding:24px 12px;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;">
+    <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e8edf2;border-radius:14px;overflow:hidden;">
+      <div style="text-align:center;padding:28px 24px 12px;">
+        <img src="${logoUrl(order)}" alt="Sponge Hydration" width="190" style="width:190px;max-width:70%;height:auto;" />
+      </div>
+      <div style="padding:8px 32px 32px;color:#111;line-height:1.55;">
+        <p style="font-size:15px;margin:0 0 14px;">Hi ${firstName(order)},</p>
+        <p style="font-size:15px;color:#444;margin:0 0 8px;">Thank you for ordering from Sponge Hydration, we have received your order. Please expect a tracking number as soon as your order ships out.</p>
+        <h3 style="font-size:15px;margin:26px 0 4px;color:#111;">Order summary</h3>
+        <p style="font-size:14px;color:#444;margin:0 0 8px;">Order number: <strong>${orderNo}</strong></p>
+        ${itemsTable(order)}
+        ${shippingBlock(order)}
+        <p style="font-size:13px;color:#8a95a1;margin-top:26px;border-top:1px solid #eef1f4;padding-top:16px;">Questions about your order? Just reply to this email.</p>
+      </div>
+    </div>
   </div>`
 }
 
 export function teamEmailHtml(order) {
-  return `<div style="font-family:system-ui,Arial,sans-serif;max-width:560px;margin:auto;color:#111;">
-    <h1 style="font-size:20px;">New order received — ${order.orderNumber || ''}</h1>
+  return `<div style="font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;max-width:600px;margin:auto;color:#111;">
+    <h1 style="font-size:19px;">New order received — ${order.orderNumber || ''}</h1>
     <p style="font-size:15px;color:#444;"><strong>${order.email || 'unknown'}</strong> · ${money(
       order.amount,
       order.currency
