@@ -12,14 +12,15 @@ const RATING_CATEGORIES = [
   { key: 'packaging', label: 'Packaging' },
 ]
 const RATING_WORDS = ['Great', 'Good', 'Okay', 'Poor']
-const DISCOVERY_OPTIONS = ['Instagram', 'TikTok', 'Friend or referral', 'Online search', 'Other']
+// Options match the existing Airtable reviews table exactly.
+const DISCOVERY_OPTIONS = ['Instagram', 'TikTok', 'Friend or family', 'Online search', 'Other']
 const USE_CASES = [
-  'Fitness & training',
+  'Fitness and training',
   'Daily habit building',
+  'Focus and energy',
   'Preventive health',
-  'Focus & energy',
+  'App-lock feature',
   'Gift for someone',
-  'Caregiving',
 ]
 
 // Interactive 1–5 star picker.
@@ -94,6 +95,8 @@ export default function ReviewsPage() {
           discovery: form.get('discovery') || '',
           useCases,
           feedback: form.get('feedback') || '',
+          email: form.get('email') || '',
+          nps: form.get('nps') || '',
           website: form.get('website') || '', // honeypot
         }),
       })
@@ -171,6 +174,16 @@ export default function ReviewsPage() {
                 </select>
               </label>
 
+              <label>
+                How likely are you to recommend Sponge to a friend? (0–10)
+                <select name="nps" defaultValue="">
+                  <option value="">Prefer not to say</option>
+                  {Array.from({ length: 11 }, (_, n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </label>
+
               <div className="review-form__field">
                 <span className="review-form__label">What do you use Sponge for?</span>
                 <div className="review-form__chips">
@@ -191,6 +204,11 @@ export default function ReviewsPage() {
               <label>
                 Your review *
                 <textarea name="feedback" required rows={5} placeholder="What do you love, and what could be better?" />
+              </label>
+
+              <label>
+                Email <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional — only so we can follow up, never published)</span>
+                <input name="email" type="email" placeholder="you@email.com" />
               </label>
 
               {/* Honeypot — hidden from real users, catches bots. */}

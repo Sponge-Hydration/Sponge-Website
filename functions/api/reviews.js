@@ -11,19 +11,18 @@
 //   AIRTABLE_BASE_ID        base id, looks like appXXXXXXXXXXXXXX
 //   AIRTABLE_REVIEWS_TABLE  table name or id (defaults to "Reviews")
 //
-// IMPORTANT: the FIELDS map below must match the Airtable column names EXACTLY.
-// The names here are taken from the reviews survey; confirm the truncated ones
-// ("Setup Rating", "Packaging Rating", "How did you hear about us?") against the
-// live base and adjust if they differ, or writes will fail with UNKNOWN_FIELD.
+// Airtable column names — verified against the live base (apppnrhDp10j1dZ7c).
 const FIELDS = {
   overall: 'Overall Rating', // number 1–5
-  device: 'Device Rating', // single select: Great / Good / Okay / Poor
+  device: 'Device Rating', // Great / Good / Okay / Poor
   app: 'App Rating',
   setup: 'Setup Rating',
   packaging: 'Packaging Rating',
-  discovery: 'How did you hear about us?', // single select
-  useCases: 'Use Cases', // multiple select
+  discovery: 'Discovery Source', // e.g. Instagram / Friend or family / Other
+  useCases: 'Use Cases', // TEXT field storing a comma-separated list
   feedback: 'Open Feedback', // long text
+  email: 'Email', // optional
+  nps: 'NPS Score', // optional number 0–10
 }
 
 // Which column decides whether a review is shown on the site. Add a checkbox
@@ -76,11 +75,15 @@ export async function onRequestGet(context) {
       const f = rec.fields || {}
       const lf = lowerKeys(f)
       const approvedKey = APPROVED_ALIASES.find((a) => a in lf)
-      const useCases = f[FIELDS.useCases]
+      // "Use Cases" is a comma-separated text field; normalize to " · ".
+      const raw = f[FIELDS.useCases]
+      const useCases = (Array.isArray(raw) ? raw : String(raw || '').split(','))
+        .map((s) => s.trim())
+        .filter(Boolean)
       return {
         stars: Math.max(1, Math.min(5, Math.round(Number(f[FIELDS.overall]) || 5))),
         quote: String(f[FIELDS.feedback] || '').trim(),
-        loc: Array.isArray(useCases) ? useCases.join(' · ') : String(useCases || '').trim(),
+        loc: useCases.slice(0, 3).join(' · '),
         approved: approvedKey ? Boolean(lf[approvedKey]) : false,
       }
     })
@@ -129,9 +132,14 @@ export async function onRequestPost({ request, env }) {
   if (rating(body.setup)) fields[FIELDS.setup] = body.setup
   if (rating(body.packaging)) fields[FIELDS.packaging] = body.packaging
   if (body.discovery) fields[FIELDS.discovery] = String(body.discovery).slice(0, 100)
+  // "Use Cases" is a text field — store the selections as a comma-separated list.
   if (Array.isArray(body.useCases) && body.useCases.length) {
-    fields[FIELDS.useCases] = body.useCases.map((u) => String(u).slice(0, 100)).slice(0, 12)
+    fields[FIELDS.useCases] = body.useCases.map((u) => String(u).slice(0, 60)).slice(0, 12).join(', ')
   }
+  const email = String(body.email || '').trim().slice(0, 200)
+  if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fields[FIELDS.email] = email
+  const nps = Math.round(Number(body.nps))
+  if (Number.isFinite(nps) && nps >= 0 && nps <= 10) fields[FIELDS.nps] = nps
 
   try {
     const res = await fetch(airtableUrl(env), {

@@ -185,19 +185,19 @@ export const reviews = [
   {
     stars: 5,
     quote: 'Beautiful.',
-    loc: 'Focus & energy · Gift for someone',
+    loc: 'Focus and energy · Gift for someone',
   },
   {
     stars: 4,
     quote:
       'Still testing it out but the app works well. It would be nice to see a how-to video explaining any nuances, including whether it keeps tracking water intake when the app is closed. It would be cool if it integrated with Whoop or Apple Health.',
-    loc: 'Daily habit building · Fitness & training',
+    loc: 'Daily habit building · Fitness and training',
   },
   {
     stars: 4,
     quote:
       'I really like the clip from a hardware perspective. The main thing I’d love is a connection from the app to Apple Health — and, if possible, not having to open the app to sync data from the clip.',
-    loc: 'Fitness & training · Preventive health',
+    loc: 'Fitness and training · Preventive health',
   },
   {
     stars: 5,
