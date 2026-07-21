@@ -29,9 +29,8 @@ export default function Header() {
               {l.label}
             </NavLink>
           ))}
-          <NavLink to="/dashboard" className="nav__dash" onClick={() => setOpen(false)}>
-            Dashboard
-          </NavLink>
+          {/* Dashboard nav hidden until that part of the site launches.
+              The /dashboard route still works for previewing directly. */}
         </nav>
 
         <div className="header__cta">

@@ -173,7 +173,6 @@ export default function Home() {
             </ul>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link to="/products" className="btn btn--primary btn--lg">Order Sponge</Link>
-              <Link to="/dashboard" className="btn btn--ghost btn--lg">See the dashboard</Link>
             </div>
           </div>
         </div>

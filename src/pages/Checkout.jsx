@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
@@ -7,7 +7,6 @@ import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/i
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -35,7 +34,7 @@ export default function Checkout() {
             email. Your hydration tracker ships in about 8 weeks.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginTop: 8 }}>
-            <button className="btn btn--primary btn--lg" onClick={() => navigate('/dashboard')}>Open your dashboard</button>
+            <Link to="/products" className="btn btn--primary btn--lg">Continue shopping</Link>
             <Link to="/" className="btn btn--ghost btn--lg">Back to home</Link>
           </div>
         </div>

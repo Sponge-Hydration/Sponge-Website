@@ -14,7 +14,6 @@ export default function Footer() {
             <Link to="/products">All products</Link>
             <Link to="/shop/p/sponge-clip">Sponge Tracker</Link>
             <Link to="/cart">Cart</Link>
-            <Link to="/dashboard">Dashboard</Link>
           </div>
           <div>
             <h4>Company</h4>
