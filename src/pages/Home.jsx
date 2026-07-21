@@ -117,7 +117,7 @@ export default function Home() {
               <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip — zero logging.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img step__img--app" src="/media/how/step3-app.png" alt="Sponge app showing hydration progress" />
+              <img className="step__img step__img--app" src="/media/how/step3-app.webp" alt="Sponge app showing hydration progress" />
               <div className="step__body"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container split">
           <div className="split__media">
-            <img className="appshot" src="/media/app/applock.png" alt="Sponge app locking Facebook until a hydration goal is reached" />
+            <img className="appshot" src="/media/app/applock.webp" alt="Sponge app locking Facebook until a hydration goal is reached" />
           </div>
           <div>
             <span className="eyebrow">The hydration hack for your phone</span>

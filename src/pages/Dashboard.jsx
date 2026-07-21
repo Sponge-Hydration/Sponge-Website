@@ -118,10 +118,10 @@ export default function Dashboard() {
           <h3>Right from your pocket</h3>
           <p>The free Sponge app brings your hydration goal, app-lock, and lock-screen widget everywhere you go.</p>
           <div className="app-strip__shots">
-            <img src="/media/app/lockscreen.png" alt="Sponge lock-screen widget showing 67% of goal" loading="lazy" />
-            <img src="/media/app/applock.png" alt="Sponge app-lock unlock goal screen" loading="lazy" />
-            <img src="/media/app/goal.png" alt="Setting a daily hydration goal" loading="lazy" />
-            <img src="/media/app/settings.png" alt="Sponge app settings with hydration locks" loading="lazy" />
+            <img src="/media/app/lockscreen.webp" alt="Sponge lock-screen widget showing 67% of goal" loading="lazy" />
+            <img src="/media/app/applock.webp" alt="Sponge app-lock unlock goal screen" loading="lazy" />
+            <img src="/media/app/goal.webp" alt="Setting a daily hydration goal" loading="lazy" />
+            <img src="/media/app/settings.webp" alt="Sponge app settings with hydration locks" loading="lazy" />
           </div>
         </div>
 
