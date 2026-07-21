@@ -175,10 +175,35 @@ export const faqs = [
   { q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
 ]
 
-export const testimonials = [
-  { initial: 'B', name: 'Brian', loc: 'Maryland · Triathlete', quote: 'As a triathlete I obsess over hydration. Sponge finally tracks it for me without another thing to log. It just works.' },
-  { initial: 'K', name: 'Kelly', loc: 'California', quote: 'I had no idea how little water I was actually drinking until Sponge showed me. Now I hit my goal almost every day.' },
-  { initial: 'I', name: 'Isabella', loc: 'Florida', quote: 'The app-lock feature is genius. It actually gets me to drink water instead of just reminding me and being ignored.' },
+// Real customer reviews — verbatim from the Airtable reviews survey. No names
+// were collected, so cards show "Verified customer" + the use case they picked.
+// This is the baked-in fallback that prerenders and shows if Airtable is
+// unreachable; the live approved list comes from Airtable via /api/reviews.
+// (A 5th 5-star response left no written feedback, so it isn't shown here.)
+// Keep this snapshot in sync when the featured reviews change.
+export const reviews = [
+  {
+    stars: 5,
+    quote: 'Beautiful.',
+    loc: 'Focus & energy · Gift for someone',
+  },
+  {
+    stars: 4,
+    quote:
+      'Still testing it out but the app works well. It would be nice to see a how-to video explaining any nuances, including whether it keeps tracking water intake when the app is closed. It would be cool if it integrated with Whoop or Apple Health.',
+    loc: 'Daily habit building · Fitness & training',
+  },
+  {
+    stars: 4,
+    quote:
+      'I really like the clip from a hardware perspective. The main thing I’d love is a connection from the app to Apple Health — and, if possible, not having to open the app to sync data from the clip.',
+    loc: 'Fitness & training · Preventive health',
+  },
+  {
+    stars: 5,
+    quote: 'Needs to be thinner — like 10mm total.',
+    loc: 'Preventive health',
+  },
 ]
 
 export const blogPosts = [

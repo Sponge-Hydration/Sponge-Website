@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
-import { Stars, usd } from '../components/bits'
+import { usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
@@ -78,9 +78,6 @@ export default function ProductDetail() {
             <span className="eyebrow">{product.badge}</span>
             <h1>{product.name}</h1>
             <p className="pdp__tagline">{product.tagline}</p>
-            {product.clips > 0 && (
-              <div className="pdp__rating"><Stars small /> <span>4.9 · 120 reviews</span></div>
-            )}
 
             <div className="pdp__price">
               <strong>{usd(product.price)}</strong>

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
-import { Stars, SectionHead } from '../components/bits'
+import { SectionHead } from '../components/bits'
+import Reviews from '../components/Reviews'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, TargetIcon } from '../components/icons'
-import { testimonials } from '../data'
 
 const features = [
   { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink — no buttons, no manual logging, no guessing how much water you’ve had.' },
@@ -25,7 +25,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="container hero__grid">
           <div>
-            <span className="eyebrow">★ 4.9/5 from 120+ early customers</span>
+            <span className="eyebrow">Trusted by 120+ early customers</span>
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your
@@ -37,8 +37,7 @@ export default function Home() {
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
-              <Stars />
-              <span>Rated 4.9/5 · 30-day money-back guarantee</span>
+              <span>30-day money-back guarantee · Free shipping to the US &amp; Canada</span>
             </div>
             <div className="hero__note">
               <span><i className="dot" />Works with any bottle</span>
@@ -60,8 +59,8 @@ export default function Home() {
       {/* Trust bar */}
       <section className="trust">
         <div className="container trust__grid">
-          <div><div className="trust__num">4.9★</div><div className="trust__lbl">Average rating</div></div>
           <div><div className="trust__num">120+</div><div className="trust__lbl">Happy customers</div></div>
+          <div><div className="trust__num">30-day</div><div className="trust__lbl">Money-back guarantee</div></div>
           <div><div className="trust__num">8 days</div><div className="trust__lbl">Battery life</div></div>
           <div><div className="trust__num">Any</div><div className="trust__lbl">Water bottle</div></div>
         </div>
@@ -209,26 +208,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section className="section section--tint" id="reviews">
-        <div className="container">
-          <SectionHead eyebrow="Reviews" title="Loved by 120+ early customers">
-            Rated 4.9 out of 5. Here’s what people say after switching to a hands-free hydration tracker.
-          </SectionHead>
-          <div className="tcards">
-            {testimonials.map((t) => (
-              <article className="tcard" key={t.name}>
-                <Stars small />
-                <p>“{t.quote}”</p>
-                <div className="tcard__who">
-                  <div className="tcard__av">{t.initial}</div>
-                  <div><strong>{t.name}</strong><span>{t.loc}</span></div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Reviews — live from Airtable, hidden when empty */}
+      <Reviews />
 
       {/* CTA band */}
       <section className="section">

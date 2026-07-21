@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
-import { SectionHead, Stars, usd } from '../components/bits'
+import { SectionHead, usd } from '../components/bits'
 import { visibleProducts } from '../data'
 import { useCart } from '../cart/CartContext'
 
@@ -35,9 +35,6 @@ export default function Products() {
               </Link>
               <div className="product-card__body">
                 <h3><Link to={`/shop/p/${p.slug}`}>{p.name}</Link></h3>
-                {p.clips > 0 && (
-                  <div className="product-card__rating"><Stars small /> <span>4.9 (120)</span></div>
-                )}
                 <p>{p.short}</p>
                 <div className="product-card__price">
                   <strong>{usd(p.price)}</strong>

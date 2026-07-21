@@ -22,3 +22,9 @@ GOOGLE_SA_EMAIL=sponge-sheets-writer@your-project.iam.gserviceaccount.com
 GOOGLE_SA_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----\n"
 GOOGLE_SHEET_ID=1I8-142hZTfvZ1YCVRaTAAmRwLVTs7Lm63ikBhLbSal4
 SHEET_TAB_NAME=2026
+
+# --- Airtable (customer reviews shown on the site via /api/reviews) ---
+# Personal access token needs data.records:read on the reviews base.
+AIRTABLE_API_KEY=patXXXXXXXXXXXXXX.xxxxxxxx
+AIRTABLE_BASE_ID=appXXXXXXXXXXXXXX
+AIRTABLE_REVIEWS_TABLE=Reviews
