@@ -2,8 +2,8 @@
 # NOTE: no SPA catch-all (/* -> /index.html 200) — routes are prerendered to
 # static files, so unmatched paths correctly fall through to 404.html.
 
-# Canonical host: apex -> www (only fires once spongehydration.com is live).
-https://spongehydration.com/*  https://www.spongehydration.com/:splat  301!
+# Canonical host (apex -> www) is handled in functions/_middleware.js —
+# _redirects matches on path only, not hostname.
 
 # Legacy Squarespace paths -> current routes (301).
 /products-1            /products          301
