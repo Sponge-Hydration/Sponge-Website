@@ -15,14 +15,14 @@ const PAGES = {
     body: [
       'We respect your privacy. We collect only the information needed to fulfill your order and operate the Sponge app, such as your name, contact details, and hydration data.',
       'Hydration data is associated with your account and shared only with the family members or caregivers you explicitly invite. We never sell your personal data.',
-      'You can request access to, or deletion of, your data at any time by contacting support@spongehydration.com.',
+      'You can request access to, or deletion of, your data at any time by contacting team@spongehydration.com.',
     ],
   },
   returns: {
     title: 'Return Policy',
     body: [
       'Every Sponge comes with a 30-day money-back guarantee. If you’re not happy, contact us within 30 days of delivery for a full refund.',
-      'To start a return, email support@spongehydration.com with your order number. We’ll send a prepaid label for items being returned within the U.S.',
+      'To start a return, email team@spongehydration.com with your order number. We’ll send a prepaid label for items being returned within the U.S.',
       'Refunds are issued to your original payment method once the device is received and inspected.',
     ],
   },
@@ -30,7 +30,7 @@ const PAGES = {
     title: 'Warranty Policy',
     body: [
       'Sponge devices are covered by a 1-year limited warranty against manufacturing defects from the date of delivery.',
-      'If your device stops working due to a defect, contact support@spongehydration.com and we’ll repair or replace it at no cost.',
+      'If your device stops working due to a defect, contact team@spongehydration.com and we’ll repair or replace it at no cost.',
       'The warranty does not cover damage from misuse, accidents, or unauthorized modification.',
     ],
   },

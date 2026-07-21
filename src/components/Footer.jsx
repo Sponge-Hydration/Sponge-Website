@@ -8,6 +8,10 @@ export default function Footer() {
           <div className="footer__brand">
             <div className="brand"><img className="brand__logo brand__logo--light" src="/media/logo/mark-white.png" alt="" aria-hidden="true" /> Sponge</div>
             <p>The smart hydration tracker that clips to any water bottle and helps you hit your daily water goal — automatically.</p>
+            <div className="footer__apps">
+              <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">App Store</a>
+              <a href="https://play.google.com/store/apps/details?id=com.spongehydrationAndroid.sponge" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </div>
           </div>
           <div>
             <h4>Shop</h4>
@@ -31,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer__bottom">
-          <span>© {new Date().getFullYear()} Sponge Hydration. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Sponge Hydration LLC. All rights reserved.</span>
           <span className="footer__legal">
             <Link to="/legal/terms">Terms</Link>
             <Link to="/legal/privacy">Privacy</Link>

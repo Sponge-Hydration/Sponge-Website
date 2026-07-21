@@ -30,10 +30,22 @@ export default function Checkout() {
           <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
           <h2>Order confirmed!</h2>
           <p>
-            Thanks for pre-ordering Sponge. Payment received — we’ve sent a confirmation to your
-            email. Your hydration tracker ships in about 8 weeks.
+            Thanks for pre-ordering Sponge. Payment received — your card statement will show
+            Sponge Hydration, and we’ve sent a confirmation to your email with a link to track
+            your order.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginTop: 8 }}>
+          <p style={{ marginTop: 4 }}>
+            While you wait, download the free app and get your account ready:
+          </p>
+          <div className="app-badges" style={{ justifyContent: 'center' }}>
+            <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
+               Download on the App Store
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.spongehydrationAndroid.sponge" target="_blank" rel="noopener noreferrer">
+              ▶ Get it on Google Play
+            </a>
+          </div>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginTop: 16 }}>
             <Link to="/products" className="btn btn--primary btn--lg">Continue shopping</Link>
             <Link to="/" className="btn btn--ghost btn--lg">Back to home</Link>
           </div>
@@ -122,8 +134,8 @@ export default function Checkout() {
           <aside className="cart-summary">
             <h3>Order summary</h3>
             {items.map((i) => (
-              <div className="cart-summary__line" key={i.id}>
-                <span>{i.name} × {i.qty}</span>
+              <div className="cart-summary__line" key={i.uid}>
+                <span>{i.name}</span>
                 <span>{usd(i.lineTotal)}</span>
               </div>
             ))}

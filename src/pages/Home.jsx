@@ -174,6 +174,14 @@ export default function Home() {
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link to="/products" className="btn btn--primary btn--lg">Order Sponge</Link>
             </div>
+            <div className="app-badges">
+              <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
+                 Download on the App Store
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.spongehydrationAndroid.sponge" target="_blank" rel="noopener noreferrer">
+                ▶ Get it on Google Play
+              </a>
+            </div>
           </div>
         </div>
       </section>

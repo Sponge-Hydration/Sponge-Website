@@ -68,7 +68,7 @@ export default function OrderStatus() {
         <p>
           Order tracking is available for 30 days after delivery. Need help with order{' '}
           <strong>{state.data.orderNumber}</strong>? Email us at{' '}
-          <a href="mailto:support@spongehydration.com">support@spongehydration.com</a>.
+          <a href="mailto:team@spongehydration.com">team@spongehydration.com</a>.
         </p>
         <Link to="/" className="btn btn--primary btn--lg">Back to home</Link>
       </div>
@@ -149,7 +149,7 @@ export default function OrderStatus() {
       </div>
 
       <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 20 }}>
-        Questions? Email <a href="mailto:support@spongehydration.com">support@spongehydration.com</a>.
+        Questions? Email <a href="mailto:team@spongehydration.com">team@spongehydration.com</a>.
       </p>
     </>
   )
