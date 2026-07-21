@@ -88,16 +88,23 @@ export const productBySlug = (slug) => products.find((p) => p.slug === slug)
 
 // Color options a customer can choose for each Sponge clip.
 export const colorOptions = [
-  { id: 'light-blue', label: 'Light Blue', hex: '#7cc4ff' },
-  { id: 'dark-blue', label: 'Dark Blue', hex: '#1e3a8a' },
   { id: 'black', label: 'Black', hex: '#1a1a1a' },
   { id: 'white', label: 'White', hex: '#f4f4f5' },
+]
+
+// Not currently offered. Kept so historical orders and saved carts still
+// resolve to a readable label — re-enable by moving entries back above.
+export const retiredColorOptions = [
+  { id: 'light-blue', label: 'Light Blue', hex: '#7cc4ff' },
+  { id: 'dark-blue', label: 'Dark Blue', hex: '#1e3a8a' },
   { id: 'light-gray', label: 'Light Gray', hex: '#cbd5e1' },
   { id: 'pink', label: 'Pink', hex: '#f9a8d4' },
 ]
-export const DEFAULT_COLOR = 'light-blue'
-export const colorById = (id) => colorOptions.find((c) => c.id === id)
+
+export const DEFAULT_COLOR = 'black'
+export const colorById = (id) => [...colorOptions, ...retiredColorOptions].find((c) => c.id === id)
 export const colorLabel = (id) => colorById(id)?.label || id
+export const isColorAvailable = (id) => colorOptions.some((c) => c.id === id)
 
 // How many physical clips a product contains (multi-packs hold several).
 export const clipsFor = (id) => productById(id)?.clips || 1

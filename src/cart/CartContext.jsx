@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react'
-import { productById, clipsFor, DEFAULT_COLOR } from '../data'
+import { productById, clipsFor, DEFAULT_COLOR, isColorAvailable } from '../data'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'sponge-cart-v3'
@@ -11,9 +11,13 @@ const newUid = () =>
     ? crypto.randomUUID()
     : `u_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
 
-// Ensure a unit has exactly `clips` colors, padding with the default.
+// Ensure a unit has exactly `clips` colors, padding with the default. Colors
+// that are no longer offered (e.g. from a previously saved cart) fall back to
+// the default so nobody can check out with a retired color.
 function normalizeColors(colors, clips) {
-  const arr = Array.isArray(colors) ? colors.slice(0, clips) : []
+  const arr = (Array.isArray(colors) ? colors.slice(0, clips) : []).map((c) =>
+    isColorAvailable(c) ? c : DEFAULT_COLOR
+  )
   while (arr.length < clips) arr.push(DEFAULT_COLOR)
   return arr
 }

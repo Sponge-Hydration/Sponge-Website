@@ -23,6 +23,12 @@ const COLOR_LABELS = {
   pink: 'Pink',
 }
 
+// Colors currently offered. Anything else (e.g. a cart saved before some colors
+// were retired) is coerced to the default so we never sell what we can't ship.
+const AVAILABLE_COLORS = ['black', 'white']
+const DEFAULT_COLOR = 'black'
+const coerceColor = (c) => (AVAILABLE_COLORS.includes(c) ? c : DEFAULT_COLOR)
+
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } })
 
@@ -63,7 +69,8 @@ export async function onRequestPost({ request, env }) {
     const product = CATALOG[item?.id]
     const qty = Math.max(1, Math.min(99, parseInt(item?.qty, 10) || 0))
     if (!product) continue
-    const colors = Array.isArray(item?.colors) ? item.colors : item?.color ? [item.color] : []
+    const rawColors = Array.isArray(item?.colors) ? item.colors : item?.color ? [item.color] : []
+    const colors = rawColors.map(coerceColor)
     const labels = colors.map((c) => COLOR_LABELS[c]).filter(Boolean)
     const name = labels.length ? `${product.name} — ${labels.join(', ')}` : product.name
     params.append(`line_items[${line}][quantity]`, String(qty))
