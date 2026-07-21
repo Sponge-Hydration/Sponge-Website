@@ -26,7 +26,6 @@ export default function Footer() {
           <div>
             <h4>Support</h4>
             <Link to="/how-it-works">Setup &amp; FAQ</Link>
-            <Link to="/account">Account</Link>
             <Link to="/legal/returns">Return policy</Link>
             <Link to="/legal/warranty">Warranty</Link>
           </div>
