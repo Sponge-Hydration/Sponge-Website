@@ -26,7 +26,9 @@ function normalizeColors(colors, clips) {
 function toUnits(raw) {
   if (!Array.isArray(raw)) return []
   return raw
-    .filter((u) => u && productById(u.id))
+    // Hidden SKUs (e.g. the retired 2-Pack) are dropped from saved carts so
+    // nobody can check out with a product we no longer offer.
+    .filter((u) => u && productById(u.id) && !productById(u.id).hidden)
     .map((u) => ({
       uid: u.uid || newUid(),
       id: u.id,
@@ -107,7 +109,7 @@ export function CartProvider({ children }) {
         return {
           ...product,
           uid: u.uid,
-          colors: normalizeColors(u.colors, product.clips || 1),
+          colors: normalizeColors(u.colors, product.clips ?? 1),
           lineTotal: product.price,
         }
       })

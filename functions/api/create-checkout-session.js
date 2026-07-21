@@ -8,10 +8,11 @@
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
+// The 2-Pack is retired and the Coaster is sold out — neither is purchasable.
 const CATALOG = {
   'sponge-clip': { name: 'Sponge Hydration Tracker', amount: 5999, img: '/media/products/single.jpg' },
-  'sponge-2pack': { name: 'Sponge 2-Pack', amount: 10999, img: '/media/products/twopack.jpg' },
-  'sponge-family': { name: 'Sponge Family Pack', amount: 19999, img: '/media/products/family.jpg' },
+  'sponge-family': { name: 'Sponge Family Pack', amount: 19999, img: '/media/products/family.png' },
+  'sponge-adhesive-3pack': { name: 'Magnetic Adhesive 3-Pack', amount: 1499, img: '/media/products/adhesive-3pack.jpg' },
 }
 
 const COLOR_LABELS = {
@@ -62,7 +63,7 @@ export async function onRequestPost({ request, env }) {
   // text description, so we stash exact per-color and per-SKU counts in the
   // session metadata for the webhook to read back.
   const clipCounts = { 'light-blue': 0, 'dark-blue': 0, black: 0, white: 0, 'light-gray': 0, pink: 0 }
-  const skuCounts = { 'sponge-clip': 0, 'sponge-2pack': 0, 'sponge-family': 0 }
+  const skuCounts = { 'sponge-clip': 0, 'sponge-family': 0, 'sponge-adhesive-3pack': 0 }
 
   let line = 0
   for (const item of cart) {
@@ -96,8 +97,10 @@ export async function onRequestPost({ request, env }) {
   params.append('metadata[clips_light_gray]', String(clipCounts['light-gray']))
   params.append('metadata[clips_pink]', String(clipCounts.pink))
   params.append('metadata[qty_single]', String(skuCounts['sponge-clip']))
-  params.append('metadata[qty_2pack]', String(skuCounts['sponge-2pack']))
+  // qty_2pack stays for the order sheet's column layout; the SKU is retired.
+  params.append('metadata[qty_2pack]', '0')
   params.append('metadata[qty_family]', String(skuCounts['sponge-family']))
+  params.append('metadata[qty_adhesive_3pack]', String(skuCounts['sponge-adhesive-3pack']))
 
   const resp = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',

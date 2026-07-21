@@ -5,6 +5,9 @@
 # Canonical host (apex -> www) is handled in functions/_middleware.js —
 # _redirects matches on path only, not hostname.
 
+# Retired SKUs (301).
+/shop/p/sponge-2-pack  /shop/p/sponge-family-pack  301
+
 # Legacy Squarespace paths -> current routes (301).
 /products-1            /products          301
 /sponge-for-caregivers  /caregivers       301

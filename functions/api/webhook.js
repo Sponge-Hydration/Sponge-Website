@@ -99,6 +99,7 @@ async function handleCheckoutCompleted(session, env) {
       single: num(m.qty_single),
       twoPack: num(m.qty_2pack),
       family: num(m.qty_family),
+      adhesive3: num(m.qty_adhesive_3pack),
     },
   }
 

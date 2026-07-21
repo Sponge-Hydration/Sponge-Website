@@ -16,7 +16,7 @@ import Account from './pages/Account'
 import OrderStatus from './pages/OrderStatus'
 import Legal from './pages/Legal'
 import NotFound from './pages/NotFound'
-import { products, blogPosts } from './data'
+import { visibleProducts, blogPosts } from './data'
 
 // react-router data routes, consumed by vite-react-ssg for prerendering.
 // Legacy Squarespace paths are handled by 301s in public/_redirects, not here.
@@ -31,7 +31,7 @@ export const routes = [
       {
         path: 'shop/p/:slug',
         element: <ProductDetail />,
-        getStaticPaths: () => products.map((p) => `shop/p/${p.slug}`),
+        getStaticPaths: () => visibleProducts.map((p) => `shop/p/${p.slug}`),
       },
       { path: 'cart', element: <Cart /> },
       { path: 'checkout', element: <Checkout /> },

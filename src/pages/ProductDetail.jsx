@@ -8,7 +8,9 @@ import { useCart } from '../cart/CartContext'
 
 export default function ProductDetail() {
   const { slug } = useParams()
-  const product = productBySlug(slug)
+  const found = productBySlug(slug)
+  // Hidden SKUs are not for sale — treat them like they don't exist.
+  const product = found && !found.hidden ? found : null
   const { add } = useCart()
   const navigate = useNavigate()
   const [qty, setQty] = useState(1)
@@ -76,7 +78,9 @@ export default function ProductDetail() {
             <span className="eyebrow">{product.badge}</span>
             <h1>{product.name}</h1>
             <p className="pdp__tagline">{product.tagline}</p>
-            <div className="pdp__rating"><Stars small /> <span>4.9 · 120 reviews</span></div>
+            {product.clips > 0 && (
+              <div className="pdp__rating"><Stars small /> <span>4.9 · 120 reviews</span></div>
+            )}
 
             <div className="pdp__price">
               <strong>{usd(product.price)}</strong>
@@ -96,17 +100,24 @@ export default function ProductDetail() {
               ))}
             </ul>
 
-            <div className="pdp__buy">
-              <div className="qty">
-                <button onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease quantity">−</button>
-                <span aria-live="polite">{qty}</span>
-                <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
+            {product.soldOut ? (
+              <div className="pdp__buy">
+                <button className="btn btn--primary btn--lg" disabled>Sold out</button>
+                <Link to="/contact" className="btn btn--ghost btn--lg">Ask about availability</Link>
               </div>
-              <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now — {usd(product.price * qty)}</button>
-              <button className="btn btn--ghost btn--lg" onClick={addToCart}>
-                {added ? '✓ Added to cart' : 'Add to cart'}
-              </button>
-            </div>
+            ) : (
+              <div className="pdp__buy">
+                <div className="qty">
+                  <button onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease quantity">−</button>
+                  <span aria-live="polite">{qty}</span>
+                  <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
+                </div>
+                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now — {usd(product.price * qty)}</button>
+                <button className="btn btn--ghost btn--lg" onClick={addToCart}>
+                  {added ? '✓ Added to cart' : 'Add to cart'}
+                </button>
+              </div>
+            )}
 
             <div className="pdp__meta">
               <span><TruckIcon size={15} /> {product.ships}</span>

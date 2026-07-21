@@ -34,6 +34,9 @@ export const products = [
     slug: 'sponge-2-pack',
     name: 'Sponge 2-Pack',
     tagline: 'One for home, one for the gym',
+    // Not currently offered — hidden from the shop, cart, prerender, and
+    // checkout, but kept here so historical orders still resolve.
+    hidden: true,
     clips: 2,
     price: 109.99,
     compareAt: 159.98,
@@ -81,7 +84,58 @@ export const products = [
     ],
     ships: 'Ships in ~8 weeks',
   },
+  {
+    id: 'sponge-coaster',
+    slug: 'sponge-coaster',
+    name: 'Sponge Coaster',
+    tagline: 'The set-it-down hydration tracker',
+    clips: 0,
+    price: 39.99,
+    badge: 'Sold out',
+    soldOut: true,
+    img: '/media/products/coaster.jpg',
+    gallery: [
+      '/media/products/coaster.jpg',
+      '/media/products/coaster-side.jpg',
+    ],
+    short: 'A coaster-style hydration tracker — set your bottle down on it and every sip is logged to the same free Sponge app.',
+    features: [
+      'Tracks any bottle you set on it',
+      'Automatic sip tracking',
+      'USB-C charging',
+      'Syncs to the free Sponge app',
+      'Works alongside the clip-on tracker',
+    ],
+    ships: 'Sold out',
+  },
+  {
+    id: 'sponge-adhesive-3pack',
+    slug: 'magnetic-adhesive-3-pack',
+    name: 'Magnetic Adhesive 3-Pack',
+    tagline: 'Make every bottle Sponge-ready',
+    clips: 0,
+    price: 14.99,
+    badge: 'Accessory',
+    img: '/media/products/adhesive-3pack.jpg',
+    gallery: [
+      '/media/products/adhesive-3pack.jpg',
+      '/media/products/adhesive-peel.jpg',
+      '/media/products/adhesive-dimensions.jpg',
+    ],
+    short: 'Three slim magnetic mounts so you can swap your Sponge between bottles in seconds — stick one on each bottle you use.',
+    features: [
+      'Three 60mm magnetic mounts',
+      'Ultra-thin 0.7mm profile',
+      'Strong 3M adhesive backing',
+      'Sticks to steel, plastic, or glass bottles',
+      'Snap your Sponge across bottles in seconds',
+    ],
+    ships: 'Ships in ~8 weeks',
+  },
 ]
+
+// Products shown in the shop and prerendered — hidden SKUs are excluded.
+export const visibleProducts = products.filter((p) => !p.hidden)
 
 export const productById = (id) => products.find((p) => p.id === id)
 export const productBySlug = (slug) => products.find((p) => p.slug === slug)
@@ -106,8 +160,9 @@ export const colorById = (id) => [...colorOptions, ...retiredColorOptions].find(
 export const colorLabel = (id) => colorById(id)?.label || id
 export const isColorAvailable = (id) => colorOptions.some((c) => c.id === id)
 
-// How many physical clips a product contains (multi-packs hold several).
-export const clipsFor = (id) => productById(id)?.clips || 1
+// How many physical clips a product contains (multi-packs hold several,
+// accessories like the coaster and adhesives have none — no color choice).
+export const clipsFor = (id) => productById(id)?.clips ?? 1
 
 export const faqs = [
   { q: 'What is a hydration tracker and how does Sponge work?', a: 'A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each sip automatically and sync to the free Sponge app — so you never have to log water by hand.' },

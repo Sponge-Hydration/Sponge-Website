@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { SectionHead, Stars, usd } from '../components/bits'
-import { products } from '../data'
+import { visibleProducts } from '../data'
 import { useCart } from '../cart/CartContext'
 
 export default function Products() {
@@ -16,8 +16,8 @@ export default function Products() {
   return (
     <section className="section">
       <Seo
-        title="Shop the Sponge Hydration Tracker | Single, 2-Pack & Family Pack"
-        description="Order the Sponge hydration tracking device. Choose a single tracker, a money-saving 2-pack, or the family pack with a shared dashboard. Free app, 8-day battery, 30-day guarantee."
+        title="Shop the Sponge Hydration Tracker | Single, Family Pack & Accessories"
+        description="Order the Sponge hydration tracking device. Choose a single tracker or the family pack with a shared dashboard, and add magnetic adhesive mounts for every bottle. Free app, 8-day battery, 30-day guarantee."
         path="/products"
       />
       <div className="container">
@@ -27,7 +27,7 @@ export default function Products() {
         </SectionHead>
 
         <div className="features">
-          {products.map((p) => (
+          {visibleProducts.map((p) => (
             <article className="product-card" key={p.id}>
               <div className="product-card__badge">{p.badge}</div>
               <Link to={`/shop/p/${p.slug}`} className="product-card__media">
@@ -35,16 +35,24 @@ export default function Products() {
               </Link>
               <div className="product-card__body">
                 <h3><Link to={`/shop/p/${p.slug}`}>{p.name}</Link></h3>
-                <div className="product-card__rating"><Stars small /> <span>4.9 (120)</span></div>
+                {p.clips > 0 && (
+                  <div className="product-card__rating"><Stars small /> <span>4.9 (120)</span></div>
+                )}
                 <p>{p.short}</p>
                 <div className="product-card__price">
                   <strong>{usd(p.price)}</strong>
                   {p.compareAt && <s>{usd(p.compareAt)}</s>}
                 </div>
                 <div className="product-card__actions">
-                  <button className="btn btn--primary btn--block" onClick={() => buyNow(p.id)}>
-                    Order now
-                  </button>
+                  {p.soldOut ? (
+                    <button className="btn btn--primary btn--block" disabled>
+                      Sold out
+                    </button>
+                  ) : (
+                    <button className="btn btn--primary btn--block" onClick={() => buyNow(p.id)}>
+                      Order now
+                    </button>
+                  )}
                   <Link to={`/shop/p/${p.slug}`} className="btn btn--ghost btn--block">Details</Link>
                 </div>
                 <div className="product-card__ship">{p.ships}</div>

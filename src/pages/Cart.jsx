@@ -8,18 +8,23 @@ import { BulbIcon, CartIcon, ShieldIcon } from '../components/icons'
 export default function Cart() {
   const { items, subtotal, add, setColor, remove } = useCart()
 
-  // Upsell: nudge customers with 2+ single clips toward the cheaper 2-Pack.
+  // Upsell: nudge customers with 4+ single clips toward the cheaper Family Pack.
   const single = productById('sponge-clip')
-  const twoPack = productById('sponge-2pack')
+  const familyPack = productById('sponge-family')
   const singleUnits = items.filter((i) => i.id === 'sponge-clip')
-  const pairs = Math.floor(singleUnits.length / 2)
-  const packSavings = single && twoPack ? pairs * (single.price * 2 - twoPack.price) : 0
-  const switchToTwoPack = () => {
-    const convert = singleUnits.slice(0, pairs * 2)
+  const quads = Math.floor(singleUnits.length / 4)
+  const packSavings = single && familyPack ? quads * (single.price * 4 - familyPack.price) : 0
+  const switchToFamilyPack = () => {
+    const convert = singleUnits.slice(0, quads * 4)
     convert.forEach((u) => remove(u.uid))
-    // Lossless: each 2-Pack keeps both clips' chosen colors.
-    for (let p = 0; p < pairs; p++) {
-      add('sponge-2pack', 1, [convert[p * 2].colors[0], convert[p * 2 + 1].colors[0]])
+    // Lossless: each Family Pack keeps all four clips' chosen colors.
+    for (let q = 0; q < quads; q++) {
+      add('sponge-family', 1, [
+        convert[q * 4].colors[0],
+        convert[q * 4 + 1].colors[0],
+        convert[q * 4 + 2].colors[0],
+        convert[q * 4 + 3].colors[0],
+      ])
     }
   }
 
@@ -47,14 +52,14 @@ export default function Cart() {
         <h1 className="page-title">Your cart</h1>
         <div className="cart-layout">
           <div className="cart-items">
-            {pairs >= 1 && (
+            {quads >= 1 && (
               <div className="cart-upsell">
                 <span className="cart-upsell__text">
-                  <BulbIcon size={15} /> Switch {pairs > 1 ? `${pairs} pairs` : 'your pair'} of single clips to the
-                  2-Pack and save <strong>{usd(packSavings)}</strong>.
+                  <BulbIcon size={15} /> Switch {quads > 1 ? `${quads} sets of four` : 'your four'} single clips to the
+                  Family Pack and save <strong>{usd(packSavings)}</strong>.
                 </span>
-                <button type="button" className="btn btn--primary btn--sm" onClick={switchToTwoPack}>
-                  Switch to 2-Pack
+                <button type="button" className="btn btn--primary btn--sm" onClick={switchToFamilyPack}>
+                  Switch to Family Pack
                 </button>
               </div>
             )}
@@ -64,6 +69,7 @@ export default function Cart() {
                 <div className="cart-row__info">
                   <Link to={`/shop/p/${i.slug}`} className="cart-row__name">{i.name}</Link>
                   <span className="cart-row__sub">{i.tagline}</span>
+                  {i.colors.length > 0 && (
                   <div className="cart-row__colors-group">
                     <span className="cart-row__colors-heading">
                       Select color{i.colors.length > 1 ? 's' : ''}:
@@ -94,6 +100,7 @@ export default function Cart() {
                       </div>
                     ))}
                   </div>
+                  )}
                   <div className="cart-row__actions">
                     <button className="link-btn" onClick={() => add(i.id, 1)}>+ Add another</button>
                     <button className="link-btn link-btn--muted" onClick={() => remove(i.uid)}>Remove</button>
