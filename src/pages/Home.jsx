@@ -171,7 +171,7 @@ export default function Home() {
               <li><span className="tick">✓</span> Build a lasting hydration habit, not a one-week streak</li>
             </ul>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/products" className="btn btn--primary btn--lg">Order Sponge</Link>
+              <Link to="/products" className="btn btn--primary btn--lg">Sponge Up</Link>
             </div>
             <div className="app-badges">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
