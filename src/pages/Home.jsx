@@ -33,7 +33,7 @@ export default function Home() {
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
-              <Link to="/products" className="btn btn--primary btn--lg">Order Sponge — $59.99</Link>
+              <Link to="/products" className="btn btn--primary btn--lg">Order Sponge</Link>
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
@@ -217,7 +217,7 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Join 120+ people building a real hydration habit with the clip-on tracker that works with any bottle.</p>
-            <Link to="/products" className="btn btn--ghost btn--lg">Order Sponge — $59.99</Link>
+            <Link to="/products" className="btn btn--ghost btn--lg">Order Sponge</Link>
           </div>
         </div>
       </section>
