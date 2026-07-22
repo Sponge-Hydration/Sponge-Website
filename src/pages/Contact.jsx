@@ -56,7 +56,7 @@ export default function Contact() {
           {sent ? (
             <div className="empty-state" style={{ padding: '40px 20px' }}>
               <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
-              <h2>Thanks — message sent!</h2>
+              <h2>Thanks, message sent!</h2>
               <p>We’ll get back to you within one business day.</p>
             </div>
           ) : (
@@ -76,7 +76,7 @@ export default function Contact() {
                 </select>
               </label>
               <label>Message<textarea name="message" required rows={5} placeholder="How can we help?" /></label>
-              {/* Honeypot — hidden from real users, catches bots. */}
+              {/* Honeypot, hidden from real users, catches bots. */}
               <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }} />
               {status === 'error' && (
                 <p role="alert" style={{ color: 'crimson' }}>
@@ -93,7 +93,7 @@ export default function Contact() {
           <aside className="contact-aside">
             <h3>Other ways to reach us</h3>
             <p><strong>Email</strong><br />team@spongehydration.com</p>
-            <p><strong>Hours</strong><br />Mon–Fri, 9am–6pm ET</p>
+            <p><strong>Hours</strong><br />Mon-Fri, 9am-6pm ET</p>
           </aside>
         </div>
       </div>

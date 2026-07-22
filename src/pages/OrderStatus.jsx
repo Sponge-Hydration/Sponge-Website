@@ -143,7 +143,7 @@ export default function OrderStatus() {
           </>
         ) : (
           <p style={{ fontSize: 14, color: 'var(--ink-soft)', margin: 0 }}>
-            Your order is being prepared. We’ll add tracking here as soon as it ships — and email you too.
+            Your order is being prepared. We’ll add tracking here as soon as it ships, and email you too.
           </p>
         )}
       </div>

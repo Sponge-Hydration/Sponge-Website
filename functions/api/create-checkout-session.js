@@ -2,13 +2,13 @@
 //
 // Creates a Stripe Checkout Session from the cart and returns its hosted URL.
 // Prices are looked up server-side from a canonical map so the client can never
-// dictate what it pays — the browser only sends { id, qty }.
+// dictate what it pays - the browser only sends { id, qty }.
 //
 // Requires the STRIPE_SECRET_KEY environment variable (set in the Cloudflare
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
-// The 2-Pack is retired and the Coaster is sold out — neither is purchasable.
+// The 2-Pack is retired and the Coaster is sold out - neither is purchasable.
 const CATALOG = {
   'sponge-clip': { name: 'Sponge Hydration Tracker', amount: 5999, img: '/media/products/single.jpg' },
   'sponge-family': { name: 'Sponge Family Pack', amount: 19999, img: '/media/products/family.png' },
@@ -73,7 +73,7 @@ export async function onRequestPost({ request, env }) {
   // US only.
   params.append('shipping_address_collection[allowed_countries][0]', 'US')
 
-  // Tally structured data for the order sheet — Stripe line items only carry a
+  // Tally structured data for the order sheet - Stripe line items only carry a
   // text description, so we stash exact per-color and per-SKU counts in the
   // session metadata for the webhook to read back.
   const clipCounts = { 'light-blue': 0, 'dark-blue': 0, black: 0, white: 0, 'light-gray': 0, pink: 0 }
@@ -88,7 +88,7 @@ export async function onRequestPost({ request, env }) {
     const rawColors = Array.isArray(item?.colors) ? item.colors : item?.color ? [item.color] : []
     const colors = rawColors.map(coerceColor)
     const labels = colors.map((c) => COLOR_LABELS[c]).filter(Boolean)
-    const name = labels.length ? `${product.name} — ${labels.join(', ')}` : product.name
+    const name = labels.length ? `${product.name} - ${labels.join(', ')}` : product.name
     params.append(`line_items[${line}][quantity]`, String(qty))
     params.append(`line_items[${line}][price_data][currency]`, 'usd')
     params.append(`line_items[${line}][price_data][unit_amount]`, String(product.amount))
@@ -115,7 +115,7 @@ export async function onRequestPost({ request, env }) {
     shipAmount === 0 ? 'Free shipping' : 'Standard shipping'
   )
 
-  // Metadata (string values) — keys mirror the webhook's expectations.
+  // Metadata (string values) - keys mirror the webhook's expectations.
   params.append('metadata[clips_light_blue]', String(clipCounts['light-blue']))
   params.append('metadata[clips_dark_blue]', String(clipCounts['dark-blue']))
   params.append('metadata[clips_black]', String(clipCounts.black))

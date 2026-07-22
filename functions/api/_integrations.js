@@ -86,7 +86,7 @@ function firstName(order) {
 }
 
 // Itemized order summary. Line-item descriptions already carry the color(s),
-// e.g. "Sponge 2-Pack — Black, Pink" or "Sponge Hydration Tracker — Light Blue".
+// e.g. "Sponge 2-Pack - Black, Pink" or "Sponge Hydration Tracker - Light Blue".
 function itemsTable(order) {
   const rows = (order.items || [])
     .map(
@@ -150,7 +150,7 @@ export function customerEmailHtml(order) {
 
 export function teamEmailHtml(order) {
   return `<div style="font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;max-width:600px;margin:auto;color:#111;">
-    <h1 style="font-size:19px;">New order received — ${order.orderNumber || ''}</h1>
+    <h1 style="font-size:19px;">New order received - ${order.orderNumber || ''}</h1>
     <p style="font-size:15px;color:#444;"><strong>${order.email || 'unknown'}</strong> · ${money(
       order.amount,
       order.currency

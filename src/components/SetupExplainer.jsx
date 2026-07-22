@@ -22,7 +22,7 @@ const STEPS = [
     id: 'attach',
     label: 'Attach',
     title: 'Snap it under your bottle',
-    body: 'The magnetic mount clicks onto the bottom of the bottle you already own — steel, plastic, or glass.',
+    body: 'The magnetic mount clicks onto the bottom of the bottle you already own, steel, plastic, or glass.',
     dur: 5000,
   },
   {
@@ -36,7 +36,7 @@ const STEPS = [
     id: 'sip',
     label: 'Sip & repeat',
     title: 'Sip, set it down, repeat',
-    body: 'Sponge compares readings between sips to measure exactly how much you drank — all day, automatically.',
+    body: 'Sponge compares readings between sips to measure exactly how much you drank, all day, automatically.',
     dur: 6400,
   },
 ]

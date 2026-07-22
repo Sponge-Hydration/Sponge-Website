@@ -3,7 +3,7 @@
 //   GET   -> approved customer reviews, for the site to display
 //   POST  -> writes a new review submission into the Airtable reviews table
 //
-// The site updates the moment a review is approved in Airtable — no redeploy.
+// The site updates the moment a review is approved in Airtable - no redeploy.
 // GET responses are edge-cached for 10 minutes to keep API usage negligible.
 //
 // Required env vars (set in the Cloudflare Pages dashboard, never committed):
@@ -11,9 +11,9 @@
 //   AIRTABLE_BASE_ID        base id, looks like appXXXXXXXXXXXXXX
 //   AIRTABLE_REVIEWS_TABLE  table name or id (defaults to "Reviews")
 //
-// Airtable column names — verified against the live base (apppnrhDp10j1dZ7c).
+// Airtable column names - verified against the live base (apppnrhDp10j1dZ7c).
 const FIELDS = {
-  overall: 'Overall Rating', // number 1–5
+  overall: 'Overall Rating', // number 1-5
   device: 'Device Rating', // Great / Good / Okay / Poor
   app: 'App Rating',
   setup: 'Setup Rating',
@@ -22,7 +22,7 @@ const FIELDS = {
   useCases: 'Use Cases', // TEXT field storing a comma-separated list
   feedback: 'Open Feedback', // long text
   email: 'Email', // optional
-  nps: 'NPS Score', // optional number 0–10
+  nps: 'NPS Score', // optional number 0-10
 }
 
 // Which column decides whether a review is shown on the site. Add a checkbox
@@ -132,7 +132,7 @@ export async function onRequestPost({ request, env }) {
   if (rating(body.setup)) fields[FIELDS.setup] = body.setup
   if (rating(body.packaging)) fields[FIELDS.packaging] = body.packaging
   if (body.discovery) fields[FIELDS.discovery] = String(body.discovery).slice(0, 100)
-  // "Use Cases" is a text field — store the selections as a comma-separated list.
+  // "Use Cases" is a text field - store the selections as a comma-separated list.
   if (Array.isArray(body.useCases) && body.useCases.length) {
     fields[FIELDS.useCases] = body.useCases.map((u) => String(u).slice(0, 60)).slice(0, 12).join(', ')
   }

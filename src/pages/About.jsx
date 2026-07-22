@@ -15,7 +15,7 @@ export default function About() {
           <span className="eyebrow">Our story</span>
           <h1>We think hydration should be effortless</h1>
           <p className="hero__sub">
-            Sponge started with a simple frustration: every hydration product asked us to do more —
+            Sponge started with a simple frustration: every hydration product asked us to do more -
             log water by hand, buy a new bottle, remember to drink. We wanted the opposite. A tracker
             that disappears into your day and just works.
           </p>
@@ -32,7 +32,7 @@ export default function About() {
         <div className="container prose">
           <h2>Our mission</h2>
           <p>
-            Chronic mild dehydration is one of the most common and overlooked health issues — and the
+            Chronic mild dehydration is one of the most common and overlooked health issues, and the
             fixes on the market all rely on willpower. We set out to build a hydration tracker that
             removes the friction entirely: no logging, no new bottle, no nagging you can tune out.
           </p>
@@ -40,7 +40,7 @@ export default function About() {
           <p>
             Instead of locking the sensor inside a single bottle, we put it in a tiny clip that works
             with the bottle you already carry. That one decision makes Sponge flexible enough to fit
-            any routine — at your desk, in the gym bag, or in a parent’s kitchen.
+            any routine, at your desk, in the gym bag, or in a parent’s kitchen.
           </p>
           <h3>Behavior, not just data</h3>
           <p>

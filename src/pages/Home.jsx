@@ -1,19 +1,27 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
+import { useCart } from '../cart/CartContext'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, TargetIcon } from '../components/icons'
 
 const features = [
-  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink — no buttons, no manual logging, no guessing how much water you’ve had.' },
+  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.' },
   { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.' },
   { icon: BatteryIcon, title: '8-day battery', text: 'Go a full week-plus between charges, then top up in a couple of hours over USB-C. Charge it Sunday, forget about it.' },
   { icon: PhoneIcon, title: 'Free iOS & Android app', text: 'Your hydration syncs automatically to a clean dashboard with daily goals, streaks, and trends you can actually act on.' },
   { icon: LockIcon, title: 'App-lock motivation', text: 'Choose the apps that distract you and Sponge keeps them locked until you hit your water goal. Hydration with real follow-through.' },
-  { icon: TargetIcon, title: 'Personalized goals', text: 'Goals adapt to your body, activity, and climate, so your target reflects what you actually need — not a generic 8 glasses.' },
+  { icon: TargetIcon, title: 'Personalized goals', text: 'Goals adapt to your body, activity, and climate, so your target reflects what you actually need, not a generic 8 glasses.' },
 ]
 
 export default function Home() {
+  const { add } = useCart()
+  const navigate = useNavigate()
+  // One-click: drop a single Sponge in the cart and go straight to checkout.
+  const checkoutSingle = () => {
+    add('sponge-clip', 1)
+    navigate('/checkout')
+  }
   return (
     <>
       <Seo
@@ -29,7 +37,7 @@ export default function Home() {
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your
-              water intake — every sip, from the bottle you already own. Clip it on, drink, and let
+              water intake, every sip, from the bottle you already own. Clip it on, drink, and let
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
@@ -91,10 +99,10 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container section-head">
           <span className="eyebrow">The problem</span>
-          <h2>Most people are dehydrated — and don’t even know it</h2>
+          <h2>Most people are dehydrated, and don’t even know it</h2>
           <p>
             Reminders get ignored. Manual water-tracking apps get abandoned in a week. And smart
-            bottles force you to ditch the bottle you love. Hydration shouldn’t take willpower — it
+            bottles force you to ditch the bottle you love. Hydration shouldn’t take willpower, it
             should just happen. That’s exactly what Sponge does.
           </p>
         </div>
@@ -113,7 +121,7 @@ export default function Home() {
             </div>
             <div className="step step--media">
               <img className="step__img" src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
-              <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip — zero logging.</p></div>
+              <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.</p></div>
             </div>
             <div className="step step--media">
               <img className="step__img step__img--app" src="/media/how/step3-app.webp" alt="Sponge app showing hydration progress" />
@@ -127,7 +135,7 @@ export default function Home() {
       <section className="lifestyle-band" aria-hidden="true">
         <img src="/media/lifestyle/track.jpg" alt="" />
         <div className="lifestyle-band__overlay">
-          <p className="lifestyle-band__quote">Hydration that keeps up with you — on the court, at the desk, everywhere.</p>
+          <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>
       </section>
 
@@ -162,7 +170,7 @@ export default function Home() {
             </h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: 18, margin: '0 0 8px' }}>
               Sponge’s app can lock the apps that distract you most until you reach your daily
-              hydration goal. It’s the accountability a normal water tracker can’t give you — and it
+              hydration goal. It’s the accountability a normal water tracker can’t give you, and it
               actually works.
             </p>
             <ul className="checklist">
@@ -208,7 +216,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Reviews — live from Airtable, hidden when empty */}
+      {/* Reviews, live from Airtable, hidden when empty */}
       <Reviews />
 
       {/* CTA band */}
@@ -217,7 +225,7 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Join 120+ people building a real hydration habit with the clip-on tracker that works with any bottle.</p>
-            <Link to="/products" className="btn btn--ghost btn--lg">Checkout — $59.99</Link>
+            <button type="button" className="btn btn--ghost btn--lg" onClick={checkoutSingle}>Checkout - $59.99</button>
           </div>
         </div>
       </section>
@@ -236,7 +244,7 @@ export default function Home() {
           <h3>Works with the water bottle you already own</h3>
           <p>
             Unlike a smart water bottle that forces you to replace your favorite tumbler, Sponge’s
-            magnetic clip attaches to virtually any bottle — insulated steel, plastic, or glass. That
+            magnetic clip attaches to virtually any bottle, insulated steel, plastic, or glass. That
             makes it one of the most flexible <strong>automatic hydration trackers</strong> you can buy:
             keep your bottle, add the tracking.
           </p>

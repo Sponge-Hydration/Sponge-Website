@@ -1,11 +1,11 @@
 // US-only shipping (USPS Ground Advantage), priced by total package weight.
 //
-// ⚠️ The SERVER is authoritative — functions/api/create-checkout-session.js has
+// ⚠️ The SERVER is authoritative, functions/api/create-checkout-session.js has
 // a matching copy of PER_ITEM_OZ and TIERS. Keep the two in sync.
 //
 // Note: true USPS Ground rates also vary by destination zone (distance), which
 // needs a USPS zone lookup we don't have. These are flat US rates per weight
-// tier — edit them to your real USPS Ground Advantage prices.
+// tier, edit them to your real USPS Ground Advantage prices.
 
 export const PER_ITEM_OZ = 4 // each product weighs 4 oz
 

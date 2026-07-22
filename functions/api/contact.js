@@ -2,7 +2,7 @@
 //
 // Receives the contact form and emails it to the team via the same Gmail
 // integration the order webhook uses. Returns JSON so the client can show an
-// honest success/failure state — the form must never pretend a message was
+// honest success/failure state - the form must never pretend a message was
 // sent when it wasn't.
 
 import { gmailConfigured, sendGmail } from './_integrations.js'
@@ -42,7 +42,7 @@ export async function onRequestPost({ request, env }) {
   try {
     await sendGmail(env, {
       to,
-      subject: `Contact form: ${subject} — ${name}`,
+      subject: `Contact form: ${subject} - ${name}`,
       html: `
         <h2>Website contact form</h2>
         <p><strong>From:</strong> ${esc(name)} &lt;${esc(email)}&gt;</p>

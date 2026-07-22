@@ -34,7 +34,7 @@ export default function Checkout() {
           <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
           <h2>Order confirmed!</h2>
           <p>
-            Thanks for pre-ordering Sponge. Payment received — your card statement will show
+            Thanks for pre-ordering Sponge. Payment received, your card statement will show
             Sponge Hydration, and we’ve sent a confirmation to your email with a link to track
             your order.
           </p>
@@ -129,7 +129,7 @@ export default function Checkout() {
                 onClick={payWithStripe}
                 disabled={loading}
               >
-                {loading ? 'Redirecting…' : `Pay with card — ${usd(total)}`}
+                {loading ? 'Redirecting…' : `Pay with card - ${usd(total)}`}
               </button>
               <p className="checkout-form__demo"><LockIcon size={14} /> Payments are processed securely by Stripe.</p>
             </fieldset>

@@ -19,7 +19,7 @@ export default function HowItWorks() {
         <div className="container">
           <SectionHead eyebrow="Setup" title="Up and running in two minutes">
             No tools, no complicated pairing. Watch how Sponge goes from the box to tracking
-            every sip — then explore each step yourself.
+            every sip, then explore each step yourself.
           </SectionHead>
           <SetupExplainer />
           <div className="setup-video">

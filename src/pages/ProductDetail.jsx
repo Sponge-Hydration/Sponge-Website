@@ -9,7 +9,7 @@ import { useCart } from '../cart/CartContext'
 export default function ProductDetail() {
   const { slug } = useParams()
   const found = productBySlug(slug)
-  // Hidden SKUs are not for sale — treat them like they don't exist.
+  // Hidden SKUs are not for sale, treat them like they don't exist.
   const product = found && !found.hidden ? found : null
   const { add } = useCart()
   const navigate = useNavigate()
@@ -44,7 +44,7 @@ export default function ProductDetail() {
   return (
     <section className="section">
       <Seo
-        title={`${product.name} — ${usd(product.price)} | Sponge Hydration Tracker`}
+        title={`${product.name} - ${usd(product.price)} | Sponge Hydration Tracker`}
         description={`${product.short} ${product.ships}. Free app, 8-day battery, 30-day money-back guarantee.`}
         path={`/shop/p/${product.slug}`}
       />
@@ -109,7 +109,7 @@ export default function ProductDetail() {
                   <span aria-live="polite">{qty}</span>
                   <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
                 </div>
-                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now — {usd(product.price * qty)}</button>
+                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now - {usd(product.price * qty)}</button>
                 <button className="btn btn--ghost btn--lg" onClick={addToCart}>
                   {added ? '✓ Added to cart' : 'Add to cart'}
                 </button>

@@ -58,7 +58,7 @@ export default function Dashboard() {
                 <span>{(current / 1000).toFixed(2)}L / {(goal / 1000).toFixed(1)}L</span>
               </div>
             </div>
-            <p className="dash-card__hint">{(goal - current)} ml to go — about 2 more glasses.</p>
+            <p className="dash-card__hint">{(goal - current)} ml to go, about 2 more glasses.</p>
           </div>
 
           {/* Stats */}

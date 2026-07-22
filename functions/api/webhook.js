@@ -1,15 +1,15 @@
 // Cloudflare Pages Function: POST /api/webhook
 //
 // Receives Stripe webhook events, verifies the signature, and acts on
-// `checkout.session.completed` — the reliable signal that a payment cleared.
+// `checkout.session.completed` - the reliable signal that a payment cleared.
 //
 // Signature verification uses Web Crypto (SubtleCrypto), so it runs on the
 // Cloudflare/Workers runtime without the Node Stripe SDK.
 //
 // Env vars:
-//   STRIPE_WEBHOOK_SECRET — the signing secret (whsec_...). Locally this comes
+//   STRIPE_WEBHOOK_SECRET - the signing secret (whsec_...). Locally this comes
 //     from `stripe listen`; in production from the Stripe Dashboard webhook.
-//   STRIPE_SECRET_KEY — used to fetch the order's line items for fulfillment.
+//   STRIPE_SECRET_KEY - used to fetch the order's line items for fulfillment.
 
 import { gmailConfigured, sendGmail, customerEmailHtml, teamEmailHtml } from './_integrations.js'
 import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets.js'
@@ -125,7 +125,7 @@ async function handleCheckoutCompleted(session, env) {
 
   console.log('✅ Order paid:', JSON.stringify(order))
 
-  // Fire the three side effects independently — a failure in one must not
+  // Fire the three side effects independently - a failure in one must not
   // block the others, and must not make Stripe retry the whole delivery.
   const team = env.TEAM_EMAIL || 'team@spongehydration.com'
   const tasks = {
@@ -143,7 +143,7 @@ async function handleCheckoutCompleted(session, env) {
     teamEmail: gmailConfigured(env)
       ? sendGmail(env, {
           to: team,
-          subject: `New order — ${money(order.amount, order.currency)} (${order.email || 'unknown'})`,
+          subject: `New order - ${money(order.amount, order.currency)} (${order.email || 'unknown'})`,
           html: teamEmailHtml(order),
         })
       : Promise.reject(new Error('Gmail not configured')),
@@ -154,7 +154,7 @@ async function handleCheckoutCompleted(session, env) {
   results.forEach((r, i) => {
     const name = entries[i][0]
     if (r.status === 'fulfilled') console.log(`   ↳ ${name}: ok`)
-    else console.warn(`   ↳ ${name}: FAILED — ${r.reason?.message || r.reason}`)
+    else console.warn(`   ↳ ${name}: FAILED - ${r.reason?.message || r.reason}`)
   })
 }
 

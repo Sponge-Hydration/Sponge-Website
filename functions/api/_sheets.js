@@ -1,12 +1,12 @@
-// Google Sheets append via a service account — no Apps Script deploy needed.
+// Google Sheets append via a service account - no Apps Script deploy needed.
 // Signs a JWT with the service account private key (Web Crypto / RSASSA-PKCS1
 // SHA-256), exchanges it for an access token, and appends the order row.
 //
 // Env vars:
-//   GOOGLE_SA_EMAIL        — service account client_email
-//   GOOGLE_SA_PRIVATE_KEY  — service account private_key (PEM; \n escapes OK)
-//   GOOGLE_SHEET_ID        — the spreadsheet ID (from its URL)
-//   SHEET_TAB_NAME         — tab to write to (default "2026")
+//   GOOGLE_SA_EMAIL        - service account client_email
+//   GOOGLE_SA_PRIVATE_KEY  - service account private_key (PEM; \n escapes OK)
+//   GOOGLE_SHEET_ID        - the spreadsheet ID (from its URL)
+//   SHEET_TAB_NAME         - tab to write to (default "2026")
 
 const SCOPE = 'https://www.googleapis.com/auth/spreadsheets'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { SectionHead } from './bits'
 import { reviews as bakedReviews } from '../data'
 
-// Star row for one real review — shows that review's actual rating.
+// Star row for one real review, shows that review's actual rating.
 export function ReviewStars({ value = 5 }) {
   const stars = Math.max(1, Math.min(5, Math.round(value)))
   return (
@@ -15,7 +15,7 @@ export function ReviewStars({ value = 5 }) {
 }
 
 // One review card. The survey collected no names, so each card is attributed
-// to a "Verified customer" with the use case they selected — honest, never an
+// to a "Verified customer" with the use case they selected, honest, never an
 // invented persona.
 export function ReviewCard({ review }) {
   return (
@@ -36,7 +36,7 @@ export function ReviewCard({ review }) {
 // Homepage reviews section. Prerenders with the baked-in list from data.js,
 // then refreshes from the Airtable-backed /api/reviews on the client so newly
 // approved reviews appear without a redeploy. Only renders reviews that carry
-// real written feedback — never placeholders or invented ones.
+// real written feedback, never placeholders or invented ones.
 export default function Reviews() {
   const [reviews, setReviews] = useState(bakedReviews)
 

@@ -42,7 +42,7 @@ export default function Account() {
               <>Already have an account? <button className="link-btn" onClick={() => setMode('signin')}>Sign in</button></>
             )}
           </p>
-          <p className="auth__demo">Demo account — any details open the sample <Link to="/dashboard">dashboard</Link>.</p>
+          <p className="auth__demo">Demo account, any details open the sample <Link to="/dashboard">dashboard</Link>.</p>
         </div>
       </div>
     </section>

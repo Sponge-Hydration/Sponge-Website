@@ -23,7 +23,7 @@ const USE_CASES = [
   'Gift for someone',
 ]
 
-// Interactive 1–5 star picker.
+// Interactive 1-5 star picker.
 function StarPicker({ value, onChange }) {
   const [hover, setHover] = useState(0)
   return (
@@ -119,12 +119,12 @@ export default function ReviewsPage() {
     <section className="section">
       <Seo
         title="Sponge Reviews | What Customers Say"
-        description="Real reviews from Sponge hydration tracker owners — and a place to share your own experience."
+        description="Real reviews from Sponge hydration tracker owners, and a place to share your own experience."
         path="/reviews"
       />
       <div className="container">
         <SectionHead eyebrow="Reviews" title="What Sponge customers say">
-          Honest, unedited feedback from early Sponge owners — and your chance to add yours.
+          Honest, unedited feedback from early Sponge owners, and your chance to add yours.
         </SectionHead>
 
         {reviews.length > 0 && (
@@ -141,7 +141,7 @@ export default function ReviewsPage() {
             <div className="empty-state" style={{ padding: '40px 20px' }}>
               <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
               <h2>Thank you!</h2>
-              <p>Your review was submitted. We read every one — thanks for helping make Sponge better.</p>
+              <p>Your review was submitted. We read every one, thanks for helping make Sponge better.</p>
             </div>
           ) : (
             <form className="checkout-form review-form" onSubmit={submit}>
@@ -155,7 +155,7 @@ export default function ReviewsPage() {
                   <label key={c.key}>
                     {c.label}
                     <select name={c.key} defaultValue="">
-                      <option value="">—</option>
+                      <option value="">Select</option>
                       {RATING_WORDS.map((w) => (
                         <option key={w}>{w}</option>
                       ))}
@@ -175,7 +175,7 @@ export default function ReviewsPage() {
               </label>
 
               <label>
-                How likely are you to recommend Sponge to a friend? (0–10)
+                How likely are you to recommend Sponge to a friend? (0-10)
                 <select name="nps" defaultValue="">
                   <option value="">Prefer not to say</option>
                   {Array.from({ length: 11 }, (_, n) => (
@@ -207,11 +207,11 @@ export default function ReviewsPage() {
               </label>
 
               <label>
-                Email <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional — only so we can follow up, never published)</span>
+                Email <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional, only so we can follow up, never published)</span>
                 <input name="email" type="email" placeholder="you@email.com" />
               </label>
 
-              {/* Honeypot — hidden from real users, catches bots. */}
+              {/* Honeypot, hidden from real users, catches bots. */}
               <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }} />
 
               {status === 'error' && (

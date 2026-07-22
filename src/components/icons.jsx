@@ -1,4 +1,4 @@
-// Inline SVG icon set — replaces all emoji used as UI across the site.
+// Inline SVG icon set, replaces all emoji used as UI across the site.
 // Stroke-based, inherits `currentColor`, sized via the `size` prop.
 
 const base = {

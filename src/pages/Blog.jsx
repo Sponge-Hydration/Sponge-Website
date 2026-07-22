@@ -9,7 +9,7 @@ export default function Blog() {
     <section className="section">
       <Seo
         title={'The Sponge Blog | Hydration Science, Tips & Tracker Guides'}
-        description="Practical guides on how much water to drink, signs of dehydration, and choosing the right hydration tracking device — from the team behind Sponge."
+        description="Practical guides on how much water to drink, signs of dehydration, and choosing the right hydration tracking device, from the team behind Sponge."
         path="/blog"
       />
       <div className="container">

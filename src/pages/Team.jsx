@@ -7,7 +7,7 @@ export default function Team() {
     <section className="section">
       <Seo
         title="Meet the Team | Sponge Hydration"
-        description="The people building Sponge — the clip-on hydration tracker that works with any water bottle."
+        description="The people building Sponge, the clip-on hydration tracker that works with any water bottle."
         path="/team"
       />
       <div className="container">

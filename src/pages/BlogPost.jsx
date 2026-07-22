@@ -36,7 +36,7 @@ export default function BlogPost() {
           <div className="article__cta">
             <h3>Track your hydration automatically</h3>
             <p>Sponge clips onto any bottle and logs every sip for you. Build the habit without the willpower.</p>
-            <Link to="/products" className="btn btn--primary btn--lg">Order Sponge — $59.99</Link>
+            <Link to="/products" className="btn btn--primary btn--lg">Order Sponge - $59.99</Link>
           </div>
         </article>
 
