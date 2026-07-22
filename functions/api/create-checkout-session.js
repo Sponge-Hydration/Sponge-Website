@@ -30,6 +30,18 @@ const AVAILABLE_COLORS = ['black', 'white']
 const DEFAULT_COLOR = 'black'
 const coerceColor = (c) => (AVAILABLE_COLORS.includes(c) ? c : DEFAULT_COLOR)
 
+// Authoritative shipping rates (cents). ⚠️ Keep in sync with src/shipping.js.
+// Edit these to your real rates. freeOverCents = free shipping at/above subtotal.
+const SHIP_ZONES = {
+  US: { flatCents: 499, freeOverCents: 7500 },
+  CA: { flatCents: 1499, freeOverCents: 15000 },
+}
+const shippingCents = (country, subtotalCents) => {
+  const z = SHIP_ZONES[country] || SHIP_ZONES.US
+  if (z.freeOverCents != null && subtotalCents >= z.freeOverCents) return 0
+  return z.flatCents
+}
+
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } })
 
@@ -50,14 +62,17 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Cart is empty.' }, 400)
   }
 
+  // Ship-to country picked on our checkout page. Lock the session to it so the
+  // shipping charge can't desync from a country change on Stripe's page.
+  const country = SHIP_ZONES[body?.country] ? body.country : 'US'
+
   const origin = new URL(request.url).origin
   const params = new URLSearchParams()
   params.set('mode', 'payment')
   params.set('success_url', `${origin}/checkout?status=success&session_id={CHECKOUT_SESSION_ID}`)
   params.set('cancel_url', `${origin}/cart`)
   params.set('billing_address_collection', 'auto')
-  params.append('shipping_address_collection[allowed_countries][0]', 'US')
-  params.append('shipping_address_collection[allowed_countries][1]', 'CA')
+  params.append('shipping_address_collection[allowed_countries][0]', country)
 
   // Tally structured data for the order sheet — Stripe line items only carry a
   // text description, so we stash exact per-color and per-SKU counts in the
@@ -66,6 +81,7 @@ export async function onRequestPost({ request, env }) {
   const skuCounts = { 'sponge-clip': 0, 'sponge-family': 0, 'sponge-adhesive-3pack': 0 }
 
   let line = 0
+  let subtotalCents = 0
   for (const item of cart) {
     const product = CATALOG[item?.id]
     const qty = Math.max(1, Math.min(99, parseInt(item?.qty, 10) || 0))
@@ -80,6 +96,7 @@ export async function onRequestPost({ request, env }) {
     params.append(`line_items[${line}][price_data][product_data][name]`, name)
     params.append(`line_items[${line}][price_data][product_data][images][0]`, `${origin}${product.img}`)
     line++
+    subtotalCents += product.amount * qty
 
     if (item.id in skuCounts) skuCounts[item.id] += qty
     for (const c of colors) if (c in clipCounts) clipCounts[c] += qty
@@ -88,6 +105,16 @@ export async function onRequestPost({ request, env }) {
   if (line === 0) {
     return json({ error: 'No valid items in cart.' }, 400)
   }
+
+  // Location-based shipping: a single fixed rate for the chosen country.
+  const shipAmount = shippingCents(country, subtotalCents)
+  params.append('shipping_options[0][shipping_rate_data][type]', 'fixed_amount')
+  params.append('shipping_options[0][shipping_rate_data][fixed_amount][amount]', String(shipAmount))
+  params.append('shipping_options[0][shipping_rate_data][fixed_amount][currency]', 'usd')
+  params.append(
+    'shipping_options[0][shipping_rate_data][display_name]',
+    shipAmount === 0 ? 'Free shipping' : 'Standard shipping'
+  )
 
   // Metadata (string values) — keys mirror the webhook's expectations.
   params.append('metadata[clips_light_blue]', String(clipCounts['light-blue']))

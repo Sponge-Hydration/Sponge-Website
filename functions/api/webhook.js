@@ -83,6 +83,7 @@ async function handleCheckoutCompleted(session, env) {
     paymentStatus: session.payment_status,
     email: session.customer_details?.email || null,
     amount: (session.amount_total || 0) / 100,
+    shippingCost: (session.shipping_cost?.amount_total ?? session.total_details?.amount_shipping ?? 0) / 100,
     currency: session.currency,
     shipping: session.shipping_details || session.collected_information?.shipping_details || null,
     items,

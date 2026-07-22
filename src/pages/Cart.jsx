@@ -42,8 +42,6 @@ export default function Cart() {
     )
   }
 
-  const shipping = 0
-  const total = subtotal + shipping
 
   return (
     <section className="section">
@@ -115,8 +113,8 @@ export default function Cart() {
             <h3>Order summary</h3>
             <div className="cart-summary__row"><span>Items</span><span>{items.length}</span></div>
             <div className="cart-summary__row"><span>Subtotal</span><span>{usd(subtotal)}</span></div>
-            <div className="cart-summary__row"><span>Shipping</span><span>Free</span></div>
-            <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)}</span></div>
+            <div className="cart-summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>
+            <div className="cart-summary__row cart-summary__total"><span>Subtotal</span><span>{usd(subtotal)}</span></div>
             <Link to="/checkout" className="btn btn--primary btn--lg btn--block">Checkout</Link>
             <Link to="/products" className="cart-summary__cont">← Continue shopping</Link>
             <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>

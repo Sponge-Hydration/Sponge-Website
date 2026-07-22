@@ -155,7 +155,7 @@ function orderToRow(o, orderNumber) {
     a.line1 || '', a.city || '', a.state || '', a.postal_code || '', a.country || '',
     clips.black || 0, clips.white || 0, clips.lightBlue || 0, clips.darkBlue || 0, clips.lightGray || 0, clips.pink || 0,
     '', '', '', // Coaster Black/White, Magnetic Adhesive (discontinued)
-    items, 'New', '', '', '', // Items Summary, Status, Shipping_Cost, Tracking_Number, Delivery Date
+    items, 'New', o.shippingCost || '', '', '', // Items Summary, Status, Shipping_Cost, Tracking_Number, Delivery Date
     daysSince,
   ]
 }

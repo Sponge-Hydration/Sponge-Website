@@ -107,7 +107,7 @@ function itemsTable(order) {
     </thead>
     <tbody>${rows}</tbody>
     <tfoot>
-      <tr><td style="padding:10px 0 0;color:#444;">Shipping</td><td></td><td style="padding:10px 0 0;text-align:right;color:#444;">Free</td></tr>
+      <tr><td style="padding:10px 0 0;color:#444;">Shipping</td><td></td><td style="padding:10px 0 0;text-align:right;color:#444;">${order.shippingCost ? money(order.shippingCost, order.currency) : 'Free'}</td></tr>
       <tr style="font-weight:700;font-size:15px;"><td style="padding:6px 0;">Total</td><td></td><td style="padding:6px 0;text-align:right;">${money(order.amount, order.currency)}</td></tr>
     </tfoot>
   </table>`

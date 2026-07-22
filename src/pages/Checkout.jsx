@@ -4,12 +4,17 @@ import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
+import { SHIP_COUNTRIES, shippingQuote } from '../shipping'
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
   const [searchParams] = useSearchParams()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [country, setCountry] = useState('US')
+
+  const shipping = shippingQuote(country, subtotal)
+  const total = subtotal + shipping
 
   const success = searchParams.get('status') === 'success'
 
@@ -84,7 +89,7 @@ export default function Checkout() {
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items: grouped }),
+        body: JSON.stringify({ items: grouped, country }),
       })
       const raw = await res.text()
       let data
@@ -113,10 +118,28 @@ export default function Checkout() {
         <div className="checkout-layout">
           <div className="checkout-form">
             <fieldset>
+              <legend>Shipping destination</legend>
+              <label style={{ display: 'block' }}>
+                Ship to
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  style={{ display: 'block', width: '100%', marginTop: 6, padding: '10px 12px', borderRadius: 10, border: '1.5px solid var(--line)', fontSize: 15 }}
+                >
+                  {SHIP_COUNTRIES.map((c) => (
+                    <option key={c.code} value={c.code}>{c.label}</option>
+                  ))}
+                </select>
+              </label>
+              <p className="checkout-form__demo" style={{ marginTop: 8 }}>
+                Shipping is calculated for your country. You’ll enter your full address on the next step.
+              </p>
+            </fieldset>
+            <fieldset>
               <legend>Secure payment</legend>
               <p>
-                You’ll be redirected to Stripe’s secure checkout to enter your contact, shipping,
-                and payment details. We never see or store your card information.
+                You’ll be redirected to Stripe’s secure checkout to enter your contact and payment
+                details. We never see or store your card information.
               </p>
               {error && <p style={{ color: 'crimson' }}>{error}</p>}
               <button
@@ -125,7 +148,7 @@ export default function Checkout() {
                 onClick={payWithStripe}
                 disabled={loading}
               >
-                {loading ? 'Redirecting…' : `Pay with card — ${usd(subtotal)}`}
+                {loading ? 'Redirecting…' : `Pay with card — ${usd(total)}`}
               </button>
               <p className="checkout-form__demo"><LockIcon size={14} /> Payments are processed securely by Stripe.</p>
             </fieldset>
@@ -139,8 +162,8 @@ export default function Checkout() {
                 <span>{usd(i.lineTotal)}</span>
               </div>
             ))}
-            <div className="cart-summary__row"><span>Shipping</span><span>Free</span></div>
-            <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(subtotal)}</span></div>
+            <div className="cart-summary__row"><span>Shipping</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
+            <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)}</span></div>
             <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>
           </aside>
         </div>
