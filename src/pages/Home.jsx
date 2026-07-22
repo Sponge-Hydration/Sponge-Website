@@ -217,7 +217,7 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Join 120+ people building a real hydration habit with the clip-on tracker that works with any bottle.</p>
-            <Link to="/products" className="btn btn--ghost btn--lg">Order Sponge</Link>
+            <Link to="/products" className="btn btn--ghost btn--lg">Checkout — $59.99</Link>
           </div>
         </div>
       </section>
