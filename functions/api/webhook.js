@@ -71,7 +71,8 @@ async function handleCheckoutCompleted(session, env) {
       items = (data.data || []).map((li) => ({
         description: li.description,
         qty: li.quantity,
-        amount: (li.amount_total || 0) / 100,
+        // Tax-exclusive line amount; tax is shown once as its own order line.
+        amount: (li.amount_subtotal ?? li.amount_total ?? 0) / 100,
       }))
     }
   }
@@ -83,7 +84,10 @@ async function handleCheckoutCompleted(session, env) {
     paymentStatus: session.payment_status,
     email: session.customer_details?.email || null,
     amount: (session.amount_total || 0) / 100,
-    shippingCost: (session.shipping_cost?.amount_total ?? session.total_details?.amount_shipping ?? 0) / 100,
+    // Shipping and tax kept tax-exclusive / separate so the email math adds up:
+    // sum(item amounts) + shippingCost + tax === amount.
+    shippingCost: (session.total_details?.amount_shipping ?? session.shipping_cost?.amount_subtotal ?? 0) / 100,
+    tax: (session.total_details?.amount_tax ?? 0) / 100,
     currency: session.currency,
     shipping: session.shipping_details || session.collected_information?.shipping_details || null,
     items,

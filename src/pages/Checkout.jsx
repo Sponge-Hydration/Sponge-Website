@@ -4,7 +4,7 @@ import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
-import { shippingForItems } from '../shipping'
+import { shippingForCart } from '../shipping'
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
@@ -12,7 +12,9 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const shipping = shippingForItems(items.length)
+  const shipping = shippingForCart(items)
+  // Sales tax is destination-based and computed by Stripe on the hosted page
+  // from the address the customer enters, so we can't show an exact figure here.
   const total = subtotal + shipping
 
   const success = searchParams.get('status') === 'success'
@@ -129,7 +131,7 @@ export default function Checkout() {
                 onClick={payWithStripe}
                 disabled={loading}
               >
-                {loading ? 'Redirecting…' : `Pay with card - ${usd(total)}`}
+                {loading ? 'Redirecting…' : 'Continue to secure checkout'}
               </button>
               <p className="checkout-form__demo"><LockIcon size={14} /> Payments are processed securely by Stripe.</p>
             </fieldset>
@@ -143,8 +145,9 @@ export default function Checkout() {
                 <span>{usd(i.lineTotal)}</span>
               </div>
             ))}
-            <div className="cart-summary__row"><span>Shipping</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
-            <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)}</span></div>
+            <div className="cart-summary__row"><span>Shipping (USPS Ground)</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
+            <div className="cart-summary__row"><span>Sales tax</span><span>Calculated at checkout</span></div>
+            <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)} + tax</span></div>
             <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>
           </aside>
         </div>
