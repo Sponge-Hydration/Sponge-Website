@@ -25,15 +25,21 @@ stack/deploy/layout; this file is **current state + open to-dos**.
   `order-status`/`404` are `noindex` and excluded. Hidden SKU `sponge-2-pack` stays out.
 - **Dead code removed** from `functions/api/_integrations.js` (Apps Script `appendToSheet` +
   `GOOGLE_SHEET_WEBHOOK_URL`/`SHEET_SHARED_SECRET`); sheet writes are `_sheets.js` only.
+- **Real USPS Ground Advantage shipping** (2026-07-26): `GA_RETAIL` table (Notice 123, eff.
+  2026-07-12), flat by weight at `REP_ZONE=6` (origin ZIP 94044). Per-SKU weights; Family Pack
+  fixed to 16 oz (4 clips). Client dollars ↔ server cents mirrored. LIVE & verified (clip = $8.75).
+- **Sales tax via Stripe Tax** (2026-07-26): `automatic_tax` gated behind env `STRIPE_TAX_ENABLED`
+  (set to `true` in Cloudflare prod). Stripe Tax is configured in the dashboard (origin + CA reg);
+  live session creation verified succeeding. Emails/webhook thread tax so totals reconcile.
 
 ## Open to-dos
 1. **Rotate the Stripe TEST keys** shared earlier in chat (Dashboard → Test mode →
    API keys → roll). Live keys were never exposed.
 2. **Place one real LIVE test order** (real card, then refund in Stripe) to confirm
-   the live chain: payment → sheet row → emails → order-status link. Only tested in test mode.
-3. **Set real USPS shipping rates.** Currently placeholders — edit BOTH (keep in sync):
-   `src/shipping.js` (dollars) and `functions/api/create-checkout-session.js` (`SHIP_TIERS`, cents).
-   Also confirm Family Pack weight (currently treated as 4 oz like every item, but it holds 4 clips).
+   the live chain: payment → sheet row → emails → order-status link + tax line. Only tested in test mode.
+3. **Confirm shipping weights on a scale.** `SKU_WEIGHT_OZ` in both shipping files are ESTIMATES
+   (clip 4 oz, family 16 oz, adhesive 2 oz, +2 oz box). Adjust if real packages differ. Consider
+   whether `REP_ZONE` should be 7 (margin-safe) vs 6 (current) for the CA→nationwide mix.
 4. **#5 SEO — Search Console** (now unblocked): submit `sitemap.xml`, URL-inspect key pages.
    Sitemap itself is already reconciled with the routes (see Done); this is dashboard work only.
 5. **#8 Cleanup:**
