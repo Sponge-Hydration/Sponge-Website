@@ -16,4 +16,8 @@
   <url><loc>https://www.spongehydration.com/team</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://www.spongehydration.com/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.spongehydration.com/reviews</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.spongehydration.com/legal/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.spongehydration.com/legal/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.spongehydration.com/legal/returns</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.spongehydration.com/legal/warranty</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

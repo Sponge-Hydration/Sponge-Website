@@ -19,7 +19,12 @@ stack/deploy/layout; this file is **current state + open to-dos**.
 - **Shipping:** US-only, weight-based (4 oz/item) USPS tiers — rates are PLACEHOLDERS.
 - Colors restricted to **black/white** (retired colors coerced client + server).
 - **Dashboard & Account** entry points hidden (routes still resolve).
-- Token-opt config added: `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/shipping-sync.md`.
+- Token-opt config added & committed: `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/shipping-sync.md`.
+- **Sitemap reconciled with routes** (2026-07-26): added the 4 `/legal/*` pages; verified all 20
+  listed URLs prerender and carry `index, follow`, and that `cart`/`checkout`/`dashboard`/`account`/
+  `order-status`/`404` are `noindex` and excluded. Hidden SKU `sponge-2-pack` stays out.
+- **Dead code removed** from `functions/api/_integrations.js` (Apps Script `appendToSheet` +
+  `GOOGLE_SHEET_WEBHOOK_URL`/`SHEET_SHARED_SECRET`); sheet writes are `_sheets.js` only.
 
 ## Open to-dos
 1. **Rotate the Stripe TEST keys** shared earlier in chat (Dashboard → Test mode →
@@ -29,17 +34,13 @@ stack/deploy/layout; this file is **current state + open to-dos**.
 3. **Set real USPS shipping rates.** Currently placeholders — edit BOTH (keep in sync):
    `src/shipping.js` (dollars) and `functions/api/create-checkout-session.js` (`SHIP_TIERS`, cents).
    Also confirm Family Pack weight (currently treated as 4 oz like every item, but it holds 4 clips).
-4. **#5 SEO — Search Console** (now unblocked): submit `sitemap.xml`, URL-inspect key pages;
-   keep `/order-status` out of the sitemap (noindex). Reconcile sitemap with current routes.
+4. **#5 SEO — Search Console** (now unblocked): submit `sitemap.xml`, URL-inspect key pages.
+   Sitemap itself is already reconciled with the routes (see Done); this is dashboard work only.
 5. **#8 Cleanup:**
    - Delete stray **Worker** projects `spongehydration` + `sponge-hydration` (Cloudflare dashboard;
      token can't delete Workers). One squats the clean name.
    - Delete **TEST rows** in the `2026` sheet (~orders #55–60, incl. the sample tracking # on #60).
-   - Remove dead code in `functions/api/_integrations.js` (old Apps Script `appendToSheet` +
-     `GOOGLE_SHEET_WEBHOOK_URL`/`SHEET_SHARED_SECRET` — superseded by `_sheets.js`).
-6. **Commit the token-opt config** (`CLAUDE.md`, `.claude/settings.json`, `.claude/rules/`) —
-   created locally but NOT yet committed. Pushing triggers a no-op rebuild.
-7. **Trim MCP connectors** in the new session via `/mcp` (drop computer-use, Claude-in-Chrome,
+6. **Trim MCP connectors** in the new session via `/mcp` (drop computer-use, Claude-in-Chrome,
    scheduling/registry/session-mgmt, Gmail connector; keep browser preview, optionally Drive/Cloudflare).
    Do it at session start (mid-session toggles bust the prompt cache).
 

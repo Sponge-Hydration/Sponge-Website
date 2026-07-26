@@ -1,6 +1,6 @@
-// Shared integrations for the order webhook: Gmail API sending + Google Sheet
-// append. Underscore-prefixed files are NOT routed by Cloudflare Pages, so this
-// is a plain importable module.
+// Shared integrations for the order webhook: Gmail API sending + order email
+// templates. Sheet writes live in `_sheets.js`. Underscore-prefixed files are
+// NOT routed by Cloudflare Pages, so this is a plain importable module.
 
 const DEFAULT_FROM = 'team@spongehydration.com'
 const DEFAULT_TEAM = 'team@spongehydration.com'
@@ -56,19 +56,6 @@ export async function sendGmail(env, { to, subject, html }) {
   })
   if (!res.ok) throw new Error(`Gmail send error ${res.status}: ${await res.text()}`)
   return res.json()
-}
-
-// --- Google Sheet (via Apps Script web app) ------------------------------
-
-export async function appendToSheet(env, order) {
-  const res = await fetch(env.GOOGLE_SHEET_WEBHOOK_URL, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    // The Apps Script checks `secret` before appending.
-    body: JSON.stringify({ secret: env.SHEET_SHARED_SECRET || '', order }),
-  })
-  if (!res.ok) throw new Error(`Sheet append error ${res.status}: ${await res.text()}`)
-  return res.text()
 }
 
 // --- Email templates -----------------------------------------------------
