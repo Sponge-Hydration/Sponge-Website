@@ -39,7 +39,7 @@ const coerceColor = (c) => (AVAILABLE_COLORS.includes(c) ? c : DEFAULT_COLOR)
 // rate per weight tier from a representative zone (REP_ZONE). See src/shipping.js
 // for the full rationale and how to change REP_ZONE. Rates are Notice 123,
 // effective 2026-07-12 (pe.usps.com). Family Pack now weighs as 4 clips.
-const REP_ZONE = 5 // representative USPS zone (1–9) for the flat rate
+const REP_ZONE = 6 // representative USPS zone (1–9) for the flat rate (origin ZIP 94044)
 const SKU_WEIGHT_OZ = { 'sponge-clip': 4, 'sponge-family': 16, 'sponge-adhesive-3pack': 2 }
 const DEFAULT_ITEM_OZ = 4
 const BOX_OZ = 2 // packaging + padding, added once per shipment

@@ -27,8 +27,9 @@ every tier across zones 1–9 (Notice 123, effective **2026-07-12**).
 
 Hosted Checkout fixes shipping **before** the customer enters their address, so
 we can't know the real USPS zone. We charge the rate at a single representative
-zone, **`REP_ZONE`** (default 5, middle of the country). Raise it to protect
-margin on far shipments; lower it to be cheaper for nearby customers. Billing
+zone, **`REP_ZONE`** (default 6; we ship from ZIP 94044, so most customers fall
+in zones 7–8 and 6 is a blended average). Raise it (7) to protect margin on far
+shipments; lower it to be cheaper for nearby customers. Billing
 the exact per-order zone would require collecting the destination ZIP on
 `/checkout` before the Stripe redirect.
 

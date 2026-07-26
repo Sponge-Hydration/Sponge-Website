@@ -13,14 +13,17 @@
 // one representative zone (REP_ZONE). Change REP_ZONE to trade off:
 //   lower zone (1–3) → cheaper, we may eat cost on far/coast-to-coast orders;
 //   higher zone (7–9) → safer for us, overcharges nearby customers.
-// Zone 5 is a middle-of-the-country default. To bill the EXACT zone per order,
-// we'd need to collect the destination ZIP on /checkout before redirecting.
+// We ship from ZIP 94044 (Bay Area, CA). Most US customers are in the
+// Central/Eastern zones (7–8 from here), so zone 6 is a blended average that
+// doesn't undercharge the bulk of orders; zone 7 is the margin-safe option. To
+// bill the EXACT zone per order, we'd collect the destination ZIP on /checkout
+// before redirecting.
 //
 // Rates below are USPS Ground Advantage — Retail, Notice 123, effective
 // 2026-07-12 (pe.usps.com). Update them when USPS changes prices.
 
 // Representative USPS zone (1–9) used for the flat rate. See note above.
-export const REP_ZONE = 5
+export const REP_ZONE = 6
 
 // Per-SKU shipped product weight in ounces. ⚠️ ESTIMATES — confirm on a scale.
 // Family Pack holds 4 clips, so it weighs ~4× a single (the old model wrongly
