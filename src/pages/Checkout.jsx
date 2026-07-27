@@ -36,7 +36,7 @@ export default function Checkout() {
           <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
           <h2>Order confirmed!</h2>
           <p>
-            Thanks for pre-ordering Sponge. Payment received, your card statement will show
+            Thanks for ordering from Sponge Hydration. Your payment has been received, your card statement will show
             Sponge Hydration, and we’ve sent a confirmation to your email with a link to track
             your order.
           </p>
