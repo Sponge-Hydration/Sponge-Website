@@ -692,19 +692,22 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 @keyframes sx-ripple { 0% { opacity: 0.9; transform: scale(0.55); } 80% { opacity: 0; transform: scale(1.15); } 100% { opacity: 0; } }
 .sx-reading { opacity: 0; animation: sx-fade 0.5s 1.6s ease-out both; }
 
-/* scene: sip — bottle + device hinge together at the ground contact to sip,
-   then return upright; the water level drops a little and stays down */
-.sx-sip-tilt { transform-origin: 210px 216px; animation: sx-sip 2.6s ease-in-out both; }
+/* scene: sip — the joined unit lifts off the surface, tilts to sip, holds,
+   then untilts and sets back down; the water drops a little during the tilt.
+   Transforms read right-to-left: rotate about the base, then lift. */
+.sx-sip-tilt { transform-origin: 210px 216px; animation: sx-sip 2.8s ease-in-out both; }
 @keyframes sx-sip {
-  0% { transform: rotate(0deg); }
-  38% { transform: rotate(-17deg); }
-  62% { transform: rotate(-17deg); }
-  100% { transform: rotate(0deg); }
+  0%   { transform: translateY(0) rotate(0deg); }
+  22%  { transform: translateY(-22px) rotate(0deg); }   /* lift to the mouth */
+  46%  { transform: translateY(-22px) rotate(-22deg); } /* tilt to sip */
+  60%  { transform: translateY(-22px) rotate(-22deg); } /* hold the sip */
+  80%  { transform: translateY(-22px) rotate(0deg); }   /* level off */
+  100% { transform: translateY(0) rotate(0deg); }        /* set back down */
 }
-.sx-sip-tilt .sx-water { animation: sx-drink 2.6s ease-in-out both; }
+.sx-sip-tilt .sx-water { animation: sx-drink 2.8s ease-in-out both; }
 @keyframes sx-drink {
-  0%, 42% { transform: none; }
-  66%, 100% { transform: translateY(10px); }
+  0%, 44% { transform: none; }
+  62%, 100% { transform: translateY(10px); }
 }
 .sx-count { opacity: 0; transform-origin: 315px 101px; animation: sx-pop 0.5s 3.4s ease-out both; }
 .sx-loop { opacity: 0; animation: sx-fade 0.6s 4.2s ease-out both; }
