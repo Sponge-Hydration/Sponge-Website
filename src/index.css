@@ -709,6 +709,14 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
   0%, 44% { transform: none; }
   62%, 100% { transform: translateY(10px); }
 }
+/* cap lifts off the mouth as the bottle is raised, then reseats on set-down.
+   Pure translate (in the bottle's local space) so no transform-origin needed. */
+.sx-sip-tilt .sx-cap { animation: sx-cap-off 2.8s ease-in-out both; }
+@keyframes sx-cap-off {
+  0%, 16% { transform: translate(0, 0); }
+  32%, 66% { transform: translate(10px, -26px); }
+  84%, 100% { transform: translate(0, 0); }
+}
 .sx-count { opacity: 0; transform-origin: 315px 101px; animation: sx-pop 0.5s 3.4s ease-out both; }
 .sx-loop { opacity: 0; animation: sx-fade 0.6s 4.2s ease-out both; }
 

@@ -44,8 +44,8 @@ const STEPS = [
 function Bottle({ x = 0, y = 0, className = '' }) {
   return (
     <g className={className} transform={`translate(${x} ${y})`}>
-      {/* cap */}
-      <rect x="22" y="0" width="36" height="14" rx="5" fill="var(--ink, #10344f)" opacity="0.85" />
+      {/* cap (comes off only in the sip scene, via .sx-sip-tilt .sx-cap) */}
+      <rect className="sx-cap" x="22" y="0" width="36" height="14" rx="5" fill="var(--ink, #10344f)" opacity="0.85" />
       {/* body */}
       <path
         d="M8 26 Q8 14 20 14 h40 Q72 14 72 26 v96 q0 10 -10 10 H18 q-10 0 -10 -10 Z"
