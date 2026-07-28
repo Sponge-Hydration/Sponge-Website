@@ -86,7 +86,7 @@ export default function Home() {
               src="/media/lifestyle/showcase.webp"
               alt="Sponge trackers clipped onto an Owala and a Nalgene water bottle on the grass, next to Sponge packaging."
               width="800"
-              height="1200"
+              height="936"
               loading="lazy"
             />
           </div>
