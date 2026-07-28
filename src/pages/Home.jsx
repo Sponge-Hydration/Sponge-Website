@@ -83,7 +83,7 @@ export default function Home() {
           <div className="showcase showcase--photo">
             <img
               className="showcase__img"
-              src="/media/lifestyle/showcase.webp"
+              src="/media/lifestyle/showcase-centered.webp"
               alt="Sponge trackers clipped onto an Owala and a Nalgene water bottle on the grass, next to Sponge packaging."
               width="800"
               height="936"
