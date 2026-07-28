@@ -116,11 +116,11 @@ export default function Home() {
           </SectionHead>
           <div className="steps">
             <div className="step step--media">
-              <img className="step__img" src="/media/how/step1-snap.jpg" alt="Setting a bottle down with the Sponge tracker attached underneath, status light glowing" />
+              <img className="step__img" style={{ objectPosition: '50% 72%' }} src="/media/how/step1-snap.jpg" alt="Setting a bottle down with the Sponge tracker attached underneath, status light glowing" />
               <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img" src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
+              <img className="step__img" style={{ objectPosition: '50% 58%' }} src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
               <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.</p></div>
             </div>
             <div className="step step--media">
