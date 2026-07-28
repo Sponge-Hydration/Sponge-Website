@@ -205,7 +205,7 @@ export default function Home() {
               <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></div>
             </article>
             <article className="persona">
-              <img className="persona__img" src="/media/personas/professional.jpg" alt="Water bottles with the Sponge tracker on a sunny kitchen counter" loading="lazy" />
+              <img className="persona__img" style={{ objectPosition: '50% 70%' }} src="/media/personas/professional.jpg" alt="Water bottles with the Sponge tracker on a sunny kitchen counter" loading="lazy" />
               <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
             </article>
             <Link to="/caregivers" className="persona">
