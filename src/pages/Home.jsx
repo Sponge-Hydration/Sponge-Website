@@ -80,17 +80,15 @@ export default function Home() {
           <SectionHead eyebrow="Meet Sponge" title="One tracker. Every sip, counted.">
             Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
           </SectionHead>
-          <div className="showcase">
-            <video
-              className="showcase__video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/media/video/device-anim-poster.jpg"
-            >
-              <source src="/media/video/device-anim.mp4" type="video/mp4" />
-            </video>
+          <div className="showcase showcase--photo">
+            <img
+              className="showcase__img"
+              src="/media/lifestyle/showcase.webp"
+              alt="Sponge trackers clipped onto an Owala and a Nalgene water bottle on the grass, next to Sponge packaging."
+              width="800"
+              height="1200"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>

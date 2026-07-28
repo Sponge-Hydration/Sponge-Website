@@ -553,6 +553,9 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
   box-shadow: var(--shadow-lg); background: #0c1d34;
 }
 .showcase__video { width: 100%; display: block; }
+/* Portrait product photo: narrower frame so it isn't overly tall on the page. */
+.showcase--photo { max-width: 560px; }
+.showcase__img { width: 100%; height: auto; display: block; }
 
 /* Steps with media */
 .step--media { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
