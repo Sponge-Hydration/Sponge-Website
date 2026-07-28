@@ -131,7 +131,7 @@ export default function Home() {
 
       {/* Lifestyle band */}
       <section className="lifestyle-band" aria-hidden="true">
-        <img src="/media/lifestyle/track.jpg" alt="" />
+        <img src="/media/lifestyle/recovery.webp" alt="" style={{ objectPosition: 'center 50%' }} />
         <div className="lifestyle-band__overlay">
           <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>
