@@ -24,7 +24,7 @@ export default function About() {
 
       <section className="section">
         <div className="container">
-          <img className="about-banner" src="/media/lifestyle/desk.jpg" alt="Sponge tracker on a water bottle at a desk" />
+          <img className="about-banner" src="/media/lifestyle/desk.jpg" alt="Sponge tracker on a water bottle at a desk" style={{ objectPosition: 'center 81%' }} />
         </div>
       </section>
 

@@ -215,6 +215,7 @@ export const blogPosts = [
     readTime: '6 min read',
     tag: 'Hydration science',
     cover: '/media/lifestyle/desk.jpg',
+    coverPos: 'center 82%', // keep the bottle (lower-center) in the thumbnail crop
     body: [
       'The familiar "eight 8-ounce glasses" guideline is easy to remember and almost entirely made up. Your real water needs depend on your body weight, how active you are, the climate you live in, and even what you eat.',
       'A more useful starting point is roughly half an ounce to one ounce of water per pound of body weight per day, adjusted up for exercise and hot weather. But the only way to know whether you are actually meeting your needs is to measure, which is exactly the gap a hydration tracker like Sponge fills.',
@@ -229,6 +230,7 @@ export const blogPosts = [
     readTime: '5 min read',
     tag: 'Health',
     cover: '/media/lifestyle/gym.jpg',
+    coverPos: 'center 74%', // keep the player + ball in the thumbnail crop
     body: [
       'Thirst is a late signal. Long before you feel it, mild dehydration shows up as afternoon fatigue, brain fog, headaches, dry skin, irritability, sugar cravings, and dark-colored urine.',
       'The problem is that these symptoms are easy to blame on something else, a bad night of sleep, too much screen time, a skipped meal. That is why so many people are chronically under-hydrated without realizing it.',
@@ -243,6 +245,7 @@ export const blogPosts = [
     readTime: '7 min read',
     tag: 'Comparison',
     cover: '/media/lifestyle/track.jpg',
+    // no coverPos: track.jpg is landscape and shows fully (no meaningful crop)
     body: [
       'Smart water bottles bundle the sensor into the bottle itself. That sounds convenient until you realize you now own one tracked bottle and a cabinet full of untracked ones, and you have to drink from the right one to get any data.',
       'A clip-on hydration tracker takes the opposite approach: the intelligence lives in a small device that attaches to whatever bottle you already use. Your favorite insulated bottle, the glass on your desk, the tumbler in your car, all tracked.',

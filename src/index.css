@@ -608,8 +608,11 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .setup-video__cap { text-align: center; color: var(--muted); font-size: 14px; margin-top: 12px; }
 
 /* Blog cover */
-.blog-card__media { padding: 0; overflow: hidden; }
-.blog-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.blog-card__media { padding: 0; overflow: hidden; position: relative; }
+/* Absolutely fill the fixed-height media box so object-fit/position actually
+   crop the image (the box is display:grid/place-items:center for the fallback
+   icon, which would otherwise let the img grow to its natural height). */
+.blog-card__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Dashboard app strip */
 .app-strip { margin-top: 40px; background: var(--grad-deep); border-radius: var(--radius-lg); padding: 44px 32px; text-align: center; color: #fff; }

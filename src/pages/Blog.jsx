@@ -20,7 +20,7 @@ export default function Blog() {
           {blogPosts.map((p) => (
             <article className="blog-card" key={p.slug}>
               <Link to={`/blog/${p.slug}`} className="blog-card__media">
-                {p.cover ? <img src={p.cover} alt={p.title} loading="lazy" /> : <span aria-hidden="true"><DropletIcon size={40} /></span>}
+                {p.cover ? <img src={p.cover} alt={p.title} loading="lazy" style={p.coverPos ? { objectPosition: p.coverPos } : undefined} /> : <span aria-hidden="true"><DropletIcon size={40} /></span>}
               </Link>
               <div className="blog-card__body">
                 <span className="blog-card__tag">{p.tag}</span>
