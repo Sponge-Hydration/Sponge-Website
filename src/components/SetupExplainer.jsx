@@ -122,18 +122,21 @@ function SceneAttach() {
   return (
     <svg viewBox="0 0 420 240" className="sx-scene" aria-hidden="true">
       <line x1="40" y1="216" x2="380" y2="216" stroke="#c8dcee" strokeWidth="3" strokeLinecap="round" />
-      <g className="sx-attach-bottle">
-        <Bottle x={170} y={10} />
-      </g>
-      <g className="sx-attach-device">
-        <Device x={170} y={176} lit />
-      </g>
-      {/* magnet snap sparks */}
-      <g className="sx-snap" stroke="var(--blue-600, #0b6bcb)" strokeWidth="3.5" strokeLinecap="round">
-        <path d="M150 168 l-14 -8" />
-        <path d="M146 184 h-16" />
-        <path d="M270 168 l14 -8" />
-        <path d="M274 184 h16" />
+      {/* The device rises to join the bottle's base, then the joined pair is set
+          down on the surface. Bottle bottom (y=200) meets device top (y=200);
+          device bottom (y=216) rests on the ground line. */}
+      <g className="sx-attach-unit">
+        <Bottle x={170} y={68} />
+        <g className="sx-attach-device">
+          <Device x={170} y={200} lit />
+        </g>
+        {/* magnet snap sparks at the joint */}
+        <g className="sx-snap" stroke="var(--blue-600, #0b6bcb)" strokeWidth="3.5" strokeLinecap="round">
+          <path d="M178 196 l-13 -7" />
+          <path d="M176 206 h-15" />
+          <path d="M242 196 l13 -7" />
+          <path d="M244 206 h15" />
+        </g>
       </g>
     </svg>
   )
@@ -165,17 +168,21 @@ function SceneSip() {
   return (
     <svg viewBox="0 0 420 240" className="sx-scene" aria-hidden="true">
       <line x1="40" y1="216" x2="380" y2="216" stroke="#c8dcee" strokeWidth="3" strokeLinecap="round" />
-      <g className="sx-sip-group">
-        <Bottle x={170} y={44} className="sx-sip-bottle" />
-        <Device x={170} y={198} lit />
+      {/* Bottle joined to its device sits on the surface. Only the bottle tilts
+          to sip, pivoting at the joint (210,200); the device stays planted. The
+          tilt lives on this wrapper so the bottle keeps its translate and the
+          clipped water rotates with it (never leaves the bottle). */}
+      <g className="sx-sip-tilt">
+        <Bottle x={170} y={68} />
       </g>
+      <Device x={170} y={200} lit />
       <g className="sx-ripples" fill="none" stroke="var(--aqua-400, #37d0c6)" strokeWidth="3">
         <ellipse cx="210" cy="216" rx="52" ry="10" className="sx-ripple sx-ripple--sip" />
       </g>
       {/* counted chip */}
       <g className="sx-count">
-        <rect x="262" y="96" width="106" height="34" rx="17" fill="var(--blue-600, #0b6bcb)" />
-        <text x="315" y="119" fontSize="16" fontWeight="800" fill="#fff" textAnchor="middle" fontFamily="inherit">+120 ml</text>
+        <rect x="262" y="84" width="106" height="34" rx="17" fill="var(--blue-600, #0b6bcb)" />
+        <text x="315" y="107" fontSize="16" fontWeight="800" fill="#fff" textAnchor="middle" fontFamily="inherit">+120 ml</text>
       </g>
       {/* repeat arrow */}
       <g className="sx-loop" fill="none" stroke="#7ba7cc" strokeWidth="3.5" strokeLinecap="round">
