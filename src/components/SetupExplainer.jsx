@@ -146,9 +146,11 @@ function SceneSetDown() {
   return (
     <svg viewBox="0 0 420 240" className="sx-scene" aria-hidden="true">
       <line x1="40" y1="216" x2="380" y2="216" stroke="#c8dcee" strokeWidth="3" strokeLinecap="round" />
+      {/* bottle joined to its device (bottom at 200 meets device top), device
+          resting on the ground line, lowered onto the surface as one unit */}
       <g className="sx-lower">
-        <Bottle x={170} y={44} />
-        <Device x={170} y={198} lit />
+        <Bottle x={170} y={68} />
+        <Device x={170} y={200} lit />
       </g>
       {/* reading ripples from the base */}
       <g className="sx-ripples" fill="none" stroke="var(--aqua-400, #37d0c6)" strokeWidth="3">
@@ -168,14 +170,15 @@ function SceneSip() {
   return (
     <svg viewBox="0 0 420 240" className="sx-scene" aria-hidden="true">
       <line x1="40" y1="216" x2="380" y2="216" stroke="#c8dcee" strokeWidth="3" strokeLinecap="round" />
-      {/* Bottle joined to its device sits on the surface. Only the bottle tilts
-          to sip, pivoting at the joint (210,200); the device stays planted. The
-          tilt lives on this wrapper so the bottle keeps its translate and the
-          clipped water rotates with it (never leaves the bottle). */}
+      {/* Bottle joined to its device sits on the surface. The whole unit
+          (bottle + device) hinges together at its ground contact (210,216) to
+          sip, then returns upright. The tilt lives on this wrapper so each part
+          keeps its translate and the clipped water rotates with the bottle
+          (never leaves it). */}
       <g className="sx-sip-tilt">
         <Bottle x={170} y={68} />
+        <Device x={170} y={200} lit />
       </g>
-      <Device x={170} y={200} lit />
       <g className="sx-ripples" fill="none" stroke="var(--aqua-400, #37d0c6)" strokeWidth="3">
         <ellipse cx="210" cy="216" rx="52" ry="10" className="sx-ripple sx-ripple--sip" />
       </g>
