@@ -257,7 +257,7 @@ export const blogPosts = [
 export const blogBySlug = (slug) => blogPosts.find((p) => p.slug === slug)
 
 export const team = [
-  { initial: 'N', name: 'Nathan Katzaroff', role: 'Co-founder', img: '/media/team/nathan-hs.jpg', bio: 'Leads brand and growth, on a mission to make hydration something you never have to think about.' },
+  { initial: 'N', name: 'Nathan Katzaroff', role: 'Co-founder', img: '/media/team/nathan-hs.jpg?v=2', bio: 'Leads brand and growth, on a mission to make hydration something you never have to think about.' },
   { initial: 'C', name: 'Christopher Miglio', role: 'Co-founder', img: '/media/team/chris-hs.jpg', bio: 'Heads product and hardware, obsessing over a tiny sensor that disappears onto the bottle you already own.' },
-  { initial: 'D', name: 'Dominic Dal Porto', role: 'Engineering', img: '/media/team/dom-hs.jpg', bio: 'Builds the app and firmware that turn raw sip data into habits that actually stick.' },
+  { initial: 'D', name: 'Dominic Dal Porto', role: 'Engineering', img: '/media/team/dom-hs.jpg?v=2', bio: 'Builds the app and firmware that turn raw sip data into habits that actually stick.' },
 ]
