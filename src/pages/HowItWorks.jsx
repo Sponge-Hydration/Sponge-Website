@@ -23,8 +23,20 @@ export default function HowItWorks() {
           </SectionHead>
           <SetupExplainer />
           <div className="setup-video">
-            <video controls muted playsInline poster="/media/video/app-demo-poster.jpg" preload="none">
+            {/* No <track> yet — captions need a transcript of the actual audio,
+                which has to come from the source video rather than be invented.
+                Until then the title and the caption below carry the content. */}
+            <video
+              controls
+              muted
+              playsInline
+              title="Setting up the Sponge app, your profile, and your Sponge ID"
+              poster="/media/video/app-demo-poster.jpg"
+              preload="none"
+            >
               <source src="/media/video/app-demo.mp4" type="video/mp4" />
+              Your browser cannot play this video. It shows the Sponge app being set up:
+              creating a profile, then pairing a Sponge ID.
             </video>
             <p className="setup-video__cap">Watch: setting up the app, your profile, and your Sponge ID.</p>
           </div>
@@ -39,11 +51,19 @@ export default function HowItWorks() {
           <div className="faq">
             {faqs.map((item, i) => (
               <div className={`faq__item${open === i ? ' open' : ''}`} key={item.q}>
-                <button className="faq__q" aria-expanded={open === i} onClick={() => setOpen(open === i ? -1 : i)}>
+                <button
+                  className="faq__q"
+                  aria-expanded={open === i}
+                  aria-controls={`faq-a-${i}`}
+                  id={`faq-q-${i}`}
+                  onClick={() => setOpen(open === i ? -1 : i)}
+                >
                   <span>{item.q}</span>
                   <span className="chev" aria-hidden="true">+</span>
                 </button>
-                <div className="faq__a"><p style={{ margin: 0 }}>{item.a}</p></div>
+                <div className="faq__a" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+                  <p style={{ margin: 0 }}>{item.a}</p>
+                </div>
               </div>
             ))}
           </div>

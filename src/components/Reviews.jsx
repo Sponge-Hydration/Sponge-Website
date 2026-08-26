@@ -7,9 +7,16 @@ import { reviews as bakedReviews } from '../data'
 export function ReviewStars({ value = 5 }) {
   const stars = Math.max(1, Math.min(5, Math.round(value)))
   return (
-    <span className="stars" style={{ fontSize: 15 }} aria-label={`${stars} out of 5 stars`}>
-      {'★'.repeat(stars)}
-      <span style={{ color: 'var(--line)' }}>{'★'.repeat(5 - stars)}</span>
+    // The empty state used to be a filled star in a near-white colour, so a 4
+    // and a 5 were distinguishable only by hue — invisible to anyone who cannot
+    // perceive it, and barely visible to anyone who can (WCAG 1.4.1). Outlined
+    // glyphs carry the difference by shape, and the number states it outright.
+    <span className="stars" aria-label={`${stars} out of 5 stars`}>
+      <span aria-hidden="true">
+        {'★'.repeat(stars)}
+        <span className="stars__empty">{'☆'.repeat(5 - stars)}</span>
+      </span>
+      <span className="stars__value" aria-hidden="true">{stars.toFixed(1)}</span>
     </span>
   )
 }

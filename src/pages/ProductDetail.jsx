@@ -8,6 +8,22 @@ import { useCart } from '../cart/CartContext'
 import { trackAddToCart, trackViewItem } from '../analytics'
 import EmailSignup from '../components/EmailSignup'
 
+// "View image 3" tells a screen reader user nothing about what they would be
+// looking at. Derive a description from the filename, which already encodes the
+// shot, and fall back to a position only when it does not.
+const THUMB_LABELS = [
+  [/-white-/, 'White tracker, front view'],
+  [/-black-/, 'Black tracker, front view'],
+  [/side-profile/, 'Side profile, showing thickness'],
+  [/on-bottle/, 'Attached to the base of a bottle'],
+  [/closeup/, 'Close-up of the status light and USB-C port'],
+  [/packaging/, 'What comes in the box'],
+]
+function thumbLabel(src, i) {
+  const hit = THUMB_LABELS.find(([re]) => re.test(src))
+  return hit ? hit[1] : `Product image ${i + 1}`
+}
+
 export default function ProductDetail() {
   const { slug } = useParams()
   const found = productBySlug(slug)
@@ -85,7 +101,8 @@ export default function ProductDetail() {
                     key={src}
                     className={`pdp__thumb${i === activeImg ? ' is-active' : ''}`}
                     onClick={() => setActiveImg(i)}
-                    aria-label={`View image ${i + 1}`}
+                    aria-label={thumbLabel(src, i)}
+                    aria-current={i === activeImg || undefined}
                   >
                     <img src={src} alt="" loading="lazy" />
                   </button>
