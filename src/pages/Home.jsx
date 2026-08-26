@@ -172,15 +172,15 @@ export default function Home() {
           </SectionHead>
           <div className="steps">
             <div className="step step--media">
-              <img className="step__img" style={{ objectPosition: '50% 72%' }} src="/media/how/step1-snap.jpg" alt="Setting a bottle down with the Sponge tracker attached underneath, status light glowing" />
+              <img className="step__img" style={{ objectPosition: '50% 72%' }} src="/media/how/step1-snap.jpg" width="700" height="1050" decoding="async" alt="Setting a bottle down with the Sponge tracker attached underneath, status light glowing" />
               <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img" style={{ objectPosition: '50% 58%' }} src="/media/how/step2-sip.jpg" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
+              <img className="step__img" style={{ objectPosition: '50% 58%' }} src="/media/how/step2-sip.jpg" width="700" height="1050" decoding="async" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
               <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img step__img--app" src="/media/how/step3-graph.webp" alt="Sponge app showing hydration progress" />
+              <img className="step__img step__img--app" src="/media/how/step3-graph.webp" width="720" height="1280" decoding="async" alt="Sponge app showing hydration progress" />
               <div className="step__body"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function Home() {
         {/* Replaced recovery.webp, which shipped with a visible AI-generation
             watermark and a competitor's bottle as its subject. This is a real
             photo of a Sponge-branded bottle with the tracker lit at its base. */}
-        <img src="/media/lifestyle/desk.jpg" alt="" aria-hidden="true" style={{ objectPosition: 'center 70%' }} />
+        <img src="/media/lifestyle/desk.jpg" alt="" aria-hidden="true" width="1400" height="1400" decoding="async" style={{ objectPosition: 'center 70%' }} />
         <div className="lifestyle-band__overlay">
           <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>
@@ -222,7 +222,7 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container split">
           <div className="split__media">
-            <img className="appshot" src="/media/app/applock.webp" alt="Sponge app locking Facebook until a hydration goal is reached" />
+            <img className="appshot" src="/media/app/applock.webp" width="600" height="1208" decoding="async" loading="lazy" alt="Sponge app locking Facebook until a hydration goal is reached" />
           </div>
           <div>
             <span className="eyebrow">The hydration hack for your phone</span>
@@ -262,15 +262,15 @@ export default function Home() {
           </SectionHead>
           <div className="personas">
             <article className="persona">
-              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two friends playing basketball at an outdoor court" loading="lazy" />
+              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two friends playing basketball at an outdoor court" width="700" height="526" decoding="async" loading="lazy" />
               <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></div>
             </article>
             <article className="persona">
-              <img className="persona__img" style={{ objectPosition: '50% 70%' }} src="/media/personas/professional.jpg" alt="Water bottles with the Sponge tracker on a sunny kitchen counter" loading="lazy" />
+              <img className="persona__img" style={{ objectPosition: '50% 70%' }} src="/media/personas/professional.jpg" alt="Water bottles with the Sponge tracker on a sunny kitchen counter" width="700" height="526" decoding="async" loading="lazy" />
               <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
             </article>
             <Link to="/caregivers" className="persona">
-              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="Adult daughter with her mother and a tracked water bottle at home" loading="lazy" />
+              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="Adult daughter with her mother and a tracked water bottle at home" width="700" height="526" decoding="async" loading="lazy" />
               <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Keep an eye on a loved one’s hydration with effortless tracking and shared progress. See our caregiver program →</p></div>
             </Link>
           </div>
