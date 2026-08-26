@@ -18,12 +18,12 @@ next free ID.
 |---|---|---|---|---|---|
 | P0 — broken / legal / privacy / data integrity | 8 | 6 | 0 | 2 | 0 |
 | P1 — checkout, tracking, conversion-critical | 7 | 6 | 0 | 2 | 0 |
-| P2 — messaging, trust, navigation | 8 | 3 | 0 | 1 | 4 |
+| P2 — messaging, trust, navigation | 8 | 5 | 0 | 1 | 2 |
 | P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
-| P4 — SEO & structured data | 6 | 0 | 0 | 0 | 6 |
+| P4 — SEO & structured data | 6 | 4 | 0 | 0 | 2 |
 | P5 — performance | 3 | 0 | 0 | 0 | 3 |
-| P6 — visual & content polish | 5 | 2 | 0 | 1 | 2 |
-| **Total** | **43** | **23** | **0** | **6** | **15** |
+| P6 — visual & content polish | 5 | 3 | 0 | 1 | 1 |
+| **Total** | **43** | **30** | **0** | **6** | **7** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -239,7 +239,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `/how-it-works` FAQ, PDP.
 - **Dependencies:** A-10 for the accuracy figure.
 - **Acceptance criteria:** each of the five objections answered on-page, plus a comparison table.
-- **Status:** **Not Started**
+- **Status:** **Complete (partial)** — three of five answered; two need real measurements
+- **Evidence:** commit `eb2f2fc`. A four-way comparison table (reminder app / smart bottle / clip-on reminder / Sponge) plus an objection block answering: retention ("I'll stop using it after a month" → that is what App Lock is for), the price gap against a cheaper reminder clip (which explicitly says buy the cheaper thing if a blinking light is enough), the dateless pre-order, and bottle compatibility. Live on the homepage.
+- **Outstanding, and deliberately not faked:** the accuracy figure (A-10) and the device's real dimensions. Both are hardware measurements. Publishing invented numbers for a measurement device is the one thing worse than staying silent.
 
 ### A-10 — "Is it accurate?" answered without a number
 - **Original finding:** The FAQ answers a different question than the one asked: *"Sponge measures real sips with on-device sensors rather than asking you to remember and self-report."* For a measurement device, declining to quantify the central claim reads as evasion.
@@ -281,7 +283,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `/blog`, `BlogPost.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** comparison post linked from the homepage; bylines added; health claims cited; either publish monthly or remove the dates.
-- **Status:** **Not Started**
+- **Status:** **Complete (partial)**
+- **Evidence:** commit `eb2f2fc` links the comparison post from the new homepage comparison section — it was the highest-intent asset on the site and nothing pointed at it. Commit `b28607f` adds BlogPosting + BreadcrumbList schema, attributed to the organisation.
+- **Outstanding:** per-author bylines (naming a specific author is a business fact, not mine to assign) and citations on the health claims in the posts, which need real sources. Publishing cadence is a business decision.
 
 ### A-15 — Contact page has no phone number or address
 - **Original finding:** Email and "Mon-Fri, 9am-6pm ET" only. The ET hours are worth confirming for a California company. Caregivers buying a monitoring device for a parent look for a phone number.
@@ -359,7 +363,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `index.html`, `useSEO.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** Product only on product pages with real per-product data; FAQPage only on `/how-it-works`; Organization site-wide; BlogPosting on posts; BreadcrumbList where breadcrumbs render.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `b28607f`. Root cause: all three blocks were hardcoded in `index.html`, which vite-react-ssg uses as the template for every route. Product and FAQPage removed from the template; `<Seo>` gained a `jsonLd` prop so schema lives with the content it describes. FAQPage is generated from the same `faqs` array the page renders, so markup cannot drift from visible content. **Live verification** — `/`, `/about`, `/blog`, `/reviews`, `/legal/privacy`: Organization only. `/how-it-works`: + FAQPage. `/shop/p/sponge-clip`: + Product, Offer, BreadcrumbList, MerchantReturnPolicy. `/blog/signs-of-dehydration`: + BlogPosting, BreadcrumbList. 10 new tests assert this against the **built** output, since that is what Google crawls.
 
 ### A-23 — Product schema thin and availability wrong
 - **Original finding:** Missing `sku`, `gtin`, `priceValidUntil`, `shippingDetails`, `hasMerchantReturnPolicy` and — most valuable — `aggregateRating` despite four on-page reviews. `offers.url` points at the homepage on every page.
@@ -367,7 +372,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `index.html`.
 - **Dependencies:** A-22, A-12 (aggregate rating needs real reviews).
 - **Acceptance criteria:** per-product schema with correct URL and availability; rating added once real.
-- **Status:** **Not Started** *(the `availability: PreOrder` half is now consistent with the site after A-02/A-35)*
+- **Status:** **Complete (partial)** — everything except aggregateRating
+- **Evidence:** commit `b28607f`. Each product now carries its own `sku`, its own gallery images, an offer URL pointing at **that product** (previously every product's offer pointed at the homepage), availability that switches to `SoldOut` for sold-out SKUs, and a `MerchantReturnPolicy` matching the published 30-day free-return terms.
+- **Outstanding:** `aggregateRating`. Four reviews exist and the review API is still unconfigured (A-13), so any figure would be unsubstantiated. A test asserts it is absent so it cannot be added carelessly; add it once real reviews flow.
 
 ### A-25 — No social profile links, empty `sameAs`
 - **Original finding:** Not a single Instagram, TikTok, Facebook, X, YouTube or LinkedIn link anywhere. `Organization.sameAs` is `[]`. For a brand whose primary channels are organic TikTok and Instagram, the site is disconnected from every audience it builds, and Google has nothing to associate for a brand SERP.
@@ -391,7 +398,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `useSEO.jsx`, `index.html`, `ProductDetail.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** no duplicated brand in titles; correct `og:type` per page; keywords tag deleted.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `b28607f`. PDP title no longer repeats the brand ("Sponge Hydration Tracker — $59.99 | Sponge"). `og:type` is per-page and verified live: `website` on the homepage, `product` on PDPs, `article` on blog posts. The keywords meta tag is gone. **Note for future editors:** the removal comment originally contained literal tag syntax, and the build re-serialized it into a real empty `meta` element — do not write tag syntax inside comments in `index.html`.
 
 ### A-28 — Keyword-stuffed SEO prose block
 - **Original finding:** A footer block with bolded exact-match phrases written for a 2014 crawler. Human visitors register it as spam.
@@ -399,7 +407,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Home.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** replaced with a genuine comparison section that answers a real query.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `eb2f2fc`. The three bolded keyword paragraphs are gone, replaced by a real comparison table across cost, keeping your own bottle, whether it measures anything, what it does when you fall behind, and month-one survival. It is a real `<table>` with scoped headers and a caption, marks the Sponge column by **shape** (✓ / ·) as well as tint so it does not depend on colour, and scrolls inside its own container so the page never scrolls sideways. Verified live at 390px and desktop.
 
 ---
 
@@ -456,7 +465,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Home.jsx`, `public/media/lifestyle/recovery.webp`.
 - **Dependencies:** none to remove; A-21 to replace.
 - **Acceptance criteria:** watermarked asset no longer served.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `df917ad`. `recovery.webp` is deleted from `public/`, not merely unreferenced. Replaced with `desk.jpg` — a **real** photograph of a Sponge-branded Nalgene with the tracker lit at its base, so the band now shows our own product and branding instead of a Hydro Flask and an AI watermark. `gym.jpg` and `track.jpg` were rejected: they contain no product at all, the same flaw as the athlete persona.
+- **Live check:** origin returns **404** for the deleted file (confirmed with a cache-busted request). The edge briefly still served a cached copy under a 4-hour TTL, which expires on its own; a Cloudflare cache purge would clear it immediately. No page references it.
 
 ### A-43 — Sold-out Coaster is a dead end
 - **Original finding:** Occupies a quarter of the shop grid marked "Sold out" with no way to express interest — and it is the form factor most of the photography shows.
@@ -533,3 +544,6 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `ffe24ca` | A-05, A-06 — PDP colour selection, grouped cart rows, adhesive cross-sell |
 | 2026-08-26 | `0de4008` | A-17, A-18, A-19, A-20 — contrast, star shape, exposed headline, labels |
 | 2026-08-26 | `3fcdc6f` | A-16 — sticky mobile buy bar |
+| 2026-08-26 | `eb2f2fc` | A-09, A-14, A-28 — comparison table, objection block, blog link |
+| 2026-08-26 | `df917ad` | A-42 — AI-watermarked lifestyle image removed and replaced |
+| 2026-08-26 | `b28607f` | A-22, A-23, A-27 — structured data scoped per page, 10 tests |
