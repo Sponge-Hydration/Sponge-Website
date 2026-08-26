@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
@@ -13,6 +14,64 @@ const features = [
   { icon: LockIcon, title: 'App-lock motivation', text: 'Choose the apps that distract you and Sponge keeps them locked until you hit your water goal. Hydration with real follow-through.' },
   { icon: TargetIcon, title: 'Personalized goals', text: 'Set a daily target that fits your body and your routine rather than a generic 8 glasses, and change it whenever it stops fitting.' },
 ]
+
+/**
+ * Hero loop. A muted 9-second video that autoplays and loops is "moving content
+ * that starts automatically and lasts more than five seconds", so WCAG 2.2.2
+ * requires a way to stop it. Two mechanisms:
+ *  - anyone asking for reduced motion never gets it playing at all; they get
+ *    the poster frame, and the file is not fetched;
+ *  - everyone else gets a pause/play control over the video.
+ */
+function HeroVideo() {
+  const videoRef = useRef(null)
+  const [reduced, setReduced] = useState(false)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setReduced(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
+  const toggle = () => {
+    const v = videoRef.current
+    if (!v) return
+    if (v.paused) { v.play(); setPaused(false) } else { v.pause(); setPaused(true) }
+  }
+
+  if (reduced) {
+    return (
+      <img
+        className="hero__video"
+        src="/media/video/hero-poster.jpg"
+        alt="A water bottle resting on a Sponge tracker, its status light glowing green"
+      />
+    )
+  }
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        className="hero__video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/media/video/hero-poster.jpg"
+      >
+        <source src="/media/video/hero.mp4" type="video/mp4" />
+      </video>
+      <button type="button" className="hero__video-toggle" onClick={toggle}>
+        {paused ? 'Play' : 'Pause'}
+        <span className="sr-only"> background video</span>
+      </button>
+    </>
+  )
+}
 
 export default function Home() {
   const { add } = useCart()
@@ -55,9 +114,7 @@ export default function Home() {
           </div>
 
           <div className="hero__media">
-            <video className="hero__video" autoPlay muted loop playsInline poster="/media/video/hero-poster.jpg">
-              <source src="/media/video/hero.mp4" type="video/mp4" />
-            </video>
+            <HeroVideo />
             <div className="hero__pill"><i className="dot" />Tracking sips</div>
             <div className="hero__stat"><strong>1.4L</strong><span>today · 78% of goal</span></div>
           </div>
@@ -84,7 +141,7 @@ export default function Home() {
             <img
               className="showcase__img"
               src="/media/lifestyle/showcase-centered.webp"
-              alt="Sponge trackers clipped onto an Owala and a Nalgene water bottle on the grass, next to Sponge packaging."
+              alt="Two Sponge trackers and their packaging laid out on grass beside two water bottles and a football."
               width="800"
               height="936"
               loading="lazy"
