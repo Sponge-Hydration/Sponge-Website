@@ -33,7 +33,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="container hero__grid">
           <div>
-            <span className="eyebrow">Trusted by 120+ early customers</span>
+            <span className="eyebrow">Pre-order · Cancel any time before it ships</span>
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your
@@ -41,11 +41,11 @@ export default function Home() {
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
-              <Link to="/products" className="btn btn--primary btn--lg">Order Sponge</Link>
+              <Link to="/products" className="btn btn--primary btn--lg">Pre-order Sponge</Link>
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
-              <span>30-day money-back guarantee · Free shipping to the US &amp; Canada</span>
+              <span>$59.99 + shipping &amp; tax · Ships to the US · 30-day money-back guarantee</span>
             </div>
             <div className="hero__note">
               <span><i className="dot" />Works with any bottle</span>
@@ -223,7 +223,11 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Join 120+ people building a real hydration habit with the clip-on tracker that works with any bottle.</p>
-            <button type="button" className="btn btn--ghost btn--lg" onClick={checkoutSingle}>Checkout - $59.99</button>
+            <button type="button" className="btn btn--ghost btn--lg" onClick={checkoutSingle}>Pre-order Sponge — $59.99</button>
+            <p className="cta-band__note">
+              $59.99 + shipping &amp; tax · Cancel any time before it ships · 30 days to change
+              your mind once it arrives, and we pay return shipping
+            </p>
           </div>
         </div>
       </section>

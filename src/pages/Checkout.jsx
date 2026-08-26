@@ -148,7 +148,7 @@ export default function Checkout() {
             <div className="cart-summary__row"><span>Shipping (USPS Ground)</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
             <div className="cart-summary__row"><span>Sales tax</span><span>Calculated at checkout</span></div>
             <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)} + tax</span></div>
-            <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>
+            <p className="cart-summary__note"><ShieldIcon size={14} /> Pre-order · Cancel any time before it ships for a full refund · 30-day money-back guarantee from delivery</p>
           </aside>
         </div>
       </div>

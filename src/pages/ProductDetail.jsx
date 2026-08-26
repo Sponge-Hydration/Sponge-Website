@@ -87,6 +87,7 @@ export default function ProductDetail() {
                   Save {usd(product.compareAt - product.price)}
                 </span>
               )}
+              {!product.soldOut && <span className="pdp__plus">+ shipping &amp; tax</span>}
             </div>
 
             <p className="pdp__desc">{product.short}</p>
@@ -109,7 +110,7 @@ export default function ProductDetail() {
                   <span aria-live="polite">{qty}</span>
                   <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
                 </div>
-                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now - {usd(product.price * qty)}</button>
+                <button className="btn btn--primary btn--lg" onClick={buyNow}>Pre-order — {usd(product.price * qty)}</button>
                 <button className="btn btn--ghost btn--lg" onClick={addToCart}>
                   {added ? '✓ Added to cart' : 'Add to cart'}
                 </button>
@@ -118,7 +119,8 @@ export default function ProductDetail() {
 
             <div className="pdp__meta">
               <span><TruckIcon size={15} /> {product.ships}</span>
-              <span><ShieldIcon size={15} /> 30-day money-back guarantee</span>
+              <span><ShieldIcon size={15} /> <Link to="/legal/pre-order">Cancel any time before it ships</Link></span>
+              <span><ShieldIcon size={15} /> 30-day money-back guarantee from delivery</span>
               <span><PhoneIcon size={15} /> Free iOS &amp; Android app included</span>
             </div>
           </div>

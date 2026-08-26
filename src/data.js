@@ -27,7 +27,7 @@ export const products = [
       'Free iOS & Android app with app-lock',
       'Personalized daily hydration goals',
     ],
-    ships: 'Ships in ~8 weeks',
+    ships: 'Ships with our next production batch',
   },
   {
     id: 'sponge-2pack',
@@ -56,7 +56,7 @@ export const products = [
       'Same 8-day battery & app-lock',
       'Save $50 vs. buying two singles',
     ],
-    ships: 'Ships in ~8 weeks',
+    ships: 'Ships with our next production batch',
   },
   {
     id: 'sponge-family',
@@ -82,7 +82,7 @@ export const products = [
       'Per-person goals and trends',
       'Save $100 vs. buying singles',
     ],
-    ships: 'Ships in ~8 weeks',
+    ships: 'Ships with our next production batch',
   },
   {
     id: 'sponge-coaster',
@@ -130,7 +130,7 @@ export const products = [
       'Sticks to steel, plastic, or glass bottles',
       'Snap your Sponge across bottles in seconds',
     ],
-    ships: 'Ships in ~8 weeks',
+    ships: 'Ships with our next production batch',
   },
 ]
 
@@ -171,7 +171,7 @@ export const faqs = [
   { q: 'Can the hydration tracker really lock apps until I drink water?', a: 'Yes. In the app you pick which apps to gate, and Sponge keeps them locked until you reach your daily hydration goal, turning your phone into a gentle nudge to drink more water.' },
   { q: 'Is it accurate?', a: 'Sponge measures real sips with on-device sensors rather than asking you to remember and self-report, which is where most hydration tracking breaks down. The app shows your intake in real time so you always know where you stand.' },
   { q: 'How do I set up my Sponge?', a: 'Charge it over USB-C, download the free Sponge app, and pair over Bluetooth. Then clip it onto your bottle. Setup takes about two minutes and the app walks you through calibrating your bottle size.' },
-  { q: 'How much does Sponge cost and when does it ship?', a: 'Sponge is available to pre-order for $59.99 with a 30-day money-back guarantee. Pre-orders currently ship in about 8 weeks, and the companion app is free on iOS and Android.' },
+  { q: 'How much does Sponge cost and when does it ship?', a: 'Sponge is $59.99 plus shipping and tax, and the companion app is free on iOS and Android. We build in production batches, and a batch runs once enough pre-orders are reserved to fill it — so rather than quote a delivery date we cannot stand behind, we email you when your batch enters production. You can cancel a pre-order for a full refund any time before it ships, and once it arrives you have 30 days to send it back.' },
   { q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
 ]
 
