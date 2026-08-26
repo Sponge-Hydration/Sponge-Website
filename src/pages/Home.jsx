@@ -100,8 +100,9 @@ export default function Home() {
           <h2>Most people are dehydrated, and don’t even know it</h2>
           <p>
             Reminders get ignored. Manual water-tracking apps get abandoned in a week. And smart
-            bottles force you to ditch the bottle you love. Hydration shouldn’t take willpower, it
-            should just happen. That’s exactly what Sponge does.
+            bottles start around $80 and force you to ditch the bottle you love. Sponge is $59.99
+            and clips onto the one you already own. Hydration shouldn’t take willpower, it should
+            just happen. That’s exactly what Sponge does.
           </p>
         </div>
       </section>

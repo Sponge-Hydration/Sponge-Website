@@ -352,6 +352,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .pdp__price strong { font-size: 34px; font-weight: 900; }
 .pdp__price s { color: var(--muted); font-size: 20px; }
 .pdp__plus { color: var(--ink-soft); font-size: 15px; }
+.pdp__compare { color: var(--ink-soft); font-size: 15px; margin: -6px 0 18px; max-width: 44ch; }
 .pdp__save { background: #e7f8ef; color: #1c9d63; font-weight: 800; font-size: 13px; padding: 4px 10px; border-radius: 999px; }
 .pdp__desc { color: var(--ink-soft); font-size: 16px; }
 .pdp__list { margin: 18px 0 24px; }

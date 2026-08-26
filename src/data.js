@@ -8,7 +8,6 @@ export const products = [
     tagline: 'The clip-on tracker for any water bottle',
     clips: 1,
     price: 59.99,
-    compareAt: 79.99,
     badge: 'Pre-order',
     img: '/media/products/single.jpg',
     gallery: [
@@ -39,7 +38,8 @@ export const products = [
     hidden: true,
     clips: 2,
     price: 109.99,
-    compareAt: 159.98,
+    compareAt: 119.98,
+    compareNote: 'if bought separately',
     badge: 'Best value',
     img: '/media/products/twopack.jpg',
     gallery: [
@@ -65,8 +65,9 @@ export const products = [
     tagline: 'Hydration for the whole household',
     clips: 4,
     price: 199.99,
-    compareAt: 299.96,
-    badge: 'Save $100',
+    compareAt: 239.96,
+    compareNote: 'if bought separately',
+    badge: 'Save $39.97',
     img: '/media/products/family.png',
     gallery: [
       '/media/products/family.png',
@@ -80,7 +81,7 @@ export const products = [
       'Shared family dashboard',
       'Caregiver alerts & reminders',
       'Per-person goals and trends',
-      'Save $100 vs. buying singles',
+      'Save $39.97 vs. buying four singles',
     ],
     ships: 'Ships with our next production batch',
   },

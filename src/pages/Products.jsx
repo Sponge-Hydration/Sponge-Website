@@ -40,7 +40,11 @@ export default function Products() {
                   <strong>{usd(p.price)}</strong>
                   {p.compareAt && <s>{usd(p.compareAt)}</s>}
                 </div>
-                {!p.soldOut && <div className="product-card__plus">+ shipping &amp; tax</div>}
+                {!p.soldOut && (
+                  <div className="product-card__plus">
+                    + shipping &amp; tax{p.compareNote ? ` · ${p.compareNote}` : ''}
+                  </div>
+                )}
                 <div className="product-card__actions">
                   {p.soldOut ? (
                     <button className="btn btn--primary btn--block" disabled>
