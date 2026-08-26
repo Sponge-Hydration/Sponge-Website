@@ -14,7 +14,7 @@
 import { gmailConfigured, sendGmail, customerEmailHtml, teamEmailHtml } from './_integrations.js'
 import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets.js'
 import { makeStatusToken } from './_status-token.js'
-import { metaCapiConfigured, sendMetaPurchase } from './_meta-capi.js'
+import { adConsentGranted, metaCapiConfigured, sendMetaPurchase } from './_meta-capi.js'
 
 const TOLERANCE_SECONDS = 300 // reject events older than 5 minutes (replay guard)
 
@@ -155,17 +155,25 @@ async function handleCheckoutCompleted(session, env, request) {
           html: teamEmailHtml(order),
         })
       : Promise.reject(new Error('Gmail not configured')),
-    metaCapi: metaCapiConfigured(env)
-      ? sendMetaPurchase(env, order, request)
-      : Promise.reject(new Error('Meta CAPI not configured')),
+    // Gated on the buyer's own advertising choice, carried through Stripe
+    // session metadata. Never blocks the sheet, the emails, or the order.
+    metaCapi: !adConsentGranted(session)
+      ? Promise.reject(new Error('skipped - buyer declined advertising sharing'))
+      : metaCapiConfigured(env)
+        ? sendMetaPurchase(env, order, request)
+        : Promise.reject(new Error('Meta CAPI not configured')),
   }
 
   const entries = Object.entries(tasks)
   const results = await Promise.allSettled(entries.map(([, p]) => p))
   results.forEach((r, i) => {
     const name = entries[i][0]
+    const msg = r.reason?.message || r.reason
     if (r.status === 'fulfilled') console.log(`   ↳ ${name}: ok`)
-    else console.warn(`   ↳ ${name}: FAILED - ${r.reason?.message || r.reason}`)
+    // A deliberate opt-out or an unconfigured integration is expected, not a
+    // fault. Logging those as FAILED would bury the ones that need attention.
+    else if (String(msg).startsWith('skipped')) console.log(`   ↳ ${name}: ${msg}`)
+    else console.warn(`   ↳ ${name}: FAILED - ${msg}`)
   })
 }
 

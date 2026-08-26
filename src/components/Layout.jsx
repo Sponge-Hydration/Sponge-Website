@@ -5,6 +5,8 @@ import Footer from './Footer'
 import { ScrollToTop } from './bits'
 import { CartProvider } from '../cart/CartContext'
 import { initAnalytics, trackPageView } from '../analytics'
+import PrivacyControls from './PrivacyControls'
+import { CONSENT_EVENT } from '../consent'
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -19,6 +21,19 @@ export default function Layout() {
     trackPageView(pathname)
   }, [pathname])
 
+  // When a visitor grants a category they had not granted before, load it now
+  // rather than waiting for the next navigation, and count the current page.
+  // Downgrades are handled by PrivacyControls, which reloads — scripts that
+  // have already executed cannot be unloaded any other way.
+  useEffect(() => {
+    const onConsentChange = () => {
+      initAnalytics()
+      trackPageView(window.location.pathname)
+    }
+    window.addEventListener(CONSENT_EVENT, onConsentChange)
+    return () => window.removeEventListener(CONSENT_EVENT, onConsentChange)
+  }, [])
+
   return (
     <CartProvider>
       <a href="#main" className="skip-link">Skip to content</a>
@@ -28,6 +43,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <PrivacyControls />
     </CartProvider>
   )
 }

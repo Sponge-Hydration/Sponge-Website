@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { openPrivacyPreferences } from './PrivacyControls'
 
 export default function Footer() {
   return (
@@ -43,6 +44,10 @@ export default function Footer() {
             <Link to="/legal/privacy">Privacy</Link>
             <Link to="/legal/returns">Returns</Link>
             <Link to="/legal/warranty">Warranty</Link>
+            {/* CPRA requires this to be a clear, persistent, site-wide control. */}
+            <button type="button" className="footer__privacy-btn" onClick={openPrivacyPreferences}>
+              Do Not Sell or Share My Personal Information
+            </button>
           </span>
         </div>
       </div>

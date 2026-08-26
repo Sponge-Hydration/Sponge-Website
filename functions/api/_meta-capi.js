@@ -23,6 +23,19 @@ export function metaCapiConfigured(env) {
   return Boolean(env.META_PIXEL_ID && env.META_CAPI_TOKEN)
 }
 
+/**
+ * Whether the buyer consented to advertising-related sharing, read from the
+ * Stripe session metadata stamped at checkout by create-checkout-session.js.
+ *
+ * FAILS CLOSED. Anything other than an explicit '1' — missing metadata, a
+ * legacy session created before consent existed, a malformed value — means no.
+ * Sending an advertising event we cannot prove was consented to is the failure
+ * mode that actually matters here.
+ */
+export function adConsentGranted(session) {
+  return session?.metadata?.ad_consent === '1'
+}
+
 const enc = new TextEncoder()
 
 async function sha256(value) {

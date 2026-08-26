@@ -30,3 +30,12 @@ Marketing + store for Sponge hydration trackers. **Live: https://www.spongehydra
 - Dashboard & Account entry points are **hidden** (links removed) but the routes still resolve for preview.
 - SSG: no `window`/`document`/`localStorage` at module/render scope (effects/handlers are fine; `CartContext` load is guarded).
 - Secrets: all in **`.dev.vars`** (gitignored) for local wrangler; production via `wrangler pages secret` / Cloudflare dashboard. **Never commit `.dev.vars`, `.cf-token`, or keys.** Cloudflare token in `.cf-token` (Pages:Edit only — can't touch DNS or Workers). Setup docs: `docs/order-integrations.md`.
+
+## Privacy & consent
+- **Consent gates all nonessential tags.** `src/consent.js` holds the state (localStorage `sponge-privacy-v1`); `src/analytics.js` refuses to inject or fire anything without the matching category. Default is DENY, so a first visit makes zero analytics/ad requests.
+- Categories: `analytics` (GA4) and `advertising` (Meta + TikTok + server-side CAPI). Essential (cart, Stripe, Cloudflare) is never gated.
+- **GPC** (`navigator.globalPrivacyControl`) forces `advertising` off and locks the toggle. Never persist an advertising grant while it is asserted.
+- **Server-side CAPI honours the same choice**: the client sends `adConsent` to `create-checkout-session`, which stamps `metadata[ad_consent]` on the Stripe session; `webhook.js` calls Meta only when `adConsentGranted()` sees exactly `'1'`. **Fails closed.**
+- UI: `src/components/PrivacyControls.jsx` (banner + dialog, mounted in Layout). The footer's "Do Not Sell or Share My Personal Information" button opens it via the `sponge:openprivacy` event. `/legal/privacy` also renders live controls.
+- Downgrading consent clears tracker cookies and **reloads** — already-executed scripts cannot be unloaded any other way. Upgrades load immediately via the `sponge:consentchange` listener in Layout.
+- `npm test` (Vitest + jsdom) covers persistence, revocation, GPC, tracker suppression, cold-load ordering, and server-side suppression. Run it before touching any of the above.

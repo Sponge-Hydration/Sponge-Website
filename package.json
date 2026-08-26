@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite-react-ssg build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -16,7 +18,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^25.0.1",
     "vite": "^5.4.2",
-    "vite-react-ssg": "^0.8.9"
+    "vite-react-ssg": "^0.8.9",
+    "vitest": "^2.1.9"
   }
 }
