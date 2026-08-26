@@ -21,9 +21,9 @@ next free ID.
 | P2 — messaging, trust, navigation | 8 | 5 | 0 | 1 | 2 |
 | P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
 | P4 — SEO & structured data | 6 | 4 | 0 | 0 | 2 |
-| P5 — performance | 3 | 1 | 0 | 0 | 2 |
+| P5 — performance | 3 | 3 | 0 | 0 | 0 |
 | P6 — visual & content polish | 7 | 5 | 0 | 2 | 0 |
-| **Total** | **45** | **37** | **0** | **7** | **1** |
+| **Total** | **45** | **39** | **0** | **7** | **0** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -422,7 +422,10 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Home.jsx`, `public/media/**`.
 - **Dependencies:** A-21 for replacements.
 - **Acceptance criteria:** responsive variants, explicit dimensions on every image, correct crops, AVIF with WebP fallback.
-- **Status:** **Not Started**
+- **Status:** **Complete (partial)**
+- **Evidence:** commit `62a5a02`. All eleven homepage images now declare intrinsic `width`/`height` (only one did), plus `decoding="async"`, with `loading="lazy"` retained below the fold — that removes the layout-shift risk. Re-sized the five images paying for pixels nobody sees, each to 2× its CSS box: **455,835 → 271,912 bytes (−40%)**. Resized preserving aspect rather than pre-cropping, because the step images are framed with `object-position` and a pre-crop would silently have moved what each one shows.
+- **Deliberately left alone:** `showcase-centered.webp` (800×936 into a 560×655 box is already *below* 2×; shrinking it would make it soft) and `applock.webp` (600×1208 into 300×604 — exactly 2×). Not every large file is an oversized one.
+- **Outstanding:** `srcset`/`sizes` and AVIF. Both need a build-time image pipeline to be worth it; hand-maintained variants would rot. Lower value now that the raw sizes are right.
 
 ### A-40 — Hero video is 1.0MB and autoplays
 - **Original finding:** Fully downloaded despite `preload="metadata"`, and almost certainly the LCP element. Over 60% of the ~1.6MB page weight.
@@ -439,7 +442,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `index.html`.
 - **Dependencies:** none.
 - **Acceptance criteria:** two or three weights self-hosted as WOFF2 with `font-display:swap`, primary face preloaded.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `8550f7c`. Inter ships as a **variable** font, so rather than the planned two or three static weights, one 48KB WOFF2 covers the whole 400–900 axis — a single same-origin preloaded request replacing a render-blocking cross-origin stylesheet **and** the six font files it discovered. `font-display: swap`. Verified live: **zero** requests to fonts.googleapis.com or fonts.gstatic.com, one `@font-face` resolved, weight 900 rendering.
+- **Privacy consequence, actioned:** Google Fonts received every visitor's IP on every page load purely to serve type. It is out of the request path and **removed from the processor list in the privacy policy**. CLAUDE.md records that re-adding a hosted font means putting the processor back. SIL OFL 1.1 licence ships alongside the font as required.
 
 ---
 
@@ -575,3 +580,5 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `b28607f` | A-22, A-23, A-27 — structured data scoped per page, 10 tests |
 | 2026-08-26 | `2770a1e` | A-46 to A-50 — health claims corrected and cited, wellness disclaimer |
 | 2026-08-26 | `d5bdf7c` | A-26, A-40, A-53 — OG card rebuilt, hero video −63%, autoplay pause control |
+| 2026-08-26 | `62a5a02` | A-29 — images right-sized (−40%) and given intrinsic dimensions |
+| 2026-08-26 | `8550f7c` | A-41 — Inter self-hosted as one variable font; Google Fonts dropped as a processor |
