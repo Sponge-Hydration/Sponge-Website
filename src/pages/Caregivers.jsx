@@ -16,9 +16,14 @@ export default function Caregivers() {
           <span className="eyebrow">For caregivers</span>
           <h1>Peace of mind that your loved one is drinking enough</h1>
           <p className="hero__sub">
-            Dehydration is one of the most common, and most preventable, reasons older adults end up
-            in the hospital. Sponge lets you monitor a loved one’s hydration remotely, automatically,
-            without asking them to learn an app or log a thing.
+            Not drinking enough is common in older adults and easy to miss — and older people who
+            arrive in hospital dehydrated do measurably worse than those who don’t.<sup><a href="#src-1">1</a></sup>{' '}
+            Sponge lets you see a loved one’s intake from your own phone, without asking them to
+            learn an app or log a thing.
+          </p>
+          <p className="hero__disclaimer">
+            Sponge is a general wellness product. It is not a medical device, it does not diagnose,
+            treat or prevent any condition, and it is not a substitute for medical care.
           </p>
           <div className="hero__cta">
             <Link to="/shop/p/sponge-family-pack" className="btn btn--primary btn--lg">Get the Family Pack</Link>
@@ -40,7 +45,7 @@ export default function Caregivers() {
           </SectionHead>
           <div className="features">
             <article className="feature"><div className="feature__icon" aria-hidden="true"><EyeIcon size={30} /></div><h3>Remote visibility</h3><p>See your loved one’s daily intake from your own phone, wherever you are. No need to call and ask.</p></article>
-            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Low-hydration alerts</h3><p>Get notified if they’re falling behind their goal so you can send a gentle reminder in time.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Behind-goal alerts</h3><p>Get notified when they’re behind the daily goal they set, so you can check in. It tracks drinking, not health — it won’t tell you anything clinical.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><SparklesIcon size={30} /></div><h3>Zero learning curve</h3><p>They just drink from their usual bottle. Nothing to set up, charge daily, or remember.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><UsersIcon size={30} /></div><h3>Shared family dashboard</h3><p>Multiple family members can follow along and split the caregiving load.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><TrendingUpIcon size={30} /></div><h3>Trends over time</h3><p>Spot patterns, like dips on hot days, and share clear data with their doctor.</p></article>
@@ -57,7 +62,25 @@ export default function Caregivers() {
           <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 560, margin: '0 auto 24px' }}>
             Four trackers and a shared dashboard so the whole family can help keep a loved one hydrated.
           </p>
-          <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack - $199.99</Link>
+          <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack — $199.99</Link>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <ol className="sources" id="sources">
+            <li id="src-1">
+              Hydration and outcome in older patients admitted to hospital (the HOOP prospective
+              cohort study), <em>Age and Ageing</em>, vol. 44 no. 6 (2015).{' '}
+              <a href="https://academic.oup.com/ageing/article/44/6/943/80322" target="_blank" rel="noopener noreferrer">
+                Read the study
+              </a>
+              . In that cohort dehydration was present in 8.9% of older emergency admissions and was
+              the primary cause in 0.6%; 30-day mortality was 17% among those admitted with
+              dehydration against 7% without. We cite it for the outcome gap, not to claim
+              dehydration is a leading cause of admission — it isn’t.
+            </li>
+          </ol>
         </div>
       </section>
     </>

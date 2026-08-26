@@ -11,7 +11,7 @@ const features = [
   { icon: BatteryIcon, title: '8-day battery', text: 'Go a full week-plus between charges, then top up in a couple of hours over USB-C. Charge it Sunday, forget about it.' },
   { icon: PhoneIcon, title: 'Free iOS & Android app', text: 'Your hydration syncs automatically to a clean dashboard with daily goals, streaks, and trends you can actually act on.' },
   { icon: LockIcon, title: 'App-lock motivation', text: 'Choose the apps that distract you and Sponge keeps them locked until you hit your water goal. Hydration with real follow-through.' },
-  { icon: TargetIcon, title: 'Personalized goals', text: 'Goals adapt to your body, activity, and climate, so your target reflects what you actually need, not a generic 8 glasses.' },
+  { icon: TargetIcon, title: 'Personalized goals', text: 'Set a daily target that fits your body and your routine rather than a generic 8 glasses, and change it whenever it stops fitting.' },
 ]
 
 export default function Home() {
@@ -97,12 +97,12 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container section-head">
           <span className="eyebrow">The problem</span>
-          <h2>Most people are dehydrated, and don’t even know it</h2>
+          <h2>You already know you should drink more water</h2>
           <p>
-            Reminders get ignored. Manual water-tracking apps get abandoned in a week. And smart
-            bottles start around $80 and force you to ditch the bottle you love. Sponge is $59.99
-            and clips onto the one you already own. Hydration shouldn’t take willpower, it should
-            just happen. That’s exactly what Sponge does.
+            That’s the problem. Reminders get swiped away. Tracking apps get abandoned in a week.
+            Smart bottles start around $80 and ask you to give up the bottle you actually like.
+            Knowing was never the missing piece — consequences were. Sponge is $59.99, clips onto
+            the bottle you already own, and locks the apps you choose until you’ve caught up.
           </p>
         </div>
       </section>

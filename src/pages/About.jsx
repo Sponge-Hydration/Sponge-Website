@@ -32,9 +32,10 @@ export default function About() {
         <div className="container prose">
           <h2>Our mission</h2>
           <p>
-            Chronic mild dehydration is one of the most common and overlooked health issues, and the
-            fixes on the market all rely on willpower. We set out to build a hydration tracker that
-            removes the friction entirely: no logging, no new bottle, no nagging you can tune out.
+            Most people know they should drink more water and don’t, and every fix on the market
+            still relies on willpower to close that gap. We set out to build a hydration tracker
+            that removes the friction entirely: no logging, no new bottle, no nagging you can tune
+            out — and, when you want it, a consequence you can’t argue with.
           </p>
           <h3>Built around the bottle you already love</h3>
           <p>
