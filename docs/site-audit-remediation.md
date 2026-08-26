@@ -22,8 +22,8 @@ next free ID.
 | P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
 | P4 — SEO & structured data | 7 | 6 | 0 | 1 | 0 |
 | P5 — performance | 3 | 3 | 0 | 0 | 0 |
-| P6 — visual & content polish | 7 | 5 | 0 | 2 | 0 |
-| **Total** | **47** | **43** | **0** | **4** | **0** |
+| P6 — visual & content polish | 8 | 6 | 0 | 2 | 0 |
+| **Total** | **48** | **44** | **0** | **4** | **0** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -543,6 +543,15 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-57 — width/height attributes stretched images that had no CSS height
+- **Original finding:** Reported by Nathan 2026-08-26 — the Hydration Locks screenshot rendered visibly distorted. **A regression I introduced in `62a5a02`** while adding width/height attributes for layout stability (A-29).
+- **Cause:** browsers apply an `<img>` element's width **and** height attributes as *presentational hints*. `.appshot` sets `width: min(300px, 78%)` and no height, so the 600×1066 screenshot was forced to 300×**1066** — aspect 0.281 against a natural 0.563, exactly 2× too tall. Worse, a presentational height is a **definite** height, so it also silently overrode `aspect-ratio` on `.hero__video`: the hero still was laid out 328×798 instead of 328×582, hidden by `object-fit: cover` cropping rather than visibly stretching.
+- **Priority / impact:** P6 visually, but it degraded the section carrying the strongest product story.
+- **Affected:** `src/index.css` base `img` rule; every image with dimension attributes whose CSS set only a width.
+- **Acceptance criteria:** no image whose `object-fit` is `fill` differs from its natural aspect; images that set their own height keep it.
+- **Status:** **Complete**
+- **Evidence:** commit `634f7ff`. `height: auto` added to the base `img` rule — element specificity (0,0,1) loses to every class rule, so `.step__img`, `.persona__img`, `.lifestyle-band img` and the logos keep their deliberate heights. Verified **in production** by measuring every image with lazy loading forced on: **0 distorted**; hydration-locks 0.563 = 0.563, widget 0.460 = 0.460, lock-screen 1.000 = 1.000, showcase 0.855 = 0.855. Also checked the PDP and /how-it-works. `test/image-aspect.test.js` (7 tests) pins the fix. 95 tests.
+
 ### A-56 — Apple Health sync and the iPhone widget were missing from the site
 - **Original finding:** Raised by Nathan 2026-08-26. The current app **writes hydration into Apple Health** and ships an **iPhone home-screen widget**. Neither appeared anywhere on the website. The audit had recorded the *absence* of health-platform integrations as a competitive weakness (A-09) and as grounds for deprioritising athletes — both based on an outdated picture.
 - **Priority / impact:** P2. Apple Health was the single most-requested thing in the site's own published reviews, and the one place HidrateSpark was genuinely ahead.
@@ -610,6 +619,7 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `8550f7c` | A-41 — Inter self-hosted as one variable font; Google Fonts dropped as a processor |
 | 2026-08-26 | `8d49d4b` | A-55 — six pages given an h1; regression test across 13 pages |
 | 2026-08-26 | `9ffa8e9` | A-11, A-21 (partial), A-54 (interim), A-56 — Apple Health + widget, corrected shipped-products claim, unused assets put to work, hero still |
+| 2026-08-26 | `634f7ff` | A-57 — fixed images stretched by presentational height hints (regression from 62a5a02) |
 
 
 ---
