@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
+import { trackAddToCart, trackViewItem } from '../analytics'
 
 export default function ProductDetail() {
   const { slug } = useParams()
@@ -17,6 +18,13 @@ export default function ProductDetail() {
   const [added, setAdded] = useState(false)
   const gallery = product?.gallery?.length ? product.gallery : product?.img ? [product.img] : []
   const [activeImg, setActiveImg] = useState(0)
+
+  // Declared before the not-found early return so hook order stays stable.
+  useEffect(() => {
+    if (product) {
+      trackViewItem({ id: product.id, name: product.name, price: product.price, qty: 1 })
+    }
+  }, [product?.id])
 
   if (!product) {
     return (
@@ -33,11 +41,13 @@ export default function ProductDetail() {
 
   const addToCart = () => {
     add(product.id, qty)
+    trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
     setAdded(true)
     setTimeout(() => setAdded(false), 2200)
   }
   const buyNow = () => {
     add(product.id, qty)
+    trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
     navigate('/cart')
   }
 

@@ -14,6 +14,7 @@
 import { gmailConfigured, sendGmail, customerEmailHtml, teamEmailHtml } from './_integrations.js'
 import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets.js'
 import { makeStatusToken } from './_status-token.js'
+import { metaCapiConfigured, sendMetaPurchase } from './_meta-capi.js'
 
 const TOLERANCE_SECONDS = 300 // reject events older than 5 minutes (replay guard)
 
@@ -58,7 +59,7 @@ async function verifyStripeSignature(payload, header, secret) {
   return v1.some((sig) => timingSafeEqual(sig, expected))
 }
 
-async function handleCheckoutCompleted(session, env) {
+async function handleCheckoutCompleted(session, env, request) {
   // The session object omits line items; fetch them for fulfillment details.
   let items = []
   if (env.STRIPE_SECRET_KEY) {
@@ -83,6 +84,9 @@ async function handleCheckoutCompleted(session, env) {
     sessionId: session.id,
     paymentStatus: session.payment_status,
     email: session.customer_details?.email || null,
+    // Not written to the sheet or emails; used only to improve Meta CAPI match
+    // quality, where it is hashed before it leaves us.
+    phone: session.customer_details?.phone || null,
     amount: (session.amount_total || 0) / 100,
     // Shipping and tax kept tax-exclusive / separate so the email math adds up:
     // sum(item amounts) + shippingCost + tax === amount.
@@ -129,7 +133,7 @@ async function handleCheckoutCompleted(session, env) {
 
   console.log('✅ Order paid:', JSON.stringify(order))
 
-  // Fire the three side effects independently - a failure in one must not
+  // Fire the side effects independently - a failure in one must not
   // block the others, and must not make Stripe retry the whole delivery.
   const team = env.TEAM_EMAIL || 'team@spongehydration.com'
   const tasks = {
@@ -151,6 +155,9 @@ async function handleCheckoutCompleted(session, env) {
           html: teamEmailHtml(order),
         })
       : Promise.reject(new Error('Gmail not configured')),
+    metaCapi: metaCapiConfigured(env)
+      ? sendMetaPurchase(env, order, request)
+      : Promise.reject(new Error('Meta CAPI not configured')),
   }
 
   const entries = Object.entries(tasks)
@@ -187,7 +194,7 @@ export async function onRequestPost({ request, env }) {
 
   switch (event.type) {
     case 'checkout.session.completed':
-      await handleCheckoutCompleted(event.data.object, env)
+      await handleCheckoutCompleted(event.data.object, env, request)
       break
     default:
       // Other event types are acknowledged but not acted on.
