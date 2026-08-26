@@ -85,10 +85,17 @@ export default function ProductDetail() {
               {product.compareAt && (
                 <span className="pdp__save">
                   Save {usd(product.compareAt - product.price)}
+                  {product.compareNote ? ` ${product.compareNote}` : ''}
                 </span>
               )}
               {!product.soldOut && <span className="pdp__plus">+ shipping &amp; tax</span>}
             </div>
+            {product.clips === 1 && (
+              <p className="pdp__compare">
+                Smart bottles start around $80 and ask you to replace the bottle you already
+                own. Sponge clips onto it.
+              </p>
+            )}
 
             <p className="pdp__desc">{product.short}</p>
 
