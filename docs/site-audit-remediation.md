@@ -21,9 +21,9 @@ next free ID.
 | P2 — messaging, trust, navigation | 8 | 5 | 0 | 1 | 2 |
 | P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
 | P4 — SEO & structured data | 6 | 4 | 0 | 0 | 2 |
-| P5 — performance | 3 | 0 | 0 | 0 | 3 |
-| P6 — visual & content polish | 5 | 3 | 0 | 1 | 1 |
-| **Total** | **43** | **30** | **0** | **6** | **7** |
+| P5 — performance | 3 | 1 | 0 | 0 | 2 |
+| P6 — visual & content polish | 7 | 5 | 0 | 2 | 0 |
+| **Total** | **45** | **37** | **0** | **7** | **1** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -390,7 +390,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `public/og-image.jpg`, `index.html`.
 - **Dependencies:** A-21.
 - **Acceptance criteria:** product on a coloured ground with the wordmark and a one-line claim, legible at thumbnail size.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `d5bdf7c`. Rebuilt at 1200×630 from the real desk photograph — a Sponge-branded bottle as the subject — with a scrim carrying "Tracks every sip. Locks your apps." and the domain and price, both legible at thumbnail size. Adds `og:image:width`/`height` and corrects the alt text, which described a different image entirely. Live: 118,519 bytes, 1200×630.
+- **Note:** composed from an existing real asset, not designed. A purpose-shot card remains part of A-21.
 
 ### A-27 — Smaller metadata issues
 - **Original finding:** PDP title "Sponge Hydration Tracker - $59.99 | Sponge Hydration Tracker" duplicates the brand. `og:type` hardcoded to `product` on every page including blog and legal. `og:image` identical everywhere. Obsolete `meta keywords` tag.
@@ -428,7 +430,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Home.jsx`, `public/media/video/`.
 - **Dependencies:** A-21.
 - **Acceptance criteria:** under 400KB, or a still plus a play affordance on mobile; LCP asset preloaded.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `d5bdf7c`. Re-encoded 720×1280/30fps/~910kbps → 540×960/24fps/CRF 30 with faststart: **1,017KB → 372KB, −63%**, verified live. It renders at 360 CSS px, so the source was roughly 2× larger than it needed to be in both dimensions and framerate. Quality was checked frame-by-frame at render size before shipping rather than assumed.
 
 ### A-41 — Render-blocking Google Fonts with six weights
 - **Original finding:** Inter loaded from Google Fonts at weights 400–900 via a render-blocking stylesheet. Preconnects are correct but the request is still on the critical path. Also a third-party request that receives every visitor's IP.
@@ -492,7 +495,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Home.jsx`, `ProductDetail.jsx`, `Products.jsx`, `Team.jsx`, `Caregivers.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** en/em dashes correct; names consistent; caption order matches.
-- **Status:** **Complete (partial)** — the price-CTA dashes were fixed in `fa116e2` and `492a923`. Team naming and caption order remain **Not Started**.
+- **Status:** **Complete (partial)** — one item needs Nathan
+- **Evidence:** price-CTA dashes fixed in `fa116e2` and `492a923`; a site-wide sweep now finds no hyphen used as a dash in user-facing copy. Team names are already full names everywhere — no bare "Dom" anywhere in `src/`.
+- **Outstanding (User Action):** the founders photo caption reads "Christopher Miglio and Nathan Katzaroff" while the headshot cards order Nathan → Chris → Dom. Aligning them by editing the caption would misidentify who is actually on the left in that photograph. **Only Nathan can say which order the photo shows.**
 
 ---
 
@@ -504,13 +509,34 @@ prevent or mitigate disease.
 
 | ID | Statement | Where | Status |
 |---|---|---|---|
-| A-46 | "Dehydration is one of the most common, and most preventable, reasons older adults end up in the hospital." | `/caregivers` hero | **Not Started** — highest exposure. Unsourced prevention claim about a clinical outcome, aimed at a vulnerable population, on a page selling remote monitoring. Needs a specific peer-reviewed citation, reframing to the condition rather than what Sponge prevents, and a plain "not a medical device" line. |
-| A-47 | "Chronic mild dehydration is one of the most common and overlooked health issues" | `/about` | **Not Started** — cite or soften. |
-| A-48 | "Most people are dehydrated, and don't even know it" | Homepage | **Not Started** — unsourced and imprecise; the recommended replacement is a behavioural claim needing no citation. |
-| A-49 | "Low-hydration alerts — Get notified if they're falling behind" | `/caregivers` | **Not Started** — keep framed as goal tracking, never clinical escalation. |
-| A-50 | "Goals adapt to your body, activity, and climate" | Homepage features | **Not Started** — implies an algorithm; state its basis or soften. The app reads activity from no health platform today. |
-| A-51 | Pre-order with no stated cancellation right | `/legal/returns` | **Complete** — `fa116e2` added `/legal/pre-order` with an unconditional pre-shipment cancellation right and a 7-business-day refund commitment. |
+| A-46 | "Dehydration is one of the most common, and most preventable, reasons older adults end up in the hospital." | `/caregivers` hero | **Complete** — commit `2770a1e`. **The claim was not merely uncited, it was wrong.** In the HOOP cohort dehydration was present in 8.9% of older emergency admissions and was the *primary* cause in **0.6%** — not a leading cause of admission. Removed rather than footnoted. Replaced with what the evidence does support: it is common, easy to miss, and older people admitted dehydrated do measurably worse (30-day mortality **17% vs 7%**), cited to *Age and Ageing* vol. 44 no. 6 (2015) with a link. The citation states what it is being used for **and what it is not**. A general-wellness disclaimer was added to the hero. |
+| A-47 | "Chronic mild dehydration is one of the most common and overlooked health issues" | `/about` | **Complete** — `2770a1e`. Replaced with a behavioural claim needing no citation. |
+| A-48 | "Most people are dehydrated, and don't even know it" | Homepage | **Complete** — `2770a1e`. Now "You already know you should drink more water" — self-evidently true, needs no source, and a stronger setup for App Lock. |
+| A-49 | "Low-hydration alerts — Get notified if they're falling behind" | `/caregivers` | **Complete** — `2770a1e`. Renamed "Behind-goal alerts"; the copy now says outright that it tracks drinking, not health, and won't tell you anything clinical. The old name implied a clinical reading of hydration status on a page selling monitoring for a vulnerable group. |
+| A-50 | "Goals adapt to your body, activity, and climate" | Homepage features | **Complete (needs confirmation)** — `2770a1e`. Implied automatic adaptation from activity and weather data. There are no health-platform integrations of any kind, so the claim asserted capability the product cannot have. Narrowed to setting and adjusting a target. **Nathan should confirm what the app actually does** — this was narrowed to what is certainly true, not necessarily to what is true. |
+| A-51 | Pre-order with no stated cancellation right | `/legal/returns` | **Complete** — `fa116e2`. |
 | A-52 | Compare-at `$79.99` | `/products`, PDP | **Complete** — removed, see A-24. |
+
+
+---
+
+## Findings raised during remediation
+
+### A-53 — Autoplaying hero video had no way to stop it
+- **Original finding:** Raised 2026-08-26 while compressing the hero video. It autoplays, loops and runs ~9 seconds, which WCAG **2.2.2 Pause, Stop, Hide** treats as moving content that starts automatically and lasts more than five seconds. There was no mechanism to stop it, and `prefers-reduced-motion` was handled in CSS for animations but did nothing about the video.
+- **Priority / impact:** P3 (accessibility), also a data cost on cellular.
+- **Affected:** `Home.jsx`, `index.css`.
+- **Acceptance criteria:** reduced-motion users never get motion; everyone else can stop it.
+- **Status:** **Complete**
+- **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
+
+### A-54 — The hero video has the same content defects as its poster
+- **Original finding:** Raised 2026-08-26. Frame inspection during compression showed the hero loop contains a **Hydro Flask** tumbler with the logo visible twice, sitting on a **closed laptop**, with burned-in social captions ("any bottle") — a repurposed social clip — and it demonstrates the **dock**, not the clip the copy sells.
+- **Priority / impact:** P6 by band, but it is the first thing a visitor sees, so it carries the same weight as A-21.
+- **Affected:** `public/media/video/hero.mp4`, homepage hero.
+- **Dependencies:** A-21 (needs a shoot).
+- **Acceptance criteria:** a hero loop showing the clip attaching to an unbranded bottle, no laptop, no burned-in captions, no competitor logos.
+- **Status:** **User Action Required** — needs filming. Compression (A-40) reduced its cost but cannot fix its content.
 
 ---
 
@@ -547,3 +573,5 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `eb2f2fc` | A-09, A-14, A-28 — comparison table, objection block, blog link |
 | 2026-08-26 | `df917ad` | A-42 — AI-watermarked lifestyle image removed and replaced |
 | 2026-08-26 | `b28607f` | A-22, A-23, A-27 — structured data scoped per page, 10 tests |
+| 2026-08-26 | `2770a1e` | A-46 to A-50 — health claims corrected and cited, wellness disclaimer |
+| 2026-08-26 | `d5bdf7c` | A-26, A-40, A-53 — OG card rebuilt, hero video −63%, autoplay pause control |
