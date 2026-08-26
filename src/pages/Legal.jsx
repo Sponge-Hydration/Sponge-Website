@@ -53,7 +53,7 @@ const PAGES = {
       { ul: [
         'Stripe — payment processing and hosted checkout. Stripe collects your card and billing details directly and is responsible for them.',
         'Cloudflare — website hosting, content delivery, security, and the cookieless page-view measurement described above.',
-        'Google — Gmail, to send your order confirmation and to deliver contact-form messages to our team; Google Sheets, where our order records are kept; and Google Fonts, which serves the site’s typefaces and therefore receives your IP address when a page loads.',
+        'Google — Gmail, to send your order confirmation and to deliver contact-form messages to our team, and Google Sheets, where our order records and email-list signups are kept. The site’s typefaces are served from our own domain, so no font provider sees your visit.',
         'Airtable — where submitted product reviews are stored.',
         'Google Analytics — site usage measurement. Only if you allow analytics.',
         'Meta (Facebook and Instagram) and TikTok — advertising measurement and targeting, both in your browser and, after a completed order, from our own server. Only if you allow advertising.',

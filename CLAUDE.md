@@ -39,3 +39,9 @@ Marketing + store for Sponge hydration trackers. **Live: https://www.spongehydra
 - UI: `src/components/PrivacyControls.jsx` (banner + dialog, mounted in Layout). The footer's "Do Not Sell or Share My Personal Information" button opens it via the `sponge:openprivacy` event. `/legal/privacy` also renders live controls.
 - Downgrading consent clears tracker cookies and **reloads** — already-executed scripts cannot be unloaded any other way. Upgrades load immediately via the `sponge:consentchange` listener in Layout.
 - `npm test` (Vitest + jsdom) covers persistence, revocation, GPC, tracker suppression, cold-load ordering, and server-side suppression. Run it before touching any of the above.
+
+## Fonts
+- **Inter is self-hosted** at `public/fonts/inter-latin-var.woff2` — a **variable** font, so one 48KB file covers the whole 400–900 weight axis the site uses. It replaced a render-blocking cross-origin stylesheet from Google Fonts plus its font fetches.
+- Declared as a single `@font-face` with `font-weight: 100 900` at the top of `src/index.css`, preloaded from `index.html`, `font-display: swap`.
+- Self-hosting also removed Google Fonts from the request path, which is why it is **no longer listed as a processor in the privacy policy**. If you ever re-add a hosted font, put the processor back.
+- Licence: SIL OFL 1.1, shipped at `public/fonts/Inter-LICENSE.txt`. Keep it with the font.
