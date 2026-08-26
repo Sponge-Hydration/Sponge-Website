@@ -20,10 +20,10 @@ next free ID.
 | P1 — checkout, tracking, conversion-critical | 7 | 6 | 0 | 2 | 0 |
 | P2 — messaging, trust, navigation | 8 | 5 | 0 | 1 | 2 |
 | P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
-| P4 — SEO & structured data | 6 | 4 | 0 | 0 | 2 |
+| P4 — SEO & structured data | 7 | 6 | 0 | 1 | 0 |
 | P5 — performance | 3 | 3 | 0 | 0 | 0 |
 | P6 — visual & content polish | 7 | 5 | 0 | 2 | 0 |
-| **Total** | **45** | **39** | **0** | **7** | **0** |
+| **Total** | **46** | **40** | **0** | **7** | **0** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -535,6 +535,14 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-55 — Six pages had no h1 at all
+- **Original finding:** Raised 2026-08-26 in the final audit pass. `/products`, `/how-it-works`, `/blog`, `/team`, `/contact` and `/reviews` each used `SectionHead` as their page title, and `SectionHead` has always rendered an `h2`. Those six documents began their outline at level 2 with **no h1**, which loses an SEO signal and breaks heading navigation for assistive tech (WCAG 1.3.1).
+- **Priority / impact:** P3/P4.
+- **Affected:** `bits.jsx`, the six pages, `index.css`.
+- **Acceptance criteria:** exactly one h1 on every indexable page, visually unchanged.
+- **Status:** **Complete**
+- **Evidence:** commit `8d49d4b`. `SectionHead` gained an `as` prop defaulting to `h2`, so every mid-page use is untouched; the six page-title uses pass `as="h1"`. Home deliberately unchanged — it already has a hero h1 and its SectionHeads are genuine sections. The stylesheet only targeted `.section-head h2`, so the new h1s would have rendered unstyled; it now targets both. Verified live: exactly one h1 on all 11 pages checked. A test asserts this across 13 built pages.
+
 ### A-54 — The hero video has the same content defects as its poster
 - **Original finding:** Raised 2026-08-26. Frame inspection during compression showed the hero loop contains a **Hydro Flask** tumbler with the logo visible twice, sitting on a **closed laptop**, with burned-in social captions ("any bottle") — a repurposed social clip — and it demonstrates the **dock**, not the clip the copy sells.
 - **Priority / impact:** P6 by band, but it is the first thing a visitor sees, so it carries the same weight as A-21.
@@ -582,3 +590,36 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `d5bdf7c` | A-26, A-40, A-53 — OG card rebuilt, hero video −63%, autoplay pause control |
 | 2026-08-26 | `62a5a02` | A-29 — images right-sized (−40%) and given intrinsic dimensions |
 | 2026-08-26 | `8550f7c` | A-41 — Inter self-hosted as one variable font; Google Fonts dropped as a processor |
+| 2026-08-26 | `8d49d4b` | A-55 — six pages given an h1; regression test across 13 pages |
+
+
+---
+
+## Final audit of the deployed site — 2026-08-26
+
+Run against production after all of the above, looking for regressions and
+omissions rather than re-confirming known fixes.
+
+**Checked and clean:**
+- All 23 routes return 200; `/nonexistent-page` correctly returns 404.
+- Every page carries a description, a canonical, and now exactly one h1.
+- Sitemap includes `/legal/pre-order`.
+- Zero occurrences sitewide of: "free shipping", "8 weeks", "79.99", "299.96",
+  "Save $100", "most preventable", "drink-water reminder device", "Order Now",
+  `recovery.webp`.
+- Cold first visit: consent banner shown, **zero** tracker requests, zero
+  Google Fonts requests. The only third-party host is Cloudflare's own beacon
+  (A-33, User Action Required).
+- 390px: no horizontal overflow, one h1, video pause control present.
+- Cart and checkout still agree on totals; the order path is unaffected by any
+  of this work.
+
+**Found and fixed during this pass:** A-55 (six pages with no h1).
+
+**Page weight, cold and compressed:** critical path **619KB**, down from roughly
+1.6MB — document 7.9KB, CSS 11KB, JS 114KB, font 48KB, hero video 372KB, poster
+72KB. Lazy images (personas 158KB, showcase 187KB) load after.
+
+**Measurement note:** a warm browser reported ~1.6MB because it was serving
+pre-optimisation copies from cache (`transferSize: 0`). Always cache-bust and
+send `--compressed` when measuring, or the numbers are meaningless.
