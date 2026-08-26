@@ -889,3 +889,37 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .pdp__soldout { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
 .pdp__notify { width: 100%; max-width: 380px; }
 .checkout-form__signup { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); max-width: 380px; }
+
+/* ── PDP colour selector ───────────────────────────────────────────────── */
+.pdp__colors { margin: 0 0 22px; }
+.pdp__colors-label { display: block; font-size: 14.5px; color: var(--ink-soft); margin-bottom: 10px; }
+.pdp__colors-label strong { color: var(--ink); }
+.pdp__colors-note { color: var(--ink-soft); }
+.pdp__swatches { display: flex; gap: 12px; }
+.swatch--lg { width: 34px; height: 34px; }
+
+/* ── Cart quantity stepper + adhesive cross-sell ───────────────────────── */
+.qty--sm button { width: 32px; height: 32px; font-size: 16px; }
+.qty--sm span { min-width: 26px; font-size: 15px; }
+.qty--sm button:disabled { opacity: .4; cursor: not-allowed; }
+
+.cart-addon {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 16px 18px; margin-top: 16px;
+  border: 1.5px dashed var(--line); border-radius: var(--radius);
+  background: var(--surface-tint);
+}
+.cart-addon__media { flex: 0 0 56px; }
+.cart-addon__media img { width: 56px; height: 56px; object-fit: cover; border-radius: 12px; }
+.cart-addon__info { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.cart-addon__name { font-weight: 700; font-size: 15.5px; color: var(--ink); }
+.cart-addon__sub { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+.cart-addon__action { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+.cart-addon__price { font-weight: 800; color: var(--ink); }
+@media (max-width: 560px) {
+  .cart-addon__action { width: 100%; justify-content: space-between; }
+}
+@media (max-width: 700px) {
+  /* Primary controls on a touch screen — give them room. */
+  .qty--sm button { width: 40px; height: 40px; }
+}

@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
-import { productBySlug } from '../data'
+import { colorById, colorOptions, productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
 import { trackAddToCart, trackViewItem } from '../analytics'
 import EmailSignup from '../components/EmailSignup'
@@ -19,6 +19,10 @@ export default function ProductDetail() {
   const [added, setAdded] = useState(false)
   const gallery = product?.gallery?.length ? product.gallery : product?.img ? [product.img] : []
   const [activeImg, setActiveImg] = useState(0)
+  // Colour is chosen here rather than only in the cart, so nobody buys a
+  // silently-defaulted variant. White is first in the gallery and is the colour
+  // most of the product photography shows.
+  const [color, setColor] = useState('white')
 
   // Declared before the not-found early return so hook order stays stable.
   useEffect(() => {
@@ -40,14 +44,19 @@ export default function ProductDetail() {
     )
   }
 
+  // One colour chosen here is applied to every clip in the item; multi-clip
+  // products stay individually editable in the cart.
+  const clips = product.clips ?? 1
+  const colorsForCart = clips > 0 ? Array.from({ length: clips }, () => color) : null
+
   const addToCart = () => {
-    add(product.id, qty)
+    add(product.id, qty, colorsForCart)
     trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
     setAdded(true)
     setTimeout(() => setAdded(false), 2200)
   }
   const buyNow = () => {
-    add(product.id, qty)
+    add(product.id, qty, colorsForCart)
     trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
     navigate('/cart')
   }
@@ -115,6 +124,35 @@ export default function ProductDetail() {
                 <li key={f}><span className="tick">✓</span> {f}</li>
               ))}
             </ul>
+
+            {!product.soldOut && clips > 0 && (
+              <div className="pdp__colors">
+                <span className="pdp__colors-label" id="pdp-color-label">
+                  Colour: <strong>{colorById(color)?.label}</strong>
+                  {clips > 1 && <span className="pdp__colors-note"> — change individual clips in the cart</span>}
+                </span>
+                <div className="pdp__swatches" role="radiogroup" aria-labelledby="pdp-color-label">
+                  {colorOptions.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={color === c.id}
+                      aria-label={c.label}
+                      title={c.label}
+                      className={`swatch swatch--lg${color === c.id ? ' is-active' : ''}`}
+                      style={{ '--swatch': c.hex }}
+                      onClick={() => {
+                        setColor(c.id)
+                        // Follow the choice in the gallery when a matching shot exists.
+                        const i = gallery.findIndex((g) => g.includes(`-${c.id}-`))
+                        if (i >= 0) setActiveImg(i)
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {product.soldOut ? (
               <div className="pdp__soldout">

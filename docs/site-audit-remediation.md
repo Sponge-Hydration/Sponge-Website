@@ -161,7 +161,10 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `/checkout`, `/products`, footer, `/blog`.
 - **Dependencies:** an email platform decision (or a simple Sheets/Airtable capture).
 - **Acceptance criteria:** email captured at three points — before the Stripe redirect, a notify-me on sold-out SKUs, and one honest footer/blog offer; stored somewhere retrievable; consent-appropriate copy.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Status note:** the "email platform decision" dependency was resolved without one — signup writes to the spreadsheet the order log already uses, so no new service or credential was needed.
+- **Evidence:** commit `4768306`. `functions/api/subscribe.js` writes to a **Subscribers** tab in the existing order spreadsheet, reusing the Google service account already configured in production. Honeypot, source allow-list, duplicate-safe, and it returns 503 rather than faking success when unconfigured. One reusable `EmailSignup` component in the footer, on sold-out products, and on `/checkout` before the Stripe redirect. 9 new tests (60 total). Production verified: invalid address → 400; honeypot → 200 with no write; real address → 200; a submission through the live footer UI returned the confirmation state. Same flex-basis-on-main-axis bug as the privacy banner found and fixed (a 190px-tall input in the stacked variant).
+- **Follow-up for Nathan:** two clearly-marked test rows were created during verification — `claude-verification-test@spongehydration.com` and `claude-ui-verification@spongehydration.com`. Delete them from the Subscribers tab, and confirm the first appears only once (which also confirms de-duplication).
 
 ### A-04 — No advertising or analytics instrumentation
 - **Original finding:** Only script was the Cloudflare beacon. No GA4, Meta pixel, TikTok pixel, or Conversions API. Paid spend could not be measured, optimised, or retargeted.

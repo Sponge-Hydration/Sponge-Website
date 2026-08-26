@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
@@ -8,6 +9,29 @@ import { shippingForCart } from '../shipping'
 
 export default function Cart() {
   const { items, subtotal, add, setColor, remove } = useCart()
+
+  // The cart stores one unit per row so each clip can carry its own colour.
+  // Presenting that raw means four trackers render as four identical rows, so
+  // collapse units that are the same product AND the same colour combination
+  // into a single row with a quantity stepper.
+  const groups = useMemo(() => {
+    const map = new Map()
+    for (const i of items) {
+      const key = `${i.id}|${i.colors.join(',')}`
+      if (!map.has(key)) map.set(key, { key, item: i, uids: [], qty: 0 })
+      const g = map.get(key)
+      g.uids.push(i.uid)
+      g.qty += 1
+    }
+    return [...map.values()]
+  }, [items])
+
+  // Cross-sell: the adhesive mounts are what make "swap between bottles" work,
+  // so offer them once there is a clip in the cart and none already added.
+  const adhesive = productById('sponge-adhesive-3pack')
+  const hasClips = items.some((i) => (i.clips ?? 0) > 0)
+  const hasAdhesive = items.some((i) => i.id === 'sponge-adhesive-3pack')
+  const showAdhesiveOffer = Boolean(adhesive) && hasClips && !hasAdhesive && !adhesive.soldOut
 
   // Show the real USPS charge here rather than deferring it to /checkout — the
   // shipping model is deterministic from the cart contents, so hiding it until
@@ -68,25 +92,25 @@ export default function Cart() {
                 </button>
               </div>
             )}
-            {items.map((i) => (
-              <div className="cart-row" key={i.uid}>
-                <div className="cart-row__media" aria-hidden="true"><img src={i.img} alt="" loading="lazy" /></div>
+            {groups.map((g) => (
+              <div className="cart-row" key={g.key}>
+                <div className="cart-row__media" aria-hidden="true"><img src={g.item.img} alt="" loading="lazy" /></div>
                 <div className="cart-row__info">
-                  <Link to={`/shop/p/${i.slug}`} className="cart-row__name">{i.name}</Link>
-                  <span className="cart-row__sub">{i.tagline}</span>
-                  {i.colors.length > 0 && (
+                  <Link to={`/shop/p/${g.item.slug}`} className="cart-row__name">{g.item.name}</Link>
+                  <span className="cart-row__sub">{g.item.tagline}</span>
+                  {g.item.colors.length > 0 && (
                   <div className="cart-row__colors-group">
                     <span className="cart-row__colors-heading">
-                      Select color{i.colors.length > 1 ? 's' : ''}:
+                      Select color{g.item.colors.length > 1 ? 's' : ''}:
                     </span>
-                    {i.colors.map((selected, idx) => (
+                    {g.item.colors.map((selected, idx) => (
                       <div
                         className="cart-row__colors"
                         key={idx}
                         role="radiogroup"
-                        aria-label={i.colors.length > 1 ? `Clip ${idx + 1} color` : `Color for ${i.name}`}
+                        aria-label={g.item.colors.length > 1 ? `Clip ${idx + 1} color` : `Color for ${g.item.name}`}
                       >
-                        {i.colors.length > 1 && (
+                        {g.item.colors.length > 1 && (
                           <span className="cart-row__clip-label">Clip {idx + 1}</span>
                         )}
                         {colorOptions.map((c) => (
@@ -99,7 +123,10 @@ export default function Cart() {
                             title={c.label}
                             className={`swatch${selected === c.id ? ' is-active' : ''}`}
                             style={{ '--swatch': c.hex }}
-                            onClick={() => setColor(i.uid, idx, c.id)}
+                            // The units in a group are identical by definition,
+                            // so a colour change applies to all of them and the
+                            // group stays a single row.
+                            onClick={() => g.uids.forEach((uid) => setColor(uid, idx, c.id))}
                           />
                         ))}
                       </div>
@@ -107,13 +134,57 @@ export default function Cart() {
                   </div>
                   )}
                   <div className="cart-row__actions">
-                    <button className="link-btn" onClick={() => add(i.id, 1)}>+ Add another</button>
-                    <button className="link-btn link-btn--muted" onClick={() => remove(i.uid)}>Remove</button>
+                    <div className="qty qty--sm">
+                      <button
+                        onClick={() => remove(g.uids[g.uids.length - 1])}
+                        aria-label={`Decrease ${g.item.name} quantity`}
+                        disabled={g.qty <= 1}
+                      >
+                        −
+                      </button>
+                      <span aria-live="polite">{g.qty}</span>
+                      <button
+                        onClick={() => add(g.item.id, 1, g.item.colors)}
+                        aria-label={`Increase ${g.item.name} quantity`}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      className="link-btn link-btn--muted"
+                      onClick={() => g.uids.forEach((uid) => remove(uid))}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
-                <div className="cart-row__price">{usd(i.lineTotal)}</div>
+                <div className="cart-row__price">{usd(g.item.price * g.qty)}</div>
               </div>
             ))}
+
+            {showAdhesiveOffer && (
+              <div className="cart-addon">
+                <div className="cart-addon__media" aria-hidden="true">
+                  <img src={adhesive.img} alt="" loading="lazy" />
+                </div>
+                <div className="cart-addon__info">
+                  <span className="cart-addon__name">Add the {adhesive.name}</span>
+                  <span className="cart-addon__sub">
+                    Stick one on each bottle you use and swap your Sponge between them in seconds.
+                  </span>
+                </div>
+                <div className="cart-addon__action">
+                  <span className="cart-addon__price">{usd(adhesive.price)}</span>
+                  <button
+                    type="button"
+                    className="btn btn--ghost btn--sm"
+                    onClick={() => add(adhesive.id, 1)}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           <aside className="cart-summary">
