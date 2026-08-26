@@ -86,7 +86,10 @@ async function getAccessToken(env) {
 
 // --- sheet helpers --------------------------------------------------------
 
-async function ensureTab(env, token, tab) {
+// `headers` is the row written when the tab has to be created. Defaults to the
+// order columns so existing callers are unchanged; the subscriber list passes
+// its own.
+async function ensureTab(env, token, tab, headers = HEADERS) {
   const metaRes = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEET_ID}?fields=sheets.properties.title`,
     { headers: { Authorization: `Bearer ${token}` } }
@@ -107,7 +110,7 @@ async function ensureTab(env, token, tab) {
   )
   if (!addRes.ok) throw new Error(`Add tab error ${addRes.status}: ${await addRes.text()}`)
 
-  await appendValues(env, token, tab, [HEADERS])
+  await appendValues(env, token, tab, [headers])
 }
 
 async function appendValues(env, token, tab, values) {
@@ -208,4 +211,46 @@ export async function appendOrderToSheet(env, order) {
       ? order.orderNumber
       : await getNextOrderNumber(env, token, tab)
   return appendValues(env, token, tab, [orderToRow(order, orderNumber)])
+}
+
+// ── Email list ─────────────────────────────────────────────────────────────
+// Subscribers live in their own tab of the same spreadsheet, so signup reuses
+// the service account and infrastructure the order log already depends on and
+// needs no new credentials.
+
+const SUBSCRIBER_TAB = 'Subscribers'
+const SUBSCRIBER_HEADERS = ['Email', 'Date Added', 'Source', 'Status']
+
+/**
+ * Append an email to the subscriber tab, skipping addresses already present.
+ *
+ * Returns { added: boolean }. `added: false` means it was already on the list —
+ * the caller still reports success to the visitor, because telling someone
+ * "you are already subscribed" leaks list membership to anyone who can type an
+ * address into the form.
+ */
+export async function appendSubscriber(env, { email, source }) {
+  const tab = env.SUBSCRIBER_TAB_NAME || SUBSCRIBER_TAB
+  const token = await getAccessToken(env)
+  await ensureTab(env, token, tab, SUBSCRIBER_HEADERS)
+
+  const normalised = String(email).trim().toLowerCase()
+
+  // Low volume, so a read-then-append race is not worth guarding against.
+  const range = encodeURIComponent(`${tab}!A2:A`)
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEET_ID}/values/${range}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  if (res.ok) {
+    const rows = (await res.json()).values || []
+    if (rows.some((r) => String(r[0] || '').trim().toLowerCase() === normalised)) {
+      return { added: false }
+    }
+  }
+
+  const d = new Date()
+  const date = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`
+  await appendValues(env, token, tab, [[normalised, date, source || 'site', 'New']])
+  return { added: true }
 }

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { openPrivacyPreferences } from './PrivacyControls'
+import EmailSignup from './EmailSignup'
 
 export default function Footer() {
   return (
@@ -12,6 +13,20 @@ export default function Footer() {
             <div className="footer__apps">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">App Store</a>
               <a href="https://play.google.com/store/apps/details?id=com.spongehydrationAndroid.sponge" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </div>
+            <div className="footer__signup">
+              <p className="footer__signup-pitch">
+                <strong>We send one email a month.</strong> What we learned building the
+                hardware, what the hydration research actually says, and when the next batch
+                opens. No drip sequence.
+              </p>
+              <EmailSignup
+                source="footer"
+                label="Email address"
+                cta="Sign up"
+                variant="stacked"
+                done="Thanks — you’re on the list. One email a month, that’s it."
+              />
             </div>
           </div>
           <div>

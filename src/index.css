@@ -853,3 +853,39 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .privacy-panel p { margin-bottom: 18px; }
 .privacy-panel__actions { display: flex; gap: 12px; flex-wrap: wrap; }
 @media (max-width: 560px) { .privacy-panel__actions .btn { flex: 1 1 auto; justify-content: center; } }
+
+/* ── Email signup ──────────────────────────────────────────────────────── */
+.signup { margin: 0; }
+.signup__label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.signup__row { display: flex; gap: 8px; flex-wrap: wrap; }
+.signup__input {
+  flex: 1 1 190px; min-width: 0;
+  font: inherit; font-size: 15px; padding: 11px 14px;
+  border: 1.5px solid var(--line); border-radius: 12px;
+  background: #fff; color: var(--ink);
+}
+.signup__input:focus { outline: none; border-color: var(--blue-500); box-shadow: 0 0 0 3px var(--aqua-100); }
+.signup__btn { flex: 0 0 auto; padding: 11px 20px; font-size: 15px; min-height: 44px; }
+.signup--stacked .signup__row { flex-direction: column; }
+/* flex-basis applies to the MAIN axis — once this row is a column that is
+   height, and `flex: 1 1 190px` on the input makes it 190px tall. Reset it. */
+.signup--stacked .signup__input { flex: 0 0 auto; width: 100%; }
+.signup--stacked .signup__btn { width: 100%; }
+.signup__done { margin: 0; font-size: 14.5px; font-weight: 600; }
+.signup__err { margin: 8px 0 0; font-size: 13.5px; color: #b3261e; }
+/* Honeypot: removed from the visual and a11y trees, still fillable by bots. */
+.signup__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Footer placement sits on the dark gradient */
+.footer__signup { margin-top: 22px; max-width: 340px; }
+.footer__signup-pitch { font-size: 13.5px; color: rgba(255, 255, 255, 0.78); margin: 0 0 12px; line-height: 1.55; }
+.footer__signup-pitch strong { color: #fff; }
+.footer__signup .signup__label { color: rgba(255, 255, 255, 0.9); }
+.footer__signup .signup__input { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.28); color: #fff; }
+.footer__signup .signup__input::placeholder { color: rgba(255, 255, 255, 0.55); }
+.footer__signup .signup__done { color: var(--aqua-300); }
+.footer__signup .signup__err { color: #ffb4ab; }
+
+.pdp__soldout { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
+.pdp__notify { width: 100%; max-width: 380px; }
+.checkout-form__signup { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); max-width: 380px; }

@@ -6,6 +6,7 @@ import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
 import { trackAddToCart, trackViewItem } from '../analytics'
+import EmailSignup from '../components/EmailSignup'
 
 export default function ProductDetail() {
   const { slug } = useParams()
@@ -116,9 +117,16 @@ export default function ProductDetail() {
             </ul>
 
             {product.soldOut ? (
-              <div className="pdp__buy">
+              <div className="pdp__soldout">
                 <button className="btn btn--primary btn--lg" disabled>Sold out</button>
-                <Link to="/contact" className="btn btn--ghost btn--lg">Ask about availability</Link>
+                <div className="pdp__notify">
+                  <EmailSignup
+                    source="notify-product"
+                    label={`Email me when the ${product.name} is back`}
+                    cta="Notify me"
+                    done="Thanks — we’ll email you when it’s back in stock."
+                  />
+                </div>
               </div>
             ) : (
               <div className="pdp__buy">

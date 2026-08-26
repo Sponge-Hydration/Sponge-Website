@@ -7,6 +7,7 @@ import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/i
 import { shippingForCart } from '../shipping'
 import { trackBeginCheckout, trackPurchase } from '../analytics'
 import { getConsent } from '../consent'
+import EmailSignup from '../components/EmailSignup'
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
@@ -158,6 +159,18 @@ export default function Checkout() {
                 {loading ? 'Redirecting…' : 'Continue to secure checkout'}
               </button>
               <p className="checkout-form__demo"><LockIcon size={14} /> Payments are processed securely by Stripe.</p>
+              {/* Captured before the redirect so an abandoned checkout is
+                  recoverable. Optional, and never blocks the purchase. */}
+              <div className="checkout-form__signup">
+                <EmailSignup
+                  source="checkout"
+                  label="Want batch updates by email? (optional)"
+                  cta="Keep me posted"
+                  placeholder="you@example.com"
+                  variant="stacked"
+                  done="Thanks — we’ll email you when your batch enters production."
+                />
+              </div>
             </fieldset>
           </div>
 
