@@ -184,7 +184,7 @@ export default function ProductDetail() {
                 </div>
               </div>
             ) : (
-              <div className="pdp__buy">
+              <div className="pdp__buy" id="buy">
                 <div className="qty">
                   <button onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease quantity">−</button>
                   <span aria-live="polite">{qty}</span>

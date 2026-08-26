@@ -6,6 +6,7 @@ import { ScrollToTop } from './bits'
 import { CartProvider } from '../cart/CartContext'
 import { initAnalytics, trackPageView } from '../analytics'
 import PrivacyControls from './PrivacyControls'
+import StickyBuyBar from './StickyBuyBar'
 import { CONSENT_EVENT } from '../consent'
 
 export default function Layout() {
@@ -43,6 +44,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <StickyBuyBar />
       <PrivacyControls />
     </CartProvider>
   )
