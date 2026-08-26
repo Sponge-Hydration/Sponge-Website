@@ -18,12 +18,12 @@ next free ID.
 |---|---|---|---|---|---|
 | P0 — broken / legal / privacy / data integrity | 8 | 6 | 0 | 2 | 0 |
 | P1 — checkout, tracking, conversion-critical | 7 | 6 | 0 | 2 | 0 |
-| P2 — messaging, trust, navigation | 8 | 5 | 0 | 1 | 2 |
+| P2 — messaging, trust, navigation | 9 | 8 | 0 | 0 | 1 |
 | P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
 | P4 — SEO & structured data | 7 | 6 | 0 | 1 | 0 |
 | P5 — performance | 3 | 3 | 0 | 0 | 0 |
 | P6 — visual & content polish | 7 | 5 | 0 | 2 | 0 |
-| **Total** | **46** | **40** | **0** | **7** | **0** |
+| **Total** | **47** | **43** | **0** | **4** | **0** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -241,6 +241,7 @@ googletagmanager, facebook, or tiktok.
 - **Acceptance criteria:** each of the five objections answered on-page, plus a comparison table.
 - **Status:** **Complete (partial)** — three of five answered; two need real measurements
 - **Evidence:** commit `eb2f2fc`. A four-way comparison table (reminder app / smart bottle / clip-on reminder / Sponge) plus an objection block answering: retention ("I'll stop using it after a month" → that is what App Lock is for), the price gap against a cheaper reminder clip (which explicitly says buy the cheaper thing if a blinking light is enough), the dateless pre-order, and bottle compatibility. Live on the homepage.
+- **Update 2026-08-26 (`9ffa8e9`):** the **Apple Health** objection is now answered — it was the single most-requested thing in our own published reviews (two of four reviewers asked for it by name) and the site said nothing. It is now an FAQ answer, a feature card, a comparison-table row and a trust-bar stat. Four of five objections answered.
 - **Outstanding, and deliberately not faked:** the accuracy figure (A-10) and the device's real dimensions. Both are hardware measurements. Publishing invented numbers for a measurement device is the one thing worse than staying silent.
 
 ### A-10 — "Is it accurate?" answered without a number
@@ -267,7 +268,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** trust bar and CTA band in `Home.jsx`.
 - **Dependencies:** the true number.
 - **Acceptance criteria:** figure verified, or the noun corrected.
-- **Status:** **User Action Required** — needs the real count. Partially mitigated: the hero eyebrow no longer carries it (A-02).
+- **Status:** **Complete**
+- **Evidence:** commit `9ffa8e9`. Nathan supplied the records 2026-08-26: **~80 Clip orders** (65 shipped, 15 outstanding) plus **~40 Coasters** shipped historically = **~105 products shipped of ~120 ordered**. The old claim was wrong twice — it counted *products* as *customers*, and it implied everything had shipped. Now **"100+ Sponge products shipped"**, which those figures support and which claims neither unique purchasers nor full fulfilment. The closing CTA was corrected to match. Verified live; zero occurrences of "120+" remain sitewide.
 
 ### A-12 — Only four reviews, two of them criticisms
 - **Original finding:** "Beautiful." (5★, one word), a 4★ asking for a how-to video and Whoop/Apple Health, a 4★ asking for Apple Health and background sync, and a 5★ reading in full *"Needs to be thinner, like 10mm total."* No aggregate rating anywhere. The submission form is nine fields deep.
@@ -464,8 +466,14 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** all homepage media, `/products`, `/caregivers`, `og-image.jpg`.
 - **Dependencies:** physical product, a camera, one model.
 - **Acceptance criteria — shot list:** (1) the magnetic mechanism, macro; (2) scale/thickness in profile beside a coin; (3) three bottles one tracker, unbranded; (4) the lock moment — a phone with Instagram greyed out beside a half-full bottle, which does not exist and is the only image that would stop a scroll; (5) one real person in real light, replacing all three personas; (6) a new OG card. **Standing rule: no competitor logos, no AI-generated humans, no laptops in frame.**
-- **Status:** **User Action Required**
-- **Interim mitigation:** the AI-watermarked lifestyle image is flagged for immediate removal (A-42).
+- **Status:** **User Action Required** — but substantially reduced, see below
+- **Audit of the full library, 2026-08-26:** `assets/photos/` holds 38 edited device shots, 50 raw, 9 app screenshots, packaging and founders. Findings:
+  - **Three strong assets were sitting unused** while the site showed weaker or misleading substitutes: the **Hydration Locks** settings screen, the **"SOCIAL APPS LOCKED"** lock screen, and a **real iPhone home screen with the Sponge widget**. The lock screen is the "lock moment" I had previously recorded as not existing. It existed. All three are now live.
+  - **The black Clip on a white bottle** (`2026-03-08_…closeup-of-sponge-clip-on-bottle`) is the most legible product shot we own — the white-on-white gallery makes the product nearly invisible. It is now the hero still and the Step 1 image.
+  - **Retire:** the `edited/` lifestyle composites (`sponge-on-desk` and that generative batch) are AI — visible texture tears, garbled "OWA…" logo text, mush backgrounds. `full-bottle-no-hand` has a half-erased Owala logo. Do not use.
+  - **`gym.jpg` / `track.jpg`** contain no product at all — the same flaw as the athlete persona. Not substitutes for anything.
+- **Substitutions made without new photography:** hero still, Step 1, App Lock screen, the new "On your phone" section, the OG card (A-26) and the lifestyle band (A-42).
+- **Still required:** the shot list issued 2026-08-26 — the hero video (A-54) first, then the App Lock moment on real hardware, scale/thickness, three-bottles, one real person, and an Apple Health screen capture (no screenshot of it exists in the library).
 
 ### A-42 — AI watermark live on the homepage
 - **Original finding:** `/media/lifestyle/recovery.webp` ships with the Gemini generation watermark visible.
@@ -518,7 +526,7 @@ prevent or mitigate disease.
 | A-47 | "Chronic mild dehydration is one of the most common and overlooked health issues" | `/about` | **Complete** — `2770a1e`. Replaced with a behavioural claim needing no citation. |
 | A-48 | "Most people are dehydrated, and don't even know it" | Homepage | **Complete** — `2770a1e`. Now "You already know you should drink more water" — self-evidently true, needs no source, and a stronger setup for App Lock. |
 | A-49 | "Low-hydration alerts — Get notified if they're falling behind" | `/caregivers` | **Complete** — `2770a1e`. Renamed "Behind-goal alerts"; the copy now says outright that it tracks drinking, not health, and won't tell you anything clinical. The old name implied a clinical reading of hydration status on a page selling monitoring for a vulnerable group. |
-| A-50 | "Goals adapt to your body, activity, and climate" | Homepage features | **Complete (needs confirmation)** — `2770a1e`. Implied automatic adaptation from activity and weather data. There are no health-platform integrations of any kind, so the claim asserted capability the product cannot have. Narrowed to setting and adjusting a target. **Nathan should confirm what the app actually does** — this was narrowed to what is certainly true, not necessarily to what is true. |
+| A-50 | "Goals adapt to your body, activity, and climate" | Homepage features | **Complete** — `2770a1e`, `9ffa8e9`. Nathan reviewed and **did not confirm** automatic adaptation, so the claim stays retired rather than restored. The card was removed entirely and its slot reassigned to Apple Health. The original rationale ("no health-platform integrations") is now outdated — see A-56 — but the conclusion stands on Nathan's own answer. |
 | A-51 | Pre-order with no stated cancellation right | `/legal/returns` | **Complete** — `fa116e2`. |
 | A-52 | Compare-at `$79.99` | `/products`, PDP | **Complete** — removed, see A-24. |
 
@@ -535,6 +543,15 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-56 — Apple Health sync and the iPhone widget were missing from the site
+- **Original finding:** Raised by Nathan 2026-08-26. The current app **writes hydration into Apple Health** and ships an **iPhone home-screen widget**. Neither appeared anywhere on the website. The audit had recorded the *absence* of health-platform integrations as a competitive weakness (A-09) and as grounds for deprioritising athletes — both based on an outdated picture.
+- **Priority / impact:** P2. Apple Health was the single most-requested thing in the site's own published reviews, and the one place HidrateSpark was genuinely ahead.
+- **Affected:** `Home.jsx` features, comparison table and trust bar; `data.js` FAQ.
+- **Acceptance criteria:** both capabilities presented accurately, evidenced where evidence exists, and reflected in the competitive comparison.
+- **Status:** **Complete**
+- **Evidence:** commit `9ffa8e9`. Apple Health is a feature card, an FAQ answer, a comparison-table row and a trust-bar stat replacing the non-stat "Any / Water bottle". The widget is a feature card plus a new **"On your phone"** section built on the real home-screen screenshot. Verified live.
+- **Deliberately not claimed:** nothing about *how* the sync behaves beyond writing intake, and no Apple Health screenshot — none exists in the library. Requested in the shot list.
+
 ### A-55 — Six pages had no h1 at all
 - **Original finding:** Raised 2026-08-26 in the final audit pass. `/products`, `/how-it-works`, `/blog`, `/team`, `/contact` and `/reviews` each used `SectionHead` as their page title, and `SectionHead` has always rendered an `h2`. Those six documents began their outline at level 2 with **no h1**, which loses an SEO signal and breaks heading navigation for assistive tech (WCAG 1.3.1).
 - **Priority / impact:** P3/P4.
@@ -550,6 +567,7 @@ prevent or mitigate disease.
 - **Dependencies:** A-21 (needs a shoot).
 - **Acceptance criteria:** a hero loop showing the clip attaching to an unbranded bottle, no laptop, no burned-in captions, no competitor logos.
 - **Status:** **User Action Required** — needs filming. Compression (A-40) reduced its cost but cannot fix its content.
+- **Interim, shipped `9ffa8e9`:** the hero no longer plays it. It shows a studio still of the Clip attached to a bottle with its light on — a correct still beats an incorrect video. Gated behind `HERO_VIDEO_ENABLED` in `Home.jsx`: flip one constant when correct footage exists and the video, its reduced-motion handling and its pause control all return. The old file is retained, not deleted.
 
 ---
 
@@ -591,9 +609,33 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `62a5a02` | A-29 — images right-sized (−40%) and given intrinsic dimensions |
 | 2026-08-26 | `8550f7c` | A-41 — Inter self-hosted as one variable font; Google Fonts dropped as a processor |
 | 2026-08-26 | `8d49d4b` | A-55 — six pages given an h1; regression test across 13 pages |
+| 2026-08-26 | `9ffa8e9` | A-11, A-21 (partial), A-54 (interim), A-56 — Apple Health + widget, corrected shipped-products claim, unused assets put to work, hero still |
 
 
 ---
+
+## Subscriber test rows — housekeeping
+
+Two rows were written to the **Subscribers** tab of the existing order
+spreadsheet (the same Google Sheet the order log uses, `GOOGLE_SHEET_ID`) while
+verifying A-03:
+
+| Row | What it tested |
+|---|---|
+| `claude-verification-test@spongehydration.com` | The API path — a direct POST to `/api/subscribe`, proving the endpoint authenticates to Google, creates the tab if absent, and appends. Posted **twice**, so if de-duplication works it should appear **once**. |
+| `claude-ui-verification@spongehydration.com` | The UI path — submitted through the real footer form on the live site, proving the form, the request and the success state work end to end. |
+
+**Why the de-dup check matters:** the endpoint deliberately returns the same
+response for a new and an existing address, so list membership cannot be probed
+from outside. That makes "the twice-posted address appears once" the only
+external evidence that de-duplication works.
+
+**Status:** I have no credentials for that spreadsheet, so I could not read or
+delete the rows. Instead `test/subscriber-dedup.test.js` exercises the **real**
+`appendSubscriber` against a stubbed Sheets API and proves the branch: a known
+address is not appended, matching is case- and whitespace-insensitive, stored
+addresses are normalised, and a failed read still appends rather than dropping a
+signup. Deleting the two rows is a short manual step for Nathan.
 
 ## Final audit of the deployed site — 2026-08-26
 
