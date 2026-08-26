@@ -235,32 +235,122 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SEO prose */}
-      <section className="section section--tint">
-        <div className="container prose">
-          <h2>The hydration tracker that fits your life</h2>
-          <p>
-            Sponge is a smart <strong>hydration tracker</strong> and clip-on <strong>hydration
-            tracking device</strong> designed to make drinking enough water effortless. Instead of
-            relying on reminders you ignore or a manual <strong>water intake tracker</strong> app you
-            abandon, Sponge measures every sip automatically and syncs it to your phone. It’s the
-            hands-free <strong>water tracking device</strong> that finally turns hydration into a habit.
+      {/* Comparison — replaces a keyword-stuffed SEO block with something that
+          answers the question people actually arrive with. */}
+      <section className="section section--tint" id="compare">
+        <div className="container">
+          <SectionHead eyebrow="How it compares" title="Four ways to drink more water">
+            Three of these already exist in your life and haven’t worked. Here’s the honest
+            difference.
+          </SectionHead>
+
+          <div className="compare-wrap">
+            <table className="compare">
+              <caption className="sr-only">
+                Sponge compared with a reminder app, a smart bottle, and a clip-on reminder
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <span className="compare__sr">Approach</span>
+                  </th>
+                  <th scope="col">A reminder app</th>
+                  <th scope="col">A smart bottle</th>
+                  <th scope="col">A clip-on reminder</th>
+                  <th scope="col" className="compare__us">Sponge</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Roughly what it costs</th>
+                  <td>Free</td>
+                  <td>Around $80 and up</td>
+                  <td>Around $30</td>
+                  <td className="compare__us">$59.99</td>
+                </tr>
+                <tr>
+                  <th scope="row">Keep the bottle you own</th>
+                  <td className="yes">Yes</td>
+                  <td className="no">No — it replaces it</td>
+                  <td className="yes">Yes</td>
+                  <td className="compare__us yes">Yes</td>
+                </tr>
+                <tr>
+                  <th scope="row">Measures what you actually drink</th>
+                  <td className="no">No — you log it by hand</td>
+                  <td className="yes">Yes</td>
+                  <td className="no">No — it only reminds you</td>
+                  <td className="compare__us yes">Yes, automatically</td>
+                </tr>
+                <tr>
+                  <th scope="row">Does something when you fall behind</th>
+                  <td className="no">Sends a notification</td>
+                  <td className="no">Lights up</td>
+                  <td className="no">Blinks</td>
+                  <td className="compare__us yes">Locks the apps you chose</td>
+                </tr>
+                <tr>
+                  <th scope="row">Still in use after a month</th>
+                  <td className="no">Rarely</td>
+                  <td>Depends on you</td>
+                  <td>Depends on you</td>
+                  <td className="compare__us">That’s what App Lock is for</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p className="compare__note">
+            Prices are what these categories typically sell for, not quotes for any one product.
+            Want the longer version?{' '}
+            <Link to="/blog/smart-bottle-vs-clip-on-tracker">
+              We wrote up smart bottles vs clip-on trackers
+            </Link>
+            .
           </p>
-          <h3>Works with the water bottle you already own</h3>
-          <p>
-            Unlike a smart water bottle that forces you to replace your favorite tumbler, Sponge’s
-            magnetic clip attaches to virtually any bottle, insulated steel, plastic, or glass. That
-            makes it one of the most flexible <strong>automatic hydration trackers</strong> you can buy:
-            keep your bottle, add the tracking.
-          </p>
-          <h3>A daily water tracker that motivates you</h3>
-          <p>
-            The free Sponge app is more than a <strong>daily water tracker</strong>. With personalized
-            goals and an optional app-lock feature, it gives you real accountability. Whether you’re an
-            athlete fine-tuning recovery, a busy professional who forgets to drink, or a caregiver
-            monitoring a loved one, Sponge is the <strong>sip tracker</strong> and <strong>drink-water
-            reminder device</strong> that actually changes behavior.
-          </p>
+        </div>
+      </section>
+
+      {/* Objection handling — the questions people actually stall on. */}
+      <section className="section">
+        <div className="container">
+          <SectionHead eyebrow="Before you buy" title="The honest answers">
+            The things worth knowing before you spend $59.99.
+          </SectionHead>
+          <div className="objections">
+            <article className="objection">
+              <h3>“I’ll stop using it after a month.”</h3>
+              <p>
+                Most people do — that’s the entire problem with hydration tracking, and it’s the
+                reason App Lock exists. A number you can ignore gets ignored. Apps you can’t open
+                until you drink do not.
+              </p>
+            </article>
+            <article className="objection">
+              <h3>“Why $59.99 when a reminder clip is $30?”</h3>
+              <p>
+                Because a reminder clip blinks at you. Sponge measures the water, syncs it, and
+                acts on it. If a blinking light is enough for you, genuinely buy the cheaper
+                thing — it works for some people.
+              </p>
+            </article>
+            <article className="objection">
+              <h3>“It’s a pre-order with no date.”</h3>
+              <p>
+                True, and we won’t invent one. We build in batches and a batch runs when enough
+                pre-orders are reserved to fill it. Your price is locked, and you can{' '}
+                <Link to="/legal/pre-order">cancel for a full refund any time before it ships</Link>.
+              </p>
+            </article>
+            <article className="objection">
+              <h3>“Does it work with my bottle?”</h3>
+              <p>
+                It attaches magnetically to the base, so insulated steel, plastic and glass all
+                work. The adhesive 3-pack lets you leave a mount on every bottle you use and move
+                one tracker between them.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
     </>
