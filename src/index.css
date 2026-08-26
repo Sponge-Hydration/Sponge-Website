@@ -59,7 +59,14 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
+/* `height: auto` is load-bearing, not cosmetic. The width/height attributes on
+   our <img> tags (added for layout stability) are applied by the browser as
+   PRESENTATIONAL HINTS for both dimensions. Any image whose CSS sets only a
+   width would otherwise be forced to its full pixel height and stretched — and
+   because a presentational height is a definite height, it also silently
+   overrides `aspect-ratio`. Element specificity (0,0,1) loses to every class
+   rule below, so images that legitimately set their own height still win. */
+img { max-width: 100%; height: auto; display: block; }
 button { font-family: inherit; cursor: pointer; }
 
 h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
