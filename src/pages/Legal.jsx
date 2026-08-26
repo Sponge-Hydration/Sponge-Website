@@ -33,8 +33,9 @@ const PAGES = {
       ] },
       'Automatically, when you use the site:',
       { ul: [
-        'Basic request data such as IP address, browser type, and pages visited, handled by Cloudflare as our host and security layer, including privacy-preserving traffic counts that use no cookies and do not identify you.',
-        'If, and only if, you allow it: analytics and advertising identifiers stored as cookies in your browser. Nothing in this group loads before you choose.',
+        'Basic request data such as IP address and browser type, handled by Cloudflare as our host and security layer.',
+        'Page-view measurement from Cloudflare Web Analytics. For each page load it records the page address, the referring address, the navigation type, and load-speed timings, together with a randomly generated identifier for that single page load and a token identifying this website. It sets no cookies, does not fingerprint your device, and does not link page loads together or follow you to other sites. We are being specific because this is measurement rather than strictly necessary infrastructure, and — unlike everything below — it currently runs before you make a choice. It is switched on at our hosting account rather than in the site itself, so the controls on this page cannot yet turn it off.',
+        'If, and only if, you allow it: analytics and advertising identifiers stored as cookies in your browser by the companies named below. Nothing in that group loads before you choose, and declining means no request is made to them at all.',
       ] },
 
       { h: 'Why we use it' },
@@ -51,7 +52,7 @@ const PAGES = {
       'We use a small number of service providers, and only for the jobs listed here. We do not give your information to anyone else except where the law requires it, or if the business is sold — in which case this policy travels with it.',
       { ul: [
         'Stripe — payment processing and hosted checkout. Stripe collects your card and billing details directly and is responsible for them.',
-        'Cloudflare — website hosting, content delivery, security, and cookieless traffic analytics.',
+        'Cloudflare — website hosting, content delivery, security, and the cookieless page-view measurement described above.',
         'Google — Gmail, to send your order confirmation and to deliver contact-form messages to our team; Google Sheets, where our order records are kept; and Google Fonts, which serves the site’s typefaces and therefore receives your IP address when a page loads.',
         'Airtable — where submitted product reviews are stored.',
         'Google Analytics — site usage measurement. Only if you allow analytics.',
@@ -65,7 +66,7 @@ const PAGES = {
       'If you decline advertising, or your browser sends a Global Privacy Control signal, we do not load those companies’ code and we do not send them your order from our server either. We have not shared the personal information of anyone we know to be under 16.',
 
       { h: 'Cookies and tracking technologies' },
-      'Essential storage always runs: your cart is kept in your own browser, and Cloudflare sets what it needs to serve and protect the site. None of it is used to advertise to you and none of it can be switched off without breaking the store.',
+      'Essential storage always runs: your cart is kept in your own browser, and Cloudflare sets what it needs to serve and protect the site. None of it is used to advertise to you and none of it can be switched off without breaking the store. Cloudflare Web Analytics, described above, also runs on every page load without setting a cookie.',
       'Optional cookies are set by Google Analytics (analytics) and by Meta and TikTok (advertising). They only ever load after you choose to allow that category. Decline, and no request is made to those companies at all.',
       'You can change your mind at any time using the controls at the bottom of this page or the "Do Not Sell or Share My Personal Information" link in the footer of every page. Withdrawing consent clears the cookies we can reach and reloads the page so nothing keeps running.',
 

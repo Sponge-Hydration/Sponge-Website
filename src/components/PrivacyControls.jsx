@@ -108,7 +108,7 @@ export default function PrivacyControls() {
         <div className="privacy-banner" role="region" aria-label="Privacy choices">
           <div className="privacy-banner__inner">
             <div className="privacy-banner__text">
-              <strong>We track nothing until you say so.</strong>
+              <strong>You decide what we measure.</strong>
               <p>
                 Analytics and advertising cookies load only if you allow them. Declining changes
                 nothing about how the site works. <Link to="/legal/privacy">Privacy policy</Link>.
@@ -165,8 +165,14 @@ export default function PrivacyControls() {
                 </div>
                 <p>
                   Your cart, the Stripe checkout, and Cloudflare&rsquo;s security and delivery
-                  layer. Includes Cloudflare&rsquo;s privacy-preserving traffic counts, which
-                  use no cookies and do not identify you. The site cannot function without these.
+                  layer. The site cannot function without these.
+                </p>
+                <p>
+                  Our host also counts page views and load times at the network level. It sets no
+                  cookies and does not identify you or follow you to other sites, but it is
+                  measurement, so we will not pretend otherwise: it runs before you choose here
+                  and this dialog cannot currently switch it off.{' '}
+                  <Link to="/legal/privacy">What it records</Link>.
                 </p>
               </li>
 
