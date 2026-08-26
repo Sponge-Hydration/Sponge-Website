@@ -7,14 +7,14 @@
 
     <!-- Site-wide defaults. Per-page title, description, canonical, robots and
          OG/Twitter title/description are injected by <Seo> (react-helmet). -->
-    <meta
-      name="keywords"
-      content="hydration tracker, hydration tracking device, water intake tracker, smart water bottle tracker, automatic hydration tracker, water tracking device, daily water tracker app, sip tracker, drink water reminder device"
-    />
+    <!-- The keywords meta tag was removed on 2026-08-26 (A-27): no major search
+         engine has used it for over a decade, and a stuffed list reads as spam
+         to anyone viewing source. Do not reintroduce it. NB: do not write tag
+         syntax inside a comment here — the build re-serializes it into a real
+         empty element. -->
     <meta name="author" content="Sponge Hydration" />
 
     <!-- Open Graph (site-wide defaults; per-page title/description/url via Seo) -->
-    <meta property="og:type" content="product" />
     <meta property="og:site_name" content="Sponge Hydration" />
     <meta property="og:image" content="https://www.spongehydration.com/og-image.jpg" />
     <meta property="og:image:alt" content="A water bottle on the Sponge hydration tracker, status light glowing green." />
@@ -37,77 +37,14 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Structured data: Product -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": "Sponge Hydration Tracker",
-        "image": "https://www.spongehydration.com/media/products/single.jpg",
-        "description": "Sponge is a smart, clip-on hydration tracking device that works with any water bottle. It automatically tracks your water intake, syncs to a free iOS and Android app, and can lock distracting apps until you reach your daily hydration goal.",
-        "brand": { "@type": "Brand", "name": "Sponge" },
-        "category": "Hydration Tracking Device",
-        "offers": {
-          "@type": "Offer",
-          "url": "https://www.spongehydration.com/",
-          "priceCurrency": "USD",
-          "price": "59.99",
-          "availability": "https://schema.org/PreOrder"
-        }
-      }
-    </script>
-
-    <!-- Structured data: FAQ -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is a hydration tracker and how does Sponge work?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each sip automatically and sync to the free Sponge app, so you never have to log water by hand."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does the Sponge hydration tracking device work with any water bottle?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Sponge is designed to clip onto the bottle you already own, insulated steel bottles, plastic tumblers, glass bottles and more. There is no special bottle to buy."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How long does the battery last?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sponge lasts about 8 days on a single charge and recharges over USB-C in a couple of hours."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can the hydration tracker lock apps until I drink water?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. The Sponge app can lock the apps you choose until you reach your daily hydration goal, turning your phone into a gentle nudge to drink more water."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How much does Sponge cost?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sponge is available to pre-order for $59.99 with a 30-day money-back guarantee. The companion app is free on iOS and Android."
-            }
-          }
-        ]
-      }
-    </script>
-
-    <!-- Structured data: Organization -->
+    <!-- Structured data: Organization only.
+         Product, FAQPage, BlogPosting and BreadcrumbList are injected per page
+         via <Seo jsonLd={...}>. They used to live here, which meant every page
+         — /about, /blog, /team, the legal pages — carried Product and FAQ
+         markup for content it did not show. Google requires FAQ markup to match
+         FAQ content visible on that page, so that was a guidelines violation
+         and the likeliest cause of a manual action. Do not put page-specific
+         schema back in this template. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

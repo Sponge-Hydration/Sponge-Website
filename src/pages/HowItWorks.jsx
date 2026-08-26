@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Seo } from '../components/useSEO'
+import { Seo, SITE } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import SetupExplainer from '../components/SetupExplainer'
 import { faqs } from '../data'
@@ -14,6 +14,19 @@ export default function HowItWorks() {
         title={'Setup & FAQ | How the Sponge Hydration Tracker Works'}
         description="Set up your Sponge hydration tracker in two minutes: charge, pair the app, clip it on. Plus answers to common questions about battery, accuracy, bottles, and returns."
         path="/how-it-works"
+        // FAQPage belongs here and nowhere else: this is the only page that
+        // actually displays these questions, which is what Google requires.
+        // Generated from the same `faqs` array the page renders, so the markup
+        // cannot drift from the visible content.
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+          })),
+        }}
       />
       <section className="section">
         <div className="container">

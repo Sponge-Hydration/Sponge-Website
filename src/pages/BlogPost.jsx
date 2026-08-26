@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { Seo } from '../components/useSEO'
+import { Seo, SITE } from '../components/useSEO'
 import { blogBySlug, blogPosts } from '../data'
 
 export default function BlogPost() {
@@ -22,7 +22,38 @@ export default function BlogPost() {
 
   return (
     <section className="section">
-      <Seo title={`${post.title} | Sponge Blog`} description={post.excerpt} path={`/blog/${post.slug}`} />
+      <Seo
+        title={`${post.title} | Sponge Blog`}
+        description={post.excerpt}
+        path={`/blog/${post.slug}`}
+        ogType="article"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: post.excerpt,
+            datePublished: post.date,
+            // Attributed to the company, not an individual — the posts carry no
+            // byline and inventing an author would be fabricating one.
+            author: { '@type': 'Organization', name: 'Sponge Hydration' },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Sponge Hydration',
+              logo: { '@type': 'ImageObject', url: `${SITE}/icon-512.png` },
+            },
+            mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${post.slug}` },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Blog', item: `${SITE}/blog` },
+              { '@type': 'ListItem', position: 2, name: post.title },
+            ],
+          },
+        ]}
+      />
       <div className="container">
         <div className="breadcrumb"><Link to="/blog">Blog</Link> <span>/</span> {post.tag}</div>
         <article className="article">

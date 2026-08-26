@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Seo } from '../components/useSEO'
+import { Seo, SITE } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { colorById, colorOptions, productBySlug } from '../data'
@@ -80,9 +80,50 @@ export default function ProductDetail() {
   return (
     <section className="section">
       <Seo
-        title={`${product.name} - ${usd(product.price)} | Sponge Hydration Tracker`}
+        title={`${product.name} — ${usd(product.price)} | Sponge`}
         description={`${product.short} ${product.ships}. Free app, 8-day battery, 30-day money-back guarantee.`}
         path={`/shop/p/${product.slug}`}
+        ogType="product"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: product.name,
+            sku: product.id,
+            image: gallery.map((g) => SITE + g),
+            description: product.short,
+            brand: { '@type': 'Brand', name: 'Sponge' },
+            category: 'Hydration Tracking Device',
+            offers: {
+              '@type': 'Offer',
+              // Points at this product, not the homepage as it used to.
+              url: `${SITE}/shop/p/${product.slug}`,
+              priceCurrency: 'USD',
+              price: String(product.price),
+              availability: product.soldOut
+                ? 'https://schema.org/SoldOut'
+                : 'https://schema.org/PreOrder',
+              hasMerchantReturnPolicy: {
+                '@type': 'MerchantReturnPolicy',
+                applicableCountry: 'US',
+                returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                merchantReturnDays: 30,
+                returnMethod: 'https://schema.org/ReturnByMail',
+                returnFees: 'https://schema.org/FreeReturn',
+              },
+            },
+            // No aggregateRating: only four reviews exist and the review API is
+            // not yet configured, so any figure here would be unsubstantiated.
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Shop', item: `${SITE}/products` },
+              { '@type': 'ListItem', position: 2, name: product.name },
+            ],
+          },
+        ]}
       />
       <div className="container">
         <div className="breadcrumb">
