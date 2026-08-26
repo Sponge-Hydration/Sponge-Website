@@ -13,7 +13,7 @@ export default function Blog() {
         path="/blog"
       />
       <div className="container">
-        <SectionHead eyebrow="Blog" title="Hydration, explained">
+        <SectionHead eyebrow="Blog" title="Hydration, explained" as="h1">
           Science-backed guides on drinking more water and getting the most from your hydration tracker.
         </SectionHead>
         <div className="features">

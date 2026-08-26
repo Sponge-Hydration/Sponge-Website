@@ -123,7 +123,7 @@ export default function ReviewsPage() {
         path="/reviews"
       />
       <div className="container">
-        <SectionHead eyebrow="Reviews" title="What Sponge customers say">
+        <SectionHead eyebrow="Reviews" title="What Sponge customers say" as="h1">
           Honest, unedited feedback from early Sponge owners, and your chance to add yours.
         </SectionHead>
 

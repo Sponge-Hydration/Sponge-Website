@@ -21,7 +21,7 @@ export default function Products() {
         path="/products"
       />
       <div className="container">
-        <SectionHead eyebrow="Shop" title="Choose your Sponge">
+        <SectionHead eyebrow="Shop" title="Choose your Sponge" as="h1">
           Every option includes the free iOS &amp; Android app, app-lock, an 8-day battery, and a
           30-day money-back guarantee.
         </SectionHead>

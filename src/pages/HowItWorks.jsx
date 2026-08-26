@@ -30,7 +30,7 @@ export default function HowItWorks() {
       />
       <section className="section">
         <div className="container">
-          <SectionHead eyebrow="Setup" title="Up and running in two minutes">
+          <SectionHead eyebrow="Setup" title="Up and running in two minutes" as="h1">
             No tools, no complicated pairing. Watch how Sponge goes from the box to tracking
             every sip, then explore each step yourself.
           </SectionHead>

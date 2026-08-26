@@ -48,7 +48,7 @@ export default function Contact() {
         path="/contact"
       />
       <div className="container">
-        <SectionHead eyebrow="Contact" title="We’d love to hear from you">
+        <SectionHead eyebrow="Contact" title="We’d love to hear from you" as="h1">
           Questions about an order, the caregiver program, or your Sponge? Send a note and we’ll reply within one business day.
         </SectionHead>
 

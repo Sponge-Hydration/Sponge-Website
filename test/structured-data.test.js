@@ -101,3 +101,18 @@ d('obsolete metadata is gone', () => {
     expect(read('index.html').match(/<meta[^>]*name="keywords"[^>]*>/)).toBeNull()
   })
 })
+
+// A-55. Six pages used SectionHead — which renders an h2 — as their page title,
+// so their document outline began at level 2 with no h1 at all.
+d('every indexable page has exactly one h1', () => {
+  const PAGES = [
+    'index.html', 'products.html', 'how-it-works.html', 'blog.html', 'team.html',
+    'contact.html', 'reviews.html', 'about.html', 'caregivers.html',
+    'shop/p/sponge-clip.html', 'blog/signs-of-dehydration.html',
+    'legal/privacy.html', 'legal/pre-order.html',
+  ]
+  it.each(PAGES)('%s has one h1', (p) => {
+    if (!existsSync(dist(p))) return
+    expect((read(p).match(/<h1[\s>]/g) || []).length).toBe(1)
+  })
+})

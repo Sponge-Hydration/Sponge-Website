@@ -11,7 +11,7 @@ export default function Team() {
         path="/team"
       />
       <div className="container">
-        <SectionHead eyebrow="Team" title="The people behind Sponge">
+        <SectionHead eyebrow="Team" title="The people behind Sponge" as="h1">
           A small team obsessed with making hydration effortless.
         </SectionHead>
         <figure className="founders">

@@ -91,6 +91,9 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .section--deep .eyebrow { color: #fff; background: rgba(255, 255, 255, 0.14); }
 
 .section-head { max-width: 680px; margin: 0 auto 56px; text-align: center; }
+/* h1 as well as h2: pages that use SectionHead as their page title render
+   an h1, and it must look identical. */
+.section-head h1,
 .section-head h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin: 18px 0 14px; }
 .section-head p { font-size: 18px; color: var(--ink-soft); margin: 0; }
 .section--deep .section-head p { color: rgba(255, 255, 255, 0.82); }
