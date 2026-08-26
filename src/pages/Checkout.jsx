@@ -6,6 +6,7 @@ import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
 import { shippingForCart } from '../shipping'
 import { trackBeginCheckout, trackPurchase } from '../analytics'
+import { getConsent } from '../consent'
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
@@ -109,7 +110,11 @@ export default function Checkout() {
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items: grouped }),
+        // The advertising consent is stamped onto the Stripe session so the
+        // webhook can honour it later. Browser state is gone by the time the
+        // webhook runs, so this is the only way the server-side Meta event can
+        // respect the same choice. Read at click time, not render time.
+        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising }),
       })
       const raw = await res.text()
       let data

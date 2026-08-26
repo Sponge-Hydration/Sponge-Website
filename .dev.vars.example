@@ -39,3 +39,8 @@ META_PIXEL_ID=1234567890123456
 META_CAPI_TOKEN=EAAxxxxxxxxxx
 # Set temporarily to watch events land in Events Manager > Test Events, then remove.
 # META_TEST_EVENT_CODE=TEST12345
+#
+# The server-side Purchase is ALSO gated on the buyer's advertising consent,
+# which create-checkout-session.js stamps onto the Stripe session as
+# metadata[ad_consent]. The webhook only calls Meta when that reads exactly '1',
+# so it fails closed for legacy sessions and for anyone who opted out.

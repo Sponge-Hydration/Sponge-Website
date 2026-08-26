@@ -167,6 +167,11 @@ export async function onRequestPost({ request, env }) {
   params.append('metadata[qty_2pack]', '0')
   params.append('metadata[qty_family]', String(skuCounts['sponge-family']))
   params.append('metadata[qty_adhesive_3pack]', String(skuCounts['sponge-adhesive-3pack']))
+  // Advertising consent, captured at checkout time and stored on the session so
+  // the webhook can honour it once the browser is long gone. Fails closed: only
+  // an explicit `true` from the client counts as consent, so a missing or
+  // malformed value means no server-side advertising event is sent.
+  params.append('metadata[ad_consent]', body?.adConsent === true ? '1' : '0')
 
   const resp = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',

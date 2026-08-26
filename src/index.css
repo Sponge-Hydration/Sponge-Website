@@ -771,3 +771,85 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .chip { border: 1.5px solid var(--line); background: #fff; color: var(--ink-soft); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.14s ease; }
 .chip:hover { border-color: var(--blue-500); color: var(--blue-600); }
 .chip.is-on { background: var(--grad-brand); border-color: transparent; color: #fff; }
+
+/* ── Privacy consent banner + preferences dialog ───────────────────────── */
+.privacy-banner {
+  position: fixed; inset: auto 0 0 0; z-index: 60;
+  background: var(--surface); border-top: 1px solid var(--line);
+  box-shadow: 0 -10px 40px rgba(10, 45, 80, .13);
+  padding: 18px 0 max(18px, env(safe-area-inset-bottom));
+}
+.privacy-banner__inner {
+  max-width: var(--maxw); margin: 0 auto; padding: 0 24px;
+  display: flex; gap: 22px; align-items: center; flex-wrap: wrap;
+}
+.privacy-banner__text { flex: 1 1 380px; min-width: 0; }
+.privacy-banner__text strong { display: block; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+.privacy-banner__text p { margin: 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; }
+.privacy-banner__gpc { margin-top: 6px !important; color: var(--blue-700) !important; font-weight: 600; }
+.privacy-banner__actions { display: flex; gap: 10px; flex-wrap: wrap; flex: 0 0 auto; }
+.privacy-banner__actions .btn { padding: 11px 20px; font-size: 15px; }
+
+.privacy-modal {
+  position: fixed; inset: 0; z-index: 70;
+  background: rgba(7, 41, 77, .55);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  overflow-y: auto;
+}
+.privacy-modal__panel {
+  position: relative; background: var(--surface); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); max-width: 620px; width: 100%;
+  padding: 34px 32px 28px; margin: auto;
+}
+.privacy-modal__panel h2 { font-size: 25px; font-weight: 800; color: var(--ink); margin: 0 0 8px; }
+.privacy-modal__lede { color: var(--ink-soft); font-size: 15.5px; margin: 0 0 22px; }
+.privacy-modal__close {
+  position: absolute; top: 12px; right: 14px; width: 36px; height: 36px;
+  border: 0; background: transparent; color: var(--muted);
+  font-size: 26px; line-height: 1; border-radius: 10px; cursor: pointer;
+}
+.privacy-modal__close:hover { background: var(--surface-tint); color: var(--ink); }
+
+.privacy-opts { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 4px; }
+.privacy-opts li { padding: 16px 0; border-top: 1px solid var(--line); }
+.privacy-opts li:last-child { border-bottom: 1px solid var(--line); }
+.privacy-opts p { margin: 6px 0 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; }
+.privacy-opt__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.privacy-opt__name { font-weight: 700; font-size: 16px; color: var(--ink); cursor: pointer; }
+.privacy-opt__always { font-size: 12.5px; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; }
+.privacy-opt__toggle { width: 20px; height: 20px; flex: none; accent-color: var(--blue-600); cursor: pointer; }
+.privacy-opt__toggle:disabled { cursor: not-allowed; opacity: .5; }
+.privacy-opt__gpc { color: var(--blue-700) !important; font-weight: 600; }
+.privacy-modal__actions { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
+
+/* Footer "Do Not Sell or Share" control — a button, styled as the sibling links. */
+.footer__privacy-btn {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; font-size: 13px; color: #fff; text-align: left;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.footer__privacy-btn:hover { color: var(--aqua-300); }
+
+@media (max-width: 700px) {
+  .privacy-banner { padding: 14px 0 max(14px, env(safe-area-inset-bottom)); }
+  .privacy-banner__inner { flex-direction: column; align-items: stretch; gap: 12px; padding: 0 18px; }
+  /* The row layout's `flex: 1 1 380px` sets flex-basis on the main axis, which
+     becomes HEIGHT once this is a column — forcing a 380px-tall text block. */
+  .privacy-banner__text { flex: 0 0 auto; }
+  .privacy-banner__text p { font-size: 14px; }
+  .privacy-banner__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .privacy-banner__actions .btn { min-height: 44px; justify-content: center; padding: 11px 12px; }
+  /* Accept spans the full row so the affirmative action is not cramped. */
+  .privacy-banner__actions .btn--primary { grid-column: 1 / -1; }
+  .privacy-modal__panel { padding: 28px 20px 22px; }
+  .privacy-modal__actions .btn { flex: 1 1 auto; justify-content: center; }
+}
+
+.privacy-panel {
+  margin-top: 34px; padding: 24px 26px;
+  background: var(--surface-tint); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.privacy-panel h2 { margin-bottom: 8px !important; }
+.privacy-panel p { margin-bottom: 18px; }
+.privacy-panel__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 560px) { .privacy-panel__actions .btn { flex: 1 1 auto; justify-content: center; } }
