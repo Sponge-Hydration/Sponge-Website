@@ -30,3 +30,12 @@ SHEET_TAB_NAME=2026
 AIRTABLE_API_KEY=patXXXXXXXXXXXXXX.xxxxxxxx
 AIRTABLE_BASE_ID=apppnrhDp10j1dZ7c
 AIRTABLE_REVIEWS_TABLE=tbl9bNhgY5E3LN3r7
+
+# --- Meta Conversions API (server-side Purchase from the Stripe webhook) ---
+# Both are SECRETS — set in the Cloudflare Pages dashboard, never in git.
+# Pixel id is the numeric dataset id from Events Manager; the token is
+# generated under Events Manager > your dataset > Settings > Conversions API.
+META_PIXEL_ID=1234567890123456
+META_CAPI_TOKEN=EAAxxxxxxxxxx
+# Set temporarily to watch events land in Events Manager > Test Events, then remove.
+# META_TEST_EVENT_CODE=TEST12345

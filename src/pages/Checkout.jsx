@@ -5,6 +5,7 @@ import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
 import { shippingForCart } from '../shipping'
+import { trackBeginCheckout, trackPurchase } from '../analytics'
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
@@ -18,15 +19,33 @@ export default function Checkout() {
   const total = subtotal + shipping
 
   const success = searchParams.get('status') === 'success'
+  const sessionId = searchParams.get('session_id')
 
-  // Clear the cart once we return from a successful Stripe Checkout.
+  // Clear the cart once we return from a successful Stripe Checkout — but read
+  // the order value out of it first, since the cart is the only thing on this
+  // page that knows what was bought. Stripe's session id is the dedupe key
+  // against the server-side CAPI event in functions/api/webhook.js, so a
+  // refresh of this page can't count the sale twice.
   useEffect(() => {
     if (success) {
+      if (sessionId && total > 0) {
+        trackPurchase({ sessionId, value: Number(total.toFixed(2)) })
+      }
       clear()
       window.scrollTo(0, 0)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success])
+
+  // Reaching this page with a populated cart is the begin_checkout signal.
+  useEffect(() => {
+    if (success || items.length === 0) return
+    trackBeginCheckout(
+      items.map((i) => ({ id: i.id, name: i.name, price: i.price, qty: 1 })),
+      Number(total.toFixed(2))
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [success, items.length])
 
   if (success) {
     return (
