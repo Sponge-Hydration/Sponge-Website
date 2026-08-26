@@ -65,6 +65,14 @@ export const TargetIcon = (p) => (
   </Svg>
 )
 
+// Heart with a pulse line through it — health data, not "favourite".
+export const HeartIcon = (p) => (
+  <Svg {...p}>
+    <path d="M20.4 5.6a5 5 0 0 0-7.1 0L12 6.9l-1.3-1.3a5 5 0 1 0-7.1 7.1L12 21l8.4-8.3a5 5 0 0 0 0-7.1Z" />
+    <path d="M3.5 12.4h3.8l1.6-2.6 2 4.4 1.7-3 1.2 1.2h4.7" />
+  </Svg>
+)
+
 export const CartIcon = (p) => (
   <Svg {...p}>
     <circle cx="9.5" cy="20" r="1.4" />

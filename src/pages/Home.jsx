@@ -4,21 +4,32 @@ import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import { useCart } from '../cart/CartContext'
-import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, TargetIcon } from '../components/icons'
+import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
 
 const features = [
   { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.' },
   { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.' },
   { icon: BatteryIcon, title: '8-day battery', text: 'Go a full week-plus between charges, then top up in a couple of hours over USB-C. Charge it Sunday, forget about it.' },
-  { icon: PhoneIcon, title: 'Free iOS & Android app', text: 'Your hydration syncs automatically to a clean dashboard with daily goals, streaks, and trends you can actually act on.' },
-  { icon: LockIcon, title: 'App-lock motivation', text: 'Choose the apps that distract you and Sponge keeps them locked until you hit your water goal. Hydration with real follow-through.' },
-  { icon: TargetIcon, title: 'Personalized goals', text: 'Set a daily target that fits your body and your routine rather than a generic 8 glasses, and change it whenever it stops fitting.' },
+  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.' },
+  { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.' },
+  { icon: HeartIcon, title: 'Syncs to Apple Health', text: 'Your intake writes straight into Apple Health on iPhone, so it sits alongside the rest of your health data instead of stranded in one more app.' },
 ]
 
+// The hero loop is OFF while the only footage we have misrepresents the
+// product: it shows a Hydro Flask on a closed laptop, carries burned-in social
+// captions, and demonstrates the Coaster rather than the Clip the page sells
+// (ledger A-54). A correct still beats an incorrect video, so the hero shows a
+// studio shot of the Clip actually attached to a bottle with its light on.
+//
+// Flip this to true once a hero video from the A-54 shot list exists, and the
+// reduced-motion handling and pause control below come back with it. Nothing
+// else needs to change.
+const HERO_VIDEO_ENABLED = false
+
 /**
- * Hero loop. A muted 9-second video that autoplays and loops is "moving content
- * that starts automatically and lasts more than five seconds", so WCAG 2.2.2
- * requires a way to stop it. Two mechanisms:
+ * Hero media. A muted 9-second video that autoplays and loops is "moving
+ * content that starts automatically and lasts more than five seconds", so WCAG
+ * 2.2.2 requires a way to stop it. Two mechanisms, live whenever the video is:
  *  - anyone asking for reduced motion never gets it playing at all; they get
  *    the poster frame, and the file is not fetched;
  *  - everyone else gets a pause/play control over the video.
@@ -42,12 +53,15 @@ function HeroVideo() {
     if (v.paused) { v.play(); setPaused(false) } else { v.pause(); setPaused(true) }
   }
 
-  if (reduced) {
+  if (!HERO_VIDEO_ENABLED || reduced) {
+    const src = HERO_VIDEO_ENABLED ? '/media/video/hero-poster.jpg' : '/media/video/hero-still.jpg'
     return (
       <img
         className="hero__video"
-        src="/media/video/hero-poster.jpg"
-        alt="A water bottle resting on a Sponge tracker, its status light glowing green"
+        src={src}
+        width="540"
+        height="798"
+        alt="The Sponge Clip fitted around the base of a white water bottle, its status light lit green"
       />
     )
   }
@@ -124,10 +138,10 @@ export default function Home() {
       {/* Trust bar */}
       <section className="trust">
         <div className="container trust__grid">
-          <div><div className="trust__num">120+</div><div className="trust__lbl">Happy customers</div></div>
+          <div><div className="trust__num">100+</div><div className="trust__lbl">Sponge products shipped</div></div>
           <div><div className="trust__num">30-day</div><div className="trust__lbl">Money-back guarantee</div></div>
           <div><div className="trust__num">8 days</div><div className="trust__lbl">Battery life</div></div>
-          <div><div className="trust__num">Any</div><div className="trust__lbl">Water bottle</div></div>
+          <div><div className="trust__num">Apple</div><div className="trust__lbl">Health sync on iPhone</div></div>
         </div>
       </section>
 
@@ -172,7 +186,7 @@ export default function Home() {
           </SectionHead>
           <div className="steps">
             <div className="step step--media">
-              <img className="step__img" style={{ objectPosition: '50% 72%' }} src="/media/how/step1-snap.jpg" width="700" height="1050" decoding="async" alt="Setting a bottle down with the Sponge tracker attached underneath, status light glowing" />
+              <img className="step__img" style={{ objectPosition: '50% 78%' }} src="/media/how/step1-clip-on-bottle.jpg" width="700" height="818" decoding="async" alt="The Sponge Clip attached around the base of a water bottle, its status light lit green" />
               <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
             </div>
             <div className="step step--media">
@@ -222,25 +236,28 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container split">
           <div className="split__media">
-            <img className="appshot" src="/media/app/applock.webp" width="600" height="1208" decoding="async" loading="lazy" alt="Sponge app locking Facebook until a hydration goal is reached" />
+            <img className="appshot" src="/media/app/hydration-locks.webp" width="600" height="1066" decoding="async" loading="lazy" alt="The Sponge app's Hydration Locks screen, with Facebook, LinkedIn and Reddit each locked until a set amount of water is reached" />
           </div>
           <div>
-            <span className="eyebrow">The hydration hack for your phone</span>
+            <span className="eyebrow">Hydration Locks</span>
             <h2 style={{ fontSize: 'clamp(26px,3.6vw,38px)', fontWeight: 800, margin: '16px 0 14px' }}>
-              Turn your phone into a reason to drink water
+              Water is the password
             </h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: 18, margin: '0 0 8px' }}>
-              Sponge’s app can lock the apps that distract you most until you reach your daily
-              hydration goal. It’s the accountability a normal water tracker can’t give you, and it
-              actually works.
+              Pick the apps you lose hours to. Sponge locks them, and they open when the water is
+              actually gone — not when you promise it will be, and not when you tap “ignore”.
+              Every other hydration tracker hands you a number. This one does something with it.
             </p>
             <ul className="checklist">
-              <li><span className="tick">✓</span> Pick which apps to gate behind your water goal</li>
-              <li><span className="tick">✓</span> Real-time progress unlocks them as you drink</li>
-              <li><span className="tick">✓</span> Build a lasting hydration habit, not a one-week streak</li>
+              <li><span className="tick">✓</span> Choose which apps to put behind your daily goal</li>
+              <li><span className="tick">✓</span> Set the amount that unlocks each one</li>
+              <li><span className="tick">✓</span> They unlock as you drink, sip by sip</li>
             </ul>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 15.5, margin: '14px 0 0' }}>
+              Brutal? A little. It is also the reason people are still using Sponge in month two.
+            </p>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/products" className="btn btn--primary btn--lg">Sponge Up</Link>
+              <Link to="/products" className="btn btn--primary btn--lg">Pre-order Sponge — $59.99</Link>
             </div>
             <div className="app-badges">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
@@ -255,6 +272,51 @@ export default function Home() {
       </section>
 
       {/* Personas */}
+      {/* Apple Health + widget. Both confirmed capabilities of the current app;
+          both screenshots are real, unretouched captures. */}
+      <section className="section" id="on-your-phone">
+        <div className="container">
+          <SectionHead eyebrow="On your phone" title="It lives where you already look">
+            Two things that mean you barely open the app, and your hydration stops being a
+            number stranded in yet another place.
+          </SectionHead>
+          <div className="phone-pair">
+            <figure className="phone-pair__item">
+              <img
+                src="/media/app/widget.webp"
+                width="600"
+                height="1304"
+                loading="lazy"
+                decoding="async"
+                alt="An iPhone home screen with the Sponge widget showing a part-filled hydration progress ring"
+              />
+              <figcaption>
+                <strong>A home-screen widget.</strong> Your progress ring sits on your home
+                screen, so a glance is usually all it takes.
+              </figcaption>
+            </figure>
+            <figure className="phone-pair__item">
+              <img
+                src="/media/app/lock-screen.webp"
+                width="550"
+                height="550"
+                loading="lazy"
+                decoding="async"
+                alt="A phone lock screen reading Social Apps Locked, with Instagram, TikTok, Snapchat and Facebook padlocked and 22 oz remaining to unlock"
+              />
+              <figcaption>
+                <strong>And a lock screen that means it.</strong> 42 of 64 oz down, 22 to go —
+                and Instagram stays shut until they are.
+              </figcaption>
+            </figure>
+          </div>
+          <p className="phone-pair__note">
+            Sponge also writes your intake into <strong>Apple Health</strong> on iPhone, so it
+            sits with the rest of your health data rather than in a silo.
+          </p>
+        </div>
+      </section>
+
       <section className="section" id="who">
         <div className="container">
           <SectionHead eyebrow="Who it’s for" title="Built for anyone who keeps forgetting to drink water">
@@ -285,7 +347,7 @@ export default function Home() {
         <div className="container">
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
-            <p>Join 120+ people building a real hydration habit with the clip-on tracker that works with any bottle.</p>
+            <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
             <button type="button" className="btn btn--ghost btn--lg" onClick={checkoutSingle}>Pre-order Sponge — $59.99</button>
             <p className="cta-band__note">
               $59.99 + shipping &amp; tax · Cancel any time before it ships · 30 days to change
@@ -343,6 +405,13 @@ export default function Home() {
                   <td className="compare__us yes">Yes, automatically</td>
                 </tr>
                 <tr>
+                  <th scope="row">Syncs to Apple Health</th>
+                  <td className="no">Some do</td>
+                  <td className="yes">Yes</td>
+                  <td className="no">Nothing to sync</td>
+                  <td className="compare__us yes">Yes, on iPhone</td>
+                </tr>
+                <tr>
                   <th scope="row">Does something when you fall behind</th>
                   <td className="no">Sends a notification</td>
                   <td className="no">Lights up</td>
@@ -354,7 +423,7 @@ export default function Home() {
                   <td className="no">Rarely</td>
                   <td>Depends on you</td>
                   <td>Depends on you</td>
-                  <td className="compare__us">That’s what App Lock is for</td>
+                  <td className="compare__us">That’s what Hydration Locks are for</td>
                 </tr>
               </tbody>
             </table>
