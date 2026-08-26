@@ -17,13 +17,13 @@ next free ID.
 | Priority band | Total | Complete | In Progress | User Action Required | Not Started |
 |---|---|---|---|---|---|
 | P0 — broken / legal / privacy / data integrity | 8 | 6 | 0 | 2 | 0 |
-| P1 — checkout, tracking, conversion-critical | 7 | 4 | 0 | 2 | 1 |
+| P1 — checkout, tracking, conversion-critical | 7 | 6 | 0 | 2 | 0 |
 | P2 — messaging, trust, navigation | 8 | 3 | 0 | 1 | 4 |
-| P3 — mobile & accessibility | 6 | 3 | 0 | 0 | 3 |
+| P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
 | P4 — SEO & structured data | 6 | 0 | 0 | 0 | 6 |
 | P5 — performance | 3 | 0 | 0 | 0 | 3 |
-| P6 — visual & content polish | 5 | 1 | 0 | 1 | 3 |
-| **Total** | **43** | **17** | **0** | **6** | **20** |
+| P6 — visual & content polish | 5 | 2 | 0 | 1 | 2 |
+| **Total** | **43** | **23** | **0** | **6** | **15** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -198,7 +198,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `ProductDetail.jsx`, `Cart.jsx`, `Home.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** colour selectable on the PDP above the buy button, gallery reflects it, still editable in the cart.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `ffe24ca`. Labelled `role="radiogroup"` on the PDP above the buy button, defaulting to **white** (the colour almost all the photography shows, and the one the silent default was *not*). Selecting a colour switches the gallery to the matching shot. The choice is passed through to the cart for every clip; multi-clip products stay individually editable there and say so. Production verified: selecting Black updates the label and swaps the main image to `g2-black-vertical.jpg`, and add-to-cart stores `colors:["black"]`.
 
 ### A-06 — Cart has no quantity control and no cross-sell
 - **Original finding:** Each unit is its own row with "+ Add another"/"Remove"; four trackers produce four rows. No promo field, no payment icons, and **no cross-sell of the $14.99 Magnetic Adhesive 3-Pack**, which is the natural attach product and solves the "swap between bottles" use case the copy already sells.
@@ -206,7 +207,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Cart.jsx`.
 - **Dependencies:** A-05.
 - **Acceptance criteria:** identical colours grouped with a quantity stepper; 3-Pack offered as a one-tap add-on.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `ffe24ca`. Units sharing a product **and** a colour combination collapse into one row with a quantity stepper; changing a colour on a grouped row applies to every unit in it so the group stays one row. The $14.99 Magnetic Adhesive 3-Pack is offered as a one-tap add-on, shown only when a clip is in the cart and no adhesive is. Verified locally with a mixed cart (1 white + 3 black → **two** rows, $59.99 and $179.97, shipping $15.10) and in production (2 black → one row, qty 2, $119.98, total $131.33). The existing Family Pack upsell is unaffected and now correctly reads "save $39.97" after A-24.
 
 ### A-07 — Redundant `/checkout` interstitial
 - **Original finding:** `/cart → /checkout → Stripe`. The middle page repeats the summary and adds a click at peak intent, offering nothing the cart did not.
@@ -214,7 +216,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Checkout.jsx`.
 - **Dependencies:** A-03 — the page becomes worth keeping if it captures email.
 - **Acceptance criteria:** either go straight to Stripe, or the interstitial earns itself with email capture and express-wallet signalling.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** resolved by keeping the page and making it earn its place rather than removing it. Commit `4768306` put email capture on `/checkout` before the Stripe redirect — the placement that makes an abandoned checkout recoverable, which is worth more than the click it costs. Verified in production.
+- **Deliberately not done:** express-wallet signalling ("Apple Pay / Google Pay available"). Which wallets are actually enabled is a Stripe dashboard fact I cannot read, and advertising a payment method that then does not appear is worse than saying nothing. Add it once the enabled wallets are confirmed.
 
 ---
 
@@ -297,7 +301,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Header.jsx`, `index.css`.
 - **Dependencies:** none.
 - **Acceptance criteria:** a sticky bottom bar on mobile once the hero scrolls out: price, status, one filled CTA.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `3fcdc6f`. `StickyBuyBar.jsx` appears below 620px — exactly where `.header__order` is hidden — after roughly one viewport of scrolling, showing the product, "$59.99 + shipping & tax · Pre-order" and one filled CTA. Suppressed on `/cart`, `/checkout`, `/account`, `/dashboard`, `/order-status`, `/404`, and while the consent banner is up (also bottom-fixed; z-index 55 sits below its 60). On a PDP it anchors back to the buy controls via a new `id="buy"`. Production verified at 390px: hidden at top, shown after scroll, 48px CTA, no overflow.
 
 ### A-17 — Four WCAG contrast failures
 - **Original finding:** `.trust__lbl` 3.88:1 (needs 4.5), `.tcard__who span` 4.15:1, `.stars` 2.03:1 (needs 3:1 for non-text), persona card body ~2.1:1 where white sits on the aqua end of the brand gradient.
@@ -305,7 +310,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `index.css`.
 - **Dependencies:** none.
 - **Acceptance criteria:** all four ≥ the required ratio, measured.
-- **Status:** **Not Started** *(the equivalent failure in new privacy UI was fixed at build time — `.privacy-opt__always` moved from `--muted` to `--ink-soft`, 4.15:1 → 7.99:1)*
+- **Status:** **Complete**
+- **Evidence:** commit `0de4008`. Measured before → after, in production: trust-bar labels **3.88 → 7.48:1**; review attribution **4.15 → 7.99:1**; star glyphs **2.03 → 4.87:1**; persona card body **~2.1 → 4.72:1**. The persona cards were the interesting one — white over `--grad-brand` passes at the blue end and fails at the aqua end, so the gradient now runs to a darker teal and the body text is full white rather than 90%. **The worst point on a gradient is what has to pass, not the average.**
 
 ### A-18 — Star ratings distinguished by colour alone
 - **Original finding:** A 4-star review renders five glyphs with the fifth in `--line` (#e4ecf2), effectively invisible. Text extraction returns `★★★★★` for all four reviews regardless of score. Fails **WCAG 1.4.1 Use of Color**, and sighted users cannot reliably tell 4 from 5 either.
@@ -313,7 +319,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Reviews.jsx`, `index.css`.
 - **Dependencies:** none.
 - **Acceptance criteria:** outlined empty state, fill ≥3:1, numeric rating shown alongside.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `0de4008`. Empty stars are now outlined (`☆`) so the difference is carried by **shape**, not hue, and the numeric value is printed alongside. Fill darkened to clear 3:1 (4.87:1 measured). Production now renders `★★★★☆ 4.0` and `★★★★★ 5.0` — previously every review extracted as five filled stars regardless of score.
 
 ### A-19 — A visible headline hidden from screen readers
 - **Original finding:** `<section class="lifestyle-band" aria-hidden="true">` wraps the decorative photo **and** the visible 32px quote "Hydration that keeps up with you, on the court, at the desk, everywhere."
@@ -321,7 +328,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Home.jsx`.
 - **Dependencies:** none.
 - **Acceptance criteria:** `aria-hidden` moved to the `<img>` only; text exposed.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `0de4008`. `aria-hidden` now sits on the decorative `<img>`; the section and its visible headline are exposed. Production HTML confirms `class="lifestyle-band"` with no `aria-hidden` on the section.
 
 ### A-20 — Non-descriptive labels and an uncaptioned video
 - **Original finding:** Gallery thumbnails labelled "View image 1"–"View image 6". FAQ buttons set `aria-expanded` but no `aria-controls`, and answer panels have no `id`. The app-demo video on `/how-it-works` has no `<track>` captions and no title — a WCAG 1.2.2 failure if it carries narration, and commercially relevant since social-referred visitors watch muted.
@@ -329,7 +337,9 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `ProductDetail.jsx`, `HowItWorks.jsx`.
 - **Dependencies:** captions require the video's audio content.
 - **Acceptance criteria:** descriptive thumbnail labels, `aria-controls` wired, video titled and captioned.
-- **Status:** **Not Started**
+- **Status:** **Complete (partial)** — captions remain outstanding
+- **Evidence:** commit `0de4008`. Gallery thumbnails now describe the actual shot ("Side profile, showing thickness", "Close-up of the status light and USB-C port", …) instead of "View image 3", and the active one carries `aria-current`. FAQ buttons gained `aria-controls`; panels gained an `id` and a labelled region role. The setup video gained a `title` and in-band fallback text.
+- **Outstanding:** a `<track>` caption file. A caption must transcribe the real audio, which has to come from the source video — writing one from guesswork would be fabricating content. **User action:** supply a transcript (or confirm the video is silent, in which case the existing caption text is sufficient and this closes).
 
 ### A-39 — Accessibility of the new privacy UI
 - **Original finding:** New requirement introduced by A-31.
@@ -454,7 +464,8 @@ googletagmanager, facebook, or tiktok.
 - **Affected:** `Products.jsx`, `data.js`.
 - **Dependencies:** A-03.
 - **Acceptance criteria:** notify-me email field, or hide the SKU.
-- **Status:** **Not Started**
+- **Status:** **Complete**
+- **Evidence:** commit `4768306`. The sold-out product page now carries a notify-me signup ("Email me when the Sponge Coaster is back") writing to the same subscriber list, so demonstrated interest is captured instead of dead-ending. The shop grid routes to it via Details.
 
 ### A-44 — Homepage is 22 screens on a phone
 - **Original finding:** 14,635px at 390px. The hero alone is 1,468px. The reviews section is 1,698px for four short quotes. Weakest material is front-loaded; App Lock sits at 7,458px, roughly screen eleven.
@@ -517,3 +528,8 @@ Recorded so later passes do not regress them.
 | 2026-08-25 | `4b2379f` → `93ee170` | A-30, A-31, A-32, A-39 — consent engine, GPC, policy rewrite, CPRA controls, 44 tests |
 | 2026-08-25 | `0daf296` | Temporary beacon diagnostic (removed same day) |
 | 2026-08-25 | `b7c497d` | A-33 — Cloudflare beacon classified, claims corrected, 7 tests |
+| 2026-08-25 | `1f051bf` | This ledger created |
+| 2026-08-26 | `4768306` | A-03, A-07, A-43 — email capture in three places, 9 tests |
+| 2026-08-26 | `ffe24ca` | A-05, A-06 — PDP colour selection, grouped cart rows, adhesive cross-sell |
+| 2026-08-26 | `0de4008` | A-17, A-18, A-19, A-20 — contrast, star shape, exposed headline, labels |
+| 2026-08-26 | `3fcdc6f` | A-16 — sticky mobile buy bar |
