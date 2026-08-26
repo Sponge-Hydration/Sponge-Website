@@ -134,7 +134,10 @@ export default function Home() {
       {/* aria-hidden belongs on the decorative photo only — putting it on the
           section also hid the visible headline from screen readers. */}
       <section className="lifestyle-band">
-        <img src="/media/lifestyle/recovery.webp" alt="" aria-hidden="true" style={{ objectPosition: 'center 62%' }} />
+        {/* Replaced recovery.webp, which shipped with a visible AI-generation
+            watermark and a competitor's bottle as its subject. This is a real
+            photo of a Sponge-branded bottle with the tracker lit at its base. */}
+        <img src="/media/lifestyle/desk.jpg" alt="" aria-hidden="true" style={{ objectPosition: 'center 70%' }} />
         <div className="lifestyle-band__overlay">
           <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>
