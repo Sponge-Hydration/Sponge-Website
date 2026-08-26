@@ -57,7 +57,7 @@ export const routes = [
       {
         path: 'legal/:doc',
         element: <Legal />,
-        getStaticPaths: () => ['legal/terms', 'legal/privacy', 'legal/returns', 'legal/warranty'],
+        getStaticPaths: () => ['legal/terms', 'legal/privacy', 'legal/returns', 'legal/warranty', 'legal/pre-order'],
       },
       { path: '*', element: <NotFound /> },
     ],

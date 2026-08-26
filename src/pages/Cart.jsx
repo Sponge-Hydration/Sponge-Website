@@ -4,9 +4,16 @@ import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { colorOptions, productById } from '../data'
 import { BulbIcon, CartIcon, ShieldIcon } from '../components/icons'
+import { shippingForCart } from '../shipping'
 
 export default function Cart() {
   const { items, subtotal, add, setColor, remove } = useCart()
+
+  // Show the real USPS charge here rather than deferring it to /checkout — the
+  // shipping model is deterministic from the cart contents, so hiding it until
+  // the payment step just turns a known cost into a surprise.
+  const shipping = shippingForCart(items)
+  const total = subtotal + shipping
 
   // Upsell: nudge customers with 4+ single clips toward the cheaper Family Pack.
   const single = productById('sponge-clip')
@@ -113,11 +120,12 @@ export default function Cart() {
             <h3>Order summary</h3>
             <div className="cart-summary__row"><span>Items</span><span>{items.length}</span></div>
             <div className="cart-summary__row"><span>Subtotal</span><span>{usd(subtotal)}</span></div>
-            <div className="cart-summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>
-            <div className="cart-summary__row cart-summary__total"><span>Subtotal</span><span>{usd(subtotal)}</span></div>
+            <div className="cart-summary__row"><span>Shipping (USPS Ground)</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
+            <div className="cart-summary__row"><span>Sales tax</span><span>Calculated at checkout</span></div>
+            <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)} + tax</span></div>
             <Link to="/checkout" className="btn btn--primary btn--lg btn--block">Checkout</Link>
             <Link to="/products" className="cart-summary__cont">← Continue shopping</Link>
-            <p className="cart-summary__note"><ShieldIcon size={14} /> 30-day money-back guarantee · Ships in ~8 weeks</p>
+            <p className="cart-summary__note"><ShieldIcon size={14} /> Pre-order · Cancel any time before it ships for a full refund</p>
           </aside>
         </div>
       </div>

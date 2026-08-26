@@ -40,6 +40,7 @@ export default function Products() {
                   <strong>{usd(p.price)}</strong>
                   {p.compareAt && <s>{usd(p.compareAt)}</s>}
                 </div>
+                {!p.soldOut && <div className="product-card__plus">+ shipping &amp; tax</div>}
                 <div className="product-card__actions">
                   {p.soldOut ? (
                     <button className="btn btn--primary btn--block" disabled>
@@ -47,7 +48,7 @@ export default function Products() {
                     </button>
                   ) : (
                     <button className="btn btn--primary btn--block" onClick={() => buyNow(p.id)}>
-                      Order now
+                      Pre-order
                     </button>
                   )}
                   <Link to={`/shop/p/${p.slug}`} className="btn btn--ghost btn--block">Details</Link>
