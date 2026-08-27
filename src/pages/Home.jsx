@@ -15,16 +15,14 @@ const features = [
   { icon: HeartIcon, title: 'Syncs to Apple Health', text: 'Your intake writes straight into Apple Health on iPhone, so it sits alongside the rest of your health data instead of stranded in one more app.' },
 ]
 
-// The hero loop is OFF while the only footage we have misrepresents the
-// product: it shows a Hydro Flask on a closed laptop, carries burned-in social
-// captions, and demonstrates the Coaster rather than the Clip the page sells
-// (ledger A-54). A correct still beats an incorrect video, so the hero shows a
-// studio shot of the Clip actually attached to a bottle with its light on.
+// The hero now plays the real product film: a studio pull-back over the Clip
+// itself, cut from assets/videos/playable/clip-vertical-b.mp4. It is ping-ponged
+// (forward then reversed) because the source is a reveal, so a hard loop would
+// jar — this way it breathes. The device is the subject in every frame.
 //
-// Flip this to true once a hero video from the A-54 shot list exists, and the
-// reduced-motion handling and pause control below come back with it. Nothing
-// else needs to change.
-const HERO_VIDEO_ENABLED = false
+// It replaced footage showing a Hydro Flask on a closed laptop with burned-in
+// social captions that demonstrated the Coaster, not the Clip (ledger A-54).
+const HERO_VIDEO_ENABLED = true
 
 /**
  * Hero media. A muted 9-second video that autoplays and loops is "moving
@@ -59,9 +57,9 @@ function HeroVideo() {
       <img
         className="hero__video"
         src={src}
-        width="540"
-        height="798"
-        alt="The Sponge Clip fitted around the base of a white water bottle, its status light lit green"
+        width="640"
+        height="1138"
+        alt="The Sponge Clip, a slim black disc with an embossed Sponge logo and a USB-C port on its edge"
       />
     )
   }
@@ -154,11 +152,12 @@ export default function Home() {
           <div className="showcase showcase--photo">
             <img
               className="showcase__img"
-              src="/media/lifestyle/showcase-centered.webp"
-              alt="Two Sponge trackers and their packaging laid out on grass beside two water bottles and a football."
-              width="800"
-              height="936"
+              src="/media/lifestyle/meet-sponge.webp"
+              alt="A black Sponge Clip in its open box beside a boxed white one, showing the embossed logo and chrome ring."
+              width="1000"
+              height="624"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -186,15 +185,15 @@ export default function Home() {
           </SectionHead>
           <div className="steps">
             <div className="step step--media">
-              <img className="step__img" style={{ objectPosition: '50% 78%' }} src="/media/how/step1-clip-on-bottle.jpg" width="700" height="818" decoding="async" alt="The Sponge Clip attached around the base of a water bottle, its status light lit green" />
+              <img className="step__img" src="/media/how/step1-clip-on-bottle.jpg" width="720" height="444" decoding="async" alt="A hand holding a water bottle on its side with the Sponge Clip attached to its base, USB-C port visible" />
               <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img" style={{ objectPosition: '50% 58%' }} src="/media/how/step2-sip.jpg" width="700" height="1050" decoding="async" alt="Drinking from a bottle with the Sponge tracker attached, courtside" />
+              <img className="step__img" src="/media/how/step2-sip-crop.jpg" width="720" height="438" decoding="async" alt="Drinking from a bottle held on its side, with the Sponge Clip visible on its base" />
               <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.</p></div>
             </div>
             <div className="step step--media">
-              <img className="step__img step__img--app" src="/media/how/step3-graph.webp" width="720" height="1280" decoding="async" alt="Sponge app showing hydration progress" />
+              <img className="step__img" src="/media/how/step3-goal.jpg" width="720" height="438" decoding="async" alt="The Sponge app showing a full progress ring at 60.0 oz, 100% of the daily goal" />
               <div className="step__body"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
             </div>
           </div>
@@ -208,7 +207,7 @@ export default function Home() {
         {/* Replaced recovery.webp, which shipped with a visible AI-generation
             watermark and a competitor's bottle as its subject. This is a real
             photo of a Sponge-branded bottle with the tracker lit at its base. */}
-        <img src="/media/lifestyle/desk.jpg" alt="" aria-hidden="true" width="1400" height="1400" decoding="async" style={{ objectPosition: 'center 70%' }} />
+        <img src="/media/lifestyle/band-desk.jpg" alt="" aria-hidden="true" width="1400" height="620" decoding="async" />
         <div className="lifestyle-band__overlay">
           <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>
