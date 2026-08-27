@@ -330,15 +330,15 @@ export default function Home() {
           </SectionHead>
           <div className="personas">
             <article className="persona">
-              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two friends playing basketball at an outdoor court" width="700" height="526" decoding="async" loading="lazy" />
+              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two water bottles with Sponge trackers clipped to their bases on an outdoor basketball court" width="740" height="370" decoding="async" loading="lazy" />
               <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></div>
             </article>
             <article className="persona">
-              <img className="persona__img" style={{ objectPosition: '50% 70%' }} src="/media/personas/professional.jpg" alt="Water bottles with the Sponge tracker on a sunny kitchen counter" width="700" height="526" decoding="async" loading="lazy" />
+              <img className="persona__img" src="/media/personas/professional.jpg" alt="A water bottle with a Sponge tracker at its base beside a laptop, next to a phone showing 52.3 oz logged in the Sponge app" width="740" height="370" decoding="async" loading="lazy" />
               <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
             </article>
             <Link to="/caregivers" className="persona">
-              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="Adult daughter with her mother and a tracked water bottle at home" width="700" height="526" decoding="async" loading="lazy" />
+              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="A hand holding a Sponge tracker on a kitchen counter beside a Sponge-branded water bottle" width="740" height="370" decoding="async" loading="lazy" />
               <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Keep an eye on a loved one’s hydration with effortless tracking and shared progress. See our caregiver program →</p></div>
             </Link>
           </div>
