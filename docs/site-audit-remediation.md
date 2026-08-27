@@ -19,11 +19,11 @@ next free ID.
 | P0 — broken / legal / privacy / data integrity | 8 | 6 | 0 | 2 | 0 |
 | P1 — checkout, tracking, conversion-critical | 7 | 6 | 0 | 2 | 0 |
 | P2 — messaging, trust, navigation | 9 | 8 | 0 | 0 | 1 |
-| P3 — mobile & accessibility | 6 | 6 | 0 | 0 | 0 |
+| P3 — mobile & accessibility | 7 | 7 | 0 | 0 | 0 |
 | P4 — SEO & structured data | 7 | 6 | 0 | 1 | 0 |
 | P5 — performance | 3 | 3 | 0 | 0 | 0 |
-| P6 — visual & content polish | 8 | 6 | 0 | 2 | 0 |
-| **Total** | **48** | **44** | **0** | **4** | **0** |
+| P6 — visual & content polish | 8 | 7 | 0 | 1 | 0 |
+| **Total** | **49** | **46** | **0** | **3** | **0** |
 
 Counts are maintained by hand; the per-row Status column is authoritative.
 
@@ -473,6 +473,9 @@ googletagmanager, facebook, or tiktok.
   - **Retire:** the `edited/` lifestyle composites (`sponge-on-desk` and that generative batch) are AI — visible texture tears, garbled "OWA…" logo text, mush backgrounds. `full-bottle-no-hand` has a half-erased Owala logo. Do not use.
   - **`gym.jpg` / `track.jpg`** contain no product at all — the same flaw as the athlete persona. Not substitutes for anything.
 - **Substitutions made without new photography:** hero still, Step 1, App Lock screen, the new "On your phone" section, the OG card (A-26) and the lifestyle band (A-42).
+- **Reworked 2026-08-27 (`f62e137`, `5224d27`) after Nathan rejected the first pass.** Two mistakes, both mine: I never opened `assets/videos/` at all, and I let `object-fit` choose the framing instead of cropping to the subject myself. Measured, the how-it-works steps were discarding **146%** and **192%** of their images and the lifestyle band **175%**. Every image is now authored at its container's aspect, so `object-fit` has nothing left to decide — the steps crop **0–1%**. The video library also turned out to hold the two best assets on the site: the studio film of the black Clip now in the hero, and the tutorial frame showing it attached to a bottle base.
+- **The lifestyle band needed the same treatment twice.** It was authored at 2.258 but renders as wide as **4.17** (it is full-bleed, and its height clamps at 460px), so it always cropped vertically — and `object-position: center 25%` pulled that crop upward and sliced the Clip off the bottom edge. Rebuilt at 2.756 and verified at **both** extremes of the range rather than one: the Clip and its lit LED survive 1.39 through 4.17. The band quote ran to 720px, which put its right edge over the bottle, so it is pulled in to 520px.
+- **Still outstanding here:** the three persona photos still crop 50% and remain the AI / no-product images described above. They are the only images on the homepage still over 25%.
 - **Still required:** the shot list issued 2026-08-26 — the hero video (A-54) first, then the App Lock moment on real hardware, scale/thickness, three-bottles, one real person, and an Apple Health screen capture (no screenshot of it exists in the library).
 
 ### A-42 — AI watermark live on the homepage
@@ -543,7 +546,16 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-58 — The hero copy ran edge-to-edge on every viewport below the max-width
+- **Original finding:** Found 2026-08-27 while measuring the hero for the background video. `.hero__grid` also carries the `.container` class, and its `padding` **shorthand** overrode `.container`'s `padding: 0 24px` — same specificity, later in the file — zeroing the horizontal gutter. Above the max-width the container's own centring hid it, which is why it survived review; below it the hero copy touched both screen edges. On a phone the eyebrow pill ran from edge to edge.
+- **Priority / impact:** P3. Long-standing, affected every phone and tablet, and made the hero look broken on exactly the viewports most visitors use.
+- **Affected:** `index.css` `.hero__grid`; homepage hero at every width below `--maxw`.
+- **Acceptance criteria:** the hero copy keeps the same 24px gutter as every other section at all widths.
+- **Status:** **Complete**
+- **Evidence:** commit `5224d27`. Padding restored to `72px 24px 84px`. Verified live: computed `padding-left`/`padding-right` both report **24px**, and checked visually at 390, 768, 940, 1280, 1440 and 1920.
+
 ### A-57 — width/height attributes stretched images that had no CSS height
+- **Update 2026-08-27 (`5224d27`):** the regression guard pinned `.hero__video`, the inset 9/16 phone frame, which no longer exists now that the hero is a full-bleed background. The guard **moved rather than being deleted**, and the risk it covers is now higher, not lower: the reduced-motion still carries `width="1920" height="1080"` attributes while serving a **720×1200 portrait** file below 940px, so the hints disagree with the real file on every phone. It does not stretch only because the rule pins both dimensions and `object-fit: cover`. Three tests now assert exactly that.
 - **Original finding:** Reported by Nathan 2026-08-26 — the Hydration Locks screenshot rendered visibly distorted. **A regression I introduced in `62a5a02`** while adding width/height attributes for layout stability (A-29).
 - **Cause:** browsers apply an `<img>` element's width **and** height attributes as *presentational hints*. `.appshot` sets `width: min(300px, 78%)` and no height, so the 600×1066 screenshot was forced to 300×**1066** — aspect 0.281 against a natural 0.563, exactly 2× too tall. Worse, a presentational height is a **definite** height, so it also silently overrode `aspect-ratio` on `.hero__video`: the hero still was laid out 328×798 instead of 328×582, hidden by `object-fit: cover` cropping rather than visibly stretching.
 - **Priority / impact:** P6 visually, but it degraded the section carrying the strongest product story.
@@ -575,8 +587,11 @@ prevent or mitigate disease.
 - **Affected:** `public/media/video/hero.mp4`, homepage hero.
 - **Dependencies:** A-21 (needs a shoot).
 - **Acceptance criteria:** a hero loop showing the clip attaching to an unbranded bottle, no laptop, no burned-in captions, no competitor logos.
-- **Status:** **User Action Required** — needs filming. Compression (A-40) reduced its cost but cannot fix its content.
-- **Interim, shipped `9ffa8e9`:** the hero no longer plays it. It shows a studio still of the Clip attached to a bottle with its light on — a correct still beats an incorrect video. Gated behind `HERO_VIDEO_ENABLED` in `Home.jsx`: flip one constant when correct footage exists and the video, its reduced-motion handling and its pause control all return. The old file is retained, not deleted.
+- **Status:** **Complete**
+- **Interim, shipped `9ffa8e9`:** the hero stopped playing the clip and showed a still instead, gated behind `HERO_VIDEO_ENABLED`.
+- **Evidence:** commit `5224d27`. Correct footage did not need filming — it was already in the library. `assets/videos/playable/clip-vertical-b.mp4` is real studio footage of the actual **black Clip**: chrome ring, embossed Sponge logo, USB-C port, moulded regulatory text. No competitor bottle, no laptop, no burned-in captions. It replaces the Hydro Flask clip entirely, and `hero.mp4` is deleted rather than retained.
+- **How it is composited:** the footage sits on a studio sweep measuring **218–230, not white**, which would have shown as a grey slab behind the copy. Lifting the whites to clip at 209 puts the background at a true **255** while leaving the device untouched — it is black, nowhere near the clip point. That lets the layer be composited with `mix-blend-mode: multiply`, so the white multiplies away and the hero's own gradient shows through: no key, no matte, and the white padding around the footage is invisible. Purity re-checked **after** encoding, at the pad seam, not just before.
+- **Scope change:** Nathan asked for the video to become the **entire hero background** rather than a phone-sized inset, so it now covers the section. Two encodes, because one cannot serve both layouts — a wide 1920×1080 for the two-column hero and a portrait 720×1200 for the single-column one.
 
 ---
 
@@ -620,6 +635,8 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `8d49d4b` | A-55 — six pages given an h1; regression test across 13 pages |
 | 2026-08-26 | `9ffa8e9` | A-11, A-21 (partial), A-54 (interim), A-56 — Apple Health + widget, corrected shipped-products claim, unused assets put to work, hero still |
 | 2026-08-26 | `634f7ff` | A-57 — fixed images stretched by presentational height hints (regression from 62a5a02) |
+| 2026-08-27 | `f62e137` | A-21, A-29 — imagery redone from real footage after rejection; steps recropped from 146–192% to 0–1% |
+| 2026-08-27 | `5224d27` | A-54, A-58 — hero video becomes the full-bleed background from real footage of the black Clip; hero gutter restored; A-57 guard moved |
 
 
 ---
