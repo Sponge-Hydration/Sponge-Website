@@ -32,7 +32,7 @@ const HERO_VIDEO_ENABLED = true
  *    the poster frame, and the file is not fetched;
  *  - everyone else gets a pause/play control over the video.
  */
-function HeroVideo() {
+function HeroBackground() {
   const videoRef = useRef(null)
   const [reduced, setReduced] = useState(false)
   const [paused, setPaused] = useState(false)
@@ -51,32 +51,39 @@ function HeroVideo() {
     if (v.paused) { v.play(); setPaused(false) } else { v.pause(); setPaused(true) }
   }
 
+  // The footage is the Clip on pure white, so the layer is composited with
+  // mix-blend-mode: multiply — the white drops out and the hero's own gradient
+  // shows through, leaving just the device over the brand background.
   if (!HERO_VIDEO_ENABLED || reduced) {
-    const src = HERO_VIDEO_ENABLED ? '/media/video/hero-poster.jpg' : '/media/video/hero-still.jpg'
     return (
-      <img
-        className="hero__video"
-        src={src}
-        width="640"
-        height="1138"
-        alt="The Sponge Clip, a slim black disc with an embossed Sponge logo and a USB-C port on its edge"
-      />
+      <>
+        <div className="hero__bg" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 939px)" srcSet="/media/video/hero-bg-tall.jpg" />
+            <img src="/media/video/hero-bg-wide.jpg" alt="" width="1920" height="1080" />
+          </picture>
+        </div>
+        <div className="hero__scrim" aria-hidden="true" />
+      </>
     )
   }
 
   return (
     <>
-      <video
-        ref={videoRef}
-        className="hero__video"
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="/media/video/hero-poster.jpg"
-      >
-        <source src="/media/video/hero.mp4" type="video/mp4" />
-      </video>
+      <div className="hero__bg" aria-hidden="true">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/media/video/hero-bg-wide.jpg"
+        >
+          <source media="(max-width: 939px)" src="/media/video/hero-bg-tall.mp4" type="video/mp4" />
+          <source src="/media/video/hero-bg-wide.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div className="hero__scrim" aria-hidden="true" />
       <button type="button" className="hero__video-toggle" onClick={toggle}>
         {paused ? 'Play' : 'Pause'}
         <span className="sr-only"> background video</span>
@@ -102,8 +109,9 @@ export default function Home() {
       />
       {/* Hero */}
       <section className="hero" id="top">
+        <HeroBackground />
         <div className="container hero__grid">
-          <div>
+          <div className="hero__copy">
             <span className="eyebrow">Pre-order · Cancel any time before it ships</span>
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
@@ -125,8 +133,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero__media">
-            <HeroVideo />
+          <div className="hero__badges" aria-hidden="true">
             <div className="hero__pill"><i className="dot" />Tracking sips</div>
             <div className="hero__stat"><strong>1.4L</strong><span>today · 78% of goal</span></div>
           </div>
@@ -207,7 +214,7 @@ export default function Home() {
         {/* Replaced recovery.webp, which shipped with a visible AI-generation
             watermark and a competitor's bottle as its subject. This is a real
             photo of a Sponge-branded bottle with the tracker lit at its base. */}
-        <img src="/media/lifestyle/band-desk.jpg" alt="" aria-hidden="true" width="1400" height="620" decoding="async" />
+        <img src="/media/lifestyle/band-desk.jpg" alt="" aria-hidden="true" width="1400" height="508" decoding="async" />
         <div className="lifestyle-band__overlay">
           <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>

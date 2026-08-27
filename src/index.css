@@ -151,8 +151,27 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 @media (min-width: 900px) { .nav--links { display: flex; } }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; background: radial-gradient(120% 90% at 80% -10%, var(--aqua-100), #fff 55%); }
-.hero__grid { display: grid; gap: 48px; align-items: center; padding: 72px 0 84px; }
+.hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: radial-gradient(120% 90% at 80% -10%, var(--aqua-100), #fff 55%);
+}
+/* Full-bleed product film. The footage sits on pure white, so multiply drops the
+   white out entirely and leaves the device floating on the hero gradient. */
+.hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; mix-blend-mode: multiply; }
+.hero__bg video, .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; display: block; }
+@media (min-width: 940px) { .hero__bg video, .hero__bg img { object-position: center; } }
+/* Keeps the copy legible where it overlaps the device on narrow screens. */
+.hero__scrim {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(to bottom, #fff 0%, rgba(255, 255, 255, 0.92) 42%, rgba(255, 255, 255, 0) 68%);
+}
+@media (min-width: 940px) {
+  .hero__scrim { background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0.7) 34%, rgba(255, 255, 255, 0) 62%); }
+}
+.hero__grid { position: relative; z-index: 1; display: grid; gap: 48px; align-items: center; padding: 72px 24px 84px; }
+/* Reserved strip for the device below the copy, up to the two-column breakpoint. */
+@media (max-width: 939px) { .hero__grid { padding-bottom: clamp(230px, 32vw, 300px); } }
+@media (min-width: 940px) { .hero__grid { min-height: clamp(540px, 60vh, 680px); } }
 @media (min-width: 940px) { .hero__grid { grid-template-columns: 1.05fr 0.95fr; } }
 .hero h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 900; margin: 22px 0 20px; }
 .hero h1 .accent { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -552,25 +571,21 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .brand__logo--light { width: 30px; height: 30px; }
 
 /* Hero video */
-.hero__media { position: relative; margin: 0 auto; width: min(360px, 84%); }
-.hero__video {
-  width: 100%; aspect-ratio: 9 / 16; object-fit: cover;
-  border-radius: 34px; border: 6px solid #fff; background: #0c1d34;
-  box-shadow: var(--shadow-lg);
-}
+.hero__badges { position: relative; display: none; }
+@media (min-width: 940px) { .hero__badges { display: block; min-height: 260px; } }
 .hero__pill {
-  position: absolute; top: 22px; left: -22px; background: #fff; padding: 9px 14px;
+  position: absolute; top: 6px; left: 4px; background: #fff; padding: 9px 14px;
   border-radius: 999px; box-shadow: var(--shadow-md); font-size: 13px; font-weight: 700;
   display: flex; align-items: center; gap: 7px;
 }
 .hero__pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #2ec28a; }
 .hero__stat {
-  position: absolute; bottom: 32px; right: -24px; width: 92px; padding: 12px 10px; text-align: center;
+  position: absolute; bottom: 10px; right: 6px; width: 92px; padding: 12px 10px; text-align: center;
   background: #fff; border-radius: 16px; box-shadow: var(--shadow-md); border: 1px solid var(--line);
 }
 .hero__stat strong { display: block; font-size: 22px; font-weight: 900; color: var(--blue-600); }
 .hero__stat span { font-size: 11px; color: var(--muted); font-weight: 600; }
-@media (max-width: 520px) { .hero__stat { right: -10px; } .hero__pill { left: -10px; } }
+
 @media (max-width: 939px) {
   .hero__grid > :first-child { text-align: center; }
   .hero__cta { justify-content: center; }
@@ -598,12 +613,12 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 
 /* Lifestyle band */
 .lifestyle-band { position: relative; height: clamp(280px, 42vw, 460px); overflow: hidden; }
-.lifestyle-band img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+.lifestyle-band img { width: 100%; height: 100%; object-fit: cover; }
 .lifestyle-band__overlay {
   position: absolute; inset: 0; display: flex; align-items: flex-end;
   background: linear-gradient(to top, rgba(7, 41, 77, 0.78), rgba(7, 41, 77, 0.05) 60%); padding: 44px;
 }
-.lifestyle-band__quote { color: #fff; font-size: clamp(20px, 3vw, 32px); font-weight: 800; max-width: 720px; margin: 0; line-height: 1.2; }
+.lifestyle-band__quote { color: #fff; font-size: clamp(20px, 3vw, 32px); font-weight: 800; max-width: 520px; margin: 0; line-height: 1.2; }
 
 /* App screenshot (transparent phone PNG) */
 .appshot { width: min(300px, 78%); margin: 0 auto; filter: drop-shadow(0 26px 44px rgba(10, 45, 80, 0.24)); }
@@ -1021,7 +1036,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 
 /* Pause control for the autoplaying hero loop (WCAG 2.2.2). */
 .hero__video-toggle {
-  position: absolute; right: 10px; bottom: 10px; z-index: 2;
+  position: absolute; right: 14px; bottom: 14px; z-index: 2;
   display: inline-flex; align-items: center;
   min-height: 32px; padding: 6px 12px;
   font: inherit; font-size: 12.5px; font-weight: 700;

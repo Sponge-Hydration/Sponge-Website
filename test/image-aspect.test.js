@@ -57,11 +57,25 @@ describe('rules that intentionally set an image height still do', () => {
   })
 })
 
-describe('the hero relies on aspect-ratio, which a height hint would defeat', () => {
-  it('.hero__video sets aspect-ratio and no explicit height', () => {
-    const rule = ruleFor('.hero__video')
-    expect(rule).not.toBeNull()
-    expect(rule).toMatch(/aspect-ratio:\s*9\s*\/\s*16/)
-    expect(rule).not.toMatch(/height:\s*\d/)
+// The hero used to be an inset 9/16 phone frame guarded by `aspect-ratio`. It is
+// now a full-bleed background layer, so the guard moves with it. This matters
+// more than it did before: the reduced-motion still carries width="1920"
+// height="1080" attributes but serves a 720x1200 portrait file below 940px, so
+// the presentational hints disagree with the real file on every phone. Only
+// because the rule pins BOTH dimensions and object-fit does that not stretch.
+describe('the hero background layer cannot be stretched by size hints', () => {
+  const rule = ruleFor('.hero__bg video, .hero__bg img')
+
+  it('exists', () => {
+    expect(rule, '.hero__bg video, .hero__bg img rule missing').not.toBeNull()
+  })
+
+  it('pins both dimensions, so neither hint can win', () => {
+    expect(rule).toMatch(/width:\s*100%/)
+    expect(rule).toMatch(/height:\s*100%/)
+  })
+
+  it('covers rather than fills, so the frame is never distorted', () => {
+    expect(rule).toMatch(/object-fit:\s*cover/)
   })
 })
