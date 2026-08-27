@@ -475,8 +475,16 @@ googletagmanager, facebook, or tiktok.
 - **Substitutions made without new photography:** hero still, Step 1, App Lock screen, the new "On your phone" section, the OG card (A-26) and the lifestyle band (A-42).
 - **Reworked 2026-08-27 (`f62e137`, `5224d27`) after Nathan rejected the first pass.** Two mistakes, both mine: I never opened `assets/videos/` at all, and I let `object-fit` choose the framing instead of cropping to the subject myself. Measured, the how-it-works steps were discarding **146%** and **192%** of their images and the lifestyle band **175%**. Every image is now authored at its container's aspect, so `object-fit` has nothing left to decide — the steps crop **0–1%**. The video library also turned out to hold the two best assets on the site: the studio film of the black Clip now in the hero, and the tutorial frame showing it attached to a bottle base.
 - **The lifestyle band needed the same treatment twice.** It was authored at 2.258 but renders as wide as **4.17** (it is full-bleed, and its height clamps at 460px), so it always cropped vertically — and `object-position: center 25%` pulled that crop upward and sliced the Clip off the bottom edge. Rebuilt at 2.756 and verified at **both** extremes of the range rather than one: the Clip and its lit LED survive 1.39 through 4.17. The band quote ran to 720px, which put its right edge over the bottle, so it is pulled in to 520px.
-- **Still outstanding here:** the three persona photos still crop 50% and remain the AI / no-product images described above. They are the only images on the homepage still over 25%.
-- **Still required:** the shot list issued 2026-08-26 — the hero video (A-54) first, then the App Lock moment on real hardware, scale/thickness, three-bottles, one real person, and an Apple Health screen capture (no screenshot of it exists in the library).
+- **Persona photos replaced 2026-08-27 (`cfb8545`).** These were the last bad images on the homepage, and each failed differently:
+  - **athlete** — a real photo of two people on a court with **no product in it at all**.
+  - **professional** — the *same* kitchen frame already used by the lifestyle band, cropped so the Clip at the bottle's base was out of shot. A duplicate that also failed to show the device.
+  - **caregiver** — **AI-generated**: a generic white tumbler standing on a white disc, with the usual giveaways in the hands. It depicted a product we do not sell in that form and staged a caregiving scene that never happened.
+  All three were authored at 700×526 for a card that renders at 2:1, hence the 50% crop.
+- **What replaced them,** all real frames from our own footage in `assets/videos/playable`, one per persona: the athlete cut (an outdoor court, a basketball, and an Owala and a Nalgene each wearing a black Clip on its base); the office cut (a laptop, a Nalgene with the Clip at its base, and a phone showing 52.3 oz logged and connected — product, app and context in one frame); and the gift cut (a hand holding the Clip on a kitchen counter beside a Sponge-branded bottle). No identifiable faces in any of the three, and each crop was **placed to exclude** the burned-in social captions rather than blurring or painting over them.
+- **Authored at 740×370** — the card's widest rendered aspect (349×175) at 2×. Desktop now crops **0%** instead of 50%, and narrower breakpoints only trim the sides, where each subject is already centred. The leftover `objectPosition` nudge on the professional card is gone.
+- **Homepage imagery is now clean:** every image crops 0%, none is broken, and **nothing is over 25%**. Verified live.
+- **Still outstanding here:** the shot list items that need a camera rather than an edit — the App Lock moment on real hardware, a scale/thickness shot, a three-bottles shot, one real person with the product, and an Apple Health screen capture. The hero video item is closed (A-54).
+- **Still required:** the shot list issued 2026-08-26, minus the hero video, which is now closed (A-54) — the App Lock moment on real hardware, scale/thickness, three-bottles, one real person, and an Apple Health screen capture (no screenshot of it exists in the library).
 
 ### A-42 — AI watermark live on the homepage
 - **Original finding:** `/media/lifestyle/recovery.webp` ships with the Gemini generation watermark visible.
@@ -637,6 +645,7 @@ Recorded so later passes do not regress them.
 | 2026-08-26 | `634f7ff` | A-57 — fixed images stretched by presentational height hints (regression from 62a5a02) |
 | 2026-08-27 | `f62e137` | A-21, A-29 — imagery redone from real footage after rejection; steps recropped from 146–192% to 0–1% |
 | 2026-08-27 | `5224d27` | A-54, A-58 — hero video becomes the full-bleed background from real footage of the black Clip; hero gutter restored; A-57 guard moved |
+| 2026-08-27 | `cfb8545` | A-21 — persona photos replaced with real footage (one was AI); homepage now has no image cropping over 25% |
 
 
 ---
