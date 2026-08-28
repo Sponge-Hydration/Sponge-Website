@@ -617,7 +617,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
   position: absolute; inset: 0; display: flex; align-items: flex-end;
   background: linear-gradient(to top, rgba(7, 41, 77, 0.78), rgba(7, 41, 77, 0.05) 60%); padding: 44px;
 }
-.lifestyle-band__quote { color: #fff; font-size: clamp(20px, 3vw, 32px); font-weight: 800; max-width: 520px; margin: 0; line-height: 1.2; }
+.lifestyle-band__quote { color: #fff; font-size: clamp(20px, 3vw, 32px); font-weight: 800; max-width: 400px; margin: 0; line-height: 1.2; }
 
 /* App screenshot (transparent phone PNG) */
 .appshot { width: min(300px, 78%); margin: 0 auto; filter: drop-shadow(0 26px 44px rgba(10, 45, 80, 0.24)); }
@@ -1047,6 +1047,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 /* ── Apple Health / widget pair ────────────────────────────────────────── */
 .phone-pair { display: grid; gap: 30px; align-items: start; }
 @media (min-width: 760px) { .phone-pair { grid-template-columns: 1fr 1fr; gap: 40px; } }
+.phone-pair__stack { display: grid; gap: 30px; align-content: start; }
 .phone-pair__item { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .phone-pair__item img {
   width: 100%; max-width: 300px; height: auto;

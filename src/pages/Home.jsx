@@ -199,10 +199,10 @@ export default function Home() {
       {/* aria-hidden belongs on the decorative photo only — putting it on the
           section also hid the visible headline from screen readers. */}
       <section className="lifestyle-band">
-        {/* Replaced recovery.webp, which shipped with a visible AI-generation
-            watermark and a competitor's bottle as its subject. This is a real
-            photo of a Sponge-branded bottle with the tracker lit at its base. */}
-        <img src="/media/lifestyle/band-desk.jpg" alt="" aria-hidden="true" width="1400" height="508" decoding="async" />
+        {/* Cropped from the source above y=1730, where a generative-AI sparkle
+            and a faded watermark box sit — neither is inside this crop. Authored
+            at 2.756, the band's widest rendered aspect. */}
+        <img src="/media/lifestyle/band-track.jpg" alt="" aria-hidden="true" width="1400" height="508" decoding="async" />
         <div className="lifestyle-band__overlay">
           <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
         </div>
@@ -289,6 +289,7 @@ export default function Home() {
                 screen, so a glance is usually all it takes.
               </figcaption>
             </figure>
+            <div className="phone-pair__stack">
             <figure className="phone-pair__item">
               <img
                 src="/media/app/lock-screen.webp"
@@ -303,6 +304,22 @@ export default function Home() {
                 and Instagram stays shut until they are.
               </figcaption>
             </figure>
+            <figure className="phone-pair__item">
+              <img
+                src="/media/app/day-chart.webp"
+                width="600"
+                height="746"
+                loading="lazy"
+                decoding="async"
+                alt="The Sponge app showing a day's intake: 78.3 oz total, plotted as a rising line that crosses a dashed 60 oz goal line in the early evening"
+              />
+              <figcaption>
+                <strong>And the whole day, drawn for you.</strong> Every sip lands on the
+                curve as it happens. This one sat flat overnight, climbed all day, crossed its
+                60 oz goal in the early evening and finished at 78.3.
+              </figcaption>
+            </figure>
+            </div>
           </div>
           <p className="phone-pair__note">
             Sponge also writes your intake into <strong>Apple Health</strong> on iPhone, so it
