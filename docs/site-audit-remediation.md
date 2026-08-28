@@ -589,6 +589,10 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `8d49d4b`. `SectionHead` gained an `as` prop defaulting to `h2`, so every mid-page use is untouched; the six page-title uses pass `as="h1"`. Home deliberately unchanged — it already has a hero h1 and its SectionHeads are genuine sections. The stylesheet only targeted `.section-head h2`, so the new h1s would have rendered unstyled; it now targets both. Verified live: exactly one h1 on all 11 pages checked. A test asserts this across 13 built pages.
 
+### A-40 update — hero video weight after the film rebuild
+- The hero is now a **14.75s six-shot film at 1280×896, 957KB**, replacing an 88KB two-file loop. The increase is deliberate and was Nathan's call (the loop "felt like a GIF"); it is still a single request and well under the 5.5MB original that A-40 first compressed.
+- **crf 34** was chosen by comparing frames against crf 30 at the film's most detailed moment (the app screen) — the two are indistinguishable, and it saved 35%. The portrait encode is gone entirely, so the page fetches one file rather than choosing between two.
+
 ### A-54 — The hero video has the same content defects as its poster
 - **Original finding:** Raised 2026-08-26. Frame inspection during compression showed the hero loop contains a **Hydro Flask** tumbler with the logo visible twice, sitting on a **closed laptop**, with burned-in social captions ("any bottle") — a repurposed social clip — and it demonstrates the **dock**, not the clip the copy sells.
 - **Priority / impact:** P6 by band, but it is the first thing a visitor sees, so it carries the same weight as A-21.
@@ -599,7 +603,14 @@ prevent or mitigate disease.
 - **Interim, shipped `9ffa8e9`:** the hero stopped playing the clip and showed a still instead, gated behind `HERO_VIDEO_ENABLED`.
 - **Evidence:** commit `5224d27`. Correct footage did not need filming — it was already in the library. `assets/videos/playable/clip-vertical-b.mp4` is real studio footage of the actual **black Clip**: chrome ring, embossed Sponge logo, USB-C port, moulded regulatory text. No competitor bottle, no laptop, no burned-in captions. It replaces the Hydro Flask clip entirely, and `hero.mp4` is deleted rather than retained.
 - **How it is composited:** the footage sits on a studio sweep measuring **218–230, not white**, which would have shown as a grey slab behind the copy. Lifting the whites to clip at 209 puts the background at a true **255** while leaving the device untouched — it is black, nowhere near the clip point. That lets the layer be composited with `mix-blend-mode: multiply`, so the white multiplies away and the hero's own gradient shows through: no key, no matte, and the white padding around the footage is invisible. Purity re-checked **after** encoding, at the pad seam, not just before.
-- **Scope change:** Nathan asked for the video to become the **entire hero background** rather than a phone-sized inset, so it now covers the section. Two encodes, because one cannot serve both layouts — a wide 1920×1080 for the two-column hero and a portrait 720×1200 for the single-column one.
+- **Scope change:** Nathan asked for the video to become the **entire hero background** rather than a phone-sized inset, so it now covers the section.
+- **Rebuilt again 2026-08-27 (`a494815`) — Nathan: "it feels like a GIF now, it got much shorter."** Both true: it was **3.7s of a single shot, ping-ponged**, which is the recipe for looking like a GIF.
+- **Why it could not simply be extended.** The floating-device treatment worked by compositing white-background footage with `mix-blend-mode: multiply`. That constrains the hero to footage *on white*. A survey of every clip's edge brightness returned a blunt answer: only the CG turntable is natively white, and the one real studio clip yields about **1.8 seconds** in which the device is fully in frame with margin. That 1.8s *was* the loop. There was nothing to extend it with.
+- **Ruled out, with reasons:** the **turntable** is 16s on pure white but is a render — its black colourway has a cream ring where the real unit has chrome, no body seam and no USB-C port, so side by side they read as two different products; **device-animation-exploded** is on near-black, **app-demo** on dark navy and the **app screenshots** are dark-mode, all of which multiply into slabs; **clip-landscape-a** is real but sits on mid-grey, and normalising it to white would erase the white device along with its background. Drive's Media Library was checked too — raw iPhone footage and duplicates of what is already local.
+- **So a longer hero meant giving up the multiply treatment.** That is the real trade, and it is why the look changed.
+- **The film:** six shots, **14.75s**, real footage throughout — the Clip on white → two bottles wearing Clips courtside → drinking → a hand setting the Clip on a kitchen counter → the app reading 52.3 oz beside the bottle → back to the Clip on white. It opens and closes on the same white studio shot, so the **loop point is invisible** and the first frame still looks like the clean hero it replaced. Cross-dissolves, no ping-pong. Every social source carries burned-in captions; each shot is a band cropped **clear** of them rather than blurred or covered.
+- **Built and discarded:** a version using the attach tutorial. That footage is shot macro, and full-bleed at hero width it becomes a wall of hand and bottle; framing it inside a blurred ambient fill only made it look like a letterboxed vertical video. Environmental shots only.
+- **Layout:** at ≥940px the film is full-bleed and the scrim is now load-bearing for legibility rather than decorative. Below 940px the copy is full-width and leaves no room beside it — hiding 70% of the film behind a scrim only ever revealed the bottom edge of the frame, so the film gets its **own full-width strip** under the copy and the whole composed shot is visible. One file serves both, so the separate portrait encode is deleted.
 
 ---
 
@@ -646,6 +657,7 @@ Recorded so later passes do not regress them.
 | 2026-08-27 | `f62e137` | A-21, A-29 — imagery redone from real footage after rejection; steps recropped from 146–192% to 0–1% |
 | 2026-08-27 | `5224d27` | A-54, A-58 — hero video becomes the full-bleed background from real footage of the black Clip; hero gutter restored; A-57 guard moved |
 | 2026-08-27 | `cfb8545` | A-21 — persona photos replaced with real footage (one was AI); homepage now has no image cropping over 25% |
+| 2026-08-27 | `a494815` | A-54, A-40 — hero becomes a real 14.75s six-shot film; multiply treatment retired; portrait encode dropped; 957KB |
 
 
 ---
