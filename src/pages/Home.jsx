@@ -124,8 +124,6 @@ export default function Home() {
 
           <div className="hero__media">
             <HeroBackground />
-            <div className="hero__pill" aria-hidden="true"><i className="dot" />Tracking sips</div>
-            <div className="hero__stat" aria-hidden="true"><strong>1.4L</strong><span>today · 78% of goal</span></div>
           </div>
         </div>
       </section>

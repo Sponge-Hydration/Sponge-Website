@@ -84,8 +84,8 @@ describe('the hero film panel shows the whole frame', () => {
   it('declares the same aspect as the encoded film, so nothing is cropped', () => {
     const m = rule.match(/aspect-ratio:\s*(\d+)\s*\/\s*(\d+)/)
     expect(m, 'aspect-ratio missing from .hero__film').not.toBeNull()
-    // Kept in step with public asset src/media/hero-film.mp4 (1280x896).
-    expect(Number(m[1]) / Number(m[2])).toBeCloseTo(1280 / 896, 4)
+    // Kept in step with src/media/hero-film.mp4 (640x1138, a 1080x1920 source).
+    expect(Number(m[1]) / Number(m[2])).toBeCloseTo(1080 / 1920, 4)
   })
 
   it('does not cover-crop, which is what full-bleed did', () => {
