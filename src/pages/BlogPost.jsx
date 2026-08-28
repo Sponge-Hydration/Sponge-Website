@@ -62,7 +62,31 @@ export default function BlogPost() {
           <div className="article__meta">
             {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} · {post.readTime}
           </div>
-          {post.body.map((para, i) => <p key={i}>{para}</p>)}
+          {/* A body entry is either a plain string (paragraph) or a block:
+              {h2} a heading, {ul} a list, {note} the general-wellness caveat that
+              has to sit with any health claim. */}
+          {post.body.map((b, i) => {
+            if (typeof b === 'string') return <p key={i}>{b}</p>
+            if (b.h2) return <h2 key={i}>{b.h2}</h2>
+            if (b.ul) return <ul key={i}>{b.ul.map((li, j) => <li key={j}>{li}</li>)}</ul>
+            if (b.note) return <p key={i} className="article__note">{b.note}</p>
+            return null
+          })}
+
+          {post.sources?.length > 0 && (
+            <div className="article__sources">
+              <h2>Sources</h2>
+              <ol>
+                {post.sources.map((src, i) => (
+                  <li key={i}>
+                    {src.url
+                      ? <a href={src.url} target="_blank" rel="noopener noreferrer">{src.text}</a>
+                      : src.text}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
 
           <div className="article__cta">
             <h3>Track your hydration automatically</h3>

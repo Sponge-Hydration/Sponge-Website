@@ -521,6 +521,18 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .article h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin: 12px 0 14px; }
 .article__meta { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
 .article p { font-size: 17px; color: var(--ink-soft); margin: 0 0 18px; line-height: 1.7; }
+.article h2 { font-size: clamp(21px, 2.6vw, 26px); font-weight: 800; color: var(--ink); margin: 34px 0 14px; }
+.article ul { margin: 0 0 18px; padding-left: 22px; }
+.article li { font-size: 17px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 10px; }
+/* The general-wellness caveat that has to travel with any health claim. */
+.article p.article__note {
+  font-size: 15px; background: var(--surface-tint); border: 1px solid var(--line);
+  border-left: 3px solid var(--aqua-400); border-radius: 10px; padding: 16px 18px; margin: 28px 0 0;
+}
+.article__sources { margin-top: 38px; border-top: 1px solid var(--line); padding-top: 6px; }
+.article__sources ol { margin: 0; padding-left: 22px; }
+.article__sources li { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+.article__sources a { color: var(--blue-600); }
 .article__cta { background: var(--surface-tint); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 30px; text-align: center; margin: 34px 0; }
 .article__cta h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
 .article__cta p { font-size: 15px; margin-bottom: 18px; }
