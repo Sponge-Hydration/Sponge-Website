@@ -589,6 +589,14 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `8d49d4b`. `SectionHead` gained an `as` prop defaulting to `h2`, so every mid-page use is untouched; the six page-title uses pass `as="h1"`. Home deliberately unchanged — it already has a hero h1 and its SectionHeads are genuine sections. The stylesheet only targeted `.section-head h2`, so the new h1s would have rendered unstyled; it now targets both. Verified live: exactly one h1 on all 11 pages checked. A test asserts this across 13 built pages.
 
+### A-54 final — the hero plays Sponge’s own promo
+- **2026-08-27, `28f3838`.** Nathan supplied `assets/videos/raw/2026-06-30-shoot/cut videos water bottle b-roll/0827.mp4` — the finished promo: 24.2s, 1080×1920, burned-in captions reading *"Introducing Sponge / the world's first universal automatic water tracking device / simply attach your adhesive / and snap on your Sponge"*, closing on studio shots of the black Clip. It replaces the six-shot film assembled from b-roll; their own edit with their own script beats anything cut from offcuts.
+- **Portrait, so the panel is 9:16 capped at 330px wide** — at full column width a 9:16 panel would stand 985px tall. `aspect-ratio` matches the file, so nothing is cropped: audited at ten widths, **0% throughout**.
+- **Looped seamlessly.** It opens on dark wood and closes on white studio, so a plain loop would hard-cut. The last 0.7s is dissolved over the first 0.7s so the outgoing frame matches the incoming one — verified by comparing the output's first and last frames, which are now identical.
+- **Audio stripped.** Hero autoplay must be muted or browsers refuse it, so the 196 kbps stereo track was pure weight. The captions are burned in, so muting costs nothing.
+- **640×1138 at crf 32, 1.87MB for 23.5s.** Checked against crf 28 at the caption-plus-app frame: text equally crisp, keyboard detail marginally softer, a megabyte cheaper.
+- **Removed:** the floating "Tracking sips" and "1.4L today" cards. The promo carries its own captions in the same region making the same claim, so the two competed. One line in `Home.jsx` restores them.
+
 ### A-40 update — hero video weight after the film rebuild
 - The hero is now a **14.75s six-shot film at 1280×896, 957KB**, replacing an 88KB two-file loop. The increase is deliberate and was Nathan's call (the loop "felt like a GIF"); it is still a single request and well under the 5.5MB original that A-40 first compressed.
 - **crf 34** was chosen by comparing frames against crf 30 at the film's most detailed moment (the app screen) — the two are indistinguishable, and it saved 35%. The portrait encode is gone entirely, so the page fetches one file rather than choosing between two.
@@ -658,6 +666,10 @@ Recorded so later passes do not regress them.
 | 2026-08-27 | `5224d27` | A-54, A-58 — hero video becomes the full-bleed background from real footage of the black Clip; hero gutter restored; A-57 guard moved |
 | 2026-08-27 | `cfb8545` | A-21 — persona photos replaced with real footage (one was AI); homepage now has no image cropping over 25% |
 | 2026-08-27 | `a494815` | A-54, A-40 — hero becomes a real 14.75s six-shot film; multiply treatment retired; portrait encode dropped; 957KB |
+| 2026-08-27 | `3659c40` | A-54 — hero crop measured at 40–53% discard and fixed; strip aspect capped; crop-audit script added |
+| 2026-08-27 | `c44c40a` | A-54 — hero media content-hashed via Vite; the 4h cache on `public/` had been serving stale cuts |
+| 2026-08-27 | `9fb52cf` | A-54 — film moved out of full-bleed into a contained panel; 0% cropped at every viewport |
+| 2026-08-27 | `28f3838` | A-54 — replaced with Sponge’s own 24s promo (`0827.mp4`) at Nathan’s direction; portrait panel, looped seamlessly |
 
 
 ---
