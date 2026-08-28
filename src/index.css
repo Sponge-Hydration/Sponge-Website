@@ -155,22 +155,28 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
   position: relative; isolation: isolate; overflow: hidden;
   background: radial-gradient(120% 90% at 80% -10%, var(--aqua-100), #fff 55%);
 }
-/* Full-bleed product film. The footage sits on pure white, so multiply drops the
-   white out entirely and leaves the device floating on the hero gradient. */
-.hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; mix-blend-mode: multiply; }
-.hero__bg video, .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; display: block; }
-@media (min-width: 940px) { .hero__bg video, .hero__bg img { object-position: center; } }
-/* Keeps the copy legible where it overlaps the device on narrow screens. */
-.hero__scrim {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: linear-gradient(to bottom, #fff 0%, rgba(255, 255, 255, 0.92) 42%, rgba(255, 255, 255, 0) 68%);
+/* Full-bleed product film. It opens and closes on white, which meets the hero's
+   own background, so the loop point reads as a beat rather than a cut. */
+/* Below 940px the film sits in its own strip beneath the copy; from 940px up it
+   covers the whole section and the copy sits on the scrim beside it. */
+.hero__bg {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 0; pointer-events: none;
+  height: clamp(250px, 34vw, 310px);
 }
+@media (min-width: 940px) { .hero__bg { top: 0; height: auto; } }
+.hero__bg video, .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+/* Keeps the copy legible where it overlaps the device on narrow screens. */
+.hero__scrim { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 @media (min-width: 940px) {
-  .hero__scrim { background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0.7) 34%, rgba(255, 255, 255, 0) 62%); }
+  .hero__scrim {
+    background:
+      linear-gradient(to right, #fff 0%, #fff 26%, rgba(255, 255, 255, 0.9) 44%, rgba(255, 255, 255, 0) 76%),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 30%);
+  }
 }
 .hero__grid { position: relative; z-index: 1; display: grid; gap: 48px; align-items: center; padding: 72px 24px 84px; }
 /* Reserved strip for the device below the copy, up to the two-column breakpoint. */
-@media (max-width: 939px) { .hero__grid { padding-bottom: clamp(230px, 32vw, 300px); } }
+@media (max-width: 939px) { .hero__grid { padding-bottom: clamp(272px, 36vw, 332px); } }
 @media (min-width: 940px) { .hero__grid { min-height: clamp(540px, 60vh, 680px); } }
 @media (min-width: 940px) { .hero__grid { grid-template-columns: 1.05fr 0.95fr; } }
 .hero h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 900; margin: 22px 0 20px; }

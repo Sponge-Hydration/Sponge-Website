@@ -58,10 +58,7 @@ function HeroBackground() {
     return (
       <>
         <div className="hero__bg" aria-hidden="true">
-          <picture>
-            <source media="(max-width: 939px)" srcSet="/media/video/hero-bg-tall.jpg" />
-            <img src="/media/video/hero-bg-wide.jpg" alt="" width="1920" height="1080" />
-          </picture>
+          <img src="/media/video/hero-bg-wide.jpg" alt="" width="1440" height="1008" />
         </div>
         <div className="hero__scrim" aria-hidden="true" />
       </>
@@ -79,7 +76,6 @@ function HeroBackground() {
           playsInline
           poster="/media/video/hero-bg-wide.jpg"
         >
-          <source media="(max-width: 939px)" src="/media/video/hero-bg-tall.mp4" type="video/mp4" />
           <source src="/media/video/hero-bg-wide.mp4" type="video/mp4" />
         </video>
       </div>
