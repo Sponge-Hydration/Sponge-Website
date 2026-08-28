@@ -5,6 +5,11 @@ import { SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import { useCart } from '../cart/CartContext'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
+// Imported rather than referenced from public/ so Vite emits them with a content
+// hash. Files in public/ are copied verbatim and served with max-age=14400, so
+// reusing one filename across revisions left browsers on a stale cut for hours.
+import heroFilm from '../media/hero-film.mp4'
+import heroPoster from '../media/hero-film-poster.jpg'
 
 const features = [
   { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.' },
@@ -15,17 +20,18 @@ const features = [
   { icon: HeartIcon, title: 'Syncs to Apple Health', text: 'Your intake writes straight into Apple Health on iPhone, so it sits alongside the rest of your health data instead of stranded in one more app.' },
 ]
 
-// The hero now plays the real product film: a studio pull-back over the Clip
-// itself, cut from assets/videos/playable/clip-vertical-b.mp4. It is ping-ponged
-// (forward then reversed) because the source is a reveal, so a hard loop would
-// jar — this way it breathes. The device is the subject in every frame.
+// The hero plays a six-shot product film cut from our own footage: the Clip on
+// white, two bottles wearing Clips courtside, drinking, the bottles beside the
+// open Sponge box, the app reading 52.3 oz, then back to the Clip on white.
 //
-// It replaced footage showing a Hydro Flask on a closed laptop with burned-in
-// social captions that demonstrated the Coaster, not the Clip (ledger A-54).
+// It opens and closes on the same white studio shot so the loop point is
+// invisible. Subjects sit in the middle of frame on purpose — the hero box
+// aspect swings from 1.09 to 2.36 across viewports, so cover discards up to 40%
+// of every frame. Run scripts/hero-crop-audit.mjs after changing any of it.
 const HERO_VIDEO_ENABLED = true
 
 /**
- * Hero media. A muted 9-second video that autoplays and loops is "moving
+ * Hero media. A muted 14.75-second video that autoplays and loops is "moving
  * content that starts automatically and lasts more than five seconds", so WCAG
  * 2.2.2 requires a way to stop it. Two mechanisms, live whenever the video is:
  *  - anyone asking for reduced motion never gets it playing at all; they get
@@ -51,14 +57,11 @@ function HeroBackground() {
     if (v.paused) { v.play(); setPaused(false) } else { v.pause(); setPaused(true) }
   }
 
-  // The footage is the Clip on pure white, so the layer is composited with
-  // mix-blend-mode: multiply — the white drops out and the hero's own gradient
-  // shows through, leaving just the device over the brand background.
   if (!HERO_VIDEO_ENABLED || reduced) {
     return (
       <>
         <div className="hero__bg" aria-hidden="true">
-          <img src="/media/video/hero-bg-wide.jpg" alt="" width="1440" height="1008" />
+          <img src={heroPoster} alt="" width="1280" height="896" />
         </div>
         <div className="hero__scrim" aria-hidden="true" />
       </>
@@ -74,9 +77,9 @@ function HeroBackground() {
           muted
           loop
           playsInline
-          poster="/media/video/hero-bg-wide.jpg"
+          poster={heroPoster}
         >
-          <source src="/media/video/hero-bg-wide.mp4" type="video/mp4" />
+          <source src={heroFilm} type="video/mp4" />
         </video>
       </div>
       <div className="hero__scrim" aria-hidden="true" />
