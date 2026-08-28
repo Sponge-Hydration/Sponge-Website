@@ -159,7 +159,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
    meant cover-cropping 25-40% off every frame and magnifying the rest, which made
    the shots unreadable. aspect-ratio matches the file exactly, so nothing is
    cropped at any viewport — the whole frame is always on screen. */
-.hero__media { position: relative; width: min(100%, 330px); margin: 0 auto; }
+.hero__media { position: relative; width: min(100%, 460px); margin: 0 auto; }
 .hero__film {
   display: block; width: 100%; height: auto;
   aspect-ratio: 1080 / 1920;
@@ -167,8 +167,8 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
   box-shadow: var(--shadow-lg); border: 1px solid rgba(11, 107, 203, 0.1);
 }
 .hero__grid { position: relative; z-index: 1; display: grid; gap: 44px; align-items: center; padding: 72px 24px 84px; }
-/* The promo is portrait and capped at 330px, so the copy takes the wider half. */
-@media (min-width: 940px) { .hero__grid { grid-template-columns: 1.25fr 0.75fr; } }
+/* Near-even split so the portrait promo can run large without squeezing the copy. */
+@media (min-width: 940px) { .hero__grid { grid-template-columns: 1.05fr 0.95fr; } }
 .hero h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 900; margin: 22px 0 20px; }
 .hero h1 .accent { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero__sub { font-size: 19px; color: var(--ink-soft); max-width: 540px; margin: 0 0 28px; }
