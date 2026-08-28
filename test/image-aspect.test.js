@@ -63,19 +63,32 @@ describe('rules that intentionally set an image height still do', () => {
 // height="1080" attributes but serves a 720x1200 portrait file below 940px, so
 // the presentational hints disagree with the real file on every phone. Only
 // because the rule pins BOTH dimensions and object-fit does that not stretch.
-describe('the hero background layer cannot be stretched by size hints', () => {
-  const rule = ruleFor('.hero__bg video, .hero__bg img')
+// The hero film plays in a panel rather than full-bleed. Full-bleed cover-cropped
+// 25-40% off every frame depending on viewport and magnified what survived, which
+// made the shots unreadable. The panel is sized by aspect-ratio, and that ratio
+// must keep matching the encoded file — if the film is ever re-cut at different
+// dimensions and this is not updated, the panel silently starts cropping again.
+describe('the hero film panel shows the whole frame', () => {
+  const rule = ruleFor('.hero__film')
 
   it('exists', () => {
-    expect(rule, '.hero__bg video, .hero__bg img rule missing').not.toBeNull()
+    expect(rule, '.hero__film rule missing').not.toBeNull()
   })
 
-  it('pins both dimensions, so neither hint can win', () => {
+  it('is sized by aspect-ratio, not a fixed height', () => {
     expect(rule).toMatch(/width:\s*100%/)
-    expect(rule).toMatch(/height:\s*100%/)
+    expect(rule).toMatch(/height:\s*auto/)
+    expect(rule).not.toMatch(/height:\s*\d/)
   })
 
-  it('covers rather than fills, so the frame is never distorted', () => {
-    expect(rule).toMatch(/object-fit:\s*cover/)
+  it('declares the same aspect as the encoded film, so nothing is cropped', () => {
+    const m = rule.match(/aspect-ratio:\s*(\d+)\s*\/\s*(\d+)/)
+    expect(m, 'aspect-ratio missing from .hero__film').not.toBeNull()
+    // Kept in step with public asset src/media/hero-film.mp4 (1280x896).
+    expect(Number(m[1]) / Number(m[2])).toBeCloseTo(1280 / 896, 4)
+  })
+
+  it('does not cover-crop, which is what full-bleed did', () => {
+    expect(rule).not.toMatch(/object-fit:\s*cover/)
   })
 })

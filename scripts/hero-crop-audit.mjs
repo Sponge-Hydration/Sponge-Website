@@ -44,18 +44,18 @@ try {
     source: `try{localStorage.setItem('sponge-privacy-v1',JSON.stringify({version:1,analytics:false,advertising:false,decidedAt:Date.now()}))}catch(e){}`,
   })
 
-  console.log('vw    heroBox        boxAR  filmAR  mode        discarded  layout')
+  console.log('vw    panelBox       boxAR  filmAR  mode        discarded  fit')
   for (const w of WIDTHS) {
     await send('Emulation.setDeviceMetricsOverride', { width: w, height: 900, deviceScaleFactor: 1, mobile: w < 760 })
     await send('Page.navigate', { url: URL })
     await sleep(3200)
     const { result } = await send('Runtime.evaluate', {
-      expression: `(()=>{const b=document.querySelector('.hero__bg');const v=b&&b.querySelector('video,img');
-        if(!b||!v)return JSON.stringify({err:'no hero bg'});
+      expression: `(()=>{const v=document.querySelector('.hero__film');const b=v;
+        if(!v)return JSON.stringify({err:'no .hero__film'});
         const r=b.getBoundingClientRect();
         const nw=v.videoWidth||v.naturalWidth, nh=v.videoHeight||v.naturalHeight;
         return JSON.stringify({bw:Math.round(r.width),bh:Math.round(r.height),nw,nh,
-          strip:getComputedStyle(b).top==='auto'});})()`,
+          contained:getComputedStyle(v).objectFit!=='cover'});})()`,
       returnByValue: true,
     })
     const d = JSON.parse(result.result.value)
@@ -65,7 +65,7 @@ try {
     const mode = boxAR > filmAR ? 'crops top/bot' : 'crops sides'
     const discarded = Math.round(Math.abs(1 - Math.min(boxAR, filmAR) / Math.max(boxAR, filmAR)) * 100)
     console.log(
-      `${String(w).padEnd(6)}${(d.bw + 'x' + d.bh).padEnd(15)}${boxAR.toFixed(2).padEnd(7)}${filmAR.toFixed(2).padEnd(8)}${mode.padEnd(12)}${(discarded + '%').padEnd(11)}${d.strip ? 'strip' : 'full-bleed'}`)
+      `${String(w).padEnd(6)}${(d.bw + 'x' + d.bh).padEnd(15)}${boxAR.toFixed(2).padEnd(7)}${filmAR.toFixed(2).padEnd(8)}${mode.padEnd(12)}${(discarded + '%').padEnd(11)}${d.contained ? 'contained' : 'cover'}`)
   }
 } finally {
   try { ws && ws.close() } catch {}

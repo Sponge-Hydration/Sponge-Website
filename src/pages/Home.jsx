@@ -58,31 +58,22 @@ function HeroBackground() {
   }
 
   if (!HERO_VIDEO_ENABLED || reduced) {
-    return (
-      <>
-        <div className="hero__bg" aria-hidden="true">
-          <img src={heroPoster} alt="" width="1280" height="896" />
-        </div>
-        <div className="hero__scrim" aria-hidden="true" />
-      </>
-    )
+    return <img className="hero__film" src={heroPoster} alt="" width="1280" height="896" />
   }
 
   return (
     <>
-      <div className="hero__bg" aria-hidden="true">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={heroPoster}
-        >
-          <source src={heroFilm} type="video/mp4" />
-        </video>
-      </div>
-      <div className="hero__scrim" aria-hidden="true" />
+      <video
+        className="hero__film"
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster={heroPoster}
+      >
+        <source src={heroFilm} type="video/mp4" />
+      </video>
       <button type="button" className="hero__video-toggle" onClick={toggle}>
         {paused ? 'Play' : 'Pause'}
         <span className="sr-only"> background video</span>
@@ -108,7 +99,6 @@ export default function Home() {
       />
       {/* Hero */}
       <section className="hero" id="top">
-        <HeroBackground />
         <div className="container hero__grid">
           <div className="hero__copy">
             <span className="eyebrow">Pre-order · Cancel any time before it ships</span>
@@ -132,9 +122,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero__badges" aria-hidden="true">
-            <div className="hero__pill"><i className="dot" />Tracking sips</div>
-            <div className="hero__stat"><strong>1.4L</strong><span>today · 78% of goal</span></div>
+          <div className="hero__media">
+            <HeroBackground />
+            <div className="hero__pill" aria-hidden="true"><i className="dot" />Tracking sips</div>
+            <div className="hero__stat" aria-hidden="true"><strong>1.4L</strong><span>today · 78% of goal</span></div>
           </div>
         </div>
       </section>
