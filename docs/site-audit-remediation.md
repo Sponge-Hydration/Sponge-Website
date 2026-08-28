@@ -537,7 +537,7 @@ prevent or mitigate disease.
 | A-47 | "Chronic mild dehydration is one of the most common and overlooked health issues" | `/about` | **Complete** — `2770a1e`. Replaced with a behavioural claim needing no citation. |
 | A-48 | "Most people are dehydrated, and don't even know it" | Homepage | **Complete** — `2770a1e`. Now "You already know you should drink more water" — self-evidently true, needs no source, and a stronger setup for App Lock. |
 | A-49 | "Low-hydration alerts — Get notified if they're falling behind" | `/caregivers` | **Complete** — `2770a1e`. Renamed "Behind-goal alerts"; the copy now says outright that it tracks drinking, not health, and won't tell you anything clinical. The old name implied a clinical reading of hydration status on a page selling monitoring for a vulnerable group. |
-| A-50 | "Goals adapt to your body, activity, and climate" | Homepage features | **Complete** — `2770a1e`, `9ffa8e9`. Nathan reviewed and **did not confirm** automatic adaptation, so the claim stays retired rather than restored. The card was removed entirely and its slot reassigned to Apple Health. The original rationale ("no health-platform integrations") is now outdated — see A-56 — but the conclusion stands on Nathan's own answer. |
+| A-50 | "Goals adapt to your body, activity, and climate" | Homepage features **and `/blog/how-much-water-should-you-drink`** | **Complete** — `2770a1e`, `9ffa8e9`, `f2cb31d`. **It was only Complete on the homepage.** The blog post still told readers Sponge "learns your patterns over time, then sets a personalized daily goal that reflects what your body actually needs", and its excerpt promised a target fitting "your body, activity, and climate" — the exact claim Nathan declined to confirm. It survived because the audit swept pages, not `data.js`. Removed 2026-08-28; verified absent across the homepage and all three posts. Nathan reviewed and **did not confirm** automatic adaptation, so the claim stays retired rather than restored. The card was removed entirely and its slot reassigned to Apple Health. The original rationale ("no health-platform integrations") is now outdated — see A-56 — but the conclusion stands on Nathan's own answer. |
 | A-51 | Pre-order with no stated cancellation right | `/legal/returns` | **Complete** — `fa116e2`. |
 | A-52 | Compare-at `$79.99` | `/products`, PDP | **Complete** — removed, see A-24. |
 
@@ -553,6 +553,18 @@ prevent or mitigate disease.
 - **Acceptance criteria:** reduced-motion users never get motion; everyone else can stop it.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
+
+### A-59 — Blog posts were thin and carried unsourced health claims
+- **Original finding:** Raised by Nathan 2026-08-28 ("make the blogs read longer and have good content and research backed material"). The three posts ran about **150 words each** — three paragraphs, no headings, no citations — and asserted physiological claims with nothing behind them. One also carried the retired A-50 claim (see above).
+- **Priority / impact:** P2. These pages exist to earn organic search traffic on hydration questions; at 150 words with no sources they neither rank nor persuade, and the health assertions carried regulatory risk on a wellness product.
+- **Affected:** `data.js` (`blogPosts`), `BlogPost.jsx`, `index.css`.
+- **Acceptance criteria:** substantially longer, every factual claim traceable to a checked source, health claims carrying the general-wellness caveat, and nothing asserted that the evidence does not support.
+- **Status:** **Complete**
+- **Evidence:** commit `f2cb31d`. Now **872 / 797 / 643 words** with **7 citations**, all URLs verified live. Sources: Valtin (*Am J Physiol* 2002) on the 8×8 myth and its 1945 Food and Nutrition Board origin; the National Academies 2004 adequate intakes (3.7 L / 2.7 L **total** water, ~20% from food, medians rather than thresholds); Armstrong (*J Nutr* 2012, −1.36% body mass) and Ganio (*Br J Nutr* 2011, −1.59%) on mood and perceived effort; thirst thresholds (~0.5% in daily activity, 1–2% under exercise-heat stress); and a meta-review of self-monitoring for the behavioural argument.
+- **Claims removed rather than dressed up:** the "half an ounce to one ounce per pound" formula (no authority uses it, and it can double its own answer); "by the time you feel thirsty you are already behind" (overstates the physiology — thirst is reasonably sensitive, it is just easy to ignore, and it blunts with age); the promise of "7 signs" (only four replicate across both studies, so the post is retitled); and the framing of the Connecticut studies as proof of "brain fog" — what moved was mood and perceived effort, while objective cognitive scores largely did not.
+- **Named as weakly evidenced, on the page:** dry skin, sugar cravings, and the widely-repeated "2% loss costs 20% of focus" figure, which traces to no such study.
+- **Also:** the comparison post now states the clip-on's own downsides (a second thing to charge, an adhesive mount, blindness to a glass poured from the tap) and quotes **no competitor prices**, since those move. Read times were corrected — they claimed 5–7 minutes for 150-word posts.
+- **Renderer:** `BlogPost.jsx` now supports headings, lists, the wellness note and a numbered source list; body entries may be blocks as well as plain strings.
 
 ### A-58 — The hero copy ran edge-to-edge on every viewport below the max-width
 - **Original finding:** Found 2026-08-27 while measuring the hero for the background video. `.hero__grid` also carries the `.container` class, and its `padding` **shorthand** overrode `.container`'s `padding: 0 24px` — same specificity, later in the file — zeroing the horizontal gutter. Above the max-width the container's own centring hid it, which is why it survived review; below it the hero copy touched both screen edges. On a phone the eyebrow pill ran from edge to edge.
@@ -670,6 +682,9 @@ Recorded so later passes do not regress them.
 | 2026-08-27 | `c44c40a` | A-54 — hero media content-hashed via Vite; the 4h cache on `public/` had been serving stale cuts |
 | 2026-08-27 | `9fb52cf` | A-54 — film moved out of full-bleed into a contained panel; 0% cropped at every viewport |
 | 2026-08-27 | `28f3838` | A-54 — replaced with Sponge’s own 24s promo (`0827.mp4`) at Nathan’s direction; portrait panel, looped seamlessly |
+| 2026-08-28 | `476eb5e` | A-54 — hero promo enlarged to 460×818 and re-encoded at 800×1422 |
+| 2026-08-28 | `87a389d` | A-21 — lifestyle band swapped for the training flat-lay (AI marks cropped out); app day-chart added to the empty column in "On your phone" |
+| 2026-08-28 | `f2cb31d` | A-59, A-50 — blog posts rewritten long and sourced; the retired adaptive-goal claim removed from the blog, where it had survived |
 
 
 ---
