@@ -11,6 +11,25 @@ export default function Caregivers() {
         description="Help an aging parent or loved one stay hydrated. The Sponge caregiver program tracks their water intake automatically and alerts you if they fall behind, no app skills required on their end."
         path="/caregivers"
       />
+      <div
+        role="status"
+        style={{
+          background: '#fff7ed',
+          borderBottom: '1px solid #fed7aa',
+          color: '#9a3412',
+          textAlign: 'center',
+          padding: '12px 24px',
+          fontSize: 14,
+          fontWeight: 600,
+        }}
+      >
+        🚧 This page is under construction — the caregiver program isn’t live yet, so details may
+        change. Feel free to read on, and{' '}
+        <Link to="/contact" style={{ color: '#9a3412', textDecoration: 'underline' }}>
+          contact us
+        </Link>{' '}
+        with any questions.
+      </div>
       <section className="hero hero--sub">
         <div className="container">
           <span className="eyebrow">For caregivers</span>
