@@ -36,7 +36,7 @@ const STEPS = [
     id: 'sip',
     label: 'Sip & repeat',
     title: 'Sip, set it down, repeat',
-    body: 'Sponge compares readings between sips to measure exactly how much you drank, all day, automatically.',
+    body: 'Sponge compares readings between sips to work out how much you drank, all day, automatically.',
     dur: 6400,
   },
 ]

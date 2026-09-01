@@ -24,7 +24,7 @@ export const products = [
       'Automatic sip tracking',
       '8-day battery · USB-C charging',
       'Free iOS & Android app with app-lock',
-      'Personalized daily hydration goals',
+      'Daily goal you set, tracked automatically',
     ],
     ships: 'Ships with our next production batch',
   },

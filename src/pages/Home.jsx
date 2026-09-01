@@ -336,7 +336,7 @@ export default function Home() {
           <div className="personas">
             <article className="persona">
               <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two water bottles with Sponge trackers clipped to their bases on an outdoor basketball court" width="740" height="370" decoding="async" loading="lazy" />
-              <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with accurate, automatic intake data you can trust.</p></div>
+              <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with automatic intake data instead of end-of-day guesswork.</p></div>
             </article>
             <article className="persona">
               <img className="persona__img" src="/media/personas/professional.jpg" alt="A water bottle with a Sponge tracker at its base beside a laptop, next to a phone showing 52.3 oz logged in the Sponge app" width="740" height="370" decoding="async" loading="lazy" />
