@@ -29,14 +29,14 @@ const STEPS = [
     id: 'setdown',
     label: 'Set down',
     title: 'Set the bottle down',
-    body: 'Every time your bottle lands, load cells and an accelerometer take a precise weight reading.',
+    body: 'Every time your bottle lands, a load cell and an accelerometer take a weight reading.',
     dur: 5600,
   },
   {
     id: 'sip',
     label: 'Sip & repeat',
     title: 'Sip, set it down, repeat',
-    body: 'Sponge compares readings between sips to work out how much you drank, all day, automatically.',
+    body: 'An on-device algorithm turns the change between readings into your water intake, all day, automatically.',
     dur: 6400,
   },
 ]
