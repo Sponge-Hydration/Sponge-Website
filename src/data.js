@@ -178,18 +178,22 @@ export const faqs = [
   { q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
 ]
 
-// Real customer reviews, verbatim from the Airtable reviews survey. No names
+// Real customer reviews, verbatim from the Airtable feedback survey. No names
 // were collected, so cards show "Verified customer" + the use case they picked.
 // This is the baked-in fallback that prerenders and shows if Airtable is
 // unreachable; the live approved list comes from Airtable via /api/reviews.
-// (A 5th 5-star response left no written feedback, so it isn't shown here.)
-// Keep this snapshot in sync when the featured reviews change.
+//
+// ONLY GENUINE OUTSIDE CUSTOMERS BELONG HERE. Two entries were removed on
+// 2026-09-09 because the survey rows behind them were submitted by the founders
+// themselves ("Beautiful." and "Needs to be thinner, like 10mm total."). An
+// officer or manager writing a review without disclosing that relationship is
+// an unfair or deceptive practice under FTC 16 CFR 465.5. A third 5-star row
+// left no written feedback and never appeared here.
+//
+// Before adding an entry, check the Email column in the Airtable base. If it
+// belongs to anyone at Sponge, it does not go on the site.
+// Keep this snapshot in sync when the approved reviews change.
 export const reviews = [
-  {
-    stars: 5,
-    quote: 'Beautiful.',
-    loc: 'Focus and energy · Gift for someone',
-  },
   {
     stars: 4,
     quote:
@@ -201,11 +205,6 @@ export const reviews = [
     quote:
       'I really like the clip from a hardware perspective. The main thing I’d love is a connection from the app to Apple Health, and, if possible, not having to open the app to sync data from the clip.',
     loc: 'Fitness and training · Preventive health',
-  },
-  {
-    stars: 5,
-    quote: 'Needs to be thinner, like 10mm total.',
-    loc: 'Preventive health',
   },
 ]
 

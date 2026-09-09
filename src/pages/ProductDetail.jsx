@@ -112,8 +112,10 @@ export default function ProductDetail() {
                 returnFees: 'https://schema.org/FreeReturn',
               },
             },
-            // No aggregateRating: only four reviews exist and the review API is
-            // not yet configured, so any figure here would be unsubstantiated.
+            // No aggregateRating: only two genuine customer reviews exist and the
+            // review API is not yet configured, so any figure here would be
+            // unsubstantiated. Do not add one until the Airtable feed is live and
+            // the sample is large enough to mean something.
           },
           {
             '@context': 'https://schema.org',
