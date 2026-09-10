@@ -81,7 +81,7 @@ export default function ProductDetail() {
     <section className="section">
       <Seo
         title={`${product.name} — ${usd(product.price)} | Sponge`}
-        description={`${product.short} ${product.ships}. Free app, 8-day battery, 30-day money-back guarantee.`}
+        description={`${product.short} ${product.ships}. Free app, 2-week battery, 30-day money-back guarantee.`}
         path={`/shop/p/${product.slug}`}
         ogType="product"
         jsonLd={[

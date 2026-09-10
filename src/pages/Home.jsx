@@ -14,10 +14,10 @@ import heroPoster from '../media/hero-film-poster.jpg'
 const features = [
   { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.' },
   { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.' },
-  { icon: BatteryIcon, title: '8-day battery', text: 'Go a full week-plus between charges, then top up in a couple of hours over USB-C. Charge it Sunday, forget about it.' },
+  { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.' },
   { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.' },
   { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.' },
-  { icon: HeartIcon, title: 'Syncs to Apple Health', text: 'Your intake writes straight into Apple Health on iPhone, so it sits alongside the rest of your health data instead of stranded in one more app.' },
+  { icon: HeartIcon, title: 'Apple Health sync — next update', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.' },
 ]
 
 // The hero plays a six-shot product film cut from our own footage: the Clip on
@@ -94,7 +94,7 @@ export default function Home() {
     <>
       <Seo
         title="Sponge Hydration Tracker | Smart Water Intake Tracker for Any Bottle"
-        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 8-day battery. Pre-order $59.99."
+        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 2-week battery. Pre-order $59.99."
         path="/"
       />
       {/* Hero */}
@@ -117,7 +117,7 @@ export default function Home() {
             </div>
             <div className="hero__note">
               <span><i className="dot" />Works with any bottle</span>
-              <span><i className="dot" />8-day battery</span>
+              <span><i className="dot" />2-week battery</span>
               <span><i className="dot" />Free iOS &amp; Android app</span>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function Home() {
         <div className="container trust__grid">
           <div><div className="trust__num">100+</div><div className="trust__lbl">Sponge products shipped</div></div>
           <div><div className="trust__num">30-day</div><div className="trust__lbl">Money-back guarantee</div></div>
-          <div><div className="trust__num">8 days</div><div className="trust__lbl">Battery life</div></div>
+          <div><div className="trust__num">2 weeks</div><div className="trust__lbl">Battery life</div></div>
           <div><div className="trust__num">Apple</div><div className="trust__lbl">Health sync on iPhone</div></div>
         </div>
       </section>
@@ -266,8 +266,9 @@ export default function Home() {
       </section>
 
       {/* Personas */}
-      {/* Apple Health + widget. Both confirmed capabilities of the current app;
-          both screenshots are real, unretouched captures. */}
+      {/* Widget is a confirmed capability of the shipping app. Apple Health sync is
+          in TestFlight and NOT yet released - it must stay future-tense here
+          and in the FAQ until it ships. Screenshots are real, unretouched. */}
       <section className="section" id="on-your-phone">
         <div className="container">
           <SectionHead eyebrow="On your phone" title="It lives where you already look">
@@ -322,8 +323,8 @@ export default function Home() {
             </div>
           </div>
           <p className="phone-pair__note">
-            Sponge also writes your intake into <strong>Apple Health</strong> on iPhone, so it
-            sits with the rest of your health data rather than in a silo.
+            <strong>Apple Health sync</strong> is in testing now and arrives with the next app
+            update, so your intake will sit with the rest of your health data rather than in a silo.
           </p>
         </div>
       </section>
@@ -420,7 +421,7 @@ export default function Home() {
                   <td className="no">Some do</td>
                   <td className="yes">Yes</td>
                   <td className="no">Nothing to sync</td>
-                  <td className="compare__us yes">Yes, on iPhone</td>
+                  <td className="compare__us">In the next update</td>
                 </tr>
                 <tr>
                   <th scope="row">Does something when you fall behind</th>

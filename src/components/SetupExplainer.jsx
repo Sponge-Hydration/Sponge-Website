@@ -8,7 +8,7 @@ const STEPS = [
     id: 'charge',
     label: 'Charge',
     title: 'Charge it over USB-C',
-    body: 'Plug in your Sponge for a couple of hours. One full charge lasts about 8 days.',
+    body: 'Plug in your Sponge for a couple of hours. One full charge lasts about two weeks.',
     dur: 5000,
   },
   {
