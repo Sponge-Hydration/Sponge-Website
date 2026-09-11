@@ -20,18 +20,20 @@ const features = [
   { icon: HeartIcon, title: 'Apple Health sync — next update', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.' },
 ]
 
-// The hero plays a six-shot product film cut from our own footage: the Clip on
-// white, two bottles wearing Clips courtside, drinking, the bottles beside the
-// open Sponge box, the app reading 52.3 oz, then back to the Clip on white.
+// The hero plays Sponge's own explainer cut: the device, then "Sponge is a water
+// intake recording device" / "It tracks your sips automatically", then the setup
+// in three beats — peel, place, snap it on — closing on studio product shots.
 //
-// It opens and closes on the same white studio shot so the loop point is
-// invisible. Subjects sit in the middle of frame on purpose — the hero box
-// aspect swings from 1.09 to 2.36 across viewports, so cover discards up to 40%
-// of every frame. Run scripts/hero-crop-audit.mjs after changing any of it.
+// It opens on the device and closes on white studio, so the last 0.7s is dissolved
+// over the first 0.7s to make the loop point invisible. Audio is stripped because
+// hero autoplay must be muted; the captions carry the message instead.
+//
+// The panel plays it at its own 9:16 aspect, so nothing is cropped at any width.
+// Run scripts/hero-crop-audit.mjs after changing the file or the panel CSS.
 const HERO_VIDEO_ENABLED = true
 
 /**
- * Hero media. A muted 14.75-second video that autoplays and loops is "moving
+ * Hero media. A muted 28.8-second video that autoplays and loops is "moving
  * content that starts automatically and lasts more than five seconds", so WCAG
  * 2.2.2 requires a way to stop it. Two mechanisms, live whenever the video is:
  *  - anyone asking for reduced motion never gets it playing at all; they get
@@ -58,7 +60,7 @@ function HeroBackground() {
   }
 
   if (!HERO_VIDEO_ENABLED || reduced) {
-    return <img className="hero__film" src={heroPoster} alt="" width="1280" height="896" />
+    return <img className="hero__film" src={heroPoster} alt="" width="800" height="1422" />
   }
 
   return (
@@ -134,7 +136,7 @@ export default function Home() {
           <div><div className="trust__num">100+</div><div className="trust__lbl">Sponge products shipped</div></div>
           <div><div className="trust__num">30-day</div><div className="trust__lbl">Money-back guarantee</div></div>
           <div><div className="trust__num">2 weeks</div><div className="trust__lbl">Battery life</div></div>
-          <div><div className="trust__num">Apple</div><div className="trust__lbl">Health sync on iPhone</div></div>
+          <div><div className="trust__num">App Lock</div><div className="trust__lbl">Apps stay shut until you drink</div></div>
         </div>
       </section>
 
