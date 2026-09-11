@@ -33,7 +33,7 @@ Marketing + store for Sponge hydration trackers. **Live: https://www.spongehydra
 
 ## Privacy & consent
 - **Consent gates all nonessential tags.** `src/consent.js` holds the state (localStorage `sponge-privacy-v1`); `src/analytics.js` refuses to inject or fire anything without the matching category. Default is DENY, so a first visit makes zero analytics/ad requests.
-- Categories: `analytics` (GA4) and `advertising` (Meta + TikTok + server-side CAPI). Essential (cart, Stripe, Cloudflare) is never gated.
+- Categories: `analytics` (GA4 + Microsoft Clarity) and `advertising` (Meta + TikTok + server-side CAPI). Essential (cart, Stripe, Cloudflare) is never gated.
 - **GPC** (`navigator.globalPrivacyControl`) forces `advertising` off and locks the toggle. Never persist an advertising grant while it is asserted.
 - **Server-side CAPI honours the same choice**: the client sends `adConsent` to `create-checkout-session`, which stamps `metadata[ad_consent]` on the Stripe session; `webhook.js` calls Meta only when `adConsentGranted()` sees exactly `'1'`. **Fails closed.**
 - UI: `src/components/PrivacyControls.jsx` (banner + dialog, mounted in Layout). The footer's "Do Not Sell or Share My Personal Information" button opens it via the `sponge:openprivacy` event. `/legal/privacy` also renders live controls.

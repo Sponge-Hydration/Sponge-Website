@@ -56,6 +56,7 @@ const PAGES = {
         'Google — Gmail, to send your order confirmation and to deliver contact-form messages to our team, and Google Sheets, where our order records and email-list signups are kept. The site’s typefaces are served from our own domain, so no font provider sees your visit.',
         'Airtable — where submitted product reviews are stored.',
         'Google Analytics — site usage measurement. Only if you allow analytics.',
+        'Microsoft Clarity — anonymised session replay and heatmaps that show how pages are used so we can improve them. It masks the text you type and the contents of form fields, so it does not capture what you enter. Only if you allow analytics.',
         'Meta (Facebook and Instagram) and TikTok — advertising measurement and targeting, both in your browser and, after a completed order, from our own server. Only if you allow advertising.',
       ] },
 
@@ -67,7 +68,7 @@ const PAGES = {
 
       { h: 'Cookies and tracking technologies' },
       'Essential storage always runs: your cart is kept in your own browser, and Cloudflare sets what it needs to serve and protect the site. None of it is used to advertise to you and none of it can be switched off without breaking the store. Cloudflare Web Analytics, described above, also runs on every page load without setting a cookie.',
-      'Optional cookies are set by Google Analytics (analytics) and by Meta and TikTok (advertising). They only ever load after you choose to allow that category. Decline, and no request is made to those companies at all.',
+      'Optional cookies are set by Google Analytics and Microsoft Clarity (analytics) and by Meta and TikTok (advertising). They only ever load after you choose to allow that category. Decline, and no request is made to those companies at all.',
       'You can change your mind at any time using the controls at the bottom of this page or the "Do Not Sell or Share My Personal Information" link in the footer of every page. Withdrawing consent clears the cookies we can reach and reloads the page so nothing keeps running.',
 
       { h: 'Global Privacy Control' },
@@ -79,7 +80,7 @@ const PAGES = {
         'Contact messages — kept as long as needed to resolve your question and keep a record of support history.',
         'Reviews — kept until you ask us to remove yours.',
         'App account and hydration data — kept while your account is open, and deleted when you close it or ask us to.',
-        'Analytics and advertising data — retained by Google, Meta, and TikTok under their own policies once shared. Ask us and we will tell you what we hold on our side.',
+        'Analytics and advertising data — retained by Google, Microsoft, Meta, and TikTok under their own policies once shared. Ask us and we will tell you what we hold on our side.',
       ] },
 
       { h: 'How we protect it' },

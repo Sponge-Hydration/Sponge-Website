@@ -25,13 +25,16 @@
 import { getConsent } from './consent'
 
 const GA4_ID = import.meta.env.VITE_GA4_ID || ''
+const CLARITY_ID = import.meta.env.VITE_CLARITY_ID || ''
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID || ''
 const TIKTOK_PIXEL_ID = import.meta.env.VITE_TIKTOK_PIXEL_ID || ''
 
-export const analyticsConfigured = Boolean(GA4_ID || META_PIXEL_ID || TIKTOK_PIXEL_ID)
+export const analyticsConfigured = Boolean(GA4_ID || CLARITY_ID || META_PIXEL_ID || TIKTOK_PIXEL_ID)
 
-// Which categories have actually had their scripts injected this page load.
-const loaded = { analytics: false, advertising: false }
+// Which tags have actually had their scripts injected this page load. GA4 and
+// Clarity both sit in the `analytics` category but are separate scripts, so
+// they get separate idempotency flags.
+const loaded = { analytics: false, clarity: false, advertising: false }
 
 function injectScript(src) {
   const s = document.createElement('script')
@@ -76,6 +79,23 @@ function loadGa4() {
   // missed and the initial load is not counted twice.
   window.gtag('config', GA4_ID, { send_page_view: false })
   injectScript(`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`)
+}
+
+// Microsoft Clarity — session replay + heatmaps. First-party behavioural
+// analytics, so it lives in the `analytics` category (NOT advertising): it is
+// how we see *why* a visitor left, not a cross-context ad tag. Clarity masks
+// text and form inputs by default, so replays don't capture what people type.
+// We only inject after `analytics` consent, and we call clarity('consent') to
+// state the grant explicitly for Clarity's own cookie-consent handling.
+function loadClarity() {
+  if (loaded.clarity || !CLARITY_ID) return
+  loaded.clarity = true
+  window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments) }
+  const t = document.createElement('script')
+  t.async = true
+  t.src = `https://www.clarity.ms/tag/${CLARITY_ID}`
+  insertBeforeFirstScript(t)
+  window.clarity('consent')
 }
 
 function loadAdTags() {
@@ -137,7 +157,10 @@ function loadAdTags() {
 export function initAnalytics() {
   if (typeof window === 'undefined') return
   const c = allow()
-  if (c.analytics) loadGa4()
+  if (c.analytics) {
+    loadGa4()
+    loadClarity()
+  }
   if (c.advertising) loadAdTags()
 }
 

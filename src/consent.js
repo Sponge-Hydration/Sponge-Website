@@ -6,7 +6,8 @@
 //                 Stripe checkout redirect, Cloudflare's CDN/security layer and
 //                 its cookieless Web Analytics beacon. Without these the store
 //                 does not function, so they are not consent-gated.
-//   analytics   - Google Analytics 4. Off until the visitor says otherwise.
+//   analytics   - Google Analytics 4 and Microsoft Clarity (session replay +
+//                 heatmaps). Off until the visitor says otherwise.
 //   advertising - Meta Pixel, TikTok Pixel, and the server-side Meta
 //                 Conversions API. This is the category that constitutes
 //                 "sharing" for cross-context behavioural advertising under the
@@ -125,7 +126,7 @@ export function revokeConsent() {
  */
 export function clearTrackingCookies() {
   if (typeof document === 'undefined') return
-  const names = ['_ga', '_gid', '_gat', '_fbp', '_fbc', '_ttp', '_tt_enable_cookie']
+  const names = ['_ga', '_gid', '_gat', '_fbp', '_fbc', '_ttp', '_tt_enable_cookie', '_clck', '_clsk']
   const host = window.location.hostname
   // Cookies may be scoped to the exact host or to the registrable domain.
   const domains = [undefined, host, `.${host}`, `.${host.split('.').slice(-2).join('.')}`]
