@@ -37,6 +37,21 @@ stack/deploy/layout; this file is **current state + open to-dos**.
   (`ygqhrydoog`, session replay + heatmaps) consent-gated in `src/analytics.js` under the `analytics`
   category, disclosed in the privacy policy. Both env-driven & consent-gated; Meta/TikTok pixels still
   unset. GA4 funnel events already fire (view_item → add_to_cart → begin_checkout → purchase).
+- **GA4 Data API access + weekly funnel email** (2026-09-11): reused the Sheets service account
+  `sponge-sheets-writer@…` (scope `analytics.readonly`, granted Viewer on the real property
+  **437571529** which owns `G-DGZGWC184G`). Ad-hoc CLI puller `scripts/ga4-funnel.mjs` (web-only
+  funnel). Automated weekly report: Pages Function `functions/api/ga4-weekly-report.js` pulls the 7-day
+  web funnel and emails team@spongehydration.com via `sendGmail()`, token-protected by the Cloudflare
+  secret **`GA4_REPORT_TOKEN`**; fired by claude.ai routine `trig_01EhdXCQnSwbJux2Bfy2FtRZ`
+  (cron `0 3 * * 1` UTC = Sun 8pm PT). End-to-end send verified (`emailed:true`). Numbers are ~zero
+  until the freshly-switched property accumulates traffic.
+
+## Required env / secrets (prod, Cloudflare Pages)
+- Build-time (bake into bundle — change requires **redeploy**): `VITE_GA4_ID=G-DGZGWC184G`,
+  `VITE_CLARITY_ID=ygqhrydoog`, `STRIPE_TAX_ENABLED=true`.
+- Runtime secrets: `GOOGLE_SA_EMAIL`/`GOOGLE_SA_PRIVATE_KEY` (Sheets + GA4), `GMAIL_*`/`ORDER_FROM_EMAIL`
+  (order + report email), `STRIPE_*`, `STATUS_TOKEN_SECRET`, and **`GA4_REPORT_TOKEN`** (weekly-report
+  trigger — if missing, `/api/ga4-weekly-report` returns 500/401 and the Sunday email silently stops).
 
 ## Open to-dos
 1. **Rotate the Stripe TEST keys** shared earlier in chat (Dashboard → Test mode →
