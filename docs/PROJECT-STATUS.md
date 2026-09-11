@@ -31,6 +31,12 @@ stack/deploy/layout; this file is **current state + open to-dos**.
 - **Sales tax via Stripe Tax** (2026-07-26): `automatic_tax` gated behind env `STRIPE_TAX_ENABLED`
   (set to `true` in Cloudflare prod). Stripe Tax is configured in the dashboard (origin + CA reg);
   live session creation verified succeeding. Emails/webhook thread tax so totals reconcile.
+- **Analytics: GA4 property switch + Microsoft Clarity** (2026-09-11): moved `VITE_GA4_ID` from the
+  old personal-account property `G-Y4KDGQXHTY` to the sponge-owned `G-DGZGWC184G`
+  (team@spongehydration.com) — verified live, zero hits to the old id. Added **Microsoft Clarity**
+  (`ygqhrydoog`, session replay + heatmaps) consent-gated in `src/analytics.js` under the `analytics`
+  category, disclosed in the privacy policy. Both env-driven & consent-gated; Meta/TikTok pixels still
+  unset. GA4 funnel events already fire (view_item → add_to_cart → begin_checkout → purchase).
 
 ## Open to-dos
 1. **Rotate the Stripe TEST keys** shared earlier in chat (Dashboard → Test mode →
@@ -49,6 +55,17 @@ stack/deploy/layout; this file is **current state + open to-dos**.
 6. **Trim MCP connectors** in the new session via `/mcp` (drop computer-use, Claude-in-Chrome,
    scheduling/registry/session-mgmt, Gmail connector; keep browser preview, optionally Drive/Cloudflare).
    Do it at session start (mid-session toggles bust the prompt cache).
+7. **Migrate Google service account + GCP project off the personal account.** The SA
+   `sponge-sheets-writer@claudestuff-501202.iam.gserviceaccount.com` (used by Sheets order log,
+   and now GA4 Data API) lives in GCP project `claudestuff-501202`, which is under the **personal**
+   Google account (phnative@gmail.com), not sponge's Workspace. So Sheets/GA4 backend identity
+   depends on a personal account. Recreate the SA under a **sponge-owned GCP org/Workspace**, re-grant
+   it on the Sheet + the `G-DGZGWC184G` GA4 property, swap `GOOGLE_SA_EMAIL`/`GOOGLE_SA_PRIVATE_KEY`
+   in `.dev.vars` + Cloudflare, and decommission the old SA. (Gmail OAuth already uses
+   team@spongehydration.com — this is the remaining personal-account dependency.)
+8. **Grant the service account Viewer on the live GA4 property `G-DGZGWC184G`** (owned by
+   team@spongehydration.com) so the Data API funnel puller works. It currently only sees an empty
+   personal property (553741075). Superseded by #7 once the SA moves under the sponge org.
 
 ## Token tips for the new session
 - `CLAUDE.md` auto-loads — don't re-explore the stack.
