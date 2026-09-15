@@ -557,6 +557,16 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-63 — Sponge Dot added to the shop
+- **Request:** Nathan, 2026-09-14 — add the Sponge Dot at $29.99: a bottle device with one button; each press logs one full bottle in the app, and setup asks for the bottle’s volume.
+- **What shipped:** `/shop/p/sponge-dot`, shop card, footer link, sitemap, FAQ entry. Priced and weighed on the server (`CATALOG`, `SKU_WEIGHT_OZ`) and mirrored in `src/shipping.js`. Stripe sessions carry `metadata[qty_dot]`. One to three Dots ship for $8.75, the same as one clip.
+- **Claim discipline:** the Dot copy states only what Nathan confirmed. It says plainly that the Dot does not measure sips and points anyone who wants measurement at the tracker. **Not claimed, because unconfirmed:** battery life, charging, Bluetooth, colours, App Lock support, flashing reminders. `test/catalog-sync.test.js` fails if tracking, sensor, accuracy, battery or App Lock language reaches the Dot’s copy.
+- **Disclosure:** badged **New · In development**, ships line “In development — ships once production starts”, sold under the existing pre-order policy (cancel any time before it ships). The market-sizing handoff of the same date records the Dot as in development.
+- **Also fixed on the way:** the PDP meta description quoted a “2-week battery” on every product page, including the adhesive mounts, which have no battery. It now appears only on clip products. The shop intro promised app-lock and a 2-week battery for “every option”, which the Dot and adhesive do not carry.
+- **Guard added:** `test/catalog-sync.test.js` checks that every purchasable product has the same price in `data.js` and the server catalog, and the same weight on client and server. It was run against a deliberately broken server file to prove it fails.
+- **Open, needs Nathan:** (1) **real product photography** — the image is a labelled “Photos coming soon” placeholder, not a render; (2) **weigh a unit** — 2 oz is an estimate; (3) whether the order sheet needs a Dot column — today Dots reach fulfilment only through Items Summary; (4) confirm App Lock, battery and colours before any of them are claimed; (5) whether to take money for a product still in development, or switch the PDP to a notify-me list.
+- **Status:** **Complete (pending the open items above)**
+
 ### A-59 — Blog posts were thin and carried unsourced health claims
 - **Original finding:** Raised by Nathan 2026-08-28 ("make the blogs read longer and have good content and research backed material"). The three posts ran about **150 words each** — three paragraphs, no headings, no citations — and asserted physiological claims with nothing behind them. One also carried the retired A-50 claim (see above).
 - **Priority / impact:** P2. These pages exist to earn organic search traffic on hydration questions; at 150 words with no sources they neither rank nor persuade, and the health assertions carried regulatory risk on a wellness product.
@@ -691,6 +701,7 @@ Recorded so later passes do not regress them.
 | 2026-08-28 | `83075a4` | A-60 — hero swapped to the `0827(2)` cut, removing the burned-in "world's first" superlative |
 | 2026-08-28 | `394c1b6` | A-61, A-62 — sitewide claim sweep: three corrected, competitor pricing verified, hardware specs escalated to Nathan |
 | 2026-08-28 | `(this)` | A-50, A-62 — Nathan confirmed 3M, 8-day battery and the load-cell/accelerometer/algorithm stack; the sign-up goal recommendation restored as a claim, ongoing adaptation still retired |
+| 2026-09-14 | _this commit_ | A-63 — Sponge Dot added ($29.99, in development); catalog-sync guard; battery claim scoped to clip products |
 
 
 ---

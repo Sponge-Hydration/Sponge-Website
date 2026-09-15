@@ -33,6 +33,7 @@ export default function Footer() {
             <h4>Shop</h4>
             <Link to="/products">All products</Link>
             <Link to="/shop/p/sponge-clip">Sponge Tracker</Link>
+            <Link to="/shop/p/sponge-dot">Sponge Dot</Link>
             <Link to="/cart">Cart</Link>
           </div>
           <div>

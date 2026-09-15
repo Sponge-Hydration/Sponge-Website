@@ -13,6 +13,7 @@ const CATALOG = {
   'sponge-clip': { name: 'Sponge Hydration Tracker', amount: 5999, img: '/media/products/single.jpg' },
   'sponge-family': { name: 'Sponge Family Pack', amount: 19999, img: '/media/products/family.png' },
   'sponge-adhesive-3pack': { name: 'Magnetic Adhesive 3-Pack', amount: 1499, img: '/media/products/adhesive-3pack.jpg' },
+  'sponge-dot': { name: 'Sponge Dot', amount: 2999, img: '/media/products/dot-placeholder-wide.jpg' },
 }
 
 const COLOR_LABELS = {
@@ -40,7 +41,8 @@ const coerceColor = (c) => (AVAILABLE_COLORS.includes(c) ? c : DEFAULT_COLOR)
 // for the full rationale and how to change REP_ZONE. Rates are Notice 123,
 // effective 2026-07-12 (pe.usps.com). Family Pack now weighs as 4 clips.
 const REP_ZONE = 6 // representative USPS zone (1–9) for the flat rate (origin ZIP 94044)
-const SKU_WEIGHT_OZ = { 'sponge-clip': 4, 'sponge-family': 16, 'sponge-adhesive-3pack': 2 }
+// sponge-dot is an unweighed estimate, see src/shipping.js.
+const SKU_WEIGHT_OZ = { 'sponge-clip': 4, 'sponge-family': 16, 'sponge-adhesive-3pack': 2, 'sponge-dot': 2 }
 const DEFAULT_ITEM_OZ = 4
 const BOX_OZ = 2 // packaging + padding, added once per shipment
 
@@ -110,7 +112,7 @@ export async function onRequestPost({ request, env }) {
   // text description, so we stash exact per-color and per-SKU counts in the
   // session metadata for the webhook to read back.
   const clipCounts = { 'light-blue': 0, 'dark-blue': 0, black: 0, white: 0, 'light-gray': 0, pink: 0 }
-  const skuCounts = { 'sponge-clip': 0, 'sponge-family': 0, 'sponge-adhesive-3pack': 0 }
+  const skuCounts = { 'sponge-clip': 0, 'sponge-family': 0, 'sponge-adhesive-3pack': 0, 'sponge-dot': 0 }
 
   let line = 0
   let totalWeightOz = 0
@@ -167,6 +169,9 @@ export async function onRequestPost({ request, env }) {
   params.append('metadata[qty_2pack]', '0')
   params.append('metadata[qty_family]', String(skuCounts['sponge-family']))
   params.append('metadata[qty_adhesive_3pack]', String(skuCounts['sponge-adhesive-3pack']))
+  // The order sheet has no Dot column, so Dots reach fulfilment through the
+  // Items Summary column. This keeps an exact count on the Stripe session too.
+  params.append('metadata[qty_dot]', String(skuCounts['sponge-dot']))
   // Advertising consent, captured at checkout time and stored on the session so
   // the webhook can honour it once the browser is long gone. Fails closed: only
   // an explicit `true` from the client counts as consent, so a missing or

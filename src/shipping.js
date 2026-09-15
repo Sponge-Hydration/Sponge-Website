@@ -32,6 +32,9 @@ export const SKU_WEIGHT_OZ = {
   'sponge-clip': 4,
   'sponge-family': 16,
   'sponge-adhesive-3pack': 2,
+  // Dot is in development and has never been weighed. 2 oz keeps one to three
+  // Dots in the same $8.75 tier as a single clip. Weigh a production unit.
+  'sponge-dot': 2,
 }
 const DEFAULT_ITEM_OZ = 4 // fallback for any unknown/retired SKU
 export const BOX_OZ = 2 // packaging + padding added once per shipment

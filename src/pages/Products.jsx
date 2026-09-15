@@ -16,14 +16,14 @@ export default function Products() {
   return (
     <section className="section">
       <Seo
-        title="Shop the Sponge Hydration Tracker | Single, Family Pack & Accessories"
-        description="Order the Sponge hydration tracking device. Choose a single tracker or the family pack with a shared dashboard, and add magnetic adhesive mounts for every bottle. Free app, 2-week battery, 30-day guarantee."
+        title="Shop Sponge | Hydration Tracker, Sponge Dot & Accessories"
+        description="Order the Sponge hydration tracking device, the family pack, or the Sponge Dot, a one-press bottle logger. Add magnetic adhesive mounts for every bottle. Free app, 30-day money-back guarantee."
         path="/products"
       />
       <div className="container">
         <SectionHead eyebrow="Shop" title="Choose your Sponge" as="h1">
-          Every option includes the free iOS &amp; Android app, app-lock, a 2-week battery, and a
-          30-day money-back guarantee.
+          Everything here works with the free iOS &amp; Android app and comes with a 30-day
+          money-back guarantee.
         </SectionHead>
 
         <div className="features">

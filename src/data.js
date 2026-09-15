@@ -19,6 +19,7 @@ export const products = [
       '/media/gallery/g5-packaging.jpg',
     ],
     short: 'Magnetic clip-on hydration tracking device that auto-logs every sip from the bottle you already own.',
+    compare: 'Smart bottles start around $80 and ask you to replace the bottle you already own. Sponge clips onto it.',
     features: [
       'Works with any water bottle',
       'Automatic sip tracking',
@@ -27,6 +28,32 @@ export const products = [
       'Personalized starting goal, recommended at sign-up',
     ],
     ships: 'Ships with our next production batch',
+  },
+  {
+    // The Dot logs what you tell it. It has no sensor and measures nothing, so
+    // it must never inherit the Clip's tracking or accuracy language. What is
+    // confirmed (Nathan, 2026-09-14): one press logs one full bottle, and setup
+    // in the app asks for the bottle's volume. Battery life, charging, colours,
+    // Bluetooth and App Lock support are NOT confirmed, so none are claimed.
+    // No product photography exists yet; the image is a labelled placeholder.
+    id: 'sponge-dot',
+    slug: 'sponge-dot',
+    name: 'Sponge Dot',
+    tagline: 'One press. One bottle logged.',
+    clips: 0,
+    price: 29.99,
+    badge: 'New · In development',
+    img: '/media/products/dot-placeholder-wide.jpg',
+    gallery: ['/media/products/dot-placeholder.jpg'],
+    short: 'A one-button logger for the bottle you already own. Finish the bottle, press the Dot, and a full bottle of water lands in the free Sponge Hydration app.',
+    compare: 'The Dot does not measure your sips. It logs a full bottle each time you press it, so it is only as complete as your presses. If you want every sip measured automatically, that is the Sponge Hydration Tracker.',
+    features: [
+      'One press logs one full bottle',
+      'Set your bottle’s volume once, during setup in the app',
+      'Logs to the free Sponge Hydration app',
+      'No typing in drinks after setup',
+    ],
+    ships: 'In development — ships once production starts',
   },
   {
     id: 'sponge-2pack',
@@ -174,6 +201,7 @@ export const faqs = [
   { q: 'Is it accurate?', a: 'Sponge measures real sips with on-device sensors rather than asking you to remember and self-report, which is where most hydration tracking breaks down. The app shows your intake in real time so you always know where you stand.' },
   { q: 'How is my daily water goal set?', a: 'When you sign up, the app asks for a few details about you and recommends a starting goal from them, so you are not guessing at a number on day one. You can change it whenever you like. Sponge does not adjust the goal for you afterwards based on your activity or the weather — the target stays where you set it, and the tracker measures how close you get.' },
   { q: 'How do I set up my Sponge?', a: 'Charge it over USB-C, download the free Sponge app, and pair over Bluetooth. Then clip it onto your bottle. Setup takes about two minutes and the app walks you through calibrating your bottle size.' },
+  { q: 'What is the Sponge Dot?', a: 'The Sponge Dot is a one-button logger for the bottle you already own. When you set it up, the Sponge Hydration app asks for your bottle’s volume. After that, every press logs one full bottle. The Dot does not measure sips, so it only knows what you press. If you want every sip measured automatically, that is the Sponge Hydration Tracker. The Dot is $29.99 plus shipping and tax. It is still in development, and a pre-order can be cancelled for a full refund any time before it ships.' },
   { q: 'How much does Sponge cost and when does it ship?', a: 'Sponge is $59.99 plus shipping and tax, and the companion app is free on iOS and Android. We build in production batches, and a batch runs once enough pre-orders are reserved to fill it — so rather than quote a delivery date we cannot stand behind, we email you when your batch enters production. You can cancel a pre-order for a full refund any time before it ships, and once it arrives you have 30 days to send it back.' },
   { q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
 ]

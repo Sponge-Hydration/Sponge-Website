@@ -64,6 +64,11 @@ export default function ProductDetail() {
   // products stay individually editable in the cart.
   const clips = product.clips ?? 1
   const colorsForCart = clips > 0 ? Array.from({ length: clips }, () => color) : null
+  // The battery figure belongs to the clip tracker. The adhesive has no battery
+  // and the Dot’s is unconfirmed, so neither page may quote it.
+  const seoTail = clips > 0
+    ? "Free app, 2-week battery, 30-day money-back guarantee."
+    : "Free app, 30-day money-back guarantee."
 
   const addToCart = () => {
     add(product.id, qty, colorsForCart)
@@ -81,7 +86,7 @@ export default function ProductDetail() {
     <section className="section">
       <Seo
         title={`${product.name} — ${usd(product.price)} | Sponge`}
-        description={`${product.short} ${product.ships}. Free app, 2-week battery, 30-day money-back guarantee.`}
+        description={`${product.short} ${product.ships}. ${seoTail}`}
         path={`/shop/p/${product.slug}`}
         ogType="product"
         jsonLd={[
@@ -170,14 +175,8 @@ export default function ProductDetail() {
               )}
               {!product.soldOut && <span className="pdp__plus">+ shipping &amp; tax</span>}
             </div>
-            {product.clips === 1 && (
-              <p className="pdp__compare">
-                Smart bottles start around $80 and ask you to replace the bottle you already
-                own. Sponge clips onto it.
-              </p>
-            )}
-
             <p className="pdp__desc">{product.short}</p>
+            {product.compare && <p className="pdp__compare">{product.compare}</p>}
 
             <ul className="checklist pdp__list">
               {product.features.map((f) => (
