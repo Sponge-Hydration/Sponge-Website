@@ -87,10 +87,11 @@ function HeroBackground() {
 export default function Home() {
   const { add } = useCart()
   const navigate = useNavigate()
-  // One-click: drop a single Sponge in the cart and go straight to checkout.
-  const checkoutSingle = () => {
+  // "Order now": drop a single Sponge clip in the cart and take the visitor to
+  // the cart, where they can confirm colour/quantity before checking out.
+  const orderNow = () => {
     add('sponge-clip', 1)
-    navigate('/checkout')
+    navigate('/cart')
   }
   return (
     <>
@@ -103,7 +104,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="container hero__grid">
           <div className="hero__copy">
-            <span className="eyebrow">Pre-order · Cancel any time before it ships</span>
+            <span className="eyebrow">Order now · Cancel any time before it ships</span>
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your
@@ -111,7 +112,7 @@ export default function Home() {
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
-              <Link to="/products" className="btn btn--primary btn--lg">Pre-order Sponge</Link>
+              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now</button>
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
@@ -181,18 +182,18 @@ export default function Home() {
             A genuinely passive hydration tracker. Three steps, then it disappears into your day.
           </SectionHead>
           <div className="steps">
-            <div className="step step--media">
+            <Link to="/shop/p/sponge-clip" className="step step--media step--link">
               <img className="step__img" src="/media/how/step1-clip-on-bottle.jpg" width="720" height="444" decoding="async" alt="A hand holding a water bottle on its side with the Sponge Clip attached to its base, USB-C port visible" />
               <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
-            </div>
-            <div className="step step--media">
+            </Link>
+            <Link to="/shop/p/sponge-clip" className="step step--media step--link">
               <img className="step__img" src="/media/how/step2-sip-crop.jpg" width="720" height="438" decoding="async" alt="Drinking from a bottle held on its side, with the Sponge Clip visible on its base" />
               <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.</p></div>
-            </div>
-            <div className="step step--media">
+            </Link>
+            <Link to="/shop/p/sponge-clip" className="step step--media step--link">
               <img className="step__img" src="/media/how/step3-goal.jpg" width="720" height="438" decoding="async" alt="The Sponge app showing a full progress ring at 60.0 oz, 100% of the daily goal" />
               <div className="step__body"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -218,11 +219,11 @@ export default function Home() {
           </SectionHead>
           <div className="features">
             {features.map((f) => (
-              <article className="feature" key={f.title}>
+              <Link to="/shop/p/sponge-clip" className="feature feature--link" key={f.title}>
                 <div className="feature__icon" aria-hidden="true"><f.icon size={30} /></div>
                 <h3>{f.title}</h3>
                 <p>{f.text}</p>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
@@ -253,7 +254,7 @@ export default function Home() {
               Brutal? A little. It is also the reason people are still using Sponge in month two.
             </p>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/products" className="btn btn--primary btn--lg">Pre-order Sponge — $59.99</Link>
+              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now — $59.99</button>
             </div>
             <div className="app-badges">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
@@ -362,7 +363,7 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
-            <button type="button" className="btn btn--ghost btn--lg" onClick={checkoutSingle}>Pre-order Sponge — $59.99</button>
+            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now — $59.99</button>
             <p className="cta-band__note">
               $59.99 + shipping &amp; tax · Cancel any time before it ships · 30 days to change
               your mind once it arrives, and we pay return shipping

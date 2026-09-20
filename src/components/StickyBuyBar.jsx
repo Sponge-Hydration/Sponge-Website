@@ -61,15 +61,15 @@ export default function StickyBuyBar() {
       <div className="buybar__info">
         <span className="buybar__name">{product.name}</span>
         <span className="buybar__meta">
-          {soldOut ? 'Sold out' : <>{usd(product.price)} + shipping &amp; tax · Pre-order</>}
+          {soldOut ? 'Sold out' : <>{usd(product.price)} + shipping &amp; tax · Order now</>}
         </span>
       </div>
       {soldOut ? (
         <Link to="/products" className="btn btn--ghost buybar__cta">See what&rsquo;s available</Link>
       ) : onProduct ? (
-        <a href="#buy" className="btn btn--primary buybar__cta">Pre-order</a>
+        <a href="#buy" className="btn btn--primary buybar__cta">Order now</a>
       ) : (
-        <Link to={`/shop/p/${product.slug}`} className="btn btn--primary buybar__cta">Pre-order</Link>
+        <Link to={`/shop/p/${product.slug}`} className="btn btn--primary buybar__cta">Order now</Link>
       )}
     </div>
   )

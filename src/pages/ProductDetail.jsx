@@ -232,7 +232,7 @@ export default function ProductDetail() {
                   <span aria-live="polite">{qty}</span>
                   <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
                 </div>
-                <button className="btn btn--primary btn--lg" onClick={buyNow}>Pre-order — {usd(product.price * qty)}</button>
+                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now — {usd(product.price * qty)}</button>
                 <button className="btn btn--ghost btn--lg" onClick={addToCart}>
                   {added ? '✓ Added to cart' : 'Add to cart'}
                 </button>

@@ -38,7 +38,7 @@ export default function Header() {
             <CartIcon size={22} />
             {count > 0 && <span className="cart-badge">{count}</span>}
           </Link>
-          <Link to="/products" className="btn btn--primary header__order">Pre-order</Link>
+          <Link to="/products" className="btn btn--primary header__order">Order now</Link>
           <button
             className="nav-toggle"
             aria-label="Toggle menu"

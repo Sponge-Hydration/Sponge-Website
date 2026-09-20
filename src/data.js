@@ -8,7 +8,7 @@ export const products = [
     tagline: 'The clip-on tracker for any water bottle',
     clips: 1,
     price: 59.99,
-    badge: 'Pre-order',
+    badge: 'Order now',
     img: '/media/products/single.jpg',
     gallery: [
       '/media/gallery/g1-white-vertical.jpg',

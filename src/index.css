@@ -570,6 +570,15 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .footer__legal a { display: inline; margin: 0; }
 .persona { text-decoration: none; }
 
+/* Clickable "How it works" steps + feature cards → single clip product page.
+   Keep the card's own text colors (not the anchor blue) and add a lift on
+   hover so the whole card reads as tappable. */
+.step--link, .feature--link { text-decoration: none; color: inherit; cursor: pointer; display: block; }
+.step--link h3, .feature--link h3 { color: var(--ink); }
+.step--link { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.step--link:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.step--link:focus-visible, .feature--link:focus-visible { outline: 2px solid var(--blue-600); outline-offset: 3px; }
+
 /* ============================================================
    Media additions: logos, hero video, showcase, galleries
    ============================================================ */

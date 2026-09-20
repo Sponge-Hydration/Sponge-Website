@@ -52,7 +52,7 @@ export default function Products() {
                     </button>
                   ) : (
                     <button className="btn btn--primary btn--block" onClick={() => buyNow(p.id)}>
-                      Pre-order
+                      Order now
                     </button>
                   )}
                   <Link to={`/shop/p/${p.slug}`} className="btn btn--ghost btn--block">Details</Link>
