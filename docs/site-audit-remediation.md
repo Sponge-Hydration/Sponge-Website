@@ -557,6 +557,20 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-64 — Clickable-looking elements now lead to detail, not the checkout
+- **Request:** Nathan, 2026-09-22, from Clarity replays: visitors click the section eyebrows ("Meet Sponge", "The problem", "How it works") and they went nowhere, while commit `8d85288` (Dom, Sep 20) had pointed every how-it-works and feature card at `/shop/p/sponge-clip`, which "kinda makes it feel scammy".
+- **What shipped:**
+  - Eyebrow pills with a real destination are now links (arrow on hover): Meet Sponge → new origin post, The problem → new research post, How it works → `/how-it-works`, Features and Before you buy → the FAQ, How it compares → the smart-bottle post. "Hydration Locks", "On your phone" and "Who it's for" stay plain — no page says more than the section does.
+  - The three how-it-works cards no longer link anywhere. Each plays a short silent clip of its step: hover plays on a mouse, a click plays, a tap toggles on touch, and a Watch/Pause button covers keyboard and screen readers. All real footage — the Sponge snapping onto the green bottle (IMG_7670), the court drink (IMG_7345), a bottle set down then the phone ring going 34.1 → 52.3 oz at 100% (IMG_7282). 720x440, no audio, 200–340 KB each, fetched on first play.
+  - Feature cards open the detail behind them (how it measures, the attaching tutorial, the battery FAQ answer, the app walkthrough, the Hydration Locks section, the Apple Health FAQ answer), each with a visible "…→" label. `/how-it-works#faq-<id>` opens that answer and scrolls to it; FAQs now carry stable ids in `data.js`.
+  - `/how-it-works` gains a Video tutorials section with Parts 1 and 2 (the 9/10 versions Nathan approved for the site), with English captions built from the narration scripts and timed to each voice track by silence detection, plus a note that part three is coming and the parts will be joined into one tutorial.
+  - Two new posts. **The Story Behind Sponge** (~980 words; Chris's grandmother in his own words from the elderly-care deck, Nathan's grandmother, the coaster, the clip, App Lock, what is in progress). **The Dehydration Problem** (~2,500 words, 29 sources, every figure checked against its abstract on 2026-09-22): prevalence, why older adults are hit hardest, hospital burden, nursing-home avoidable admissions, chronic conditions graded by strength of evidence, focus/headaches/metabolism/inflammation, why the usual fixes fail, and what Sponge does differently.
+  - Blog renderer: numbered citations link to their source, pull quotes, h3, internal links. Blog dates were shown a day early in California (UTC midnight); now formatted in UTC everywhere, which also matches the prerender.
+- **Claim discipline in the new posts:** the metabolism claim is presented as contested (Boschmann 2003 +30% vs Brown 2006 no increase); inflammation is described as mechanistic only, with no trial in healthy adults; CKD is shown as a null trial; the "75% of Americans are dehydrated" line is called out as unsourced. Two figures in the 2024 nursing-home deck — "$1.36 billion in 1996" and "a 40.4% rise 1990–2000" — are **not** in the Xiao 2004 abstract and were not used; its own 1999 figure ($1.14B potential saving) was. The brand overview says Chris's *grandfather* had dementia with hydration-linked alertness; no primary source was found, so the post does not use it.
+- **Guards added:** `test/blog-citations.test.js` fails if a post cites a source that does not exist, lists a source it never cites, or links internally to a page that does not exist; and if any homepage feature card points at the shop, cart or checkout, or an FAQ anchor points at a missing question. Proved to fail on a deliberately wrong citation.
+- **Found, not fixed — needs Nathan:** (1) the Family Pack lists "Shared family dashboard" and "Caregiver alerts & reminders" as features, but the caregiver view is in development; (2) the homepage Hydration Locks copy says App Lock "is the reason people are still using Sponge in month two", which no retention data on file supports; (3) the brand-overview grandfather story above.
+- **Status:** **Complete**
+
 ### A-63 — Sponge Dot added to the shop
 - **Request:** Nathan, 2026-09-14 — add the Sponge Dot at $29.99: a bottle device with one button; each press logs one full bottle in the app, and setup asks for the bottle’s volume.
 - **What shipped:** `/shop/p/sponge-dot`, shop card, footer link, sitemap, FAQ entry. Priced and weighed on the server (`CATALOG`, `SKU_WEIGHT_OZ`) and mirrored in `src/shipping.js`. Stripe sessions carry `metadata[qty_dot]`. One to three Dots ship for $8.75, the same as one clip.
@@ -702,6 +716,7 @@ Recorded so later passes do not regress them.
 | 2026-08-28 | `394c1b6` | A-61, A-62 — sitewide claim sweep: three corrected, competitor pricing verified, hardware specs escalated to Nathan |
 | 2026-08-28 | `(this)` | A-50, A-62 — Nathan confirmed 3M, 8-day battery and the load-cell/accelerometer/algorithm stack; the sign-up goal recommendation restored as a claim, ongoing adaptation still retired |
 | 2026-09-14 | _this commit_ | A-63 — Sponge Dot added ($29.99, in development); catalog-sync guard; battery claim scoped to clip products |
+| 2026-09-22 | _this commit_ | A-64 — eyebrow links, playable how-it-works cards, feature cards to detail, tutorials Parts 1–2 with captions, origin + dehydration posts, blog date fix |
 
 
 ---

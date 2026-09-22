@@ -27,7 +27,7 @@ export default function Blog() {
                 <h3><Link to={`/blog/${p.slug}`}>{p.title}</Link></h3>
                 <p>{p.excerpt}</p>
                 <div className="blog-card__meta">
-                  <span>{new Date(p.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span>{new Date(p.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}</span>
                   <span>· {p.readTime}</span>
                 </div>
                 <Link to={`/blog/${p.slug}`} className="link-btn">Read article →</Link>

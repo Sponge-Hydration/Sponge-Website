@@ -1084,3 +1084,77 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
   font-size: 16px; color: var(--ink-soft); line-height: 1.6;
 }
 .phone-pair__note strong { color: var(--ink); }
+
+/* ── Section eyebrows that lead somewhere (2026-09-22) ─────────────────────
+   Session replays showed people clicking the eyebrow pills expecting them to
+   go somewhere. Where a pill has a real destination it is now a link, with an
+   arrow that slides in on hover so it reads as one. */
+.eyebrow--link { text-decoration: none; transition: background 0.15s ease, color 0.15s ease; }
+.eyebrow--link:hover { background: var(--blue-600); color: #fff; }
+.eyebrow--link:focus-visible { outline: 2px solid var(--blue-600); outline-offset: 3px; }
+.eyebrow__arrow { display: inline-block; transition: transform 0.15s ease; }
+.eyebrow--link:hover .eyebrow__arrow { transform: translateX(3px); }
+.section-head__more { display: inline-block; margin-top: 14px; font-weight: 700; color: var(--blue-600); text-decoration: none; }
+.section-head__more:hover { text-decoration: underline; }
+
+/* Anchor targets clear the sticky header. */
+[id] { scroll-margin-top: 88px; }
+
+/* ── How-it-works cards play their step (2026-09-22) ──────────────────────
+   The still stays put; the clip fades in over it while it plays, so a paused or
+   never-played card looks exactly like it used to. */
+.step--play { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.step--play:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.step__media { position: relative; overflow: hidden; }
+.step__video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
+}
+.step--play.is-playing .step__video { opacity: 1; }
+.step__toggle {
+  position: absolute; right: 12px; bottom: 12px;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 13px 7px 10px; border: 0; border-radius: 999px;
+  background: rgba(10, 27, 42, 0.72); color: #fff;
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+.step__toggle:hover { background: rgba(10, 27, 42, 0.88); }
+.step__toggle:focus-visible { outline: 2px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 4px var(--blue-600); }
+.step__toggle svg { width: 12px; height: 12px; fill: currentColor; }
+/* Single column: size the media by the clips' own 36:22 aspect instead of a
+   fixed 210px, which cropped more than half of each frame on tablets. */
+@media (max-width: 799px) {
+  .step--media .step__media .step__img { height: auto; aspect-ratio: 36 / 22; }
+}
+
+/* Feature cards say where they go. */
+.feature__more { display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 700; color: var(--blue-600); }
+.feature--link:hover .feature__more { text-decoration: underline; }
+.feature--link { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.feature--link:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+/* ── Tutorials on /how-it-works ──────────────────────────────────────────── */
+.tutorials { display: grid; gap: 30px; max-width: 1040px; margin: 0 auto; }
+@media (min-width: 880px) { .tutorials { grid-template-columns: 1fr 1fr; } }
+.tutorial { margin: 0; }
+.tutorial video { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #000; display: block; }
+.tutorial figcaption { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-weight: 700; color: var(--ink); }
+.tutorial__part { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue-600); }
+.tutorial__len { font-weight: 500; color: var(--muted); font-size: 14px; }
+.tutorials__next { max-width: 1040px; margin: 26px auto 0; padding: 18px 22px; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--ink-soft); font-size: 15px; background: #fff; }
+
+/* ── Long-form articles ──────────────────────────────────────────────────── */
+.article h3 { font-size: 19px; font-weight: 800; color: var(--ink); margin: 26px 0 10px; }
+.article p a, .article li a { color: var(--blue-600); font-weight: 600; }
+.article sup.cite { font-size: 0.68em; line-height: 0; margin-left: 1px; }
+.article sup.cite a { color: var(--blue-600); text-decoration: none; font-weight: 700; padding: 0 1px; }
+.article sup.cite a:hover { text-decoration: underline; }
+.article__quote { margin: 28px 0; padding: 22px 26px; border-left: 4px solid var(--aqua-400); background: var(--surface-tint); border-radius: 0 var(--radius) var(--radius) 0; }
+.article__quote blockquote { margin: 0; }
+.article__quote blockquote p { font-size: 18px; color: var(--ink); line-height: 1.65; margin: 0; }
+.article__quote figcaption { margin-top: 12px; font-size: 14px; font-weight: 700; color: var(--muted); }
+.article__figure { margin: 28px 0; }
+.article__figure img { width: 100%; border-radius: var(--radius); display: block; }
+.article__figure figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.article__sources li:target { background: var(--aqua-100); border-radius: 8px; outline: 6px solid var(--aqua-100); }

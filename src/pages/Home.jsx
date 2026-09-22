@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
-import { SectionHead } from '../components/bits'
+import { Eyebrow, SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import { useCart } from '../cart/CartContext'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
@@ -11,14 +11,123 @@ import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } 
 import heroFilm from '../media/hero-film.mp4'
 import heroPoster from '../media/hero-film-poster.jpg'
 
+// Each feature card opens the detail behind it (Nathan, 2026-09-22): people
+// click these to learn more, so sending every card to the product page read as
+// a hard sell. A `to` beginning with # stays on this page.
 const features = [
-  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.' },
-  { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.' },
-  { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.' },
-  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.' },
-  { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.' },
-  { icon: HeartIcon, title: 'Apple Health sync — next update', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.' },
+  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.', to: '/how-it-works', more: 'See how it measures' },
+  { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.', to: '/how-it-works#tutorials', more: 'Watch it attach' },
+  { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.', to: '/how-it-works#faq-battery', more: 'Battery and charging' },
+  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.', to: '/how-it-works#app-setup', more: 'See the app' },
+  { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.', to: '#locks', more: 'How Hydration Locks work' },
+  { icon: HeartIcon, title: 'Apple Health sync — next update', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.', to: '/how-it-works#faq-apple-health', more: 'Apple Health status' },
 ]
+
+// The three how-it-works cards each play a short, silent clip of their step.
+// All real footage: step 1 the Sponge snapping onto a bottle (tutorial pt. 2
+// shoot, IMG_7670), step 2 a drink on the court (IMG_7345), step 3 a bottle set
+// down, then the phone ring going 34.1 to 52.3 oz at 100% (IMG_7282). 720x440,
+// no audio, fetched only when first played.
+const STEPS = [
+  {
+    n: 1, title: 'Clip it on',
+    text: 'Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.',
+    img: '/media/how/step1-clip-on-bottle.jpg', w: 720, h: 444,
+    alt: 'A hand holding a water bottle on its side with the Sponge Clip attached to its base, USB-C port visible',
+    video: '/media/how/step1-clip-on.mp4', label: 'the Sponge snapping onto the bottom of a bottle',
+  },
+  {
+    n: 2, title: 'Sip like normal',
+    text: 'Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.',
+    img: '/media/how/step2-sip-crop.jpg', w: 720, h: 438,
+    alt: 'Drinking from a bottle held on its side, with the Sponge Clip visible on its base',
+    video: '/media/how/step2-sip.mp4', label: 'someone drinking from a bottle with a Sponge on it',
+  },
+  {
+    n: 3, title: 'Hit your goal',
+    text: 'The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.',
+    img: '/media/how/step3-goal.jpg', w: 720, h: 438,
+    alt: 'The Sponge app showing a full progress ring at 60.0 oz, 100% of the daily goal',
+    video: '/media/how/step3-goal.mp4', label: 'a bottle set down, then the app’s ring climbing from 34.1 to 52.3 ounces, 100% of the goal',
+  },
+]
+
+/**
+ * A how-it-works card that plays its clip. With a mouse, hovering plays it and
+ * leaving rewinds it, and a click plays it too. Touch screens have no hover, so
+ * there a tap toggles it. The clip only starts because of something the visitor
+ * did, and the Watch/Pause button gives keyboard and screen-reader users the
+ * same control.
+ */
+function StepCard({ step }) {
+  const videoRef = useRef(null)
+  const hoverRef = useRef(false)
+  const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    hoverRef.current =
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
+
+  const play = () => {
+    const v = videoRef.current
+    if (!v) return
+    const p = v.play()
+    if (p && p.catch) p.catch(() => setPlaying(false))
+  }
+  const stop = (rewind) => {
+    const v = videoRef.current
+    if (!v) return
+    v.pause()
+    if (rewind) v.currentTime = 0
+  }
+  const toggle = () => (videoRef.current?.paused ? play() : stop(false))
+
+  return (
+    <div
+      className={`step step--media step--play${playing ? ' is-playing' : ''}`}
+      onMouseEnter={() => hoverRef.current && play()}
+      onMouseLeave={() => hoverRef.current && stop(true)}
+      onClick={() => (hoverRef.current ? play() : toggle())}
+    >
+      <div className="step__media">
+        <img className="step__img" src={step.img} width={step.w} height={step.h} decoding="async" alt={step.alt} />
+        <video
+          ref={videoRef}
+          className="step__video"
+          src={step.video}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          tabIndex={-1}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+        />
+        <button
+          type="button"
+          className="step__toggle"
+          aria-pressed={playing}
+          aria-label={`${playing ? 'Pause' : 'Play'} video: ${step.label}`}
+          onClick={(e) => {
+            e.stopPropagation()
+            toggle()
+          }}
+        >
+          {playing ? (
+            <svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1" width="3" height="10" rx="1" /><rect x="7.5" y="1" width="3" height="10" rx="1" /></svg>
+          ) : (
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.2v9.6c0 .5.5.8.9.5l7.4-4.8c.4-.3.4-.8 0-1L3.4.7c-.4-.3-.9 0-.9.5z" /></svg>
+          )}
+          <span>{playing ? 'Pause' : 'Watch'}</span>
+        </button>
+      </div>
+      <div className="step__body"><div className="step__n">{step.n}</div><h3>{step.title}</h3><p>{step.text}</p></div>
+    </div>
+  )
+}
 
 // The hero plays Sponge's own explainer cut: the device, then "Sponge is a water
 // intake recording device" / "It tracks your sips automatically", then the setup
@@ -144,9 +253,12 @@ export default function Home() {
       {/* Product showcase */}
       <section className="section">
         <div className="container">
-          <SectionHead eyebrow="Meet Sponge" title="One tracker. Every sip, counted.">
+          <SectionHead eyebrow="Meet Sponge" eyebrowTo="/blog/the-story-behind-sponge" title="One tracker. Every sip, counted.">
             Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
           </SectionHead>
+          <p style={{ textAlign: 'center', margin: '-18px 0 28px' }}>
+            <Link to="/blog/the-story-behind-sponge" className="section-head__more">Read how Sponge started →</Link>
+          </p>
           <div className="showcase showcase--photo">
             <img
               className="showcase__img"
@@ -164,7 +276,7 @@ export default function Home() {
       {/* Problem */}
       <section className="section section--tint">
         <div className="container section-head">
-          <span className="eyebrow">The problem</span>
+          <Eyebrow to="/blog/the-dehydration-problem">The problem</Eyebrow>
           <h2>You already know you should drink more water</h2>
           <p>
             That’s the problem. Reminders get swiped away. Tracking apps get abandoned in a week.
@@ -172,28 +284,18 @@ export default function Home() {
             Knowing was never the missing piece — consequences were. Sponge is $59.99, clips onto
             the bottle you already own, and locks the apps you choose until you’ve caught up.
           </p>
+          <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
         </div>
       </section>
 
       {/* How it works */}
       <section className="section" id="how">
         <div className="container">
-          <SectionHead eyebrow="How it works" title="Clip, sip, repeat">
+          <SectionHead eyebrow="How it works" eyebrowTo="/how-it-works" title="Clip, sip, repeat">
             A genuinely passive hydration tracker. Three steps, then it disappears into your day.
           </SectionHead>
           <div className="steps">
-            <Link to="/shop/p/sponge-clip" className="step step--media step--link">
-              <img className="step__img" src="/media/how/step1-clip-on-bottle.jpg" width="720" height="444" decoding="async" alt="A hand holding a water bottle on its side with the Sponge Clip attached to its base, USB-C port visible" />
-              <div className="step__body"><div className="step__n">1</div><h3>Clip it on</h3><p>Clip Sponge magnetically onto any water bottle in seconds. No new bottle, no setup ritual.</p></div>
-            </Link>
-            <Link to="/shop/p/sponge-clip" className="step step--media step--link">
-              <img className="step__img" src="/media/how/step2-sip-crop.jpg" width="720" height="438" decoding="async" alt="Drinking from a bottle held on its side, with the Sponge Clip visible on its base" />
-              <div className="step__body"><div className="step__n">2</div><h3>Sip like normal</h3><p>Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.</p></div>
-            </Link>
-            <Link to="/shop/p/sponge-clip" className="step step--media step--link">
-              <img className="step__img" src="/media/how/step3-goal.jpg" width="720" height="438" decoding="async" alt="The Sponge app showing a full progress ring at 60.0 oz, 100% of the daily goal" />
-              <div className="step__body"><div className="step__n">3</div><h3>Hit your goal</h3><p>The app tracks your intake in real time, nudges you when you fall behind, and celebrates your streaks.</p></div>
-            </Link>
+            {STEPS.map((step) => <StepCard key={step.n} step={step} />)}
           </div>
         </div>
       </section>
@@ -214,23 +316,29 @@ export default function Home() {
       {/* Features */}
       <section className="section" id="features">
         <div className="container">
-          <SectionHead eyebrow="Features" title="Everything a hydration tracking device should be">
+          <SectionHead eyebrow="Features" eyebrowTo="/how-it-works#faq" title="Everything a hydration tracking device should be">
             Effortless to use, impossible to forget, and built around the bottle you already carry.
           </SectionHead>
           <div className="features">
-            {features.map((f) => (
-              <Link to="/shop/p/sponge-clip" className="feature feature--link" key={f.title}>
-                <div className="feature__icon" aria-hidden="true"><f.icon size={30} /></div>
-                <h3>{f.title}</h3>
-                <p>{f.text}</p>
-              </Link>
-            ))}
+            {features.map((f) => {
+              const inner = (
+                <>
+                  <div className="feature__icon" aria-hidden="true"><f.icon size={30} /></div>
+                  <h3>{f.title}</h3>
+                  <p>{f.text}</p>
+                  <span className="feature__more">{f.more} →</span>
+                </>
+              )
+              return f.to.startsWith('#')
+                ? <a href={f.to} className="feature feature--link" key={f.title}>{inner}</a>
+                : <Link to={f.to} className="feature feature--link" key={f.title}>{inner}</Link>
+            })}
           </div>
         </div>
       </section>
 
       {/* App-lock split */}
-      <section className="section section--tint">
+      <section className="section section--tint" id="locks">
         <div className="container split">
           <div className="split__media">
             <img className="appshot" src="/media/app/hydration-locks.webp" width="600" height="1066" decoding="async" loading="lazy" alt="The Sponge app's Hydration Locks screen, with Facebook, LinkedIn and Reddit each locked until a set amount of water is reached" />
@@ -376,7 +484,7 @@ export default function Home() {
           answers the question people actually arrive with. */}
       <section className="section section--tint" id="compare">
         <div className="container">
-          <SectionHead eyebrow="How it compares" title="Four ways to drink more water">
+          <SectionHead eyebrow="How it compares" eyebrowTo="/blog/smart-bottle-vs-clip-on-tracker" title="Four ways to drink more water">
             Three of these already exist in your life and haven’t worked. Here’s the honest
             difference.
           </SectionHead>
@@ -458,7 +566,7 @@ export default function Home() {
       {/* Objection handling — the questions people actually stall on. */}
       <section className="section">
         <div className="container">
-          <SectionHead eyebrow="Before you buy" title="The honest answers">
+          <SectionHead eyebrow="Before you buy" eyebrowTo="/how-it-works#faq" title="The honest answers">
             The things worth knowing before you spend $59.99.
           </SectionHead>
           <div className="objections">

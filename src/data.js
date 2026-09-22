@@ -192,18 +192,20 @@ export const isColorAvailable = (id) => colorOptions.some((c) => c.id === id)
 // accessories like the coaster and adhesives have none, no color choice).
 export const clipsFor = (id) => productById(id)?.clips ?? 1
 
+// `id` is the stable anchor for /how-it-works#faq-<id>. Links elsewhere on the
+// site (the homepage feature cards) point at these, so rename with care.
 export const faqs = [
-  { q: 'What is a hydration tracker and how does Sponge work?', a: 'A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each sip automatically and sync to the free Sponge app, so you never have to log water by hand.' },
-  { q: 'Does the Sponge hydration tracking device work with any water bottle?', a: 'Yes. Sponge is built to clip onto the bottle you already own, insulated steel bottles, plastic tumblers, glass bottles and more. There is no special bottle to buy and nothing to refill differently.' },
-  { q: 'How long does the battery last?', a: 'Sponge lasts about two weeks on a single charge and recharges over USB-C in a couple of hours. Most people plug it in a couple of times a month.' },
-  { q: 'Can the hydration tracker really lock apps until I drink water?', a: 'Yes. In the app you pick which apps to gate, and Sponge keeps them locked until you reach your daily hydration goal, turning your phone into a gentle nudge to drink more water.' },
-  { q: 'Does it work with Apple Health?', a: 'Not yet. Apple Health sync is in testing now and ships with the next app update. Today there is a home-screen widget that shows how much you have had and how far you have to go, so on most days you never need to open the app.' },
-  { q: 'Is it accurate?', a: 'Sponge measures real sips with on-device sensors rather than asking you to remember and self-report, which is where most hydration tracking breaks down. The app shows your intake in real time so you always know where you stand.' },
-  { q: 'How is my daily water goal set?', a: 'When you sign up, the app asks for a few details about you and recommends a starting goal from them, so you are not guessing at a number on day one. You can change it whenever you like. Sponge does not adjust the goal for you afterwards based on your activity or the weather — the target stays where you set it, and the tracker measures how close you get.' },
-  { q: 'How do I set up my Sponge?', a: 'Charge it over USB-C, download the free Sponge app, and pair over Bluetooth. Then clip it onto your bottle. Setup takes about two minutes and the app walks you through calibrating your bottle size.' },
-  { q: 'What is the Sponge Dot?', a: 'The Sponge Dot is a one-button logger for the bottle you already own. When you set it up, the Sponge Hydration app asks for your bottle’s volume. After that, every press logs one full bottle. The Dot does not measure sips, so it only knows what you press. If you want every sip measured automatically, that is the Sponge Hydration Tracker. The Dot is $29.99 plus shipping and tax. It is still in development, and a pre-order can be cancelled for a full refund any time before it ships.' },
-  { q: 'How much does Sponge cost and when does it ship?', a: 'Sponge is $59.99 plus shipping and tax, and the companion app is free on iOS and Android. We build in production batches, and a batch runs once enough pre-orders are reserved to fill it — so rather than quote a delivery date we cannot stand behind, we email you when your batch enters production. You can cancel a pre-order for a full refund any time before it ships, and once it arrives you have 30 days to send it back.' },
-  { q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
+  { id: 'how-it-works', q: 'What is a hydration tracker and how does Sponge work?', a: 'A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each sip automatically and sync to the free Sponge app, so you never have to log water by hand.' },
+  { id: 'any-bottle', q: 'Does the Sponge hydration tracking device work with any water bottle?', a: 'Yes. Sponge is built to clip onto the bottle you already own, insulated steel bottles, plastic tumblers, glass bottles and more. There is no special bottle to buy and nothing to refill differently.' },
+  { id: 'battery', q: 'How long does the battery last?', a: 'Sponge lasts about two weeks on a single charge and recharges over USB-C in a couple of hours. Most people plug it in a couple of times a month.' },
+  { id: 'app-lock', q: 'Can the hydration tracker really lock apps until I drink water?', a: 'Yes. In the app you pick which apps to gate, and Sponge keeps them locked until you reach your daily hydration goal, turning your phone into a gentle nudge to drink more water.' },
+  { id: 'apple-health', q: 'Does it work with Apple Health?', a: 'Not yet. Apple Health sync is in testing now and ships with the next app update. Today there is a home-screen widget that shows how much you have had and how far you have to go, so on most days you never need to open the app.' },
+  { id: 'accuracy', q: 'Is it accurate?', a: 'Sponge measures real sips with on-device sensors rather than asking you to remember and self-report, which is where most hydration tracking breaks down. The app shows your intake in real time so you always know where you stand.' },
+  { id: 'daily-goal', q: 'How is my daily water goal set?', a: 'When you sign up, the app asks for a few details about you and recommends a starting goal from them, so you are not guessing at a number on day one. You can change it whenever you like. Sponge does not adjust the goal for you afterwards based on your activity or the weather — the target stays where you set it, and the tracker measures how close you get.' },
+  { id: 'setup', q: 'How do I set up my Sponge?', a: 'Charge it over USB-C, download the free Sponge app, and pair over Bluetooth. Then clip it onto your bottle. Setup takes about two minutes and the app walks you through calibrating your bottle size.' },
+  { id: 'sponge-dot', q: 'What is the Sponge Dot?', a: 'The Sponge Dot is a one-button logger for the bottle you already own. When you set it up, the Sponge Hydration app asks for your bottle’s volume. After that, every press logs one full bottle. The Dot does not measure sips, so it only knows what you press. If you want every sip measured automatically, that is the Sponge Hydration Tracker. The Dot is $29.99 plus shipping and tax. It is still in development, and a pre-order can be cancelled for a full refund any time before it ships.' },
+  { id: 'price-and-shipping', q: 'How much does Sponge cost and when does it ship?', a: 'Sponge is $59.99 plus shipping and tax, and the companion app is free on iOS and Android. We build in production batches, and a batch runs once enough pre-orders are reserved to fill it — so rather than quote a delivery date we cannot stand behind, we email you when your batch enters production. You can cancel a pre-order for a full refund any time before it ships, and once it arrives you have 30 days to send it back.' },
+  { id: 'returns', q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
 ]
 
 // Real customer reviews, verbatim from the Airtable feedback survey. No names
@@ -236,7 +238,186 @@ export const reviews = [
   },
 ]
 
+// Body blocks: a string is a paragraph; {h2}, {h3}, {ul}, {note}, {quote, cite}
+// and {img, alt, caption} are blocks. Inside any string, [3] or [3, 4] becomes a
+// superscript link to that numbered source, and [label](/path) an internal link.
+// Every number in a health post must trace to a source in its `sources` list.
 export const blogPosts = [
+  {
+    slug: 'the-story-behind-sponge',
+    title: 'The Story Behind Sponge',
+    excerpt: 'Sponge started with an ambulance ride that an IV fixed in under an hour. Here is how two grandmothers, a coaster and a lot of water bottles turned into the tracker we make today.',
+    date: '2026-09-22',
+    readTime: '5 min read',
+    tag: 'Our story',
+    cover: '/media/team/founders.jpg',
+    coverPos: 'center 42%', // keep both founders' faces in the thumbnail crop
+    // Facts: Chris's grandmother story is his own words from the Elderly
+    // Hydration pitch deck (Drive). Nathan's grandmother, the coaster (V0), the
+    // Clip launch and Cal Poly are from marketing/_context and company-strategy.
+    // The brand overview also mentions a grandfather of Chris's with dementia;
+    // it is NOT used here because no primary source for it was found.
+    body: [
+      'Most companies have an origin story that sounds better than it was. Ours is not especially glamorous. It is mostly about a grandmother, an ambulance and a bag of IV fluid.',
+      {
+        quote: 'My grandmother was bedridden the last two years of her life and needed 24-hour at-home care. There were days when my mom would arrive and my grandmother would tell her that she did not feel well and that she wanted to go to the hospital. So my mom would ask her symptoms and check her vitals. No pain in the chest, normal heart rate and blood pressure, no fever. But my grandmother was adamant, and so my mom called an ambulance. When she got to her room, the first thing the nurse would do is plug in an IV. Thirty to forty-five minutes later my grandmother felt fine again. She was just dehydrated.',
+        cite: 'Christopher Miglio, co-founder',
+      },
+      'It happened three more times in those two years. Each ambulance ride and hospital stay cost more than $5,000, and that was with insurance. The cost of round-the-clock care meant the family had to pitch in, so Chris’s mom was driving two hours, three or four days a week, to help.',
+      'Nobody in that story did anything wrong. The problem was that nobody — not the family, not the people caring for her, not his grandmother herself — had a reliable way to know how much she had actually had to drink that day.',
+      'That turns out to be the normal state of things, not bad luck. Dehydration in older adults is common and hard to see: thirst fades with age, and a Cochrane review found that none of the usual bedside signs reliably detect it [1]. In one UK hospital study, 37% of adults aged 65 and over who were admitted as emergencies arrived dehydrated [2]. We wrote the long version, with the research, in [The Dehydration Problem](/blog/the-dehydration-problem).',
+      { h2: 'The other grandmother' },
+      'Nathan’s grandmother had Alzheimer’s disease. Watching her lose her independence sent him looking for anything a person could actually do, day to day, to look after their health over the long run. There are not many dials you control directly. How much you drink is one of them.',
+      'He is also a competitive athlete — a marathon finisher who races triathlon in Orange County — so hydration was already part of his training, and he felt the difference in how he trained and recovered. The research backs up the everyday part of that: even mild dehydration shows up in mood, concentration and fatigue in healthy young adults [3, 4]. What research cannot yet tell anyone is whether drinking more water protects the ageing brain. That science is still young, and we do not claim it does.',
+      'Two founders, two grandmothers, one conclusion. Most people know they should drink more water, and almost nobody actually does. Knowing was never the missing piece.',
+      { h2: 'Version zero was a coaster' },
+      'Nathan Katzaroff and Christopher Miglio are both Cal Poly San Luis Obispo graduates, and Dominic Dal Porto builds Sponge’s app and firmware. The first Sponge was not a clip at all. It was a coaster: you set your drink on it, and it logged what was gone each time you put the drink back down.',
+      'The coaster proved the idea. Weight is a good way to measure what someone drinks, and it asks nothing of the person except putting the cup down. It also showed us the catch. A coaster only works where the coaster is. You had to come back to it after every sip, and the moment your bottle left the desk, the record stopped.',
+      'We built our first pitch around care facilities, because that is where the problem is most concentrated: a device at every bedside, and a view for the people doing the caring. The more we worked on it, the clearer it became that the sensor had to go wherever the drink goes.',
+      { h2: 'Then it became a clip' },
+      'So we moved the sensor off the table and onto the bottle. The Sponge Clip attaches magnetically to the bottom of the bottle you already own — steel, plastic or glass. Every time you set the bottle down, a load cell and an accelerometer take a weight reading, and an on-device algorithm turns the change between readings into your water intake. You drink the way you always have.',
+      'The first Clips shipped in the spring of 2026, and more than 100 Sponge products have now shipped to customers.',
+      { h2: 'Why your phone gets involved' },
+      'Measuring solves half the problem. A number on a screen tells you that you are behind; it does not make you do anything about it. Reminders are the same, and they are easy to swipe away.',
+      'So we built App Lock. You choose the apps you lose time to, and they stay locked until you have hit your water goal. It is a little brutal. It is also the most direct way we know to turn a good intention into something you actually do.',
+      { h2: 'Where we are going' },
+      'We are a small team and we build in batches. Three things are in progress right now:',
+      {
+        ul: [
+          'A caregiver view, so family and care staff can see who is falling behind — the tool Chris’s family never had.',
+          'Apple Health sync, in testing now and shipping with the next app update.',
+          'The Sponge Dot, a one-button logger for people who want something simpler than measurement.',
+        ],
+      },
+      {
+        quote: 'Our desire to never see anyone suffer and deteriorate the way our grandparents did.',
+        cite: 'From Sponge’s founding statement',
+      },
+      'That is still the job. [See how Sponge works](/how-it-works), or [meet the team](/team).',
+      { note: 'Sponge is a general wellness product. It measures how much you drink. It does not assess your hydration status, and it is not a medical device — if you care for someone with a condition that affects fluid balance, their clinician sets the target, not an app.' },
+    ],
+    sources: [
+      { text: 'Hooper L, Abdelhamid A, Attreed NJ, et al. Clinical symptoms, signs and tests for identification of impending and current water-loss dehydration in older people. Cochrane Database of Systematic Reviews 2015;(4):CD009647.', url: 'https://pubmed.ncbi.nlm.nih.gov/25924806/' },
+      { text: 'El-Sharkawy AM, Watson P, Neal KR, et al. Hydration and outcome in older patients admitted to hospital (the HOOP prospective cohort study). Age and Ageing 2015;44(6):943–947.', url: 'https://pubmed.ncbi.nlm.nih.gov/26316508/' },
+      { text: 'Armstrong LE, Ganio MS, Casa DJ, et al. Mild dehydration affects mood in healthy young women. Journal of Nutrition 2012;142(2):382–388.', url: 'https://pubmed.ncbi.nlm.nih.gov/22190027/' },
+      { text: 'Ganio MS, Armstrong LE, Casa DJ, et al. Mild dehydration impairs cognitive performance and mood of men. British Journal of Nutrition 2011;106(10):1535–1543.', url: 'https://pubmed.ncbi.nlm.nih.gov/21736786/' },
+    ],
+  },
+  {
+    slug: 'the-dehydration-problem',
+    title: 'The Dehydration Problem: Who It Hurts, Why the Usual Fixes Fail, and What We Are Doing About It',
+    excerpt: 'Dehydration sends older adults to hospital, shows up in kidney stones, infections and headaches, and is remarkably hard to spot. Here is what the research actually says — including where it is weaker than the headlines.',
+    date: '2026-09-22',
+    readTime: '11 min read',
+    tag: 'The problem',
+    cover: '/media/lifestyle/closeup.jpg',
+    coverPos: 'center 62%', // keep the Sponge and its status light in the thumbnail crop
+    // Every figure below was checked against the source abstract on 2026-09-22.
+    // Two figures from the 2024 nursing-home deck ("$1.36B in 1996", "a 40.4%
+    // rise 1990–2000") are NOT in Xiao 2004's abstract and are deliberately not
+    // used. Nor is the popular "75% of Americans are dehydrated" line.
+    body: [
+      'You already know you should drink more water. Most people do. The trouble is that knowing has never been enough, and the cost of that gap is larger than it looks: hospital admissions for older adults, recurring kidney stones and bladder infections, and a steady drag on how clearly the rest of us think on an ordinary afternoon.',
+      'This is the long version of the problem Sponge exists to solve. We have tried to be careful about which claims the research supports and to say plainly where it does not. Every number below links to its source.',
+      { h2: 'How common is under-drinking?' },
+      'More common than most people guess. Using national survey data from 2009 to 2012, researchers measured urine concentration in more than 9,500 US adults aged 18 to 64. By their threshold, 32.6% were inadequately hydrated — about one in three [1]. The same method applied to children and teenagers found 54.5% [2].',
+      'Those figures come from a single urine sample, so they are a snapshot rather than a diagnosis. But they make the point: this is not a problem confined to hospitals or heatwaves. It is the ordinary state of a large share of people on an ordinary day.',
+      'You may have seen the claim that 75% of Americans are chronically dehydrated. We could not find a study behind it, so we do not use it.',
+      { h2: 'Why older adults are hit hardest' },
+      'Thirst gets weaker with age. In a classic study in the New England Journal of Medicine, healthy men aged 67 to 75 went 24 hours without water alongside men in their twenties. The older men ended up more dehydrated, yet felt less thirsty and drank less once water was offered again [3]. Their kidneys were also less able to concentrate urine, so they lost more water in the first place.',
+      'In long-term care, the result shows up in blood tests. The UK DRIE study measured serum osmolality in 188 care home residents and found that 20% were dehydrated. Thirst was not associated with hydration status at all [4]: the residents who needed water most were no more likely to feel thirsty. Kidney function, cognitive impairment and diabetes were the factors that tracked with it.',
+      'That is the core difficulty. The warning signal most of us rely on is the one that fails first, in the people least able to compensate.',
+      { h2: 'The hospital bill' },
+      'When dehydration goes unnoticed, it often ends in an admission. An analysis of 1991 Medicare records found dehydration listed among the diagnoses on 6.7% of all hospital stays by older Americans — 731,695 stays, or 236 for every 10,000 beneficiaries. Medicare paid more than $446 million that year for stays where dehydration was the main diagnosis, and about half of the older patients hospitalized with dehydration died within a year [5].',
+      'That last figure needs care. Dehydration rarely arrives alone; pneumonia and urinary tract infections were frequent companions in the same data, so it is a marker of frailty as much as a cause of it. But it is also one of the few parts of that picture that is cheap to prevent.',
+      'A later analysis of 1999 hospital discharges put the average stay for a principal diagnosis of dehydration at 4.6 days and $7,442 in charges, and estimated that avoidable dehydration admissions of older adults could have cost as much as $1.14 billion nationally that year [6]. Most of those patients lived in the community rather than in a nursing home — at home, often with family doing the caregiving.',
+      { h2: 'Nursing homes and avoidable admissions' },
+      'For people living in nursing facilities, dehydration is on a short list of conditions that experts class as potentially avoidable hospitalizations — problems that can often be prevented or managed without a hospital stay. In a national study of people covered by both Medicare and Medicaid, 39% of admissions from nursing facilities and home- and community-based care met that definition, and five conditions — pneumonia, heart failure, urinary tract infections, dehydration, and COPD or asthma — accounted for 78% of them [7].',
+      'Once an older adult is in hospital, it still matters. In the HOOP study, 37% of adults aged 65 and over admitted as emergencies to a UK teaching hospital were dehydrated on arrival, and 62% of those were still dehydrated two days later. After adjusting for age, frailty and other illness, those who arrived dehydrated were six times more likely to die in hospital [8].',
+      'Some of the most encouraging evidence comes from care homes themselves. When four care homes in England introduced seven structured drink rounds a day, plus staff training, urinary tract infections needing antibiotics fell by 58% and infections needing a hospital admission fell by 36% [9]. It was a quality-improvement project rather than a randomized trial, and its authors are candid about its limits, but the direction is hard to ignore. Infections matter doubly here, because in older adults a urinary tract infection often shows up not as a fever but as sudden confusion and delirium [10].',
+      'One of our co-founders watched this happen to his grandmother. It is [the reason Sponge exists](/blog/the-story-behind-sponge).',
+      { h2: 'The chronic conditions linked to low fluid intake' },
+      'Outside hospital, low fluid intake is linked to a longer list of conditions. The evidence ranges from randomized trials to associations in large groups of people, and it is worth knowing which is which.',
+      {
+        ul: [
+          'Kidney stones — the strongest evidence. In a five-year randomized trial of people who had just had their first calcium stone, 12 of 99 who were told to drink more water had another stone, against 27 of 100 who were not, and the stones that did come back took longer to do so [11]. Drinking more is the first-line advice for preventing a repeat.',
+          'Urinary tract infections — good evidence in one group. In a year-long randomized trial of 140 premenopausal women with recurrent bladder infections who drank less than 1.5 litres a day, adding 1.5 litres of water a day cut episodes from 3.2 to 1.7 and nearly halved the courses of antibiotics they needed [12].',
+          'Chronic kidney disease — a caution. Observational studies link higher intake to better kidney function, but when a randomized trial coached people with stage 3 kidney disease to drink more, their kidney function declined no more slowly after a year than the control group’s [13]. The authors note the trial may have been too small to detect a real difference. More water is not a treatment for kidney disease.',
+          'Blood sugar — an association. In a nine-year French study of 3,615 middle-aged adults, those who drank half a litre to a litre of water a day had about a third lower risk of developing high blood sugar than those who drank less than half a litre [14]. Intake was self-reported, and an association is not proof of cause.',
+          'Weight — an association, plus some trial evidence. In the national survey above, adults who were inadequately hydrated had higher BMIs and 59% higher odds of obesity [1]. More on weight below.',
+          'Chronic disease and ageing — a large, recent association. Following 15,752 adults for 25 years, researchers at the National Institutes of Health found that people whose blood sodium in middle age sat at the high end of normal — above 142 mmol/L, a marker of habitually lower fluid intake — had a 39% higher risk of developing chronic diseases and were up to 50% more likely to be biologically older than their age. Above 144 mmol/L, the risk of dying early was 21% higher [15]. The authors are explicit that intervention trials are needed to show cause.',
+        ],
+      },
+      'The most useful single summary is a 2024 systematic review in JAMA Network Open that gathered every randomized trial it could find that changed how much water people drank. There were only 18. The clearest benefits were for weight loss and kidney stones; single trials suggested benefits for migraine, urinary tract infections, diabetes control and low blood pressure; and 8 of the 18 reported negative results [16]. That is the honest state of the science: fewer trials than the topic deserves, a few solid wins, and a lot of promising associations.',
+      { h2: 'What it does to everyone else' },
+      'You do not have to be unwell for this to matter. In laboratory studies, losing around 1.5% of body weight in fluid, which these studies produced with a few hours of exercise, measurably changes how healthy young adults feel and think.',
+      { h3: 'Focus and mood' },
+      'Young women dehydrated by about 1.4% of body weight reported worse mood, lower concentration, more fatigue and more headaches, and found tasks harder, although most of their cognitive test scores held up [17]. Young men at about 1.6% made more errors on a vigilance task, were slower on a working-memory task, and reported more fatigue and tension [18].',
+      { h3: 'Headaches' },
+      'Water-deprivation headache was first described in the medical literature in 2004. In a survey of family, colleagues and acquaintances, about 1 in 10 said going without fluid gave them a headache, and drinking water usually relieved it within 30 minutes to three hours [19]. Among 256 women with migraine, those who drank more water had less frequent, shorter and less severe attacks [20] — an association, not proof. A small pilot trial in 18 people with frequent headaches found that drinking about an extra litre a day cut total headache time by an average of 21 hours over two weeks, but the result was not statistically certain [21]. Promising, not settled.',
+      { h3: 'Metabolism' },
+      'This is where popular claims run furthest ahead of the evidence. A 2003 study reported that drinking 500 mL of water raised metabolic rate by 30%, peaking within about 40 minutes [22]. When another group tested the idea in a randomized crossover study, room-temperature water produced no measurable increase at all, and ice-cold water produced a small one, about 4.5% over an hour [23]. The better-supported result is about weight rather than metabolism: in a 12-week trial, middle-aged and older adults on a calorie-controlled diet who drank 500 mL of water before each meal lost about 2 kg more than those on the diet alone, probably because they ate a little less at meals [24].',
+      { h3: 'Inflammation' },
+      'The honest answer is that this link is mostly mechanistic. In cells and tissues, hyperosmotic stress — the more concentrated internal environment that comes with water loss — is a potent trigger for inflammatory signalling [25]. But no trial has shown that drinking more water lowers inflammation in healthy adults. Anyone who tells you it does is ahead of the evidence, and we would rather not be.',
+      { h2: 'Why the usual fixes fail' },
+      'If the stakes are this real and water is this cheap, why does the problem persist? Because each of the common fixes quietly depends on something that breaks.',
+      {
+        ul: [
+          '“Drink when you are thirsty.” Sound advice for many healthy adults, and exactly the signal that fades with age. In the care home study above, thirst did not track hydration at all [4].',
+          '“Watch for the signs.” Dark urine, dry mouth, tiredness. A Cochrane review assessed 67 symptoms, signs and tests for dehydration in older people and found that none worked reliably on its own: they missed many people who were dehydrated and wrongly flagged many who were not [26]. One of the few signals that showed promise, in a single small study, was simply whether a person was missing drinks between meals — a question about intake, not symptoms.',
+          '“Write it down.” Care homes use paper fluid charts. In a study that checked them against direct observation, few charts were even returned, and the ones that were bore almost no relation to what residents drank — off by an average of about 700 mL a day [27]. At home, the equivalent is an app you type your drinks into. It works for as long as you remember to type, which is the problem it was meant to solve.',
+          '“Set a reminder.” Reminders tell you to drink, but they cannot tell whether you did, so they fire whether you need them or not — and they are easy to dismiss.',
+          '“Buy a smart bottle.” The good ones measure well: one was accurate to within 3% over 24 hours in a small clinical pilot [28], although a comparison of four commercial models found real differences, including a smart lid that missed many sips because its sensor did not reach the whole bottle [29]. The bigger problem is the bottle itself. A smart bottle only counts what you drink from that bottle, and they typically start around $80. The moment you grab a different one at the gym or the office, your record has a hole in it.',
+          '“Do drink rounds.” The care home project above shows that routine works [9]. It also depends on staff time, and its authors flag staff turnover as a challenge. Rounds make drinking regular; on their own, they do not show anyone who is falling behind.',
+        ],
+      },
+      { h2: 'What we are doing differently' },
+      'Sponge is our answer to those failure points, one at a time.',
+      {
+        ul: [
+          'It measures instead of asking you to remember. Sponge clips under the bottle and uses a load cell and an accelerometer to take a weight reading each time the bottle is set down. An on-device algorithm turns the change between readings into your water intake. Nothing to type, nothing to recall.',
+          'It works on the bottle you already own. The sensor lives in a clip rather than a bottle, and magnetic adhesive mounts let you move it between the bottles you use.',
+          'It makes falling behind visible. The app shows your intake against your goal through the day, so a missed afternoon is obvious at 3 p.m., not at bedtime. It is the kind of intake signal researchers found promising, recorded for you.',
+          'It adds a consequence. Knowing was never the missing piece; follow-through was. App Lock keeps the apps you choose shut until you have hit your water goal. We have not run a clinical trial on it and will not pretend otherwise. What we can say is that it turns a reminder you can ignore into a decision you have to make.',
+          'It is being built with caregivers in mind. We started with older adults, and a view that lets family and care staff see who is falling behind is in development. [Read more for caregivers](/caregivers).',
+        ],
+      },
+      'What Sponge is not: it measures how much water you drink. It does not measure your hydration status, diagnose anything or replace a clinician. If you care for someone with heart failure, kidney disease or any condition where fluid is restricted, their care team sets the target, not an app.',
+      '[See how Sponge works](/how-it-works).',
+      { note: 'Sponge is a general wellness product, not a medical device. This article summarises published research for general information; it is not medical advice. If you have symptoms that concern you, or a condition that affects fluid balance, talk to a clinician.' },
+    ],
+    sources: [
+      { text: 'Chang T, Ravi N, Plegue MA, Sonneville KR, Davis MM. Inadequate hydration, BMI, and obesity among US adults: NHANES 2009–2012. Annals of Family Medicine 2016;14(4):320–324.', url: 'https://pubmed.ncbi.nlm.nih.gov/27401419/' },
+      { text: 'Kenney EL, Long MW, Cradock AL, Gortmaker SL. Prevalence of inadequate hydration among US children and disparities by gender and race/ethnicity: NHANES 2009–2012. American Journal of Public Health 2015;105(8):e113–e118.', url: 'https://pubmed.ncbi.nlm.nih.gov/26066941/' },
+      { text: 'Phillips PA, Rolls BJ, Ledingham JG, et al. Reduced thirst after water deprivation in healthy elderly men. New England Journal of Medicine 1984;311(12):753–759.', url: 'https://pubmed.ncbi.nlm.nih.gov/6472364/' },
+      { text: 'Hooper L, Bunn DK, Downing A, et al. Which frail older people are dehydrated? The UK DRIE study. Journals of Gerontology Series A 2016;71(10):1341–1347.', url: 'https://pubmed.ncbi.nlm.nih.gov/26553658/' },
+      { text: 'Warren JL, Bacon WE, Harris T, et al. The burden and outcomes associated with dehydration among US elderly, 1991. American Journal of Public Health 1994;84(8):1265–1269.', url: 'https://pubmed.ncbi.nlm.nih.gov/8059883/' },
+      { text: 'Xiao H, Barber J, Campbell ES. Economic burden of dehydration among hospitalized elderly patients. American Journal of Health-System Pharmacy 2004;61(23):2534–2540.', url: 'https://pubmed.ncbi.nlm.nih.gov/15595228/' },
+      { text: 'Walsh EG, Wiener JM, Haber S, et al. Potentially avoidable hospitalizations of dually eligible Medicare and Medicaid beneficiaries from nursing facility and home- and community-based services waiver programs. Journal of the American Geriatrics Society 2012;60(5):821–829.', url: 'https://pubmed.ncbi.nlm.nih.gov/22458363/' },
+      { text: 'El-Sharkawy AM, Watson P, Neal KR, et al. Hydration and outcome in older patients admitted to hospital (the HOOP prospective cohort study). Age and Ageing 2015;44(6):943–947.', url: 'https://pubmed.ncbi.nlm.nih.gov/26316508/' },
+      { text: 'Lean K, Nawaz RF, Jawad S, Vincent C. Reducing urinary tract infections in care homes by improving hydration. BMJ Open Quality 2019;8(3):e000563.', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6629391/' },
+      { text: 'Dutta C, Pasha K, Paul S, et al. Urinary tract infection induced delirium in elderly patients: a systematic review. Cureus 2022;14(12):e32321.', url: 'https://pubmed.ncbi.nlm.nih.gov/36632270/' },
+      { text: 'Borghi L, Meschi T, Amato F, et al. Urinary volume, water and recurrences in idiopathic calcium nephrolithiasis: a 5-year randomized prospective study. Journal of Urology 1996;155(3):839–843.', url: 'https://pubmed.ncbi.nlm.nih.gov/8583588/' },
+      { text: 'Hooton TM, Vecchio M, Iroz A, et al. Effect of increased daily water intake in premenopausal women with recurrent urinary tract infections: a randomized clinical trial. JAMA Internal Medicine 2018;178(11):1509–1515.', url: 'https://pubmed.ncbi.nlm.nih.gov/30285042/' },
+      { text: 'Clark WF, Sontrop JM, Huang SH, et al. Effect of coaching to increase water intake on kidney function decline in adults with chronic kidney disease: the CKD WIT randomized clinical trial. JAMA 2018;319(18):1870–1879.', url: 'https://pubmed.ncbi.nlm.nih.gov/29801012/' },
+      { text: 'Roussel R, Fezeu L, Bouby N, et al. Low water intake and risk for new-onset hyperglycemia. Diabetes Care 2011;34(12):2551–2554.', url: 'https://pubmed.ncbi.nlm.nih.gov/21994426/' },
+      { text: 'Dmitrieva NI, Gagarin A, Liu D, Wu CO, Boehm M. Middle-age high normal serum sodium as a risk factor for accelerated biological aging, chronic diseases, and premature mortality. eBioMedicine 2023;87:104404.', url: 'https://pubmed.ncbi.nlm.nih.gov/36599719/' },
+      { text: 'Hakam N, Guzman Fuentes JL, Nabavizadeh B, et al. Outcomes in randomized clinical trials testing changes in daily water intake: a systematic review. JAMA Network Open 2024;7(11):e2447621.', url: 'https://pubmed.ncbi.nlm.nih.gov/39585691/' },
+      { text: 'Armstrong LE, Ganio MS, Casa DJ, et al. Mild dehydration affects mood in healthy young women. Journal of Nutrition 2012;142(2):382–388.', url: 'https://pubmed.ncbi.nlm.nih.gov/22190027/' },
+      { text: 'Ganio MS, Armstrong LE, Casa DJ, et al. Mild dehydration impairs cognitive performance and mood of men. British Journal of Nutrition 2011;106(10):1535–1543.', url: 'https://pubmed.ncbi.nlm.nih.gov/21736786/' },
+      { text: 'Blau JN, Kell CA, Sperling JM. Water-deprivation headache: a new headache with two variants. Headache 2004;44(1):79–83.', url: 'https://pubmed.ncbi.nlm.nih.gov/14979888/' },
+      { text: 'Khorsha F, Mirzababaei A, Togha M, Mirzaei K. Association of drinking water and migraine headache severity. Journal of Clinical Neuroscience 2020;77:81–84.', url: 'https://pubmed.ncbi.nlm.nih.gov/32446809/' },
+      { text: 'Spigt MG, Kuijper EC, Schayck CP, et al. Increasing the daily water intake for the prophylactic treatment of headache: a pilot trial. European Journal of Neurology 2005;12(9):715–718.', url: 'https://pubmed.ncbi.nlm.nih.gov/16128874/' },
+      { text: 'Boschmann M, Steiniger J, Hille U, et al. Water-induced thermogenesis. Journal of Clinical Endocrinology & Metabolism 2003;88(12):6015–6019.', url: 'https://pubmed.ncbi.nlm.nih.gov/14671205/' },
+      { text: 'Brown CM, Dulloo AG, Montani JP. Water-induced thermogenesis reconsidered: the effects of osmolality and water temperature on energy expenditure after drinking. Journal of Clinical Endocrinology & Metabolism 2006;91(9):3598–3602.', url: 'https://pubmed.ncbi.nlm.nih.gov/16822824/' },
+      { text: 'Dennis EA, Dengo AL, Comber DL, et al. Water consumption increases weight loss during a hypocaloric diet intervention in middle-aged and older adults. Obesity 2010;18(2):300–307.', url: 'https://pubmed.ncbi.nlm.nih.gov/19661958/' },
+      { text: 'Brocker C, Thompson DC, Vasiliou V. The role of hyperosmotic stress in inflammation and disease. Biomolecular Concepts 2012;3(4):345–364.', url: 'https://pubmed.ncbi.nlm.nih.gov/22977648/' },
+      { text: 'Hooper L, Abdelhamid A, Attreed NJ, et al. Clinical symptoms, signs and tests for identification of impending and current water-loss dehydration in older people. Cochrane Database of Systematic Reviews 2015;(4):CD009647.', url: 'https://pubmed.ncbi.nlm.nih.gov/25924806/' },
+      { text: 'Jimoh FO, Bunn D, Hooper L. Assessment of a self-reported drinks diary for the estimation of drinks intake by care home residents: Fluid Intake Study in the Elderly (FISE). Journal of Nutrition, Health & Aging 2015;19(5):491–496.', url: 'https://pubmed.ncbi.nlm.nih.gov/25923476/' },
+      { text: 'Borofsky MS, Dauw CA, York N, Terry C, Lingeman JE. Accuracy of daily fluid intake measurements using a “smart” water bottle. Urolithiasis 2018;46(4):343–348.', url: 'https://pubmed.ncbi.nlm.nih.gov/28980082/' },
+      { text: 'Cohen R, Fernie G, Roshan Fekr A. Monitoring fluid intake by commercially available smart water bottles. Scientific Reports 2022;12:4402.', url: 'https://pubmed.ncbi.nlm.nih.gov/35292675/' },
+    ],
+  },
   {
     slug: 'how-much-water-should-you-drink',
     title: 'How Much Water Should You Actually Drink a Day?',
