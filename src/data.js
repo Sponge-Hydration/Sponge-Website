@@ -249,30 +249,33 @@ export const blogPosts = [
   {
     slug: 'the-story-behind-sponge',
     title: 'The Story Behind Sponge',
-    excerpt: 'Sponge started with an ambulance ride that an IV fixed in under an hour. Here is how two grandmothers, a coaster and a lot of water bottles turned into the tracker we make today.',
+    excerpt: 'Sponge started with an ambulance ride that an IV fixed in under an hour. Here is how two grandparents, a coaster and a lot of water bottles turned into the tracker we make today.',
     date: '2026-09-22',
     readTime: '5 min read',
     tag: 'Our story',
     cover: '/media/team/founders.jpg',
     coverPos: 'center 42%', // keep both founders' faces in the thumbnail crop
-    // Facts: Chris's grandmother story is his own words from the Elderly
-    // Hydration pitch deck (Drive). Nathan's grandmother, the coaster (V0), the
-    // Clip launch and Cal Poly are from marketing/_context and company-strategy.
-    // The brand overview also mentions a grandfather of Chris's with dementia;
-    // it is NOT used here because no primary source for it was found.
+    // Facts: Chris's story is his own words from the Elderly Hydration pitch
+    // deck (Drive). The deck says "grandmother", but Nathan confirmed on
+    // 2026-09-22 that it was Chris's GRANDFATHER, and that his grandfather's
+    // dementia, and his better days when well hydrated, are true. The Drive deck
+    // still says grandmother; do not "correct" this back from it. Nathan's
+    // grandmother, the coaster (V0), the Clip launch and Cal Poly are from
+    // marketing/_context and company-strategy.
     body: [
-      'Most companies have an origin story that sounds better than it was. Ours is not especially glamorous. It is mostly about a grandmother, an ambulance and a bag of IV fluid.',
+      'Most companies have an origin story that sounds better than it was. Ours is not especially glamorous. It is mostly about a grandfather, an ambulance and a bag of IV fluid.',
       {
-        quote: 'My grandmother was bedridden the last two years of her life and needed 24-hour at-home care. There were days when my mom would arrive and my grandmother would tell her that she did not feel well and that she wanted to go to the hospital. So my mom would ask her symptoms and check her vitals. No pain in the chest, normal heart rate and blood pressure, no fever. But my grandmother was adamant, and so my mom called an ambulance. When she got to her room, the first thing the nurse would do is plug in an IV. Thirty to forty-five minutes later my grandmother felt fine again. She was just dehydrated.',
+        quote: 'My grandfather was bedridden the last two years of his life and needed 24-hour at-home care. There were days when my mom would arrive and my grandfather would tell her that he did not feel well and that he wanted to go to the hospital. So my mom would ask his symptoms and check his vitals. No pain in the chest, normal heart rate and blood pressure, no fever. But my grandfather was adamant, and so my mom called an ambulance. When he got to his room, the first thing the nurse would do is plug in an IV. Thirty to forty-five minutes later my grandfather felt fine again. He was just dehydrated.',
         cite: 'Christopher Miglio, co-founder',
       },
       'It happened three more times in those two years. Each ambulance ride and hospital stay cost more than $5,000, and that was with insurance. The cost of round-the-clock care meant the family had to pitch in, so Chris’s mom was driving two hours, three or four days a week, to help.',
-      'Nobody in that story did anything wrong. The problem was that nobody — not the family, not the people caring for her, not his grandmother herself — had a reliable way to know how much she had actually had to drink that day.',
+      'His grandfather also had dementia, and Chris noticed a pattern. On well-hydrated days his grandfather was more alert, more oriented, more present. On dehydrated days he was noticeably worse. That is one family’s observation, not a clinical finding, but it is the one that stayed with him.',
+      'Nobody in that story did anything wrong. The problem was that nobody — not the family, not the people caring for him, not his grandfather himself — had a reliable way to know how much he had actually had to drink that day.',
       'That turns out to be the normal state of things, not bad luck. Dehydration in older adults is common and hard to see: thirst fades with age, and a Cochrane review found that none of the usual bedside signs reliably detect it [1]. In one UK hospital study, 37% of adults aged 65 and over who were admitted as emergencies arrived dehydrated [2]. We wrote the long version, with the research, in [The Dehydration Problem](/blog/the-dehydration-problem).',
-      { h2: 'The other grandmother' },
+      { h2: 'Nathan’s grandmother' },
       'Nathan’s grandmother had Alzheimer’s disease. Watching her lose her independence sent him looking for anything a person could actually do, day to day, to look after their health over the long run. There are not many dials you control directly. How much you drink is one of them.',
       'He is also a competitive athlete — a marathon finisher who races triathlon in Orange County — so hydration was already part of his training, and he felt the difference in how he trained and recovered. The research backs up the everyday part of that: even mild dehydration shows up in mood, concentration and fatigue in healthy young adults [3, 4]. What research cannot yet tell anyone is whether drinking more water protects the ageing brain. That science is still young, and we do not claim it does.',
-      'Two founders, two grandmothers, one conclusion. Most people know they should drink more water, and almost nobody actually does. Knowing was never the missing piece.',
+      'Two founders, two grandparents, one conclusion. Most people know they should drink more water, and almost nobody actually does. Knowing was never the missing piece.',
       { h2: 'Version zero was a coaster' },
       'Nathan Katzaroff and Christopher Miglio are both Cal Poly San Luis Obispo graduates, and Dominic Dal Porto builds Sponge’s app and firmware. The first Sponge was not a clip at all. It was a coaster: you set your drink on it, and it logged what was gone each time you put the drink back down.',
       'The coaster proved the idea. Weight is a good way to measure what someone drinks, and it asks nothing of the person except putting the cup down. It also showed us the catch. A coaster only works where the coaster is. You had to come back to it after every sip, and the moment your bottle left the desk, the record stopped.',
@@ -338,7 +341,7 @@ export const blogPosts = [
       'For people living in nursing facilities, dehydration is on a short list of conditions that experts class as potentially avoidable hospitalizations — problems that can often be prevented or managed without a hospital stay. In a national study of people covered by both Medicare and Medicaid, 39% of admissions from nursing facilities and home- and community-based care met that definition, and five conditions — pneumonia, heart failure, urinary tract infections, dehydration, and COPD or asthma — accounted for 78% of them [7].',
       'Once an older adult is in hospital, it still matters. In the HOOP study, 37% of adults aged 65 and over admitted as emergencies to a UK teaching hospital were dehydrated on arrival, and 62% of those were still dehydrated two days later. After adjusting for age, frailty and other illness, those who arrived dehydrated were six times more likely to die in hospital [8].',
       'Some of the most encouraging evidence comes from care homes themselves. When four care homes in England introduced seven structured drink rounds a day, plus staff training, urinary tract infections needing antibiotics fell by 58% and infections needing a hospital admission fell by 36% [9]. It was a quality-improvement project rather than a randomized trial, and its authors are candid about its limits, but the direction is hard to ignore. Infections matter doubly here, because in older adults a urinary tract infection often shows up not as a fever but as sudden confusion and delirium [10].',
-      'One of our co-founders watched this happen to his grandmother. It is [the reason Sponge exists](/blog/the-story-behind-sponge).',
+      'One of our co-founders watched this happen to his grandfather. It is [the reason Sponge exists](/blog/the-story-behind-sponge).',
       { h2: 'The chronic conditions linked to low fluid intake' },
       'Outside hospital, low fluid intake is linked to a longer list of conditions. The evidence ranges from randomized trials to associations in large groups of people, and it is worth knowing which is which.',
       {

@@ -557,6 +557,11 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-66 — Chris's founding story is about his grandfather
+- **Correction:** Nathan, 2026-09-22. The ambulance/IV story in *The Story Behind Sponge* is about Chris's **grandfather**, not his grandmother. The Elderly Hydration deck in Drive says "grandmother", which is where the error came from. Nathan also confirmed the brand overview's account of the same grandfather's dementia, and that he was sharper on well-hydrated days, so the post now includes it (as one family's observation, not a clinical finding).
+- **Changed:** the quote's pronouns, the opening line, "Two founders, two grandparents", the section heading (now "Nathan's grandmother"), the excerpt, and the problem post's line "watched this happen to his grandfather". `marketing/research/SpongeHydration_pitch-deck-context.md` and the workspace `CLAUDE.md` were corrected too. **The deck in Drive still says grandmother.**
+- **Status:** **Complete**
+
 ### A-65 — Claims flagged in A-64 corrected; old app walkthrough removed
 - **Request:** Nathan, 2026-09-22: "go ahead and run the updates", and on /how-it-works "keep the animation and the five steps, remove the original tutorial … just keep the new tutorials".
 - **Family Pack** (`data.js`): no longer lists "Shared family dashboard", "Caregiver alerts & reminders" or "Per-person goals and trends" as included. It is for sale today and the caregiver view is in development, so the copy now says exactly that ("Shared caregiver view in development"). The Caregivers page buy CTA no longer promises "a shared dashboard" with the pack. The rest of the Caregivers page still describes the planned programme, under its existing "under construction — the caregiver program isn't live yet" banner.
@@ -725,6 +730,7 @@ Recorded so later passes do not regress them.
 | 2026-09-14 | _this commit_ | A-63 — Sponge Dot added ($29.99, in development); catalog-sync guard; battery claim scoped to clip products |
 | 2026-09-22 | _this commit_ | A-64 — eyebrow links, playable how-it-works cards, feature cards to detail, tutorials Parts 1–2 with captions, origin + dehydration posts, blog date fix |
 | 2026-09-22 | _this commit_ | A-65 — Family Pack / caregiver and "month two" claims corrected; old app walkthrough removed from /how-it-works |
+| 2026-09-22 | _this commit_ | A-66 — founding story corrected to Chris's grandfather; his dementia observation added |
 
 
 ---
