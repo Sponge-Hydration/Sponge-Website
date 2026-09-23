@@ -51,6 +51,7 @@ export default function Footer() {
             <Link to="/legal/pre-order">Pre-order policy</Link>
             <Link to="/legal/returns">Return policy</Link>
             <Link to="/legal/warranty">Warranty</Link>
+            <Link to="/legal/terms">Terms of Service</Link>
           </div>
         </div>
         <div className="footer__bottom">

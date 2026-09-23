@@ -1155,3 +1155,9 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .article__figure img { width: 100%; border-radius: var(--radius); display: block; }
 .article__figure figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .article__sources li:target { background: var(--aqua-100); border-radius: 8px; outline: 6px solid var(--aqua-100); }
+
+/* Terms of Service: conspicuous clauses, and the agreement notice at checkout. */
+.legal__conspicuous { font-size: 15px; line-height: 1.6; color: var(--ink); background: var(--surface-tint); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.legal__conspicuous strong { font-weight: 700; }
+.checkout-form__terms { font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); margin: 4px 0 14px; }
+.checkout-form__terms a { color: var(--blue-600); font-weight: 600; }
