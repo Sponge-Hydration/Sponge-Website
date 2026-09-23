@@ -557,6 +557,13 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-65 — Claims flagged in A-64 corrected; old app walkthrough removed
+- **Request:** Nathan, 2026-09-22: "go ahead and run the updates", and on /how-it-works "keep the animation and the five steps, remove the original tutorial … just keep the new tutorials".
+- **Family Pack** (`data.js`): no longer lists "Shared family dashboard", "Caregiver alerts & reminders" or "Per-person goals and trends" as included. It is for sale today and the caregiver view is in development, so the copy now says exactly that ("Shared caregiver view in development"). The Caregivers page buy CTA no longer promises "a shared dashboard" with the pack. The rest of the Caregivers page still describes the planned programme, under its existing "under construction — the caregiver program isn't live yet" banner.
+- **Homepage:** "It is also the reason people are still using Sponge in month two" became "It is also the part that is hard to ignore". No retention data supported the original.
+- **/how-it-works:** the old app walkthrough (`app-demo.mp4` + poster, deleted) is gone. The page is now the animated five-step explainer → tutorial Parts 1–2 → FAQ. The homepage "Free app, plus a widget" card, which pointed at that walkthrough, now goes to the homepage's own "On your phone" section. Unused `.setup-video` CSS removed.
+- **Status:** **Complete**
+
 ### A-64 — Clickable-looking elements now lead to detail, not the checkout
 - **Request:** Nathan, 2026-09-22, from Clarity replays: visitors click the section eyebrows ("Meet Sponge", "The problem", "How it works") and they went nowhere, while commit `8d85288` (Dom, Sep 20) had pointed every how-it-works and feature card at `/shop/p/sponge-clip`, which "kinda makes it feel scammy".
 - **What shipped:**
@@ -717,6 +724,7 @@ Recorded so later passes do not regress them.
 | 2026-08-28 | `(this)` | A-50, A-62 — Nathan confirmed 3M, 8-day battery and the load-cell/accelerometer/algorithm stack; the sign-up goal recommendation restored as a claim, ongoing adaptation still retired |
 | 2026-09-14 | _this commit_ | A-63 — Sponge Dot added ($29.99, in development); catalog-sync guard; battery claim scoped to clip products |
 | 2026-09-22 | _this commit_ | A-64 — eyebrow links, playable how-it-works cards, feature cards to detail, tutorials Parts 1–2 with captions, origin + dehydration posts, blog date fix |
+| 2026-09-22 | _this commit_ | A-65 — Family Pack / caregiver and "month two" claims corrected; old app walkthrough removed from /how-it-works |
 
 
 ---

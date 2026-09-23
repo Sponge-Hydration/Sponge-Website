@@ -18,7 +18,7 @@ const features = [
   { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.', to: '/how-it-works', more: 'See how it measures' },
   { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.', to: '/how-it-works#tutorials', more: 'Watch it attach' },
   { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.', to: '/how-it-works#faq-battery', more: 'Battery and charging' },
-  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.', to: '/how-it-works#app-setup', more: 'See the app' },
+  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.', to: '#on-your-phone', more: 'See the app' },
   { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.', to: '#locks', more: 'How Hydration Locks work' },
   { icon: HeartIcon, title: 'Apple Health sync — next update', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.', to: '/how-it-works#faq-apple-health', more: 'Apple Health status' },
 ]
@@ -359,7 +359,7 @@ export default function Home() {
               <li><span className="tick">✓</span> They unlock as you drink, sip by sip</li>
             </ul>
             <p style={{ color: 'var(--ink-soft)', fontSize: 15.5, margin: '14px 0 0' }}>
-              Brutal? A little. It is also the reason people are still using Sponge in month two.
+              Brutal? A little. It is also the part that is hard to ignore.
             </p>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now — $59.99</button>

@@ -102,12 +102,15 @@ export const products = [
       '/media/gallery/g1-white-vertical.jpg',
       '/media/gallery/g2-black-vertical.jpg',
     ],
-    short: 'Four trackers with shared family dashboard, ideal for households and caregivers monitoring loved ones.',
+    // The shared caregiver view (family dashboard + behind-goal alerts) is in
+    // development, not shipped. It was listed here as an included feature until
+    // 2026-09-22. Do not restore it until it actually ships.
+    short: 'Four Sponge trackers for the household, one on each person’s bottle. A shared caregiver view, so family can see how a loved one is doing, is in development.',
     features: [
       'Four Sponge hydration trackers',
-      'Shared family dashboard',
-      'Caregiver alerts & reminders',
-      'Per-person goals and trends',
+      'One for each person’s bottle',
+      'Each person tracks in the free Sponge app',
+      'Shared caregiver view in development',
       'Save $39.97 vs. buying four singles',
     ],
     ships: 'Ships with our next production batch',

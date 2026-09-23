@@ -670,9 +670,6 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .about-banner { width: 100%; max-height: 460px; object-fit: cover; object-position: top; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 
 /* Setup video */
-.setup-video { max-width: 760px; margin: 42px auto 0; }
-.setup-video video { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); background: #000; display: block; }
-.setup-video__cap { text-align: center; color: var(--muted); font-size: 14px; margin-top: 12px; }
 
 /* Blog cover */
 .blog-card__media { padding: 0; overflow: hidden; position: relative; }

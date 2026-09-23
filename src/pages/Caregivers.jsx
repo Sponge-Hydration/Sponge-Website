@@ -79,7 +79,8 @@ export default function Caregivers() {
             Caring for someone? Start with the Family Pack
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 560, margin: '0 auto 24px' }}>
-            Four trackers and a shared dashboard so the whole family can help keep a loved one hydrated.
+            Four trackers, one for each bottle in the house. The shared caregiver view, so the whole
+            family can follow along, is in development.
           </p>
           <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack — $199.99</Link>
         </div>

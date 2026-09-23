@@ -79,24 +79,6 @@ export default function HowItWorks() {
             every sip, then explore each step yourself.
           </SectionHead>
           <SetupExplainer />
-          <div className="setup-video" id="app-setup">
-            {/* No <track> yet — captions need a transcript of the actual audio,
-                which has to come from the source video rather than be invented.
-                Until then the title and the caption below carry the content. */}
-            <video
-              controls
-              muted
-              playsInline
-              title="Setting up the Sponge app, your profile, and your Sponge ID"
-              poster="/media/video/app-demo-poster.jpg"
-              preload="none"
-            >
-              <source src="/media/video/app-demo.mp4" type="video/mp4" />
-              Your browser cannot play this video. It shows the Sponge app being set up:
-              creating a profile, then pairing a Sponge ID.
-            </video>
-            <p className="setup-video__cap">Watch: setting up the app, your profile, and your Sponge ID.</p>
-          </div>
         </div>
       </section>
 
@@ -123,8 +105,7 @@ export default function HowItWorks() {
           </div>
           <p className="tutorials__next">
             <strong>Coming next:</strong> part three, downloading the app and setting up your
-            profile. Once every part is finished we will join them into one full tutorial. Until
-            then, the app walkthrough above covers the same ground.
+            profile. Once every part is finished we will join them into one full tutorial.
           </p>
         </div>
       </section>
