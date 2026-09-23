@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import { CheckCircleIcon } from '../components/icons'
@@ -91,6 +92,7 @@ export default function Contact() {
           )}
 
           <aside className="contact-aside">
+            <p><strong>Looking for setup help, order tracking, cancellations, returns or a warranty claim?</strong><br /><Link to="/support">Visit Customer Support</Link> — most answers are there.</p>
             <h3>Other ways to reach us</h3>
             <p><strong>Email</strong><br />team@spongehydration.com</p>
             <p><strong>Hours</strong><br />Mon-Fri, 9am-6pm ET</p>

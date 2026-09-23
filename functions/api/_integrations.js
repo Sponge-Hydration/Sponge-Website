@@ -145,6 +145,6 @@ export function teamEmailHtml(order) {
     )}</p>
     ${itemsTable(order)}
     ${shippingBlock(order)}
-    <p style="font-size:13px;color:#888;margin-top:24px;">Order ${order.orderNumber || ''} · Session: ${order.sessionId} · Status: ${order.paymentStatus}</p>
+    <p style="font-size:13px;color:#888;margin-top:24px;">Order ${order.orderNumber || ''} · Session: ${order.sessionId} · Status: ${order.paymentStatus} · Terms of Service: ${order.termsOfService || 'not collected'} (version ${order.termsVersion || 'unknown'})</p>
   </div>`
 }

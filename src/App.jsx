@@ -12,6 +12,7 @@ import BlogPost from './pages/BlogPost'
 import About from './pages/About'
 import Team from './pages/Team'
 import Contact from './pages/Contact'
+import Support from './pages/Support'
 import ReviewsPage from './pages/ReviewsPage'
 import Account from './pages/Account'
 import OrderStatus from './pages/OrderStatus'
@@ -48,6 +49,7 @@ export const routes = [
       { path: 'about', element: <About /> },
       { path: 'team', element: <Team /> },
       { path: 'contact', element: <Contact /> },
+      { path: 'support', element: <Support /> },
       { path: 'reviews', element: <ReviewsPage /> },
       { path: 'account', element: <Account /> },
       { path: 'order-status', element: <OrderStatus /> },

@@ -47,11 +47,13 @@ export default function Footer() {
           </div>
           <div>
             <h4>Support</h4>
+            <Link to="/support">Customer support</Link>
             <Link to="/how-it-works">Setup &amp; FAQ</Link>
             <Link to="/legal/pre-order">Pre-order policy</Link>
             <Link to="/legal/returns">Return policy</Link>
             <Link to="/legal/warranty">Warranty</Link>
             <Link to="/legal/terms">Terms of Service</Link>
+            <Link to="/legal/privacy">Privacy Policy</Link>
           </div>
         </div>
         <div className="footer__bottom">

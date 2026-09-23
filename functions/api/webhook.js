@@ -111,6 +111,11 @@ async function handleCheckoutCompleted(session, env, request) {
       adhesive3: num(m.qty_adhesive_3pack),
       dot: num(m.qty_dot),
     },
+    // Whether the buyer ticked Stripe's required Terms of Service checkbox.
+    // Stripe keeps this on the session permanently; it is copied here so the
+    // team email shows it. Sessions from before 2026-09-23 have no checkbox.
+    termsOfService: session.consent?.terms_of_service || 'not collected',
+    termsVersion: m.terms_version || 'unknown',
   }
 
   // Assign the order number once so the sheet row and confirmation email match.

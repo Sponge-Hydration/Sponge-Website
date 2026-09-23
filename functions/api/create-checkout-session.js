@@ -7,6 +7,8 @@
 // Requires the STRIPE_SECRET_KEY environment variable (set in the Cloudflare
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
+import { TERMS_VERSION, isTermsSetupError, termsCheckboxParams } from './_checkout-terms.js'
+
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
 // The 2-Pack is retired and the Coaster is sold out - neither is purchasable.
 const CATALOG = {
@@ -177,20 +179,39 @@ export async function onRequestPost({ request, env }) {
   // an explicit `true` from the client counts as consent, so a missing or
   // malformed value means no server-side advertising event is sent.
   params.append('metadata[ad_consent]', body?.adConsent === true ? '1' : '0')
+  // Which Terms of Service were in force for this purchase (the /checkout notice
+  // presents them on every order; the Stripe checkbox records assent on top).
+  params.append('metadata[terms_version]', TERMS_VERSION)
 
-  const resp = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-    body: params,
-  })
+  const createSession = (form) =>
+    fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: form,
+    })
 
-  const session = await resp.json()
+  // First try with the required terms checkbox. If Stripe refuses it because
+  // the dashboard's terms URL is missing, retry once without it: the buyer
+  // still sees the agreement notice on /checkout, and the warning in the logs
+  // says what to fix. Any other Stripe error is returned as before.
+  const withTerms = new URLSearchParams(params)
+  for (const [k, v] of Object.entries(termsCheckboxParams(origin))) withTerms.set(k, v)
+
+  let termsCheckbox = true
+  let resp = await createSession(withTerms)
+  let session = await resp.json()
+  if (!resp.ok && isTermsSetupError(resp.status, session?.error)) {
+    console.warn('Stripe rejected the terms checkbox; retrying without it:', session?.error?.message)
+    termsCheckbox = false
+    resp = await createSession(params)
+    session = await resp.json()
+  }
   if (!resp.ok) {
     return json({ error: session?.error?.message || 'Stripe error.' }, 502)
   }
 
-  return json({ url: session.url })
+  return json({ url: session.url, termsCheckbox })
 }

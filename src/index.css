@@ -1156,6 +1156,18 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .article__figure figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .article__sources li:target { background: var(--aqua-100); border-radius: 8px; outline: 6px solid var(--aqua-100); }
 
+/* Customer support hub (/support). */
+.section-head p a { color: var(--blue-600); font-weight: 600; }
+.support-topic h2 { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+.support-topic__links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.support-split { display: grid; gap: 34px; align-items: start; }
+@media (min-width: 900px) { .support-split { grid-template-columns: 1.4fr 1fr; } }
+.support-h2 { font-size: clamp(22px, 3vw, 28px); font-weight: 800; margin-bottom: 10px; }
+.support-lead { color: var(--ink-soft); }
+.support-lead a, .support-contact a:not(.btn) { color: var(--blue-600); font-weight: 600; }
+.support-contact { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); }
+.support-contact p { color: var(--ink-soft); }
+
 /* Terms of Service: conspicuous clauses, and the agreement notice at checkout. */
 .legal__conspicuous { font-size: 15px; line-height: 1.6; color: var(--ink); background: var(--surface-tint); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
 .legal__conspicuous strong { font-weight: 700; }
