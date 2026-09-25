@@ -16,16 +16,16 @@ export default function Footer() {
             </div>
             <div className="footer__signup">
               <p className="footer__signup-pitch">
-                <strong>We send one email a month.</strong> What we learned building the
-                hardware, what the hydration research actually says, and when the next batch
-                opens. No drip sequence.
+                <strong>Sign up and get a mystery gift.</strong> Then one email a month: what we
+                learned building the hardware, what the hydration research actually says, and
+                when the next batch opens. No drip sequence.
               </p>
               <EmailSignup
                 source="footer"
                 label="Email address"
                 cta="Sign up"
                 variant="stacked"
-                done="Thanks — you’re on the list. One email a month, that’s it."
+                done="You’re in. Check your inbox for your mystery gift."
               />
             </div>
           </div>

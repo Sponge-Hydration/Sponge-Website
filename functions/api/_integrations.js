@@ -94,6 +94,7 @@ function itemsTable(order) {
     </thead>
     <tbody>${rows}</tbody>
     <tfoot>
+      ${order.discount ? `<tr><td style="padding:10px 0 0;color:#0a7d3b;">Discount</td><td></td><td style="padding:10px 0 0;text-align:right;color:#0a7d3b;">-${money(order.discount, order.currency)}</td></tr>` : ''}
       <tr><td style="padding:10px 0 0;color:#444;">Shipping</td><td></td><td style="padding:10px 0 0;text-align:right;color:#444;">${order.shippingCost ? money(order.shippingCost, order.currency) : 'Free'}</td></tr>
       ${order.tax ? `<tr><td style="padding:6px 0 0;color:#444;">Sales tax</td><td></td><td style="padding:6px 0 0;text-align:right;color:#444;">${money(order.tax, order.currency)}</td></tr>` : ''}
       <tr style="font-weight:700;font-size:15px;"><td style="padding:6px 0;">Total</td><td></td><td style="padding:6px 0;text-align:right;">${money(order.amount, order.currency)}</td></tr>
@@ -109,6 +110,26 @@ function shippingBlock(order) {
   const lines = [s.name, a.line1, a.line2, ...cityLine, a.country].filter(Boolean).join('<br>')
   return `<h3 style="font-size:15px;margin:26px 0 6px;color:#111;">Shipping address</h3>
     <p style="font-size:14px;color:#444;margin:0;line-height:1.55;">${lines}</p>`
+}
+
+// Reveal email for the signup "mystery gift". Plain wording, no em dashes.
+export function giftEmailHtml({ code, siteUrl = 'https://www.spongehydration.com' }) {
+  return `<div style="background:#f4f6f8;padding:24px 12px;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;">
+    <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e8edf2;border-radius:14px;overflow:hidden;">
+      <div style="text-align:center;padding:28px 24px 12px;">
+        <img src="${siteUrl}/media/logo/full.png" alt="Sponge Hydration" width="190" style="width:190px;max-width:70%;height:auto;" />
+      </div>
+      <div style="padding:8px 32px 32px;color:#111;line-height:1.55;text-align:center;">
+        <p style="font-size:15px;color:#444;margin:0 0 6px;">Thanks for joining the Sponge list. You were promised a mystery gift, so here it is.</p>
+        <h2 style="font-size:24px;margin:14px 0 6px;color:#111;">10% off your order</h2>
+        <p style="font-size:14px;color:#444;margin:0 0 18px;">Your personal code:</p>
+        <div style="display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:24px;font-weight:700;letter-spacing:.08em;background:#f0f7ff;border:2px dashed #0b6bcb;color:#0b6bcb;border-radius:10px;padding:14px 22px;">${code}</div>
+        <p style="font-size:14px;color:#444;margin:20px 0 0;">Enter it in the <strong>promotion code</strong> field at checkout. It works once, on one order.</p>
+        <div style="margin:24px 0 4px;"><a href="${siteUrl}/products" style="display:inline-block;background:#0b6bcb;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 28px;border-radius:8px;">Shop Sponge</a></div>
+        <p style="font-size:12px;color:#8a95a1;margin-top:26px;border-top:1px solid #eef1f4;padding-top:16px;">This code is single use and cannot be combined with other codes. Questions? Just reply to this email.</p>
+      </div>
+    </div>
+  </div>`
 }
 
 export function customerEmailHtml(order) {

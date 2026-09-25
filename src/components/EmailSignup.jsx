@@ -18,7 +18,7 @@ export default function EmailSignup({
   source,
   label = 'Email address',
   cta = 'Sign up',
-  done = 'Thanks — you’re on the list.',
+  done = 'Thanks, you’re on the list.',
   placeholder = 'you@example.com',
   variant = 'inline',
 }) {

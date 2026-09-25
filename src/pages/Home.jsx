@@ -609,21 +609,21 @@ export default function Home() {
       </section>
 
       {/* Email capture — most visitors read this far without buying. Recover them
-          into the batch list (early-bird) instead of losing them entirely. */}
+          into the list with a signup mystery gift instead of losing them entirely. */}
       <section className="section section--tint">
         <div className="container">
           <div className="home-capture">
-            <h2>Not ready to order? Get on the list.</h2>
+            <h2>Join the list, get a mystery gift</h2>
             <p>
-              We build in small batches. Leave your email and we’ll tell you when the next batch
-              opens — with early-bird pricing — plus one honest note a month on what the hydration
-              research actually says. No drip sequence, unsubscribe anytime.
+              Leave your email and we’ll send you a mystery gift right away. After that it’s one
+              honest email a month: when the next batch opens, and what the hydration research
+              actually says. Unsubscribe anytime.
             </p>
             <EmailSignup
               source="homepage"
               label="Email address"
-              cta="Notify me + early-bird pricing"
-              done="You’re on the list — we’ll email you when the next batch opens."
+              cta="Send my mystery gift"
+              done="You’re in. Check your inbox for your mystery gift."
             />
           </div>
         </div>

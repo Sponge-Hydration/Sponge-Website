@@ -73,16 +73,16 @@ export default function ExitIntentCapture() {
     >
       <div className="exit-intent__card">
         <button ref={closeRef} type="button" className="exit-intent__close" aria-label="Close" onClick={() => setOpen(false)}>×</button>
-        <h2 id="exit-intent-title">Before you go — get early-bird pricing</h2>
+        <h2 id="exit-intent-title">Before you go, grab a mystery gift</h2>
         <p>
-          We build in small batches. Join the list and we’ll email you when the next batch opens, at
-          a lower early-bird price. One email a month, unsubscribe anytime.
+          Join the Sponge list and we’ll email you a mystery gift right now. One email a month
+          after that, unsubscribe anytime.
         </p>
         <EmailSignup
           source="exit-intent"
           label="Email address"
-          cta="Send me early-bird access"
-          done="You’re on the list — we’ll email you when the next batch opens."
+          cta="Send my mystery gift"
+          done="You’re in. Check your inbox for your mystery gift."
         />
       </div>
     </div>

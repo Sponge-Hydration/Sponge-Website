@@ -88,8 +88,9 @@ async function handleCheckoutCompleted(session, env, request) {
     // quality, where it is hashed before it leaves us.
     phone: session.customer_details?.phone || null,
     amount: (session.amount_total || 0) / 100,
-    // Shipping and tax kept tax-exclusive / separate so the email math adds up:
-    // sum(item amounts) + shippingCost + tax === amount.
+    // Shipping, tax and any promotion-code discount kept separate so the email
+    // math adds up: sum(item amounts) - discount + shippingCost + tax === amount.
+    discount: (session.total_details?.amount_discount ?? 0) / 100,
     shippingCost: (session.total_details?.amount_shipping ?? session.shipping_cost?.amount_subtotal ?? 0) / 100,
     tax: (session.total_details?.amount_tax ?? 0) / 100,
     currency: session.currency,

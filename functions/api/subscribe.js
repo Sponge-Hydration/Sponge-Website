@@ -8,6 +8,8 @@
 // the order sheet uses. Optional SUBSCRIBER_TAB_NAME (default "Subscribers").
 
 import { sheetsConfigured, appendSubscriber } from './_sheets.js'
+import { giftConfigured, createGiftCode } from './_gift.js'
+import { gmailConfigured, sendGmail, giftEmailHtml } from './_integrations.js'
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -23,7 +25,19 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 // on this list is recorded as "site" rather than trusted into the sheet.
 const SOURCES = new Set(['footer', 'checkout', 'notify-coaster', 'notify-product', 'blog', 'homepage', 'exit-intent'])
 
-export async function onRequestPost({ request, env }) {
+// The signup "mystery gift": a single-use 10% code, created in Stripe and
+// emailed to the new subscriber.
+async function sendGift(env, email, siteUrl) {
+  const code = await createGiftCode(env, { email })
+  await sendGmail(env, {
+    to: email,
+    subject: 'Your mystery gift from Sponge is inside',
+    html: giftEmailHtml({ code, siteUrl }),
+  })
+}
+
+export async function onRequestPost(context) {
+  const { request, env } = context
   let body
   try {
     body = await request.json()
@@ -48,11 +62,26 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Signups are not configured.' }, 503)
   }
 
+  let result
   try {
-    await appendSubscriber(env, { email, source })
+    result = await appendSubscriber(env, { email, source })
   } catch (e) {
     console.warn('subscribe failed:', e?.message || e)
     return json({ error: 'Could not save that right now. Please try again.' }, 500)
+  }
+
+  // Mystery gift, only for genuinely NEW subscribers so re-signing up can't farm
+  // codes. Best effort: the signup is already saved, so a Stripe or Gmail
+  // failure is logged, never surfaced. Runs after the response when the runtime
+  // allows it, so the form doesn't wait on two extra API round trips.
+  if (result?.added && giftConfigured(env) && gmailConfigured(env)) {
+    let siteUrl
+    try { siteUrl = new URL(request.url).origin } catch { /* tests have no url */ }
+    const task = sendGift(env, email, siteUrl).catch((e) =>
+      console.warn('signup gift failed:', e?.message || e)
+    )
+    if (typeof context.waitUntil === 'function') context.waitUntil(task)
+    else await task
   }
 
   // Always the same response whether or not the address was already present,
