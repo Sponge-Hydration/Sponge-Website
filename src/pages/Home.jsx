@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { Eyebrow, SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
+import EmailSignup from '../components/EmailSignup'
+import ExitIntentCapture from '../components/ExitIntentCapture'
 import { useCart } from '../cart/CartContext'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
 // Imported rather than referenced from public/ so Vite emits them with a content
@@ -605,6 +607,29 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Email capture — most visitors read this far without buying. Recover them
+          into the batch list (early-bird) instead of losing them entirely. */}
+      <section className="section section--tint">
+        <div className="container">
+          <div className="home-capture">
+            <h2>Not ready to order? Get on the list.</h2>
+            <p>
+              We build in small batches. Leave your email and we’ll tell you when the next batch
+              opens — with early-bird pricing — plus one honest note a month on what the hydration
+              research actually says. No drip sequence, unsubscribe anytime.
+            </p>
+            <EmailSignup
+              source="homepage"
+              label="Email address"
+              cta="Notify me + early-bird pricing"
+              done="You’re on the list — we’ll email you when the next batch opens."
+            />
+          </div>
+        </div>
+      </section>
+
+      <ExitIntentCapture />
     </>
   )
 }

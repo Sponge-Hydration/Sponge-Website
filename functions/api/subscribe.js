@@ -21,7 +21,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 // Where the signup came from, so the list can be segmented later. Anything not
 // on this list is recorded as "site" rather than trusted into the sheet.
-const SOURCES = new Set(['footer', 'checkout', 'notify-coaster', 'notify-product', 'blog'])
+const SOURCES = new Set(['footer', 'checkout', 'notify-coaster', 'notify-product', 'blog', 'homepage', 'exit-intent'])
 
 export async function onRequestPost({ request, env }) {
   let body
