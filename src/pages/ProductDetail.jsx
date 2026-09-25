@@ -85,7 +85,7 @@ export default function ProductDetail() {
   return (
     <section className="section">
       <Seo
-        title={`${product.name} — ${usd(product.price)} | Sponge`}
+        title={`${product.name} · ${usd(product.price)} | Sponge`}
         description={`${product.short} ${product.ships}. ${seoTail}`}
         path={`/shop/p/${product.slug}`}
         ogType="product"
@@ -188,7 +188,7 @@ export default function ProductDetail() {
               <div className="pdp__colors">
                 <span className="pdp__colors-label" id="pdp-color-label">
                   Colour: <strong>{colorById(color)?.label}</strong>
-                  {clips > 1 && <span className="pdp__colors-note"> — change individual clips in the cart</span>}
+                  {clips > 1 && <span className="pdp__colors-note"> (change individual clips in the cart)</span>}
                 </span>
                 <div className="pdp__swatches" role="radiogroup" aria-labelledby="pdp-color-label">
                   {colorOptions.map((c) => (
@@ -221,7 +221,7 @@ export default function ProductDetail() {
                     source="notify-product"
                     label={`Email me when the ${product.name} is back`}
                     cta="Notify me"
-                    done="Thanks — we’ll email you when it’s back in stock."
+                    done="Thanks, we’ll email you when it’s back in stock."
                   />
                 </div>
               </div>
@@ -232,7 +232,7 @@ export default function ProductDetail() {
                   <span aria-live="polite">{qty}</span>
                   <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
                 </div>
-                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now — {usd(product.price * qty)}</button>
+                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now · {usd(product.price * qty)}</button>
                 <button className="btn btn--ghost btn--lg" onClick={addToCart}>
                   {added ? '✓ Added to cart' : 'Add to cart'}
                 </button>

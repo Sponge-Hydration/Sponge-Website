@@ -23,10 +23,10 @@ const PAGES = {
       { h: '1. Policies that are part of these Terms' },
       'The following policies are part of these Terms. If one of them conflicts with these Terms on the subject it covers, that policy controls for that subject.',
       { ul: [
-        'Privacy Policy — how we collect, use and share personal information.',
-        'Pre-Order Policy — how pre-orders are charged, produced, shipped and cancelled.',
-        'Return Policy — our 30-day money-back guarantee.',
-        'Warranty Policy — our 1-year limited warranty.',
+        'Privacy Policy: how we collect, use and share personal information.',
+        'Pre-Order Policy: how pre-orders are charged, produced, shipped and cancelled.',
+        'Return Policy: our 30-day money-back guarantee.',
+        'Warranty Policy: our 1-year limited warranty.',
       ] },
 
       { h: '2. Who can use Sponge, and your account' },
@@ -35,12 +35,12 @@ const PAGES = {
 
       { h: '3. Sponge is not medical advice' },
       'Sponge is a general wellness product. The Products and the App are designed to help you keep track of how much you drink and to build a habit. They are not medical devices. They have not been cleared or approved by the U.S. Food and Drug Administration, and they are not intended to diagnose, treat, cure, mitigate, monitor or prevent any disease or medical condition.',
-      'Nothing in the Services — including any daily goal the App recommends, any reminder or notification, and any article or other content on the Site — is medical advice or a substitute for the advice of a qualified health professional. Talk to your doctor before changing how much you drink, especially if you are pregnant or breastfeeding, are an older adult, or have (or care for someone who has) heart, kidney or liver disease, diabetes, a condition that affects fluid or sodium balance, or any condition for which a clinician has limited fluid intake.',
+      'Nothing in the Services (including any daily goal the App recommends, any reminder or notification, and any article or other content on the Site) is medical advice or a substitute for the advice of a qualified health professional. Talk to your doctor before changing how much you drink, especially if you are pregnant or breastfeeding, are an older adult, or have (or care for someone who has) heart, kidney or liver disease, diabetes, a condition that affects fluid or sodium balance, or any condition for which a clinician has limited fluid intake.',
       'Drinking too much water can be dangerous. Never drink more than is safe for you in order to reach a goal, unlock an app or keep a streak going. If you have symptoms of dehydration or overhydration, seek medical attention. In an emergency, call 911 or your local emergency number. The Services are not an emergency, alert or monitoring service.',
       { b: 'YOU ARE SOLELY RESPONSIBLE FOR YOUR HEALTH DECISIONS, AND YOU ASSUME ALL RISK ARISING FROM YOUR USE OF THE SERVICES AND PRODUCTS AND FROM ANY DECISION YOU MAKE BASED ON THEM.' },
 
       { h: '4. Measurements are estimates' },
-      'The Products estimate how much you drink from changes in weight and motion. Readings can be inaccurate, incomplete, delayed or missing — for example, if a bottle is set down on an uneven surface, is knocked or moved while it is being weighed, is used with a bottle or mount the Product does not suit, or if the Product loses power or its connection to your phone. We do not promise that any measurement, total, goal, streak or trend is accurate or complete, and you must not rely on one for any medical, safety or other critical purpose.',
+      'The Products estimate how much you drink from changes in weight and motion. Readings can be inaccurate, incomplete, delayed or missing, for example, if a bottle is set down on an uneven surface, is knocked or moved while it is being weighed, is used with a bottle or mount the Product does not suit, or if the Product loses power or its connection to your phone. We do not promise that any measurement, total, goal, streak or trend is accurate or complete, and you must not rely on one for any medical, safety or other critical purpose.',
 
       { h: '5. App Lock and features that restrict your phone' },
       'App Lock lets you choose apps that stay locked until you reach a goal you set. You decide which apps to lock and what unlocks them, and you use the feature at your own risk.',
@@ -52,10 +52,10 @@ const PAGES = {
       'Only invite people you want to see your information, and only track or view another person’s information with their permission, or the permission of someone legally entitled to give it for them.',
 
       { h: '7. Beta and in-development features and products' },
-      'We may offer features or products that are described as beta, preview, testing, coming soon or in development — for example, Apple Health sync, the shared caregiver view and the Sponge Dot. They are provided “as is”, may not work as described, may change or be discontinued at any time, and may never be released. A pre-order for a product in development is covered by the Pre-Order Policy, including your right to cancel for a full refund before it ships.',
+      'We may offer features or products that are described as beta, preview, testing, coming soon or in development (for example, Apple Health sync, the shared caregiver view and the Sponge Dot). They are provided “as is”, may not work as described, may change or be discontinued at any time, and may never be released. A pre-order for a product in development is covered by the Pre-Order Policy, including your right to cancel for a full refund before it ships.',
 
       { h: '8. Orders, pricing and payment' },
-      'When you place an order you are making an offer to buy. We may refuse, limit or cancel any order, or any part of one, at any time — including after we have charged you — for example because a product is unavailable, we suspect fraud or resale, or there was an error in the price or description. If we cancel, we refund what you paid for the cancelled items. We may limit quantities per person, household or order.',
+      'When you place an order you are making an offer to buy. We may refuse, limit or cancel any order, or any part of one, at any time (including after we have charged you), for example because a product is unavailable, we suspect fraud or resale, or there was an error in the price or description. If we cancel, we refund what you paid for the cancelled items. We may limit quantities per person, household or order.',
       'Prices are in U.S. dollars and may change at any time. If a price or product description on the Site is wrong, we may cancel the affected order even after confirming it. Shipping charges are shown before you pay, and you are responsible for any applicable sales tax.',
       'Sponge is currently sold as a pre-order. Pre-orders are charged when you order, do not carry a committed delivery date, and may be cancelled by you for a full refund at any time before your order ships, as the Pre-Order Policy explains.',
       'Payments are processed by Stripe. By placing an order, you authorize us and Stripe to charge your chosen payment method for the total shown. We do not receive or store your full card details.',
@@ -63,7 +63,7 @@ const PAGES = {
       'If you have a problem with a charge, please contact us first at team@spongehydration.com so we can put it right. If you dispute a valid charge with your bank, we may suspend your account and any open orders while the dispute is resolved.',
 
       { h: '9. Shipping, title and risk of loss' },
-      'We ship to addresses in the United States only. Any delivery date we give is an estimate, and pre-orders carry no committed date at all. Title to a Product, and the risk of its loss or damage, pass to you when we hand it to the carrier. If a shipment is lost or arrives damaged, contact us within 14 days of the date tracking shows it was delivered — or, if it never arrives, within 14 days of the date it was expected — and we will work with the carrier to resolve it.',
+      'We ship to addresses in the United States only. Any delivery date we give is an estimate, and pre-orders carry no committed date at all. Title to a Product, and the risk of its loss or damage, pass to you when we hand it to the carrier. If a shipment is lost or arrives damaged, contact us within 14 days of the date tracking shows it was delivered (or, if it never arrives, within 14 days of the date it was expected) and we will work with the carrier to resolve it.',
 
       { h: '10. Returns, refunds and warranty' },
       'Your 30-day money-back guarantee is set out in the Return Policy, and your 1-year limited warranty in the Warranty Policy. They are the only guarantees and warranties we give, and they are subject to Section 13.',
@@ -98,9 +98,9 @@ const PAGES = {
       'Some states do not allow limits on how long an implied warranty lasts, or the exclusion of certain damages, so some of the limits in Sections 13 and 14 may not apply to you. This gives you specific legal rights, and you may have other rights that vary from state to state.',
 
       { h: '14. Limitation of liability' },
-      { b: 'TO THE FULLEST EXTENT PERMITTED BY LAW, SPONGE AND ITS MEMBERS, MANAGERS, EMPLOYEES, CONTRACTORS, AGENTS, SUPPLIERS AND LICENSORS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY OR PUNITIVE DAMAGES; FOR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL OR USE; OR FOR ANY INJURY, ILLNESS OR LOSS ARISING FROM RELIANCE ON ANY MEASUREMENT, GOAL, REMINDER, NOTIFICATION, SHARED DATA OR APP LOCK — IN EACH CASE EVEN IF WE HAVE BEEN TOLD THAT SUCH DAMAGES ARE POSSIBLE.' },
+      { b: 'TO THE FULLEST EXTENT PERMITTED BY LAW, SPONGE AND ITS MEMBERS, MANAGERS, EMPLOYEES, CONTRACTORS, AGENTS, SUPPLIERS AND LICENSORS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY OR PUNITIVE DAMAGES; FOR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL OR USE; OR FOR ANY INJURY, ILLNESS OR LOSS ARISING FROM RELIANCE ON ANY MEASUREMENT, GOAL, REMINDER, NOTIFICATION, SHARED DATA OR APP LOCK, IN EACH CASE EVEN IF WE HAVE BEEN TOLD THAT SUCH DAMAGES ARE POSSIBLE.' },
       { b: 'TO THE FULLEST EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY FOR ALL CLAIMS RELATING TO THE SERVICES OR PRODUCTS, WHETHER IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, IS LIMITED TO THE GREATER OF (A) THE AMOUNT YOU PAID US FOR THE PRODUCT OR SERVICE THAT GAVE RISE TO THE CLAIM IN THE 12 MONTHS BEFORE THE CLAIM AROSE, AND (B) US $50.' },
-      'These limits apply even if a limited remedy fails of its essential purpose. They are a fundamental part of the bargain between us, and our prices would be higher without them. They do not limit any liability that cannot lawfully be limited — such as liability for fraud, for gross negligence or willful misconduct, or for death or personal injury caused by our negligence where the law does not allow it to be limited — and they do not reduce your rights under the Return Policy or the Warranty Policy.',
+      'These limits apply even if a limited remedy fails of its essential purpose. They are a fundamental part of the bargain between us, and our prices would be higher without them. They do not limit any liability that cannot lawfully be limited (such as liability for fraud, for gross negligence or willful misconduct, or for death or personal injury caused by our negligence where the law does not allow it to be limited) and they do not reduce your rights under the Return Policy or the Warranty Policy.',
 
       { h: '15. Indemnity' },
       'To the fullest extent permitted by law, you will defend, indemnify and hold harmless Sponge and its members, managers, employees, contractors and agents from and against any claims, losses, damages, liabilities, costs and expenses (including reasonable attorneys’ fees) arising out of (a) your misuse of the Services or Products, (b) your breach of these Terms or of any law, (c) any content you submit, or (d) your tracking, viewing or sharing of another person’s information. We may take control of the defense of any such matter, and you will cooperate with us.',
@@ -113,7 +113,7 @@ const PAGES = {
       { h: '17. Disputes: informal resolution, arbitration and class-action waiver' },
       { b: 'THIS SECTION AFFECTS YOUR LEGAL RIGHTS. PLEASE READ IT CAREFULLY.' },
       '(a) Try to resolve it informally first. Before starting an arbitration or court case, you and we each agree to try to resolve any dispute informally for at least 60 days after the other side receives a written notice describing it. Send your notice to team@spongehydration.com with “Legal Notice” in the subject line, including your name, contact details, any order number, a description of the dispute and the relief you want. We will send ours to the email address on your account or order. Any time limit for bringing the claim is paused during those 60 days.',
-      '(b) Agreement to arbitrate. You and Sponge agree that any dispute, claim or controversy arising out of or relating to these Terms, the Services, the Products, any purchase, or our relationship (a “Dispute”) will be resolved by final and binding arbitration on an individual basis, and not in court, except as set out in (c). This includes Disputes about the scope, validity or enforceability of this Section, which the arbitrator will decide — except that a court will decide Disputes about the class-action waiver in (e), the batch procedure in (f), and (g).',
+      '(b) Agreement to arbitrate. You and Sponge agree that any dispute, claim or controversy arising out of or relating to these Terms, the Services, the Products, any purchase, or our relationship (a “Dispute”) will be resolved by final and binding arbitration on an individual basis, and not in court, except as set out in (c). This includes Disputes about the scope, validity or enforceability of this Section, which the arbitrator will decide, except that a court will decide Disputes about the class-action waiver in (e), the batch procedure in (f), and (g).',
       '(c) Exceptions. Either of us may bring an individual claim in small claims court if it qualifies there and stays there. Either of us may also bring an individual action in court to stop infringement or misuse of intellectual property.',
       '(d) Rules and location. The arbitration will be administered by the American Arbitration Association (“AAA”) under its Consumer Arbitration Rules then in effect, as modified by this Section (available at adr.org), before a single arbitrator. If the AAA is unavailable, the parties will agree on another administrator, or a court will appoint one. Any hearing will take place in the county where you live, or, if you prefer, by video or on written submissions alone. Fees are governed by the AAA’s rules, which limit what a consumer pays. Each side bears its own attorneys’ fees unless the law or the arbitrator awards otherwise. The Federal Arbitration Act governs this Section, and judgment on the award may be entered in any court with jurisdiction.',
       { b: '(e) CLASS-ACTION AND JURY WAIVER. YOU AND SPONGE EACH AGREE TO BRING DISPUTES ONLY IN AN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, COLLECTIVE, CONSOLIDATED, PRIVATE ATTORNEY GENERAL OR REPRESENTATIVE PROCEEDING. THE ARBITRATOR MAY NOT CONSOLIDATE MORE THAN ONE PERSON’S CLAIMS, AND MAY AWARD RELIEF ONLY IN FAVOR OF THE INDIVIDUAL PARTY SEEKING IT AND ONLY TO THE EXTENT NEEDED TO RESOLVE THAT PARTY’S INDIVIDUAL CLAIM. YOU AND SPONGE EACH WAIVE THE RIGHT TO A TRIAL BY JURY.' },
@@ -131,11 +131,11 @@ const PAGES = {
 
       { h: '20. Third-party services and app stores' },
       'The Services rely on third parties, including Stripe for payments, Apple and Google for the App and phone features, and carriers for delivery, and they may link to or work with other services such as Apple Health. Those third parties’ own terms and privacy policies apply to your use of them. We are not responsible for their products, services, availability or content.',
-      'If you downloaded the App from Apple’s App Store: these Terms are between you and Sponge, not Apple, and Sponge — not Apple — is responsible for the App and its content. Your license is limited to using the App on Apple-branded products you own or control, as the App Store Terms of Service allow. Apple has no obligation to provide maintenance or support for the App. If the App fails to conform to any applicable warranty, you may notify Apple for a refund of the App’s purchase price (the App is free), and, to the maximum extent permitted by law, Apple has no other warranty obligation for it. Apple is not responsible for addressing any claim relating to the App or your use of it, including product liability claims, claims that the App fails to meet a legal or regulatory requirement, and claims under consumer protection or similar laws, nor for investigating, defending, settling or discharging any claim that the App infringes someone’s intellectual property. You confirm that you are not located in a country subject to a U.S. Government embargo or designated as a “terrorist supporting” country, and that you are not on any U.S. Government list of prohibited or restricted parties. You must comply with any third-party terms that apply when using the App. Apple and its subsidiaries are third-party beneficiaries of these Terms and may enforce them against you.',
+      'If you downloaded the App from Apple’s App Store: these Terms are between you and Sponge, not Apple, and Sponge (not Apple) is responsible for the App and its content. Your license is limited to using the App on Apple-branded products you own or control, as the App Store Terms of Service allow. Apple has no obligation to provide maintenance or support for the App. If the App fails to conform to any applicable warranty, you may notify Apple for a refund of the App’s purchase price (the App is free), and, to the maximum extent permitted by law, Apple has no other warranty obligation for it. Apple is not responsible for addressing any claim relating to the App or your use of it, including product liability claims, claims that the App fails to meet a legal or regulatory requirement, and claims under consumer protection or similar laws, nor for investigating, defending, settling or discharging any claim that the App infringes someone’s intellectual property. You confirm that you are not located in a country subject to a U.S. Government embargo or designated as a “terrorist supporting” country, and that you are not on any U.S. Government list of prohibited or restricted parties. You must comply with any third-party terms that apply when using the App. Apple and its subsidiaries are third-party beneficiaries of these Terms and may enforce them against you.',
       'If you downloaded the App from Google Play, Google Play’s terms also apply, and Google is not responsible for the App.',
 
       { h: '21. Intellectual property' },
-      'The Services and Products — including software, firmware, designs, text, graphics, photographs, video and the Sponge and Sponge Hydration names and logos — are owned by Sponge or its licensors and protected by intellectual property laws. Our Products may be covered by patents or pending patent applications. Except for the limited license in Section 12, these Terms give you no right in any of them.',
+      'The Services and Products (including software, firmware, designs, text, graphics, photographs, video and the Sponge and Sponge Hydration names and logos) are owned by Sponge or its licensors and protected by intellectual property laws. Our Products may be covered by patents or pending patent applications. Except for the limited license in Section 12, these Terms give you no right in any of them.',
       'If you believe something on the Services infringes your copyright, email team@spongehydration.com with a description of the work, where it appears on the Services, your contact details, a statement that you believe in good faith the use is not authorized, a statement under penalty of perjury that your notice is accurate and that you are the owner or authorized to act for the owner, and your physical or electronic signature.',
 
       { h: '22. Changes to the Services and to these Terms' },
@@ -150,7 +150,7 @@ const PAGES = {
       'Notice to California residents: under California Civil Code Section 1789.3, you may contact the Complaint Assistance Unit of the Division of Consumer Services of the California Department of Consumer Affairs in writing at 1625 North Market Blvd., Suite N 112, Sacramento, CA 95834, or by telephone at (916) 445-1254 or (800) 952-5210.',
 
       { h: '25. Contact us' },
-      'Sponge Hydration LLC — team@spongehydration.com. Formal legal notices to us must be sent to that address with “Legal Notice” in the subject line. If you need a postal address for a formal notice, ask and we will provide it.',
+      'Sponge Hydration LLC: team@spongehydration.com. Formal legal notices to us must be sent to that address with “Legal Notice” in the subject line. If you need a postal address for a formal notice, ask and we will provide it.',
     ],
   },
   privacy: {
@@ -160,20 +160,20 @@ const PAGES = {
       'This policy explains what Sponge Hydration LLC collects, why, who we hand it to, and what you can tell us to stop. It covers spongehydration.com and the Sponge mobile app. We have written it in plain English on purpose.',
 
       { h: 'The short version' },
-      'We collect what we need to sell you a device, ship it, support it, and run the app. We do not sell your personal information for money. We do allow advertising companies to see some of your activity on this site — but only if you agree, and California law calls that "sharing". You can switch it off at the bottom of this page, from the "Do Not Sell or Share My Personal Information" link in our footer, or by turning on Global Privacy Control in your browser. We honour that signal automatically.',
+      'We collect what we need to sell you a device, ship it, support it, and run the app. We do not sell your personal information for money. We do allow advertising companies to see some of your activity on this site, but only if you agree, and California law calls that "sharing". You can switch it off at the bottom of this page, from the "Do Not Sell or Share My Personal Information" link in our footer, or by turning on Global Privacy Control in your browser. We honour that signal automatically.',
 
       { h: 'What we collect, and where it comes from' },
       'Directly from you, when you give it to us:',
       { ul: [
-        'Order details — name, email, shipping address, and what you bought. Your card details go straight to Stripe; we never see or store them.',
-        'Contact form — your name, email, chosen topic, and message.',
-        'Reviews — your rating, written feedback, what you use Sponge for, how you heard about us, an optional recommendation score, and an optional email address so we can follow up. Emails submitted with a review are never published.',
-        'App account and hydration data — your account details and the sip and intake readings your device records.',
+        'Order details: name, email, shipping address, and what you bought. Your card details go straight to Stripe; we never see or store them.',
+        'Contact form: your name, email, chosen topic, and message.',
+        'Reviews: your rating, written feedback, what you use Sponge for, how you heard about us, an optional recommendation score, and an optional email address so we can follow up. Emails submitted with a review are never published.',
+        'App account and hydration data: your account details and the sip and intake readings your device records.',
       ] },
       'Automatically, when you use the site:',
       { ul: [
         'Basic request data such as IP address and browser type, handled by Cloudflare as our host and security layer.',
-        'Page-view measurement from Cloudflare Web Analytics. For each page load it records the page address, the referring address, the navigation type, and load-speed timings, together with a randomly generated identifier for that single page load and a token identifying this website. It sets no cookies, does not fingerprint your device, and does not link page loads together or follow you to other sites. We are being specific because this is measurement rather than strictly necessary infrastructure, and — unlike everything below — it currently runs before you make a choice. It is switched on at our hosting account rather than in the site itself, so the controls on this page cannot yet turn it off.',
+        'Page-view measurement from Cloudflare Web Analytics. For each page load it records the page address, the referring address, the navigation type, and load-speed timings, together with a randomly generated identifier for that single page load and a token identifying this website. It sets no cookies, does not fingerprint your device, and does not link page loads together or follow you to other sites. We are being specific because this is measurement rather than strictly necessary infrastructure, and (unlike everything below) it currently runs before you make a choice. It is switched on at our hosting account rather than in the site itself, so the controls on this page cannot yet turn it off.',
         'If, and only if, you allow it: analytics and advertising identifiers stored as cookies in your browser by the companies named below. Nothing in that group loads before you choose, and declining means no request is made to them at all.',
       ] },
 
@@ -188,15 +188,15 @@ const PAGES = {
       ] },
 
       { h: 'Who we give it to' },
-      'We use a small number of service providers, and only for the jobs listed here. We do not give your information to anyone else except where the law requires it, or if the business is sold — in which case this policy travels with it.',
+      'We use a small number of service providers, and only for the jobs listed here. We do not give your information to anyone else except where the law requires it, or if the business is sold, in which case this policy travels with it.',
       { ul: [
-        'Stripe — payment processing and hosted checkout. Stripe collects your card and billing details directly and is responsible for them.',
-        'Cloudflare — website hosting, content delivery, security, and the cookieless page-view measurement described above.',
-        'Google — Gmail, to send your order confirmation and to deliver contact-form messages to our team, and Google Sheets, where our order records and email-list signups are kept. The site’s typefaces are served from our own domain, so no font provider sees your visit.',
-        'Airtable — where submitted product reviews are stored.',
-        'Google Analytics — site usage measurement. Only if you allow analytics.',
-        'Microsoft Clarity — anonymised session replay and heatmaps that show how pages are used so we can improve them. It masks the text you type and the contents of form fields, so it does not capture what you enter. Only if you allow analytics.',
-        'Meta (Facebook and Instagram) and TikTok — advertising measurement and targeting, both in your browser and, after a completed order, from our own server. Only if you allow advertising.',
+        'Stripe: payment processing and hosted checkout. Stripe collects your card and billing details directly and is responsible for them.',
+        'Cloudflare: website hosting, content delivery, security, and the cookieless page-view measurement described above.',
+        'Google: Gmail, to send your order confirmation and to deliver contact-form messages to our team, and Google Sheets, where our order records and email-list signups are kept. The site’s typefaces are served from our own domain, so no font provider sees your visit.',
+        'Airtable: where submitted product reviews are stored.',
+        'Google Analytics: site usage measurement. Only if you allow analytics.',
+        'Microsoft Clarity: anonymised session replay and heatmaps that show how pages are used so we can improve them. It masks the text you type and the contents of form fields, so it does not capture what you enter. Only if you allow analytics.',
+        'Meta (Facebook and Instagram) and TikTok: advertising measurement and targeting, both in your browser and, after a completed order, from our own server. Only if you allow advertising.',
       ] },
 
       { h: 'Selling versus sharing' },
@@ -215,15 +215,15 @@ const PAGES = {
 
       { h: 'How long we keep it' },
       { ul: [
-        'Order records — kept while we are still responsible for the order and for as long as tax, accounting, and warranty obligations require.',
-        'Contact messages — kept as long as needed to resolve your question and keep a record of support history.',
-        'Reviews — kept until you ask us to remove yours.',
-        'App account and hydration data — kept while your account is open, and deleted when you close it or ask us to.',
-        'Analytics and advertising data — retained by Google, Microsoft, Meta, and TikTok under their own policies once shared. Ask us and we will tell you what we hold on our side.',
+        'Order records: kept while we are still responsible for the order and for as long as tax, accounting, and warranty obligations require.',
+        'Contact messages: kept as long as needed to resolve your question and keep a record of support history.',
+        'Reviews: kept until you ask us to remove yours.',
+        'App account and hydration data: kept while your account is open, and deleted when you close it or ask us to.',
+        'Analytics and advertising data: retained by Google, Microsoft, Meta, and TikTok under their own policies once shared. Ask us and we will tell you what we hold on our side.',
       ] },
 
       { h: 'How we protect it' },
-      'The site is served over HTTPS. Payment card details never reach our servers. Access to order records and support mailboxes is limited to the people who need it. Our service providers are bound by their own agreements with us. No system is perfectly secure, and we will not claim otherwise — if a breach affects you, we will tell you as required by law.',
+      'The site is served over HTTPS. Payment card details never reach our servers. Access to order records and support mailboxes is limited to the people who need it. Our service providers are bound by their own agreements with us. No system is perfectly secure, and we will not claim otherwise. If a breach affects you, we will tell you as required by law.',
 
       { h: 'Your rights' },
       'If you are a California resident, you have the right to:',
@@ -232,11 +232,11 @@ const PAGES = {
         'Access a copy of it.',
         'Correct anything that is wrong.',
         'Delete it, subject to the records we are legally required to keep.',
-        'Opt out of sharing for cross-context behavioural advertising — the control is on this page and in the footer of every page.',
+        'Opt out of sharing for cross-context behavioural advertising. The control is on this page and in the footer of every page.',
         'Not be discriminated against for exercising any of these rights. Our prices and service do not change because you opted out.',
       ] },
       'We do not use or disclose sensitive personal information for purposes that require a separate right to limit it.',
-      'You do not have to have an account to make a request. Email team@spongehydration.com with the words "privacy request" and tell us what you want. We will confirm receipt within 10 business days and respond within 45 calendar days, extending once by a further 45 days if we need longer and telling you why. To protect you, we will ask you to confirm details we already hold before we act — for an order, that usually means the email address you ordered with. An authorised agent may act for you if you give them written permission and we can verify it.',
+      'You do not have to have an account to make a request. Email team@spongehydration.com with the words "privacy request" and tell us what you want. We will confirm receipt within 10 business days and respond within 45 calendar days, extending once by a further 45 days if we need longer and telling you why. To protect you, we will ask you to confirm details we already hold before we act. For an order, that usually means the email address you ordered with. An authorised agent may act for you if you give them written permission and we can verify it.',
       'You can also exercise the advertising opt-out yourself, immediately and without contacting us, using the controls below.',
 
       { h: 'Children' },
@@ -246,7 +246,7 @@ const PAGES = {
       'If we change how we handle your information, we will update this page and change the "last updated" date at the top. Material changes to advertising or sharing will also reset your saved privacy choices, so you get asked again rather than being carried over silently.',
 
       { h: 'How to contact us' },
-      'Sponge Hydration LLC — email team@spongehydration.com and we will reply within one business day. If you need a postal address for a formal privacy request, ask and we will provide it.',
+      'Sponge Hydration LLC: email team@spongehydration.com and we will reply within one business day. If you need a postal address for a formal privacy request, ask and we will provide it.',
     ],
   },
   'pre-order': {
@@ -254,7 +254,7 @@ const PAGES = {
     updated: 'August 2026',
     body: [
       'Sponge is currently sold as a pre-order. We manufacture in production batches, and a batch is built once enough pre-orders are reserved to fill one. Because of that, we do not commit to a delivery date when you order. We would rather tell you that plainly than give you a date we cannot stand behind.',
-      'Your card is charged when you place a pre-order. Pre-order payments are what fund the production run your device comes from. In exchange, the price you pay is locked — if our pricing changes before your batch ships, you still pay what you paid on the day you ordered.',
+      'Your card is charged when you place a pre-order. Pre-order payments are what fund the production run your device comes from. In exchange, the price you pay is locked: if our pricing changes before your batch ships, you still pay what you paid on the day you ordered.',
       'You may cancel a pre-order at any time before it ships, for any reason, and receive a full refund to your original payment method. Email team@spongehydration.com with your order number. Refunds are issued within 7 business days of your request.',
       'We will email you when your batch enters production, and again with tracking when your device ships. If we decide not to produce a batch you have reserved, we will cancel your order and refund you in full without you needing to ask.',
       'Hardware specifications, colour, finish, and packaging may change in minor ways between pre-order and production. If we make a change that materially reduces what the device does, we will tell you before it ships and you may cancel for a full refund.',
@@ -268,7 +268,7 @@ const PAGES = {
       'Every Sponge comes with a 30-day money-back guarantee. If you’re not happy, contact us within 30 days of delivery for a full refund.',
       'To start a return, email team@spongehydration.com with your order number. We’ll send a prepaid label for items being returned within the U.S.',
       'Refunds are issued to your original payment method once the device is received and inspected.',
-      'This guarantee applies from the date your device is delivered. If you have placed a pre-order that has not shipped yet, you are not waiting on this policy — you can cancel outright for a full refund at any time. See our Pre-Order Policy.',
+      'This guarantee applies from the date your device is delivered. If you have placed a pre-order that has not shipped yet, you are not waiting on this policy: you can cancel outright for a full refund at any time. See our Pre-Order Policy.',
     ],
   },
   warranty: {

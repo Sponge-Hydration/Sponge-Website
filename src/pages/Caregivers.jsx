@@ -23,7 +23,7 @@ export default function Caregivers() {
           fontWeight: 600,
         }}
       >
-        🚧 This page is under construction — the caregiver program isn’t live yet, so details may
+        🚧 This page is under construction. The caregiver program isn’t live yet, so details may
         change. Feel free to read on, and{' '}
         <Link to="/contact" style={{ color: '#9a3412', textDecoration: 'underline' }}>
           contact us
@@ -35,7 +35,7 @@ export default function Caregivers() {
           <span className="eyebrow">For caregivers</span>
           <h1>Peace of mind that your loved one is drinking enough</h1>
           <p className="hero__sub">
-            Not drinking enough is common in older adults and easy to miss — and older people who
+            Not drinking enough is common in older adults and easy to miss, and older people who
             arrive in hospital dehydrated do measurably worse than those who don’t.<sup><a href="#src-1">1</a></sup>{' '}
             Sponge lets you see a loved one’s intake from your own phone, without asking them to
             learn an app or log a thing.
@@ -64,7 +64,7 @@ export default function Caregivers() {
           </SectionHead>
           <div className="features">
             <article className="feature"><div className="feature__icon" aria-hidden="true"><EyeIcon size={30} /></div><h3>Remote visibility</h3><p>See your loved one’s daily intake from your own phone, wherever you are. No need to call and ask.</p></article>
-            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Behind-goal alerts</h3><p>Get notified when they’re behind the daily goal they set, so you can check in. It tracks drinking, not health — it won’t tell you anything clinical.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Behind-goal alerts</h3><p>Get notified when they’re behind the daily goal they set, so you can check in. It tracks drinking, not health. It won’t tell you anything clinical.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><SparklesIcon size={30} /></div><h3>Zero learning curve</h3><p>They just drink from their usual bottle. Nothing to set up, charge daily, or remember.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><UsersIcon size={30} /></div><h3>Shared family dashboard</h3><p>Multiple family members can follow along and split the caregiving load.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><TrendingUpIcon size={30} /></div><h3>Trends over time</h3><p>Spot patterns, like dips on hot days, and share clear data with their doctor.</p></article>
@@ -82,7 +82,7 @@ export default function Caregivers() {
             Four trackers, one for each bottle in the house. The shared caregiver view, so the whole
             family can follow along, is in development.
           </p>
-          <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack — $199.99</Link>
+          <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack · $199.99</Link>
         </div>
       </section>
 
@@ -98,7 +98,7 @@ export default function Caregivers() {
               . In that cohort dehydration was present in 8.9% of older emergency admissions and was
               the primary cause in 0.6%; 30-day mortality was 17% among those admitted with
               dehydration against 7% without. We cite it for the outcome gap, not to claim
-              dehydration is a leading cause of admission — it isn’t.
+              dehydration is a leading cause of admission. It isn’t.
             </li>
           </ol>
         </div>

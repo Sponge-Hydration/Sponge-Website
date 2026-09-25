@@ -136,8 +136,8 @@ function reportHtml(propertyId, report) {
   const { steps, top } = report
   const rows = steps
     .map((s) => {
-      const pctPrev = s.pctPrev == null ? '—' : `${s.pctPrev.toFixed(1)}%`
-      const pctTop = top === 0 ? '—' : `${((s.users / top) * 100).toFixed(1)}%`
+      const pctPrev = s.pctPrev == null ? '-' : `${s.pctPrev.toFixed(1)}%`
+      const pctTop = top === 0 ? '-' : `${((s.users / top) * 100).toFixed(1)}%`
       return `<tr>
         <td style="padding:8px 12px;border-bottom:1px solid #eee">${STEP_LABELS[s.step]}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:700">${s.users}</td>
@@ -151,10 +151,10 @@ function reportHtml(propertyId, report) {
     top === 0
       ? `<p style="color:#9a3412;background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;border-radius:8px">No web funnel data in this window yet. If the property was set up recently, give it a few days of traffic.</p>`
       : drop
-      ? `<p style="font-size:15px"><strong>Biggest drop-off:</strong> ${drop.from} → ${drop.to} — lost <strong>${drop.lostPct.toFixed(1)}%</strong> (${drop.dropUsers} users).</p>`
+      ? `<p style="font-size:15px"><strong>Biggest drop-off:</strong> ${drop.from} → ${drop.to}, lost <strong>${drop.lostPct.toFixed(1)}%</strong> (${drop.dropUsers} users).</p>`
       : ''
   return `<div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:560px;margin:0 auto;color:#111">
-    <h2 style="margin:0 0 4px">Weekly funnel — Sponge Hydration</h2>
+    <h2 style="margin:0 0 4px">Weekly funnel: Sponge Hydration</h2>
     <p style="color:#666;margin:0 0 16px;font-size:13px">Last 7 days · web only · GA4 property ${propertyId}</p>
     ${insight}
     <table style="border-collapse:collapse;width:100%;font-size:14px;margin-top:10px">
@@ -191,7 +191,7 @@ export async function onRequest(context) {
     const html = reportHtml(propertyId, report)
     const dryRun = url.searchParams.get('dry') === '1'
     if (!dryRun) {
-      await sendGmail(env, { to, subject: 'Weekly funnel — Sponge Hydration', html })
+      await sendGmail(env, { to, subject: 'Weekly funnel: Sponge Hydration', html })
     }
     return json({ ok: true, emailed: !dryRun, to, propertyId, steps: report.steps })
   } catch (e) {

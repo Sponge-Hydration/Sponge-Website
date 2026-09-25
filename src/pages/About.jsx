@@ -35,7 +35,7 @@ export default function About() {
             Most people know they should drink more water and don’t, and every fix on the market
             still relies on willpower to close that gap. We set out to build a hydration tracker
             that removes the friction entirely: no logging, no new bottle, no nagging you can tune
-            out — and, when you want it, a consequence you can’t argue with.
+            out, and, when you want it, a consequence you can’t argue with.
           </p>
           <h3>Built around the bottle you already love</h3>
           <p>

@@ -175,7 +175,7 @@ export default function Checkout() {
                   cta="Keep me posted"
                   placeholder="you@example.com"
                   variant="stacked"
-                  done="Thanks — we’ll email you when your batch enters production."
+                  done="Thanks, we’ll email you when your batch enters production."
                 />
               </div>
             </fieldset>

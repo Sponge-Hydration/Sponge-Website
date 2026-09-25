@@ -115,7 +115,7 @@ export default function PrivacyControls() {
               </p>
               {consent.gpc && (
                 <p className="privacy-banner__gpc">
-                  Global Privacy Control detected — advertising sharing is already off.
+                  Global Privacy Control detected. Advertising sharing is already off.
                 </p>
               )}
             </div>
@@ -218,7 +218,7 @@ export default function PrivacyControls() {
                 {consent.gpc && (
                   <p className="privacy-opt__gpc" id="opt-advertising-gpc">
                     Locked off because your browser is sending a Global Privacy Control signal.
-                    We honour that automatically — turn the signal off in your browser or
+                    We honour that automatically. Turn the signal off in your browser or
                     extension if you want this choice back.
                   </p>
                 )}

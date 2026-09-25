@@ -20,9 +20,9 @@ const features = [
   { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.', to: '/how-it-works', more: 'See how it measures' },
   { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.', to: '/how-it-works#tutorials', more: 'Watch it attach' },
   { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.', to: '/how-it-works#faq-battery', more: 'Battery and charging' },
-  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends — and an iPhone home-screen widget, so most days you never open the app at all.', to: '#on-your-phone', more: 'See the app' },
+  { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends, and an iPhone home-screen widget, so most days you never open the app at all.', to: '#on-your-phone', more: 'See the app' },
   { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.', to: '#locks', more: 'How Hydration Locks work' },
-  { icon: HeartIcon, title: 'Apple Health sync — next update', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.', to: '/how-it-works#faq-apple-health', more: 'Apple Health status' },
+  { icon: HeartIcon, title: 'Apple Health sync (next update)', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.', to: '/how-it-works#faq-apple-health', more: 'Apple Health status' },
 ]
 
 // The three how-it-works cards each play a short, silent clip of their step.
@@ -283,7 +283,7 @@ export default function Home() {
           <p>
             That’s the problem. Reminders get swiped away. Tracking apps get abandoned in a week.
             Smart bottles start around $80 and ask you to give up the bottle you actually like.
-            Knowing was never the missing piece — consequences were. Sponge is $59.99, clips onto
+            Knowing was never the missing piece. Consequences were. Sponge is $59.99, clips onto
             the bottle you already own, and locks the apps you choose until you’ve caught up.
           </p>
           <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
@@ -352,7 +352,7 @@ export default function Home() {
             </h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: 18, margin: '0 0 8px' }}>
               Pick the apps you lose hours to. Sponge locks them, and they open when the water is
-              actually gone — not when you promise it will be, and not when you tap “ignore”.
+              actually gone, not when you promise it will be, and not when you tap “ignore”.
               Every other hydration tracker hands you a number. This one does something with it.
             </p>
             <ul className="checklist">
@@ -364,7 +364,7 @@ export default function Home() {
               Brutal? A little. It is also the part that is hard to ignore.
             </p>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now — $59.99</button>
+              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now · $59.99</button>
             </div>
             <div className="app-badges">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
@@ -414,7 +414,7 @@ export default function Home() {
                 alt="A phone lock screen reading Social Apps Locked, with Instagram, TikTok, Snapchat and Facebook padlocked and 22 oz remaining to unlock"
               />
               <figcaption>
-                <strong>And a lock screen that means it.</strong> 42 of 64 oz down, 22 to go —
+                <strong>And a lock screen that means it.</strong> 42 of 64 oz down, 22 to go,
                 and Instagram stays shut until they are.
               </figcaption>
             </figure>
@@ -473,7 +473,7 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
-            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now — $59.99</button>
+            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · $59.99</button>
             <p className="cta-band__note">
               $59.99 + shipping &amp; tax · Cancel any time before it ships · 30 days to change
               your mind once it arrives, and we pay return shipping
@@ -518,15 +518,15 @@ export default function Home() {
                 <tr>
                   <th scope="row">Keep the bottle you own</th>
                   <td className="yes">Yes</td>
-                  <td className="no">No — it replaces it</td>
+                  <td className="no">No, it replaces it</td>
                   <td className="yes">Yes</td>
                   <td className="compare__us yes">Yes</td>
                 </tr>
                 <tr>
                   <th scope="row">Measures what you actually drink</th>
-                  <td className="no">No — you log it by hand</td>
+                  <td className="no">No, you log it by hand</td>
                   <td className="yes">Yes</td>
-                  <td className="no">No — it only reminds you</td>
+                  <td className="no">No, it only reminds you</td>
                   <td className="compare__us yes">Yes, automatically</td>
                 </tr>
                 <tr>
@@ -575,7 +575,7 @@ export default function Home() {
             <article className="objection">
               <h3>“I’ll stop using it after a month.”</h3>
               <p>
-                Most people do — that’s the entire problem with hydration tracking, and it’s the
+                Most people do. That’s the entire problem with hydration tracking, and it’s the
                 reason App Lock exists. A number you can ignore gets ignored. Apps you can’t open
                 until you drink do not.
               </p>
@@ -585,7 +585,7 @@ export default function Home() {
               <p>
                 Because a reminder clip blinks at you. Sponge measures the water, syncs it, and
                 acts on it. If a blinking light is enough for you, genuinely buy the cheaper
-                thing — it works for some people.
+                thing. It works for some people.
               </p>
             </article>
             <article className="objection">

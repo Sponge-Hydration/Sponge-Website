@@ -33,7 +33,7 @@ const TOPICS = [
   },
   {
     title: 'Make a warranty claim',
-    text: 'Every Sponge has a 1-year limited warranty against manufacturing defects from the date of delivery. If yours stops working because of a defect, email us with your order number and a short description — a photo or video of the problem helps — and we will repair or replace it at no cost.',
+    text: 'Every Sponge has a 1-year limited warranty against manufacturing defects from the date of delivery. If yours stops working because of a defect, email us with your order number and a short description (a photo or video of the problem helps) and we will repair or replace it at no cost.',
     links: [{ to: '/legal/warranty', label: 'Warranty Policy' }],
   },
   {
