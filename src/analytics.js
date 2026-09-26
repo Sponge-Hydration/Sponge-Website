@@ -29,13 +29,15 @@ const GA4_ID = import.meta.env.VITE_GA4_ID || ''
 const CLARITY_ID = import.meta.env.VITE_CLARITY_ID || ''
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID || ''
 const TIKTOK_PIXEL_ID = import.meta.env.VITE_TIKTOK_PIXEL_ID || ''
+// Metricool web stats (public hash, like the pixel IDs above).
+const METRICOOL_HASH = import.meta.env.VITE_METRICOOL_HASH || ''
 
-export const analyticsConfigured = Boolean(GA4_ID || CLARITY_ID || META_PIXEL_ID || TIKTOK_PIXEL_ID)
+export const analyticsConfigured = Boolean(GA4_ID || CLARITY_ID || METRICOOL_HASH || META_PIXEL_ID || TIKTOK_PIXEL_ID)
 
-// Which tags have actually had their scripts injected this page load. GA4 and
-// Clarity both sit in the `analytics` category but are separate scripts, so
-// they get separate idempotency flags.
-const loaded = { analytics: false, clarity: false, advertising: false }
+// Which tags have actually had their scripts injected this page load. GA4,
+// Clarity and Metricool all sit in the `analytics` category but are separate
+// scripts, so they get separate idempotency flags.
+const loaded = { analytics: false, clarity: false, metricool: false, advertising: false }
 
 function injectScript(src) {
   const s = document.createElement('script')
@@ -102,6 +104,19 @@ function loadClarity() {
   window.clarity('consent')
 }
 
+// Metricool (website stats for the social dashboard). `analytics` category.
+// Replaces Metricool's stock snippet, which loads for everyone unconditionally.
+// The load itself records the landing page; later SPA navigations are recorded
+// from trackPageView once beTracker exists.
+function loadMetricool() {
+  if (loaded.metricool || !METRICOOL_HASH) return
+  loaded.metricool = true
+  const s = injectScript('https://tracker.metricool.com/resources/be.js')
+  s.onload = () => {
+    if (window.beTracker) window.beTracker.t({ hash: METRICOOL_HASH })
+  }
+}
+
 function loadAdTags() {
   if (loaded.advertising) return
   loaded.advertising = true
@@ -164,6 +179,7 @@ export function initAnalytics() {
   if (c.analytics) {
     loadGa4()
     loadClarity()
+    loadMetricool()
   }
   if (c.advertising) loadAdTags()
 }
@@ -175,6 +191,8 @@ export function trackPageView(path) {
   if (c.analytics && GA4_ID && window.gtag) {
     window.gtag('event', 'page_view', { page_path: path, page_location: window.location.href })
   }
+  // Only once the script has loaded; its onload already counted the landing page.
+  if (c.analytics && METRICOOL_HASH && window.beTracker) window.beTracker.t({ hash: METRICOOL_HASH })
   if (c.advertising) {
     if (META_PIXEL_ID && window.fbq) window.fbq('track', 'PageView')
     if (TIKTOK_PIXEL_ID && window.ttq) window.ttq.page()

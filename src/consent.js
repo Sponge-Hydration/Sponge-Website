@@ -6,7 +6,7 @@
 //                 Stripe checkout redirect, Cloudflare's CDN/security layer and
 //                 its cookieless Web Analytics beacon. Without these the store
 //                 does not function, so they are not consent-gated.
-//   analytics   - Google Analytics 4 and Microsoft Clarity (session replay +
+//   analytics   - Google Analytics 4, Metricool, and Microsoft Clarity (session replay +
 //                 heatmaps). Off until the visitor says otherwise.
 //   advertising - Meta Pixel, TikTok Pixel, and the server-side Meta
 //                 Conversions API. This is the category that constitutes

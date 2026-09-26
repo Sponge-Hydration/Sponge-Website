@@ -11,10 +11,11 @@ async function loadAnalytics() {
   vi.stubEnv('VITE_CLARITY_ID', 'testclarity')
   vi.stubEnv('VITE_META_PIXEL_ID', '000000000000001')
   vi.stubEnv('VITE_TIKTOK_PIXEL_ID', 'TESTTIKTOK0001')
+  vi.stubEnv("VITE_METRICOOL_HASH", "testmetricool")
   return import('../src/analytics.js')
 }
 const srcs = () => [...document.querySelectorAll('script[src]')].map((s) => s.src)
-const anyTracker = () => srcs().some((s) => /googletagmanager|clarity\.ms|facebook|tiktok/.test(s))
+const anyTracker = () => srcs().some((s) => /googletagmanager|clarity\.ms|metricool|facebook|tiktok/.test(s))
 const visit = (qs) => window.history.replaceState({}, '', `/${qs}`)
 
 beforeEach(() => {
