@@ -28,25 +28,33 @@ export function giftConfigured(env) {
   return Boolean(env.STRIPE_SECRET_KEY && env.SIGNUP_COUPON_ID)
 }
 
-export function randomCode(len = 8) {
+export function randomCode(len = 8, prefix = 'GIFT') {
   const bytes = new Uint8Array(len)
   crypto.getRandomValues(bytes)
   let s = ''
   for (const b of bytes) s += ALPHABET[b % ALPHABET.length]
-  return `GIFT-${s}`
+  return `${prefix}-${s}`
 }
 
 // Creates one single-use promotion code and returns its customer-facing code.
 // Retries once on a code collision (32^8 space, so this is belt and braces).
-export async function createGiftCode(env, { email } = {}) {
+// Options (all optional; defaults are the signup gift):
+//   coupon    - coupon id (default SIGNUP_COUPON_ID)
+//   prefix    - code prefix (default "GIFT")
+//   source    - metadata[source] (default "email-signup-gift")
+//   expiresAt - unix seconds after which Stripe rejects the code
+//   metadata  - extra metadata fields
+export async function createGiftCode(env, { email, coupon, prefix, source, expiresAt, metadata } = {}) {
   let lastError = 'unknown error'
   for (let attempt = 0; attempt < 2; attempt++) {
-    const code = randomCode()
+    const code = randomCode(8, prefix || 'GIFT')
     const form = new URLSearchParams()
-    form.set('coupon', env.SIGNUP_COUPON_ID)
+    form.set('coupon', coupon || env.SIGNUP_COUPON_ID)
     form.set('code', code)
     form.set('max_redemptions', '1')
-    form.set('metadata[source]', 'email-signup-gift')
+    form.set('metadata[source]', source || 'email-signup-gift')
+    if (expiresAt) form.set('expires_at', String(expiresAt))
+    for (const [k, v] of Object.entries(metadata || {})) form.set(`metadata[${k}]`, String(v))
     // Lets support look up "I lost my code" in the Stripe dashboard.
     if (email) form.set('metadata[email]', email)
 

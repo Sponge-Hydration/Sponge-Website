@@ -7,7 +7,7 @@
 // Requires the STRIPE_SECRET_KEY environment variable (set in the Cloudflare
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
-import { TERMS_VERSION, isTermsSetupError, termsCheckboxParams } from './_checkout-terms.js'
+import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams, termsCheckboxParams } from './_checkout-terms.js'
 
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
 // The 2-Pack is retired and the Coaster is sold out - neither is purchasable.
@@ -201,21 +201,33 @@ export async function onRequestPost({ request, env }) {
   // the dashboard's terms URL is missing, retry once without it: the buyer
   // still sees the agreement notice on /checkout, and the warning in the logs
   // says what to fix. Any other Stripe error is returned as before.
-  const withTerms = new URLSearchParams(params)
-  for (const [k, v] of Object.entries(termsCheckboxParams(origin))) withTerms.set(k, v)
+  // Cart recovery settings are added the same way: if Stripe ever refuses
+  // them, checkout retries without them rather than failing.
+  const build = (terms, recovery) => {
+    const form = new URLSearchParams(params)
+    if (terms) for (const [k, v] of Object.entries(termsCheckboxParams(origin))) form.set(k, v)
+    if (recovery) for (const [k, v] of Object.entries(recoveryParams())) form.set(k, v)
+    return form
+  }
 
   let termsCheckbox = true
-  let resp = await createSession(withTerms)
+  let cartRecovery = true
+  let resp = await createSession(build(termsCheckbox, cartRecovery))
   let session = await resp.json()
-  if (!resp.ok && isTermsSetupError(resp.status, session?.error)) {
-    console.warn('Stripe rejected the terms checkbox; retrying without it:', session?.error?.message)
-    termsCheckbox = false
-    resp = await createSession(params)
+  for (let retry = 0; retry < 2 && !resp.ok; retry++) {
+    if (cartRecovery && isRecoverySetupError(resp.status, session?.error)) {
+      console.warn('Stripe rejected the cart-recovery settings; retrying without them:', session?.error?.message)
+      cartRecovery = false
+    } else if (termsCheckbox && isTermsSetupError(resp.status, session?.error)) {
+      console.warn('Stripe rejected the terms checkbox; retrying without it:', session?.error?.message)
+      termsCheckbox = false
+    } else break
+    resp = await createSession(build(termsCheckbox, cartRecovery))
     session = await resp.json()
   }
   if (!resp.ok) {
     return json({ error: session?.error?.message || 'Stripe error.' }, 502)
   }
 
-  return json({ url: session.url, termsCheckbox })
+  return json({ url: session.url, termsCheckbox, cartRecovery })
 }

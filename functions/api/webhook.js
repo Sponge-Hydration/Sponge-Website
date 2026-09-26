@@ -1,7 +1,8 @@
 // Cloudflare Pages Function: POST /api/webhook
 //
 // Receives Stripe webhook events, verifies the signature, and acts on
-// `checkout.session.completed` - the reliable signal that a payment cleared.
+// `checkout.session.completed` - the reliable signal that a payment cleared -
+// and `checkout.session.expired` (abandoned cart recovery, _recovery.js).
 //
 // Signature verification uses Web Crypto (SubtleCrypto), so it runs on the
 // Cloudflare/Workers runtime without the Node Stripe SDK.
@@ -15,6 +16,7 @@ import { gmailConfigured, sendGmail, customerEmailHtml, teamEmailHtml } from './
 import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets.js'
 import { makeStatusToken } from './_status-token.js'
 import { adConsentGranted, metaCapiConfigured, sendMetaPurchase } from './_meta-capi.js'
+import { handleCheckoutExpired } from './_recovery.js'
 
 const TOLERANCE_SECONDS = 300 // reject events older than 5 minutes (replay guard)
 
@@ -210,6 +212,17 @@ export async function onRequestPost({ request, env }) {
   switch (event.type) {
     case 'checkout.session.completed':
       await handleCheckoutCompleted(event.data.object, env, request)
+      break
+    case 'checkout.session.expired':
+      // Abandoned for 24h: one-time 10% code + a link back to the same cart,
+      // only for shoppers who opted in to offers (see _recovery.js). Errors are
+      // logged, not thrown, so Stripe doesn't retry into a duplicate email.
+      try {
+        const r = await handleCheckoutExpired(event.data.object, env)
+        console.log('🛒 Checkout expired:', event.data.object.id, JSON.stringify(r))
+      } catch (e) {
+        console.warn('🛒 Cart recovery FAILED:', event.data.object.id, e?.message || e)
+      }
       break
     default:
       // Other event types are acknowledged but not acted on.
