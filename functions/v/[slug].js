@@ -7,6 +7,8 @@
 import { loadLinks, logClick, destinationUrl, normalizeSlug, isBot } from '../api/_video-links.js'
 import { serviceAccountConfigured } from '../api/_google-sa.js'
 
+export const BIO_PLATFORMS = new Set(['tiktok', 'instagram', 'youtube', 'facebook', 'x', 'linkedin', 'pinterest', 'threads', 'email'])
+
 export async function onRequestGet(context) {
   const { request, env, params } = context
   const slug = normalizeSlug(params.slug)
@@ -20,6 +22,9 @@ export async function onRequestGet(context) {
       console.warn('video link lookup failed:', e?.message || e)
     }
   }
+  // Profile/bio links (/v/tiktok, /v/instagram, /v/youtube, ...) work without
+  // a sheet row: the slug itself names the platform.
+  if (!link && BIO_PLATFORMS.has(slug)) link = { slug, platform: slug, destination: '/' }
   const target = destinationUrl(link || { platform: 'video', destination: '/' }, slug || 'unknown')
 
   if (configured) {

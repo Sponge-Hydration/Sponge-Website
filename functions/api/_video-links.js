@@ -139,12 +139,12 @@ export function summarizeClicks(clicks, links, startMs, endMs) {
     if (!(t >= startMs && t < endMs)) continue
     if (c.bot) { bots++; continue }
     const k = c.slug || '(unknown)'
-    per[k] ||= { slug: k, clicks: 0, countries: {} }
+    per[k] ||= { slug: k, clicks: 0, countries: {}, loggedPlatform: c.platform }
     per[k].clicks++
     if (c.country) per[k].countries[c.country] = (per[k].countries[c.country] || 0) + 1
   }
   const rows = Object.values(per)
-    .map((r) => ({ ...r, ...(links[r.slug] ? { platform: links[r.slug].platform, title: links[r.slug].title, videoUrl: links[r.slug].videoUrl, posted: links[r.slug].posted } : { platform: 'unknown slug' }) }))
+    .map((r) => ({ ...r, ...(links[r.slug] ? { platform: links[r.slug].platform, title: links[r.slug].title, videoUrl: links[r.slug].videoUrl, posted: links[r.slug].posted } : { platform: r.loggedPlatform || 'unknown slug', title: r.loggedPlatform && r.loggedPlatform !== 'unknown slug' ? `${r.loggedPlatform} bio link` : '' }) }))
     .sort((a, b) => b.clicks - a.clicks)
   const byPlatform = {}
   for (const r of rows) byPlatform[r.platform] = (byPlatform[r.platform] || 0) + r.clicks

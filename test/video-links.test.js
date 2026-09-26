@@ -39,11 +39,20 @@ describe('video links', () => {
         { at: '2026-09-22T11:00:00Z', slug: 'tt-widget', bot: true },
         { at: '2026-09-23T11:00:00Z', slug: 'yt-unbox', country: 'CA', bot: false },
         { at: '2026-08-01T00:00:00Z', slug: 'yt-unbox', bot: false },
+        { at: '2026-09-24T01:00:00Z', slug: 'tiktok', platform: 'tiktok', bot: false },
       ],
       links, Date.parse('2026-09-21T07:00:00Z'), Date.parse('2026-09-28T07:00:00Z')
     )
-    expect(s).toMatchObject({ totalClicks: 3, botClicksExcluded: 1, byPlatform: { tiktok: 2, youtube: 1 } })
+    expect(s).toMatchObject({ totalClicks: 4, botClicksExcluded: 1, byPlatform: { tiktok: 3, youtube: 1 } })
+    expect(s.links.find((l) => l.slug === 'tiktok')).toMatchObject({ platform: 'tiktok', title: 'tiktok bio link' })
     expect(s.links[0]).toMatchObject({ slug: 'tt-widget', clicks: 2, title: 'Widget demo', countries: { US: 2 } })
+  })
+  it('bio links need no sheet row: /v/tiktok tags the visit as tiktok', async () => {
+    const res = await videoRedirect({ request: new Request('https://www.spongehydration.com/v/tiktok'), env: {}, params: { slug: 'tiktok' } })
+    const u = new URL(res.headers.get('location'))
+    expect(u.pathname).toBe('/')
+    expect(u.searchParams.get('utm_source')).toBe('tiktok')
+    expect(u.searchParams.get('utm_content')).toBe('tiktok')
   })
   it('still redirects when the sheet is not configured', async () => {
     const res = await videoRedirect({ request: new Request('https://www.spongehydration.com/v/abc'), env: {}, params: { slug: 'abc' } })
