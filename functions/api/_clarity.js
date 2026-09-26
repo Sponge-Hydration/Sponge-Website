@@ -78,15 +78,18 @@ export function aggregateSnapshots(snapshots, dimension) {
     for (const m of snap) {
       const bucket = (out[m.metricName] ||= new Map())
       for (const row of m.information || []) {
-        let key = dimension ? row[dimension] : '__all__'
-        if (dimension === 'URL') key = normalizeUrl(key)
+        // Clarity names the dimension field inconsistently ("Url" vs "URL"),
+        // so match it case-insensitively.
+        const dimKey = dimension && Object.keys(row).find((k) => k.toLowerCase() === dimension.toLowerCase())
+        let key = dimension ? (dimKey ? row[dimKey] : null) : '__all__'
+        if (dimension === 'URL' && key) key = normalizeUrl(key)
         key = key ?? '(unknown)'
         const acc = bucket.get(key) || { _w: 0, _avg: {}, _sum: {}, days: 0 }
         const w = weight(row)
         acc._w += w
         acc.days += 1
         for (const [k, v] of Object.entries(row)) {
-          if (k === dimension) continue
+          if (k === dimKey) continue
           const n = num(v)
           if (n == null) continue
           if (/percent|average|avg|rate|time|depth/i.test(k)) {

@@ -78,6 +78,10 @@ describe('Clarity roll-up', () => {
       { URL: '/shop/p/sponge-clip', sessionsCount: 40, subTotal: 6, sessionsWithMetricPercentage: 10, daysWithData: 2 },
     ])
   })
+  it('matches the dimension field case-insensitively (Clarity sends "Url")', () => {
+    const agg = aggregateSnapshots([[{ metricName: 'Traffic', information: [{ Url: 'https://www.spongehydration.com/how-it-works?x=1', totalSessionCount: '3' }] }]], 'URL')
+    expect(agg.Traffic[0]).toMatchObject({ URL: '/how-it-works', totalSessionCount: 3 })
+  })
   it('normalizes the home page to "/"', () => {
     expect(normalizeUrl('https://www.spongehydration.com/?fbclid=1')).toBe('/')
   })
