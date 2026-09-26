@@ -16,7 +16,7 @@ stack/deploy/layout; this file is **current state + open to-dos**.
 - **SEO:** vite-react-ssg prerendering, 301 redirects (`public/_redirects`),
   real 404s, apex→www (`functions/_middleware.js`).
 - **Custom domain** cutover done (DNS on Cloudflare, MX/email preserved, SPF added).
-- **Shipping:** US-only, weight-based (4 oz/item) USPS tiers — rates are PLACEHOLDERS.
+- **Shipping:** US-only, weight-based USPS Ground Advantage retail rates (see the 2026-07-26 entry below).
 - Colors restricted to **black/white** (retired colors coerced client + server).
 - **Dashboard & Account** entry points hidden (routes still resolve).
 - Token-opt config added & committed: `CLAUDE.md`, `.claude/settings.json`, `.claude/rules/shipping-sync.md`.
@@ -57,12 +57,45 @@ stack/deploy/layout; this file is **current state + open to-dos**.
   **Scheduled cloud runs can't `curl` spongehydration.com** (the sandbox proxy returns 403 on CONNECT),
   which is why the Sunday funnel email stopped arriving; the tasks now fetch with WebFetch instead.
 
+- **Homepage conversion tweaks** (2026-09-20): "How it works" + feature cards are clickable (Clarity
+  showed people clicking them); buy CTAs say "Order now" (Pre-Order Policy, `/legal/pre-order`,
+  `schema.org/PreOrder` and point-of-sale disclosures deliberately unchanged: still charge-now-ship-later);
+  front-page "Order now" adds a clip and goes to `/cart`.
+- **Email capture** (2026-09-25/26): homepage capture band now sits right after "How it works" (~29%
+  down; Clarity avg homepage scroll was ~42%, so the bottom placement was barely seen), plus an
+  exit-intent modal (`src/components/ExitIntentCapture.jsx`, once per visitor). Sources `homepage` /
+  `exit-intent` in `functions/api/subscribe.js`.
+- **Signup "mystery gift"** (2026-09-25): each NEW subscriber (dedupe via `appendSubscriber` → `added`)
+  gets a unique `GIFT-XXXXXXXX` Stripe promotion code, `max_redemptions=1`, on coupon **`evw6uie1`**
+  (10% off, once), emailed as a mystery-gift reveal (`functions/api/_gift.js`, `giftEmailHtml`).
+  Checkout has `allow_promotion_codes`; webhook records `amount_discount` and receipts show a Discount
+  row. Verified live end to end (code created, email received, 10% applied on Stripe Checkout).
+- **Em dashes removed** from all customer-facing copy (2026-09-26); built site has zero. Legal edits were
+  punctuation only (no terms-version bump).
+- **Clarity insights** (2026-09-26): `scripts/clarity-insights.mjs` pulls rage/dead clicks, quick-backs,
+  scroll depth by URL (API covers the last 1–3 days only). First token 403'd because it was bad, not a
+  quota issue; the regenerated token works. Finding: ChatGPT (`utm_source=chatgpt.com`) sends traffic.
+- **Internal-traffic switch** (2026-09-26): `?internal=1` flags a team browser (`src/internal.js`,
+  localStorage), so GA4/Clarity/pixels never load there and checkout sends no ad consent; `?internal=0`
+  undoes it. Set it on every team browser/device, or team visits skew the data (the founder-story
+  "engagement" in Clarity was the founders).
+- **Abandoned carts** (2026-09-26): Stripe webhook endpoint now also sends `checkout.session.expired`
+  (updated via API, same signing secret). Recovery emails (`_recovery.js`, opt-in shoppers only) log to
+  **`Cart Recovery`**; **every** expired checkout logs to the **`Abandoned Carts`** tab
+  (`functions/api/_abandoned.js`: times, email if opted in, items, value, recovery outcome, Internal flag
+  from `metadata[internal]`). 42 historical sessions backfilled (`scripts/backfill-abandoned-carts.mjs`,
+  re-runnable). The July 21–22 bursts are team testing.
+
 ## Required env / secrets (prod, Cloudflare Pages)
 - Build-time (bake into bundle — change requires **redeploy**): `VITE_GA4_ID=G-DGZGWC184G`,
   `VITE_CLARITY_ID=ygqhrydoog`, `STRIPE_TAX_ENABLED=true`.
 - Runtime secrets: `GOOGLE_SA_EMAIL`/`GOOGLE_SA_PRIVATE_KEY` (Sheets + GA4), `GMAIL_*`/`ORDER_FROM_EMAIL`
   (order + report email), `STRIPE_*`, `STATUS_TOKEN_SECRET`, **`CLARITY_API_TOKEN`** (weekly report + daily snapshot), and **`GA4_REPORT_TOKEN`** (weekly-report
   trigger — if missing, `/api/ga4-weekly-report` returns 500/401 and the Sunday email silently stops).
+- Plain vars: **`SIGNUP_COUPON_ID=evw6uie1`** (signup gift; unset = no gift, while the site still
+  advertises one). Optional: `RECOVERY_COUPON_ID` (defaults to the signup coupon), `RECOVERY_CODE_DAYS`.
+- Stripe webhook `we_1TvU3gRpDYcxwSA72KeqJF8Y` → `/api/webhook`, events `checkout.session.completed` +
+  `checkout.session.expired`.
 
 ## Open to-dos
 1. **Rotate the Stripe TEST keys** shared earlier in chat (Dashboard → Test mode →
@@ -89,9 +122,10 @@ stack/deploy/layout; this file is **current state + open to-dos**.
    it on the Sheet + the `G-DGZGWC184G` GA4 property, swap `GOOGLE_SA_EMAIL`/`GOOGLE_SA_PRIVATE_KEY`
    in `.dev.vars` + Cloudflare, and decommission the old SA. (Gmail OAuth already uses
    team@spongehydration.com — this is the remaining personal-account dependency.)
-8. **Grant the service account Viewer on the live GA4 property `G-DGZGWC184G`** (owned by
-   team@spongehydration.com) so the Data API funnel puller works. It currently only sees an empty
-   personal property (553741075). Superseded by #7 once the SA moves under the sponge org.
+8. **Local `.dev.vars` uses the LIVE Stripe key** (`sk_live_…`), so local dev and scripts hit the real
+   account. Consider a test key for local work; until then, never create Stripe objects locally
+   without meaning to.
+9. **Set `?internal=1` on every team browser/device** so our own visits stop skewing GA4/Clarity.
 
 ## Token tips for the new session
 - `CLAUDE.md` auto-loads — don't re-explore the stack.
