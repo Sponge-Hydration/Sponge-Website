@@ -46,11 +46,19 @@ stack/deploy/layout; this file is **current state + open to-dos**.
   (cron `0 3 * * 1` UTC = Sun 8pm PT). End-to-end send verified (`emailed:true`). Numbers are ~zero
   until the freshly-switched property accumulates traffic.
 
+- **Weekly website report bundle** (2026-09-26): `functions/api/weekly-site-report.js` returns JSON only
+  (GA4 overview/channels/sources/landing pages/devices/geo/funnel, Stripe orders/revenue/refunds/units/
+  abandoned checkouts, Clarity weekly roll-up, email signups, app actives), this week vs last week in PT.
+  Daily `functions/api/clarity-snapshot.js` saves Clarity's 1-day export to the **`Clarity Daily`** tab of
+  the order sheet (the API only covers 1–3 days). Both use `?key=<GA4_REPORT_TOKEN>`. Fired by claude.ai
+  scheduled tasks: weekly report `trig_01ShRot5RiU7HSQpuD756jxd` (Sun 7:46pm PT, writes + emails the
+  analysis) and a daily Clarity snapshot task. Needs **`CLARITY_API_TOKEN`** set in Cloudflare prod.
+
 ## Required env / secrets (prod, Cloudflare Pages)
 - Build-time (bake into bundle — change requires **redeploy**): `VITE_GA4_ID=G-DGZGWC184G`,
   `VITE_CLARITY_ID=ygqhrydoog`, `STRIPE_TAX_ENABLED=true`.
 - Runtime secrets: `GOOGLE_SA_EMAIL`/`GOOGLE_SA_PRIVATE_KEY` (Sheets + GA4), `GMAIL_*`/`ORDER_FROM_EMAIL`
-  (order + report email), `STRIPE_*`, `STATUS_TOKEN_SECRET`, and **`GA4_REPORT_TOKEN`** (weekly-report
+  (order + report email), `STRIPE_*`, `STATUS_TOKEN_SECRET`, **`CLARITY_API_TOKEN`** (weekly report + daily snapshot), and **`GA4_REPORT_TOKEN`** (weekly-report
   trigger — if missing, `/api/ga4-weekly-report` returns 500/401 and the Sunday email silently stops).
 
 ## Open to-dos
