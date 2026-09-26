@@ -3,7 +3,7 @@
 
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { reportWindows, ptMidnight, ptDate } from '../functions/api/_report-dates.js'
-import { splitByRange, summarizeOrders, summarizeApp, onRequest } from '../functions/api/weekly-site-report.js'
+import { splitByRange, summarizeOrders, summarizeApp, shapeCfWeek, onRequest } from '../functions/api/weekly-site-report.js'
 import { aggregateSnapshots, trimSnapshot, normalizeUrl, latestPerDay } from '../functions/api/_clarity.js'
 import { onRequest as snapshot } from '../functions/api/clarity-snapshot.js'
 
@@ -101,6 +101,19 @@ describe('Clarity roll-up', () => {
   })
 })
 
+describe('Cloudflare traffic', () => {
+  it('shapes the GraphQL groups into visits, page views and top lists', () => {
+    const w = shapeCfWeek({
+      total: [{ count: 266, sum: { visits: 189 } }],
+      pages: [{ count: 140, sum: { visits: 120 }, dimensions: { requestPath: '/' } }],
+      referrers: [{ count: 170, sum: { visits: 170 }, dimensions: { refererHost: '' } }],
+      devices: [], countries: [],
+    })
+    expect(w).toMatchObject({ visits: 189, pageViews: 266, topPages: [{ requestPath: '/', visits: 120, pageViews: 140 }] })
+    expect(w.referrers[0].refererHost).toBe('(direct/none)')
+  })
+})
+
 describe('app summary', () => {
   it('ignores test/epoch accounts and counts weekly actives', () => {
     const w = reportWindows(new Date(), '2026-09-27')
@@ -148,6 +161,7 @@ describe('endpoints', () => {
     const env = { GA4_REPORT_TOKEN: 'k', STRIPE_SECRET_KEY: 'sk_test_x' }
     const body = await (await onRequest({ request: req('/api/weekly-site-report?key=k&section=stripe'), env })).json()
     expect(Object.keys(body)).toEqual(['ok', 'generatedAt', 'timezone', 'periods', 'stripe'])
+    expect((await (await onRequest({ request: req('/api/weekly-site-report?key=k&section=traffic'), env })).json()).traffic.error).toMatch(/CF_ANALYTICS_TOKEN/)
     expect((await onRequest({ request: req('/api/weekly-site-report?key=k&section=nope'), env })).status).toBe(400)
   })
 })

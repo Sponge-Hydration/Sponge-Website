@@ -6,6 +6,8 @@
 // carries { error } and the rest still come back.
 //
 // Sections (this week = 7 PT days ending today, lastWeek = the 7 before):
+//   traffic   Cloudflare Web Analytics: cookieless, so it counts every visit,
+//             not just visitors who accepted the analytics banner
 //   ga4       overview, channels, sources, landing pages, devices, geo,
 //             new vs returning, e-commerce funnel   (GA4 Data API, web only)
 //   stripe    paid Checkout orders, revenue, shipping, tax, units by SKU, refunds
@@ -16,12 +18,14 @@
 //
 // Env: GA4_REPORT_TOKEN (trigger key), GOOGLE_SA_EMAIL / GOOGLE_SA_PRIVATE_KEY,
 //      GOOGLE_SHEET_ID, STRIPE_SECRET_KEY, CLARITY_API_TOKEN (optional),
-//      GA4_PROPERTY_ID (optional, default 437571529)
+//      GA4_PROPERTY_ID (optional, default 437571529),
+//      CF_ANALYTICS_TOKEN (Account Analytics: Read), CF_ACCOUNT_ID and
+//      CF_WA_SITE_TAG (optional; default to the Sponge account / site)
 //
 // Trigger:  GET /api/weekly-site-report?key=<GA4_REPORT_TOKEN>
 //           optional &end=YYYY-MM-DD to report the week ending that PT date,
 //           &live=0 to skip the live Clarity call (saves API quota)
-//           &section=ga4|stripe|clarity|signups|app to return one section only
+//           &section=traffic|ga4|stripe|clarity|signups|app to return one section only
 
 import { getGoogleAccessToken, serviceAccountConfigured } from './_google-sa.js'
 import { aggregateSnapshots, fetchClarity, loadSnapshots, FRICTION_METRICS } from './_clarity.js'
@@ -47,6 +51,7 @@ export async function onRequest({ request, env }) {
   // ?section=ga4 (etc.) returns just that section. Scheduled runs fetch the
   // sections one at a time so each response stays small enough to read whole.
   const sections = {
+    traffic: () => trafficSection(env, win),
     ga4: () => ga4Section(env, win),
     stripe: () => stripeSection(env, win),
     clarity: () => claritySection(env, win, live),
@@ -71,6 +76,66 @@ export async function onRequest({ request, env }) {
     },
     ...Object.fromEntries(names.map((n, i) => [n, results[i]])),
   })
+}
+
+// --- Cloudflare Web Analytics (cookieless, consent-free traffic counts) ------
+
+const CF_ACCOUNT = '11011d90c39d9b8cfe4f46afe2b01267'
+const CF_SITE_TAG = '06ad41267e1046f58ff8d2585ab572f6' // spongehydration.com
+
+const CF_QUERY = `query($a: string!, $s: string!, $st: Time!, $en: Time!) {
+  viewer { accounts(filter: { accountTag: $a }) {
+    total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } }
+    pages: rumPageloadEventsAdaptiveGroups(limit: 10, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { requestPath } }
+    referrers: rumPageloadEventsAdaptiveGroups(limit: 10, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { refererHost } }
+    devices: rumPageloadEventsAdaptiveGroups(limit: 5, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { deviceType } }
+    countries: rumPageloadEventsAdaptiveGroups(limit: 8, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { countryName } }
+  } }
+}`
+
+export function shapeCfWeek(acct) {
+  const rows = (list, dim) =>
+    (list || []).map((r) => ({ [dim]: r.dimensions?.[dim] || '(direct/none)', visits: r.sum?.visits || 0, pageViews: r.count || 0 }))
+  const t = acct?.total?.[0]
+  return {
+    visits: t?.sum?.visits || 0,
+    pageViews: t?.count || 0,
+    topPages: rows(acct?.pages, 'requestPath'),
+    referrers: rows(acct?.referrers, 'refererHost'),
+    devices: rows(acct?.devices, 'deviceType'),
+    countries: rows(acct?.countries, 'countryName'),
+  }
+}
+
+async function trafficSection(env, win) {
+  if (!env.CF_ANALYTICS_TOKEN) throw new Error('CF_ANALYTICS_TOKEN not configured')
+  const week = async (w) => {
+    const res = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.CF_ANALYTICS_TOKEN}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        query: CF_QUERY,
+        variables: {
+          a: env.CF_ACCOUNT_ID || CF_ACCOUNT,
+          s: env.CF_WA_SITE_TAG || CF_SITE_TAG,
+          st: new Date(w.startMs).toISOString(),
+          en: new Date(w.endMs).toISOString(),
+        },
+      }),
+    })
+    const text = await res.text()
+    if (!res.ok) throw new Error(`Cloudflare GraphQL ${res.status}: ${text.slice(0, 300)}`)
+    const j = JSON.parse(text)
+    if (j.errors?.length) throw new Error(`Cloudflare GraphQL: ${j.errors.map((e) => e.message).join('; ').slice(0, 300)}`)
+    return shapeCfWeek(j.data?.viewer?.accounts?.[0])
+  }
+  const [thisWeek, lastWeek] = await Promise.all([week(win.thisWeek), week(win.lastWeek)])
+  return {
+    source: 'Cloudflare Web Analytics (cookieless; bots excluded)',
+    note: 'Counts every visit, including visitors who declined the analytics banner, so it is the true traffic number. GA4/Clarity only see opted-in visitors. Referrer "(direct/none)" = no referrer; your own domain as referrer = internal navigation.',
+    thisWeek,
+    lastWeek,
+  }
 }
 
 // --- GA4 ------------------------------------------------------------------
