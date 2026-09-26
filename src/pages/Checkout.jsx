@@ -7,6 +7,7 @@ import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/i
 import { shippingForCart } from '../shipping'
 import { trackBeginCheckout, trackPurchase } from '../analytics'
 import { getConsent } from '../consent'
+import { isInternal } from '../internal'
 import EmailSignup from '../components/EmailSignup'
 
 export default function Checkout() {
@@ -115,7 +116,7 @@ export default function Checkout() {
         // webhook can honour it later. Browser state is gone by the time the
         // webhook runs, so this is the only way the server-side Meta event can
         // respect the same choice. Read at click time, not render time.
-        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising }),
+        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal() }),
       })
       const raw = await res.text()
       let data

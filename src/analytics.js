@@ -23,6 +23,7 @@
 //   server copy is gated on the same consent, carried through Stripe metadata.
 
 import { getConsent } from './consent'
+import { isInternal } from './internal'
 
 const GA4_ID = import.meta.env.VITE_GA4_ID || ''
 const CLARITY_ID = import.meta.env.VITE_CLARITY_ID || ''
@@ -56,6 +57,9 @@ function insertBeforeFirstScript(node) {
 }
 
 function allow() {
+  // Team browsers marked with ?internal=1 never load or fire anything, whatever
+  // the cookie choice, so our own visits don't skew the data (src/internal.js).
+  if (isInternal()) return { ...getConsent(), analytics: false, advertising: false }
   // Read fresh every time — the visitor can change their mind mid-session.
   return getConsent()
 }
