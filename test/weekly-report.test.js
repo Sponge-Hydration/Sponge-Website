@@ -3,7 +3,7 @@
 
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { reportWindows, ptMidnight, ptDate } from '../functions/api/_report-dates.js'
-import { splitByRange, summarizeOrders, summarizeApp, shapeCfWeek, onRequest } from '../functions/api/weekly-site-report.js'
+import { splitByRange, summarizeOrders, summarizeApp, shapeCfWeek, platformOf, timelines, onRequest } from '../functions/api/weekly-site-report.js'
 import { aggregateSnapshots, trimSnapshot, normalizeUrl, latestPerDay } from '../functions/api/_clarity.js'
 import { onRequest as snapshot } from '../functions/api/clarity-snapshot.js'
 
@@ -111,6 +111,30 @@ describe('Cloudflare traffic', () => {
     })
     expect(w).toMatchObject({ visits: 189, pageViews: 266, topPages: [{ requestPath: '/', visits: 120, pageViews: 140 }] })
     expect(w.referrers[0].refererHost).toBe('(direct/none)')
+  })
+})
+
+describe('traffic timelines', () => {
+  it('maps referrers to platforms', () => {
+    expect(platformOf('')).toBe('direct')
+    expect(platformOf('www.tiktok.com')).toBe('tiktok')
+    expect(platformOf('l.instagram.com')).toBe('instagram')
+    expect(platformOf('m.youtube.com')).toBe('youtube')
+    expect(platformOf('com.reddit.frontpage')).toBe('reddit')
+    expect(platformOf('t.co')).toBe('x')
+    expect(platformOf('chatgpt.com')).toBe('ai')
+    expect(platformOf('www.google.com')).toBe('search')
+    expect(platformOf('www.spongehydration.com')).toBe('internal')
+  })
+  it('buckets hourly visits into Pacific days and hours by platform, skipping internal', () => {
+    const t = timelines([
+      { sum: { visits: 3 }, dimensions: { datetimeHour: '2026-09-24T22:00:00Z', refererHost: 'www.tiktok.com' } },
+      { sum: { visits: 5 }, dimensions: { datetimeHour: '2026-09-24T22:00:00Z', refererHost: '' } },
+      { sum: { visits: 0 }, dimensions: { datetimeHour: '2026-09-24T22:00:00Z', refererHost: 'www.spongehydration.com' } },
+      { sum: { visits: 2 }, dimensions: { datetimeHour: '2026-09-25T06:00:00Z', refererHost: 'm.youtube.com' } },
+    ])
+    expect(t.hourlyByPlatform[0]).toEqual({ hourPT: '2026-09-24 15:00', total: 8, tiktok: 3, direct: 5 })
+    expect(t.dailyByPlatform).toEqual([{ date: '2026-09-24', total: 10, tiktok: 3, direct: 5, youtube: 2 }])
   })
 })
 

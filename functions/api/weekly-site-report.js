@@ -85,27 +85,88 @@ export async function onRequest({ request, env }) {
 const CF_ACCOUNT = '11011d90c39d9b8cfe4f46afe2b01267'
 const CF_SITE_TAG = '06ad41267e1046f58ff8d2585ab572f6' // spongehydration.com
 
+// No orderBy: sorted queries get sampled far more heavily (every value came
+// back a multiple of 10). Unsorted groups come back ~unsampled; we sort here.
 const CF_QUERY = `query($a: string!, $s: string!, $st: Time!, $en: Time!) {
   viewer { accounts(filter: { accountTag: $a }) {
     total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } }
-    pages: rumPageloadEventsAdaptiveGroups(limit: 10, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { requestPath } }
-    referrers: rumPageloadEventsAdaptiveGroups(limit: 10, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { refererHost } }
-    devices: rumPageloadEventsAdaptiveGroups(limit: 5, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { deviceType } }
-    countries: rumPageloadEventsAdaptiveGroups(limit: 8, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }, orderBy: [sum_visits_DESC]) { count sum { visits } dimensions { countryName } }
+    pages: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { requestPath } }
+    referrers: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { refererHost } }
+    devices: rumPageloadEventsAdaptiveGroups(limit: 20, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { deviceType } }
+    countries: rumPageloadEventsAdaptiveGroups(limit: 300, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { countryName } }
+    hourly: rumPageloadEventsAdaptiveGroups(limit: 5000, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { sum { visits } dimensions { datetimeHour refererHost } }
   } }
 }`
 
+// Which platform a referrer host belongs to. Many in-app browsers (TikTok,
+// Instagram) send no referrer at all, so social traffic also shows up as
+// "direct"; the report reads direct spikes right after a post as likely social.
+export function platformOf(host = '') {
+  const h = String(host).toLowerCase()
+  if (!h) return 'direct'
+  if (/spongehydration/.test(h)) return 'internal'
+  if (/tiktok|musical\.ly|bytedance/.test(h)) return 'tiktok'
+  if (/instagram/.test(h)) return 'instagram'
+  if (/youtube|youtu\.be/.test(h)) return 'youtube'
+  if (/facebook|^fb\.|messenger/.test(h)) return 'facebook'
+  if (/reddit/.test(h)) return 'reddit'
+  if (/(^|\.)t\.co$|twitter|x\.com/.test(h)) return 'x'
+  if (/chatgpt|openai|perplexity|claude\.ai|gemini|copilot/.test(h)) return 'ai'
+  if (/google\.|bing\.|duckduckgo|yahoo\./.test(h)) return 'search'
+  if (/stripe/.test(h)) return 'stripe'
+  return 'other'
+}
+
+const PT_HOUR = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' })
+const ptHourLabel = (iso) => {
+  const p = Object.fromEntries(PT_HOUR.formatToParts(new Date(iso)).map((x) => [x.type, x.value]))
+  return { date: `${p.year}-${p.month}-${p.day}`, hour: `${p.year}-${p.month}-${p.day} ${p.hour}:00` }
+}
+
+// Day-by-day and hour-by-hour visits per platform (Pacific time). Hours with
+// no external visits are omitted to keep the payload small.
+export function timelines(hourlyRows = []) {
+  const daily = {}
+  const hourly = {}
+  for (const r of hourlyRows) {
+    const v = r.sum?.visits || 0
+    if (!v || !r.dimensions?.datetimeHour) continue
+    const plat = platformOf(r.dimensions.refererHost)
+    if (plat === 'internal') continue
+    const { date, hour } = ptHourLabel(r.dimensions.datetimeHour)
+    daily[date] ||= { date, total: 0 }
+    daily[date].total += v
+    daily[date][plat] = (daily[date][plat] || 0) + v
+    hourly[hour] ||= { hourPT: hour, total: 0 }
+    hourly[hour].total += v
+    hourly[hour][plat] = (hourly[hour][plat] || 0) + v
+  }
+  const byKey = (k) => (a, b) => (a[k] < b[k] ? -1 : 1)
+  return { dailyByPlatform: Object.values(daily).sort(byKey('date')), hourlyByPlatform: Object.values(hourly).sort(byKey('hourPT')) }
+}
+
 export function shapeCfWeek(acct) {
-  const rows = (list, dim) =>
-    (list || []).map((r) => ({ [dim]: r.dimensions?.[dim] || '(direct/none)', visits: r.sum?.visits || 0, pageViews: r.count || 0 }))
+  const rows = (list, dim, n) =>
+    (list || [])
+      .map((r) => ({ [dim]: r.dimensions?.[dim] || '(direct/none)', visits: r.sum?.visits || 0, pageViews: r.count || 0 }))
+      .sort((a, b) => b.visits - a.visits || b.pageViews - a.pageViews)
+      .slice(0, n)
   const t = acct?.total?.[0]
+  const refs = rows(acct?.referrers, 'refererHost', 2000)
+  const byPlatform = {}
+  for (const r of refs) {
+    const p = platformOf(r.refererHost === '(direct/none)' ? '' : r.refererHost)
+    if (p !== 'internal') byPlatform[p] = (byPlatform[p] || 0) + r.visits
+  }
   return {
     visits: t?.sum?.visits || 0,
     pageViews: t?.count || 0,
-    topPages: rows(acct?.pages, 'requestPath'),
-    referrers: rows(acct?.referrers, 'refererHost'),
-    devices: rows(acct?.devices, 'deviceType'),
-    countries: rows(acct?.countries, 'countryName'),
+    visitsByPlatform: byPlatform,
+    topPages: rows(acct?.pages, 'requestPath', 10),
+    referrers: refs.slice(0, 15),
+    devices: rows(acct?.devices, 'deviceType', 5),
+    countries: rows(acct?.countries, 'countryName', 8),
+    ...timelines(acct?.hourly),
   }
 }
 
@@ -134,7 +195,7 @@ async function trafficSection(env, win) {
   const [thisWeek, lastWeek] = await Promise.all([week(win.thisWeek), week(win.lastWeek)])
   return {
     source: 'Cloudflare Web Analytics (cookieless; bots excluded)',
-    note: 'Counts every visit, including visitors who declined the analytics banner, so it is the true traffic number. GA4/Clarity only see opted-in visitors. Referrer "(direct/none)" = no referrer; your own domain as referrer = internal navigation.',
+    note: 'Counts every visit, including visitors who declined the analytics banner, so it is the true traffic number. GA4/Clarity only see opted-in visitors. visitsByPlatform / dailyByPlatform / hourlyByPlatform (Pacific time) group referrers by platform; "direct" = no referrer, which includes many TikTok/Instagram in-app browser visits, so a direct spike right after a post is likely social.',
     thisWeek,
     lastWeek,
   }
