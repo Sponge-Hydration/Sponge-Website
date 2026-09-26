@@ -139,4 +139,11 @@ describe('endpoints', () => {
     expect(body.app.totalUsers).toBe(0)
     expect(body.clarity.live3dError).toMatch(/CLARITY_API_TOKEN/)
   })
+  it('returns a single section on request, and rejects unknown ones', async () => {
+    vi.stubGlobal('fetch', async () => new Response(JSON.stringify({ data: [], has_more: false })))
+    const env = { GA4_REPORT_TOKEN: 'k', STRIPE_SECRET_KEY: 'sk_test_x' }
+    const body = await (await onRequest({ request: req('/api/weekly-site-report?key=k&section=stripe'), env })).json()
+    expect(Object.keys(body)).toEqual(['ok', 'generatedAt', 'timezone', 'periods', 'stripe'])
+    expect((await onRequest({ request: req('/api/weekly-site-report?key=k&section=nope'), env })).status).toBe(400)
+  })
 })

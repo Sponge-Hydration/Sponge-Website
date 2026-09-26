@@ -21,6 +21,7 @@
 // Trigger:  GET /api/weekly-site-report?key=<GA4_REPORT_TOKEN>
 //           optional &end=YYYY-MM-DD to report the week ending that PT date,
 //           &live=0 to skip the live Clarity call (saves API quota)
+//           &section=ga4|stripe|clarity|signups|app to return one section only
 
 import { getGoogleAccessToken, serviceAccountConfigured } from './_google-sa.js'
 import { aggregateSnapshots, fetchClarity, loadSnapshots, FRICTION_METRICS } from './_clarity.js'
@@ -43,14 +44,22 @@ export async function onRequest({ request, env }) {
   const win = reportWindows(new Date(), end || ptDate())
   const live = url.searchParams.get('live') !== '0'
 
+  // ?section=ga4 (etc.) returns just that section. Scheduled runs fetch the
+  // sections one at a time so each response stays small enough to read whole.
+  const sections = {
+    ga4: () => ga4Section(env, win),
+    stripe: () => stripeSection(env, win),
+    clarity: () => claritySection(env, win, live),
+    signups: () => signupSection(env, win),
+    app: () => appSection(win),
+  }
+  const only = url.searchParams.get('section')
+  if (only && !sections[only]) {
+    return json({ error: `section must be one of: ${Object.keys(sections).join(', ')}` }, 400)
+  }
+  const names = only ? [only] : Object.keys(sections)
   const settle = (p) => p.catch((e) => ({ error: String(e?.message || e) }))
-  const [ga4, stripe, clarity, signups, app] = await Promise.all([
-    settle(ga4Section(env, win)),
-    settle(stripeSection(env, win)),
-    settle(claritySection(env, win, live)),
-    settle(signupSection(env, win)),
-    settle(appSection(win)),
-  ])
+  const results = await Promise.all(names.map((n) => settle(sections[n]())))
 
   return json({
     ok: true,
@@ -60,11 +69,7 @@ export async function onRequest({ request, env }) {
       thisWeek: { start: win.thisWeek.start, end: win.thisWeek.end, note: 'end day is partial if it is today' },
       lastWeek: { start: win.lastWeek.start, end: win.lastWeek.end },
     },
-    ga4,
-    stripe,
-    clarity,
-    signups,
-    app,
+    ...Object.fromEntries(names.map((n, i) => [n, results[i]])),
   })
 }
 

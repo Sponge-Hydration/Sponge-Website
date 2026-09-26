@@ -53,6 +53,9 @@ stack/deploy/layout; this file is **current state + open to-dos**.
   the order sheet (the API only covers 1–3 days). Both use `?key=<GA4_REPORT_TOKEN>`. Fired by claude.ai
   scheduled tasks: weekly report `trig_01ShRot5RiU7HSQpuD756jxd` (Sun 7:46pm PT, writes + emails the
   analysis) and a daily Clarity snapshot task. Needs **`CLARITY_API_TOKEN`** set in Cloudflare prod.
+  `&section=ga4|stripe|clarity|signups|app` returns one section (keeps each fetch small).
+  **Scheduled cloud runs can't `curl` spongehydration.com** (the sandbox proxy returns 403 on CONNECT),
+  which is why the Sunday funnel email stopped arriving; the tasks now fetch with WebFetch instead.
 
 ## Required env / secrets (prod, Cloudflare Pages)
 - Build-time (bake into bundle — change requires **redeploy**): `VITE_GA4_ID=G-DGZGWC184G`,
