@@ -116,7 +116,7 @@ export default function Checkout() {
         // webhook can honour it later. Browser state is gone by the time the
         // webhook runs, so this is the only way the server-side Meta event can
         // respect the same choice. Read at click time, not render time.
-        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal() }),
+        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal(), internal: isInternal() }),
       })
       const raw = await res.text()
       let data

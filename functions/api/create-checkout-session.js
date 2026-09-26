@@ -182,6 +182,9 @@ export async function onRequestPost({ request, env }) {
   // Which Terms of Service were in force for this purchase (the /checkout notice
   // presents them on every order; the Stripe checkbox records assent on top).
   params.append('metadata[terms_version]', TERMS_VERSION)
+  // Team browsers flagged with ?internal=1 (src/internal.js), so the abandoned-
+  // cart log can mark our own test checkouts.
+  params.append('metadata[internal]', body?.internal === true ? '1' : '0')
   // Shows the "Add promotion code" field on Stripe Checkout, where subscribers
   // redeem their single-use signup gift (functions/api/_gift.js). Stripe itself
   // enforces each code's max_redemptions, so a used code is rejected there.

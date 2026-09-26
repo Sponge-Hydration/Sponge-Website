@@ -17,6 +17,7 @@ import { sheetsConfigured, appendOrderToSheet, nextOrderNumber } from './_sheets
 import { makeStatusToken } from './_status-token.js'
 import { adConsentGranted, metaCapiConfigured, sendMetaPurchase } from './_meta-capi.js'
 import { handleCheckoutExpired } from './_recovery.js'
+import { logAbandonedCart } from './_abandoned.js'
 
 const TOLERANCE_SECONDS = 300 // reject events older than 5 minutes (replay guard)
 
@@ -217,11 +218,20 @@ export async function onRequestPost({ request, env }) {
       // Abandoned for 24h: one-time 10% code + a link back to the same cart,
       // only for shoppers who opted in to offers (see _recovery.js). Errors are
       // logged, not thrown, so Stripe doesn't retry into a duplicate email.
+      let recovery
       try {
-        const r = await handleCheckoutExpired(event.data.object, env)
-        console.log('🛒 Checkout expired:', event.data.object.id, JSON.stringify(r))
+        recovery = await handleCheckoutExpired(event.data.object, env)
+        console.log('🛒 Checkout expired:', event.data.object.id, JSON.stringify(recovery))
       } catch (e) {
+        recovery = { error: String(e?.message || e).slice(0, 120) }
         console.warn('🛒 Cart recovery FAILED:', event.data.object.id, e?.message || e)
+      }
+      // Every abandoned cart goes in the "Abandoned Carts" tab, emailed or not.
+      try {
+        const l = await logAbandonedCart(event.data.object, env, recovery)
+        if (l.skipped) console.log('🛒 Abandoned-cart log skipped:', l.skipped)
+      } catch (e) {
+        console.warn('🛒 Abandoned-cart log FAILED:', event.data.object.id, e?.message || e)
       }
       break
     default:
