@@ -302,6 +302,28 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Email capture. Sits right after "How it works" because Clarity showed the
+          average homepage visit only scrolls ~40% of the page; at the bottom it was
+          seen by almost nobody. */}
+      <section className="section section--tint">
+        <div className="container">
+          <div className="home-capture">
+            <h2>Join the list, get a mystery gift</h2>
+            <p>
+              Leave your email and we’ll send you a mystery gift right away. After that it’s one
+              honest email a month: when the next batch opens, and what the hydration research
+              actually says. Unsubscribe anytime.
+            </p>
+            <EmailSignup
+              source="homepage"
+              label="Email address"
+              cta="Send my mystery gift"
+              done="You’re in. Check your inbox for your mystery gift."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Lifestyle band */}
       {/* aria-hidden belongs on the decorative photo only — putting it on the
           section also hid the visible headline from screen readers. */}
@@ -604,27 +626,6 @@ export default function Home() {
                 one tracker between them.
               </p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      {/* Email capture — most visitors read this far without buying. Recover them
-          into the list with a signup mystery gift instead of losing them entirely. */}
-      <section className="section section--tint">
-        <div className="container">
-          <div className="home-capture">
-            <h2>Join the list, get a mystery gift</h2>
-            <p>
-              Leave your email and we’ll send you a mystery gift right away. After that it’s one
-              honest email a month: when the next batch opens, and what the hydration research
-              actually says. Unsubscribe anytime.
-            </p>
-            <EmailSignup
-              source="homepage"
-              label="Email address"
-              cta="Send my mystery gift"
-              done="You’re in. Check your inbox for your mystery gift."
-            />
           </div>
         </div>
       </section>
