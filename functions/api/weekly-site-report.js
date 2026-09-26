@@ -25,11 +25,12 @@
 // Trigger:  GET /api/weekly-site-report?key=<GA4_REPORT_TOKEN>
 //           optional &end=YYYY-MM-DD to report the week ending that PT date,
 //           &live=0 to skip the live Clarity call (saves API quota)
-//           &section=traffic|ga4|stripe|clarity|signups|app to return one section only
+//           &section=traffic|videos|ga4|stripe|clarity|signups|app to return one section only
 
 import { getGoogleAccessToken, serviceAccountConfigured } from './_google-sa.js'
 import { aggregateSnapshots, fetchClarity, loadSnapshots, FRICTION_METRICS } from './_clarity.js'
 import { reportWindows, ptDate } from './_report-dates.js'
+import { loadClicks, loadLinkTable, summarizeClicks } from './_video-links.js'
 
 const DEFAULT_PROPERTY = '437571529'
 const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly'
@@ -52,6 +53,7 @@ export async function onRequest({ request, env }) {
   // sections one at a time so each response stays small enough to read whole.
   const sections = {
     traffic: () => trafficSection(env, win),
+    videos: () => videoSection(env, win),
     ga4: () => ga4Section(env, win),
     stripe: () => stripeSection(env, win),
     clarity: () => claritySection(env, win, live),
@@ -135,6 +137,19 @@ async function trafficSection(env, win) {
     note: 'Counts every visit, including visitors who declined the analytics banner, so it is the true traffic number. GA4/Clarity only see opted-in visitors. Referrer "(direct/none)" = no referrer; your own domain as referrer = internal navigation.',
     thisWeek,
     lastWeek,
+  }
+}
+
+// --- Per-video tracked links (/v/<slug>) ------------------------------------
+
+async function videoSection(env, win) {
+  if (!serviceAccountConfigured(env) || !env.GOOGLE_SHEET_ID) throw new Error('sheet not configured')
+  const [links, clicks] = await Promise.all([loadLinkTable(env), loadClicks(env)])
+  return {
+    note: 'Human clicks on spongehydration.com/v/<slug> links, from the "Video Links" / "Video Clicks" sheet tabs. Bot and link-preview hits are excluded. Views per video come from Metricool, not from here.',
+    linksDefined: Object.values(links),
+    thisWeek: summarizeClicks(clicks, links, win.thisWeek.startMs, win.thisWeek.endMs),
+    lastWeek: summarizeClicks(clicks, links, win.lastWeek.startMs, win.lastWeek.endMs),
   }
 }
 
@@ -267,7 +282,11 @@ export function summarizeOrders(sessions, refunds) {
   const units = {}
   let gross = 0, shipping = 0, tax = 0, discounts = 0, subtotal = 0
   const customers = new Set()
+  const heardAbout = {}
   for (const s of paid) {
+    const f = (s.custom_fields || []).find((x) => x.key === 'heardabout')
+    const v = f?.dropdown?.value || 'not answered'
+    heardAbout[v] = (heardAbout[v] || 0) + 1
     gross += s.amount_total || 0
     subtotal += s.amount_subtotal || 0
     shipping += s.total_details?.amount_shipping || 0
@@ -295,6 +314,7 @@ export function summarizeOrders(sessions, refunds) {
     netRevenue: cents(gross - refunded),
     avgOrderValue: paid.length ? cents(gross / paid.length) : 0,
     unitsBySku: units,
+    heardAbout,
     unpaidOrExpiredCheckouts: sessions.length - paid.length,
   }
 }
@@ -316,7 +336,7 @@ async function stripeSection(env, win) {
   const [thisWeek, lastWeek] = await Promise.all([week(win.thisWeek), week(win.lastWeek)])
   return {
     mode: env.STRIPE_SECRET_KEY.startsWith('sk_live') || env.STRIPE_SECRET_KEY.startsWith('rk_live') ? 'live' : 'test',
-    note: 'Orders = paid Stripe Checkout sessions created in the window. Abandoned = checkout sessions that expired unpaid (Stripe expires them after 24h). SKU keys: single = Tracker, dot = Sponge Dot, family = Family Pack, adhesive_3pack, coaster.',
+    note: 'Orders = paid Stripe Checkout sessions created in the window. Abandoned = checkout sessions that expired unpaid (Stripe expires them after 24h). SKU keys: single = Tracker, dot = Sponge Dot, family = Family Pack, adhesive_3pack, coaster. heardAbout = answers to the optional "How did you hear about us?" checkout dropdown (started 2026-09-26).',
     thisWeek,
     lastWeek,
   }

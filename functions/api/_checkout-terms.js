@@ -41,3 +41,33 @@ export const isTermsSetupError = (status, stripeError) => {
   const message = String(stripeError.message || '')
   return param.startsWith('consent_collection') || param.startsWith('custom_text') || /terms of service|consent_collection/i.test(message)
 }
+
+// "How did you hear about us?" — optional dropdown on Stripe Checkout, so the
+// weekly report can tie orders to TikTok / Instagram / YouTube even when the
+// buyer declined analytics. Read back from session.custom_fields.
+export const HEARD_ABOUT_KEY = 'heardabout'
+export const HEARD_ABOUT_OPTIONS = [
+  ['tiktok', 'TikTok'],
+  ['instagram', 'Instagram'],
+  ['youtube', 'YouTube'],
+  ['google', 'Google search'],
+  ['ai', 'ChatGPT or another AI'],
+  ['friend', 'Friend or family'],
+  ['other', 'Other'],
+]
+export const heardAboutParams = () => {
+  const p = {
+    'custom_fields[0][key]': HEARD_ABOUT_KEY,
+    'custom_fields[0][label][type]': 'custom',
+    'custom_fields[0][label][custom]': 'How did you hear about us?',
+    'custom_fields[0][type]': 'dropdown',
+    'custom_fields[0][optional]': 'true',
+  }
+  HEARD_ABOUT_OPTIONS.forEach(([value, label], i) => {
+    p[`custom_fields[0][dropdown][options][${i}][value]`] = value
+    p[`custom_fields[0][dropdown][options][${i}][label]`] = label
+  })
+  return p
+}
+export const isCustomFieldError = (status, stripeError) =>
+  status === 400 && Boolean(stripeError) && (String(stripeError.param || '').startsWith('custom_fields') || /custom_fields/i.test(String(stripeError.message || '')))

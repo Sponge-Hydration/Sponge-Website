@@ -7,7 +7,7 @@
 // Requires the STRIPE_SECRET_KEY environment variable (set in the Cloudflare
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
-import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams, termsCheckboxParams } from './_checkout-terms.js'
+import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams, termsCheckboxParams, heardAboutParams, isCustomFieldError } from './_checkout-terms.js'
 
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
 // The 2-Pack is retired and the Coaster is sold out - neither is purchasable.
@@ -206,10 +206,13 @@ export async function onRequestPost({ request, env }) {
   // says what to fix. Any other Stripe error is returned as before.
   // Cart recovery settings are added the same way: if Stripe ever refuses
   // them, checkout retries without them rather than failing.
+  // The optional "How did you hear about us?" dropdown gets the same treatment.
+  let heardAbout = true
   const build = (terms, recovery) => {
     const form = new URLSearchParams(params)
     if (terms) for (const [k, v] of Object.entries(termsCheckboxParams(origin))) form.set(k, v)
     if (recovery) for (const [k, v] of Object.entries(recoveryParams())) form.set(k, v)
+    if (heardAbout) for (const [k, v] of Object.entries(heardAboutParams())) form.set(k, v)
     return form
   }
 
@@ -217,8 +220,11 @@ export async function onRequestPost({ request, env }) {
   let cartRecovery = true
   let resp = await createSession(build(termsCheckbox, cartRecovery))
   let session = await resp.json()
-  for (let retry = 0; retry < 2 && !resp.ok; retry++) {
-    if (cartRecovery && isRecoverySetupError(resp.status, session?.error)) {
+  for (let retry = 0; retry < 3 && !resp.ok; retry++) {
+    if (heardAbout && isCustomFieldError(resp.status, session?.error)) {
+      console.warn('Stripe rejected the heard-about dropdown; retrying without it:', session?.error?.message)
+      heardAbout = false
+    } else if (cartRecovery && isRecoverySetupError(resp.status, session?.error)) {
       console.warn('Stripe rejected the cart-recovery settings; retrying without them:', session?.error?.message)
       cartRecovery = false
     } else if (termsCheckbox && isTermsSetupError(resp.status, session?.error)) {
@@ -232,5 +238,5 @@ export async function onRequestPost({ request, env }) {
     return json({ error: session?.error?.message || 'Stripe error.' }, 502)
   }
 
-  return json({ url: session.url, termsCheckbox, cartRecovery })
+  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout })
 }
