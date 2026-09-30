@@ -14,13 +14,14 @@ import { randomCode, createGiftCode, giftConfigured } from '../functions/api/_gi
 vi.mock('../functions/api/_sheets.js', () => ({
   sheetsConfigured: () => true,
   appendSubscriber: vi.fn(async () => ({ added: true })),
+  setSubscriberGiftCode: vi.fn(async () => true),
 }))
 vi.mock('../functions/api/_integrations.js', async (orig) => {
   const real = await orig()
   return { ...real, gmailConfigured: () => true, sendGmail: vi.fn(async () => ({})) }
 })
 
-const { appendSubscriber } = await import('../functions/api/_sheets.js')
+const { appendSubscriber, setSubscriberGiftCode } = await import('../functions/api/_sheets.js')
 const { sendGmail, giftEmailHtml } = await import('../functions/api/_integrations.js')
 const { onRequestPost: subscribe } = await import('../functions/api/subscribe.js')
 
@@ -35,6 +36,7 @@ beforeEach(() => {
   appendSubscriber.mockClear()
   appendSubscriber.mockImplementation(async () => ({ added: true }))
   sendGmail.mockClear()
+  setSubscriberGiftCode.mockClear()
   vi.stubGlobal('fetch', async (url, init) => {
     stripeCalls.push({ url, headers: init.headers, form: new URLSearchParams(init.body.toString()) })
     return reply(200, { code: stripeCalls.at(-1).form.get('code') })
@@ -97,6 +99,14 @@ describe('signup issues the gift', () => {
     const mail = sendGmail.mock.calls[0][1]
     expect(mail.to).toBe('new@example.com')
     expect(mail.html).toContain(stripeCalls[0].form.get('code'))
+    expect(setSubscriberGiftCode).toHaveBeenCalledWith(ENV, 'new@example.com', stripeCalls[0].form.get('code'))
+  })
+
+  it('still emails the gift if writing the code to the sheet fails', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    setSubscriberGiftCode.mockRejectedValueOnce(new Error('sheets down'))
+    await signup()
+    expect(sendGmail).toHaveBeenCalledOnce()
   })
 
   it('never to an existing subscriber, so codes cannot be farmed', async () => {

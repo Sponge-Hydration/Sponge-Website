@@ -6,7 +6,7 @@
 // what the sheet inspection would otherwise have demonstrated.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { appendSubscriber } from '../functions/api/_sheets.js'
+import { appendSubscriber, setSubscriberGiftCode } from '../functions/api/_sheets.js'
 
 const ENV = {
   GOOGLE_SA_EMAIL: 'sa@x.iam.gserviceaccount.com',
@@ -93,5 +93,24 @@ describe('de-duplication', () => {
     vi.stubGlobal('fetch', fetchMock)
     const res = await appendSubscriber(ENV, { email: 'x@y.com', source: 'footer' })
     expect(res).toEqual({ added: true })
+  })
+})
+
+describe('setSubscriberGiftCode', () => {
+  it('writes the code into column E of the matching row (and the E1 header)', async () => {
+    stubCrypto()
+    const { calls } = stubSheets(['a@x.com', 'Target@X.com', 'c@x.com'])
+    expect(await setSubscriberGiftCode(ENV, 'target@x.com', 'GIFT-ABCD2345')).toBe(true)
+    const upd = calls.find((c) => c.url.includes('values:batchUpdate'))
+    const data = JSON.parse(upd.body).data
+    expect(data).toContainEqual({ range: 'Subscribers!E1', values: [['Gift Code']] })
+    expect(data).toContainEqual({ range: 'Subscribers!E3', values: [['GIFT-ABCD2345']] })
+  })
+
+  it('does nothing when the address is not in the tab', async () => {
+    stubCrypto()
+    const { calls } = stubSheets(['a@x.com'])
+    expect(await setSubscriberGiftCode(ENV, 'missing@x.com', 'GIFT-X')).toBe(false)
+    expect(calls.some((c) => c.url.includes('batchUpdate'))).toBe(false)
   })
 })

@@ -7,7 +7,7 @@
 // Env vars: the same GOOGLE_SA_EMAIL / GOOGLE_SA_PRIVATE_KEY / GOOGLE_SHEET_ID
 // the order sheet uses. Optional SUBSCRIBER_TAB_NAME (default "Subscribers").
 
-import { sheetsConfigured, appendSubscriber } from './_sheets.js'
+import { sheetsConfigured, appendSubscriber, setSubscriberGiftCode } from './_sheets.js'
 import { giftConfigured, createGiftCode } from './_gift.js'
 import { gmailConfigured, sendGmail, giftEmailHtml } from './_integrations.js'
 
@@ -29,6 +29,13 @@ const SOURCES = new Set(['footer', 'checkout', 'notify-coaster', 'notify-product
 // emailed to the new subscriber.
 async function sendGift(env, email, siteUrl) {
   const code = await createGiftCode(env, { email })
+  // Record the code on the subscriber's row. Best effort: a sheet hiccup must
+  // not stop the gift email going out (the code is in Stripe metadata anyway).
+  try {
+    await setSubscriberGiftCode(env, email, code)
+  } catch (e) {
+    console.warn('gift code not written to sheet:', e?.message || e)
+  }
   await sendGmail(env, {
     to: email,
     subject: 'Your mystery gift from Sponge is inside',

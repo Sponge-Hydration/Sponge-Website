@@ -219,7 +219,7 @@ export async function appendOrderToSheet(env, order) {
 // needs no new credentials.
 
 const SUBSCRIBER_TAB = 'Subscribers'
-const SUBSCRIBER_HEADERS = ['Email', 'Date Added', 'Source', 'Status']
+const SUBSCRIBER_HEADERS = ['Email', 'Date Added', 'Source', 'Status', 'Gift Code']
 
 /**
  * Append an email to the subscriber tab, skipping addresses already present.
@@ -253,4 +253,38 @@ export async function appendSubscriber(env, { email, source }) {
   const date = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`
   await appendValues(env, token, tab, [[normalised, date, source || 'site', 'New']])
   return { added: true }
+}
+
+// Writes the signup "mystery gift" code into column E of the subscriber's row,
+// so the Subscribers tab shows who got which code. Also (re)writes the header
+// cell E1, which keeps tabs created before this column existed consistent.
+// Returns false when the address isn't in the tab.
+export async function setSubscriberGiftCode(env, email, code) {
+  const tab = env.SUBSCRIBER_TAB_NAME || SUBSCRIBER_TAB
+  const token = await getAccessToken(env)
+  const normalised = String(email).trim().toLowerCase()
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEET_ID}/values/${encodeURIComponent(`${tab}!A2:A`)}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  if (!res.ok) throw new Error(`Sheets read error ${res.status}`)
+  const rows = (await res.json()).values || []
+  const i = rows.findIndex((r) => String(r[0] || '').trim().toLowerCase() === normalised)
+  if (i === -1) return false
+  const upd = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEET_ID}/values:batchUpdate`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        valueInputOption: 'RAW',
+        data: [
+          { range: `${tab}!E1`, values: [['Gift Code']] },
+          { range: `${tab}!E${i + 2}`, values: [[code]] },
+        ],
+      }),
+    }
+  )
+  if (!upd.ok) throw new Error(`Sheets update error ${upd.status}: ${await upd.text()}`)
+  return true
 }
