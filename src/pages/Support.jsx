@@ -59,7 +59,7 @@ export default function Support() {
     <>
       <Seo
         title="Customer Support | Sponge Hydration"
-        description="Get help with your Sponge: setup and tutorials, order tracking, cancelling a pre-order, 30-day returns, warranty claims and privacy requests. Email team@spongehydration.com."
+        description="Get help with your Sponge: setup and tutorials, order tracking, canceling a pre-order, 30-day returns, warranty claims and privacy requests. Email team@spongehydration.com."
         path="/support"
       />
       <section className="section">

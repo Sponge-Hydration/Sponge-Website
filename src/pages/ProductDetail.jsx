@@ -187,7 +187,7 @@ export default function ProductDetail() {
             {!product.soldOut && clips > 0 && (
               <div className="pdp__colors">
                 <span className="pdp__colors-label" id="pdp-color-label">
-                  Colour: <strong>{colorById(color)?.label}</strong>
+                  Color: <strong>{colorById(color)?.label}</strong>
                   {clips > 1 && <span className="pdp__colors-note"> (change individual clips in the cart)</span>}
                 </span>
                 <div className="pdp__swatches" role="radiogroup" aria-labelledby="pdp-color-label">

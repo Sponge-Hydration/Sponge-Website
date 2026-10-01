@@ -211,14 +211,14 @@ export default function PrivacyControls() {
                 <p>
                   Meta (Facebook and Instagram) and TikTok advertising tools, in the browser and
                   from our server after an order. This one involves <strong>sharing</strong> your
-                  information with those companies for cross-context behavioural advertising, in
+                  information with those companies for cross-context behavioral advertising, in
                   the sense California law uses the word. Switching it off is the same as telling
                   us &ldquo;Do Not Sell or Share My Personal Information&rdquo;.
                 </p>
                 {consent.gpc && (
                   <p className="privacy-opt__gpc" id="opt-advertising-gpc">
                     Locked off because your browser is sending a Global Privacy Control signal.
-                    We honour that automatically. Turn the signal off in your browser or
+                    We honor that automatically. Turn the signal off in your browser or
                     extension if you want this choice back.
                   </p>
                 )}

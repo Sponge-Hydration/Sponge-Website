@@ -156,7 +156,7 @@ export default function Checkout() {
                 <Link to="/legal/terms" target="_blank" rel="noopener">Terms of Service</Link>, including
                 binding individual arbitration and a class-action waiver (Section 17), and acknowledge
                 our <Link to="/legal/privacy" target="_blank" rel="noopener">Privacy Policy</Link>. Pre-orders
-                can be cancelled for a full refund any time before they ship.
+                can be canceled for a full refund any time before they ship.
               </p>
               <button
                 type="button"

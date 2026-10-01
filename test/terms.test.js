@@ -31,7 +31,7 @@ describe('the Terms of Service', () => {
   it('keeps the promises made in the other policies', () => {
     expect(terms).toMatch(/30-day money-back guarantee/)
     expect(terms).toMatch(/1-year limited warranty/)
-    expect(terms).toMatch(/cancelled by you for a full refund at any time before your order ships/)
+    expect(terms).toMatch(/canceled by you for a full refund at any time before your order ships/)
     expect(terms).toMatch(/that policy controls for that subject/)
   })
 })
