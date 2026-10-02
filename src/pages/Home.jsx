@@ -215,7 +215,10 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="container hero__grid">
           <div className="hero__copy">
-            <span className="eyebrow">Order now · Cancel any time before it ships</span>
+            <button type="button" className="eyebrow eyebrow--link" onClick={orderNow}>
+              Order now · Cancel any time before it ships
+              <span className="eyebrow__arrow" aria-hidden="true">→</span>
+            </button>
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your

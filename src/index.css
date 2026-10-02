@@ -1100,6 +1100,8 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
    go somewhere. Where a pill has a real destination it is now a link, with an
    arrow that slides in on hover so it reads as one. */
 .eyebrow--link { text-decoration: none; transition: background 0.15s ease, color 0.15s ease; }
+/* The same pill as a <button> (the hero one adds to cart rather than linking). */
+button.eyebrow { border: 0; cursor: pointer; font-family: inherit; }
 .eyebrow--link:hover { background: var(--blue-600); color: #fff; }
 .eyebrow--link:focus-visible { outline: 2px solid var(--blue-600); outline-offset: 3px; }
 .eyebrow__arrow { display: inline-block; transition: transform 0.15s ease; }
