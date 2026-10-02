@@ -226,6 +226,10 @@ export async function onRequestPost({ request, env }) {
     }
     if (terms) for (const [k, v] of Object.entries(termsCheckboxParams(origin))) form.set(k, v)
     if (recovery) for (const [k, v] of Object.entries(recoveryParams())) form.set(k, v)
+    // Stripe rejects recovery's allow_promotion_codes alongside `discounts`
+    // ("Please pass in only one"). The recovered session keeps the gift
+    // discount anyway, so recovery stays on with just that flag off.
+    if (recovery && giftApplied) form.set('after_expiration[recovery][allow_promotion_codes]', 'false')
     if (heardAbout) for (const [k, v] of Object.entries(heardAboutParams())) form.set(k, v)
     return form
   }

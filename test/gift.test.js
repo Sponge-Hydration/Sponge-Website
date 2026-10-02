@@ -250,6 +250,10 @@ describe('gift code from the gift email link (auto-applied at checkout)', () => 
     expect(forms[0].get('discounts[0][promotion_code]')).toBe('promo_123')
     expect(forms[0].get('customer_email')).toBe('sub@example.com')
     expect(forms[0].has('allow_promotion_codes')).toBe(false) // Stripe forbids both
+    // Cart recovery stays on; only its promotion-code flag is off (Stripe
+    // rejects that flag together with `discounts`).
+    expect(forms[0].get('after_expiration[recovery][enabled]')).toBe('true')
+    expect(forms[0].get('after_expiration[recovery][allow_promotion_codes]')).toBe('false')
   })
 
   it('without a gift link, checkout is unchanged: code field on, no email prefill', async () => {
