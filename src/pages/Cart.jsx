@@ -4,11 +4,15 @@ import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { colorOptions, productById } from '../data'
-import { BulbIcon, CartIcon, ShieldIcon } from '../components/icons'
+import { BulbIcon, CartIcon, LockIcon, ShieldIcon } from '../components/icons'
 import { shippingForCart } from '../shipping'
+import { useStripeCheckout } from '../cart/useStripeCheckout'
+import CheckoutTerms from '../components/CheckoutTerms'
 
 export default function Cart() {
   const { items, subtotal, add, setColor, remove } = useCart()
+  const { start, loading, error } = useStripeCheckout()
+  const startCheckout = () => start({ track: true })
 
   // The cart stores one unit per row so each clip can carry its own colour.
   // Presenting that raw means four trackers render as four identical rows, so
@@ -194,7 +198,18 @@ export default function Cart() {
             <div className="cart-summary__row"><span>Shipping (USPS Ground)</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
             <div className="cart-summary__row"><span>Sales tax</span><span>Calculated at checkout</span></div>
             <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)} + tax</span></div>
-            <Link to="/checkout" className="btn btn--primary btn--lg btn--block">Checkout</Link>
+            {error && <p style={{ color: 'crimson', fontSize: 14 }}>{error}</p>}
+            {/* Straight to Stripe from here: no intermediate /checkout page. */}
+            <CheckoutTerms action="Checkout" refundLine={false} />
+            <button
+              type="button"
+              className="btn btn--primary btn--lg btn--block"
+              onClick={startCheckout}
+              disabled={loading}
+            >
+              {loading ? 'Redirecting…' : 'Checkout'}
+            </button>
+            <p className="cart-summary__pay"><LockIcon size={14} /> Secure checkout by Stripe. Apple Pay, Google Pay and Link accepted.</p>
             <Link to="/products" className="cart-summary__cont">← Continue shopping</Link>
             <p className="cart-summary__note"><ShieldIcon size={14} /> Pre-order · Cancel any time before it ships for a full refund</p>
           </aside>

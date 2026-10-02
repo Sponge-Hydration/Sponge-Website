@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
@@ -6,15 +6,14 @@ import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
 import { shippingForCart } from '../shipping'
 import { trackBeginCheckout, trackPurchase } from '../analytics'
-import { getConsent } from '../consent'
-import { isInternal } from '../internal'
+import { useStripeCheckout } from '../cart/useStripeCheckout'
+import CheckoutTerms from '../components/CheckoutTerms'
 import EmailSignup from '../components/EmailSignup'
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
   const [searchParams] = useSearchParams()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const { start, loading, error } = useStripeCheckout()
 
   const shipping = shippingForCart(items)
   // Sales tax is destination-based and computed by Stripe on the hosted page
@@ -96,46 +95,7 @@ export default function Checkout() {
     )
   }
 
-  const payWithStripe = async () => {
-    setLoading(true)
-    setError('')
-    try {
-      // Group units by product + exact color combo into { id, colors, qty } lines.
-      const grouped = Object.values(
-        items.reduce((acc, i) => {
-          const key = `${i.id}|${i.colors.join(',')}`
-          if (!acc[key]) acc[key] = { id: i.id, colors: i.colors, qty: 0 }
-          acc[key].qty += 1
-          return acc
-        }, {})
-      )
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        // The advertising consent is stamped onto the Stripe session so the
-        // webhook can honour it later. Browser state is gone by the time the
-        // webhook runs, so this is the only way the server-side Meta event can
-        // respect the same choice. Read at click time, not render time.
-        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal(), internal: isInternal() }),
-      })
-      const raw = await res.text()
-      let data
-      try {
-        data = JSON.parse(raw)
-      } catch {
-        throw new Error(
-          'The checkout API did not respond. Make sure the site is served via Cloudflare (e.g. `wrangler pages dev`), not plain Vite.'
-        )
-      }
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || 'Could not start checkout.')
-      }
-      window.location.href = data.url
-    } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.')
-      setLoading(false)
-    }
-  }
+  const payWithStripe = () => start()
 
   return (
     <section className="section">
@@ -151,13 +111,7 @@ export default function Checkout() {
                 (US only), and payment details. We never see or store your card information.
               </p>
               {error && <p style={{ color: 'crimson' }}>{error}</p>}
-              <p className="checkout-form__terms">
-                By selecting “Continue to secure checkout”, you agree to our{' '}
-                <Link to="/legal/terms" target="_blank" rel="noopener">Terms of Service</Link>, including
-                binding individual arbitration and a class-action waiver (Section 17), and acknowledge
-                our <Link to="/legal/privacy" target="_blank" rel="noopener">Privacy Policy</Link>. Pre-orders
-                can be canceled for a full refund any time before they ship.
-              </p>
+              <CheckoutTerms action="Continue to secure checkout" />
               <button
                 type="button"
                 className="btn btn--primary btn--lg btn--block"

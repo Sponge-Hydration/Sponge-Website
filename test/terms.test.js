@@ -37,13 +37,26 @@ describe('the Terms of Service', () => {
 })
 
 describe('where the Terms are presented', () => {
-  it('shows them right above the button that starts checkout', () => {
-    const checkout = src('src/pages/Checkout.jsx')
-    const notice = checkout.indexOf('to="/legal/terms"')
-    const button = checkout.indexOf('onClick={payWithStripe}')
+  it('the notice links the Terms and names arbitration', () => {
+    const notice = src('src/components/CheckoutTerms.jsx')
+    expect(notice).toMatch(/to="\/legal\/terms"/)
+    expect(notice).toMatch(/to="\/legal\/privacy"/)
+    expect(notice).toMatch(/arbitration/)
+  })
+
+  // Both places that can start checkout: the cart (straight to Stripe) and the
+  // /checkout fallback page.
+  it.each([
+    ['src/pages/Cart.jsx', 'onClick={startCheckout}'],
+    ['src/pages/Checkout.jsx', 'onClick={payWithStripe}'],
+  ])('shows it right above the button that starts checkout in %s', (file, handler) => {
+    const page = src(file)
+    const notice = page.indexOf('<CheckoutTerms')
+    const button = page.indexOf(handler)
     expect(notice).toBeGreaterThan(0)
     expect(button).toBeGreaterThan(notice)
-    expect(checkout.slice(notice, button)).toMatch(/arbitration/)
+    // Nothing interactive between the notice and the button.
+    expect(page.slice(notice, button)).not.toMatch(/<Link|<a /)
   })
 
   it('links them from the Support column of the footer', () => {

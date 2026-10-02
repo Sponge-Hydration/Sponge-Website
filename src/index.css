@@ -1186,3 +1186,5 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .legal__conspicuous strong { font-weight: 700; }
 .checkout-form__terms { font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); margin: 4px 0 14px; }
 .checkout-form__terms a { color: var(--blue-600); font-weight: 600; }
+.cart-summary .checkout-form__terms { font-size: 12.5px; margin: 14px 0 12px; }
+.cart-summary__pay { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12.5px; color: var(--muted); margin: 10px 0 0; text-align: center; }
