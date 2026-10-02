@@ -8,6 +8,7 @@ import { initAnalytics, trackPageView } from '../analytics'
 import PrivacyControls from './PrivacyControls'
 import StickyBuyBar from './StickyBuyBar'
 import { CONSENT_EVENT } from '../consent'
+import { captureGiftFromUrl } from '../gift'
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -19,6 +20,8 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
+    // A gift-email link (?gift=CODE) is remembered so checkout can apply it.
+    captureGiftFromUrl()
     trackPageView(pathname)
   }, [pathname])
 

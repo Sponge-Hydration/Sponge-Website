@@ -7,6 +7,7 @@
 // Requires the STRIPE_SECRET_KEY environment variable (set in the Cloudflare
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
+import { lookupGiftCode } from './_gift.js'
 import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams, termsCheckboxParams, heardAboutParams, isCustomFieldError } from './_checkout-terms.js'
 
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
@@ -208,8 +209,21 @@ export async function onRequestPost({ request, env }) {
   // them, checkout retries without them rather than failing.
   // The optional "How did you hear about us?" dropdown gets the same treatment.
   let heardAbout = true
+  // A signup-gift code that arrived via the gift email's link is applied for
+  // the shopper (and their email prefilled), so they type nothing. Only codes
+  // issued to a known email qualify (see lookupGiftCode). Stripe does not allow
+  // `discounts` together with `allow_promotion_codes`, so the code field is
+  // dropped for that session. If Stripe refuses the session for any other
+  // reason while a gift is applied, it is retried without the gift.
+  const gift = await lookupGiftCode(env, body?.giftCode)
+  let giftApplied = Boolean(gift)
   const build = (terms, recovery) => {
     const form = new URLSearchParams(params)
+    if (giftApplied) {
+      form.delete('allow_promotion_codes')
+      form.set('discounts[0][promotion_code]', gift.id)
+      form.set('customer_email', gift.email)
+    }
     if (terms) for (const [k, v] of Object.entries(termsCheckboxParams(origin))) form.set(k, v)
     if (recovery) for (const [k, v] of Object.entries(recoveryParams())) form.set(k, v)
     if (heardAbout) for (const [k, v] of Object.entries(heardAboutParams())) form.set(k, v)
@@ -220,7 +234,7 @@ export async function onRequestPost({ request, env }) {
   let cartRecovery = true
   let resp = await createSession(build(termsCheckbox, cartRecovery))
   let session = await resp.json()
-  for (let retry = 0; retry < 3 && !resp.ok; retry++) {
+  for (let retry = 0; retry < 4 && !resp.ok; retry++) {
     if (heardAbout && isCustomFieldError(resp.status, session?.error)) {
       console.warn('Stripe rejected the heard-about dropdown; retrying without it:', session?.error?.message)
       heardAbout = false
@@ -230,6 +244,9 @@ export async function onRequestPost({ request, env }) {
     } else if (termsCheckbox && isTermsSetupError(resp.status, session?.error)) {
       console.warn('Stripe rejected the terms checkbox; retrying without it:', session?.error?.message)
       termsCheckbox = false
+    } else if (giftApplied) {
+      console.warn('Stripe rejected the session with the gift code applied; retrying without it:', session?.error?.message)
+      giftApplied = false
     } else break
     resp = await createSession(build(termsCheckbox, cartRecovery))
     session = await resp.json()
@@ -238,5 +255,5 @@ export async function onRequestPost({ request, env }) {
     return json({ error: session?.error?.message || 'Stripe error.' }, 502)
   }
 
-  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout })
+  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout, giftApplied })
 }

@@ -194,3 +194,86 @@ describe('emails', () => {
     expect(html).not.toContain('Discount')
   })
 })
+
+describe('gift code from the gift email link (auto-applied at checkout)', () => {
+  const promo = (over = {}) => ({
+    id: 'promo_123', code: 'GIFT-ABCD2345', active: true, max_redemptions: 1, times_redeemed: 0,
+    metadata: { source: 'email-signup-gift', email: 'sub@example.com' }, ...over,
+  })
+  const stubLookup = (data) => vi.stubGlobal('fetch', async () => reply(200, { data }))
+
+  it('resolves a live signup gift that was issued to a known email', async () => {
+    const { lookupGiftCode } = await import('../functions/api/_gift.js')
+    stubLookup([promo()])
+    expect(await lookupGiftCode(ENV, 'gift-abcd2345')).toEqual({ id: 'promo_123', email: 'sub@example.com', code: 'GIFT-ABCD2345' })
+  })
+
+  it('refuses anything else: malformed, no email on file, other sources, already used', async () => {
+    const { lookupGiftCode } = await import('../functions/api/_gift.js')
+    let called = 0
+    vi.stubGlobal('fetch', async () => { called++; return reply(200, { data: [promo()] }) })
+    expect(await lookupGiftCode(ENV, 'SAVE10')).toBeNull()
+    expect(await lookupGiftCode(ENV, undefined)).toBeNull()
+    expect(called).toBe(0) // malformed codes never reach Stripe
+    stubLookup([promo({ metadata: { source: 'email-signup-gift' } })])
+    expect(await lookupGiftCode(ENV, 'GIFT-ABCD2345')).toBeNull() // no email on file
+    stubLookup([promo({ metadata: { source: 'cart-recovery', email: 'x@y.com' } })])
+    expect(await lookupGiftCode(ENV, 'GIFT-ABCD2345')).toBeNull()
+    stubLookup([promo({ times_redeemed: 1 })])
+    expect(await lookupGiftCode(ENV, 'GIFT-ABCD2345')).toBeNull()
+    stubLookup([])
+    expect(await lookupGiftCode(ENV, 'GIFT-ABCD2345')).toBeNull()
+    vi.stubGlobal('fetch', async () => reply(500, {}))
+    expect(await lookupGiftCode(ENV, 'GIFT-ABCD2345')).toBeNull()
+  })
+
+  const checkout = async (giftCode, onSession) => {
+    const { onRequestPost: createSession } = await import('../functions/api/create-checkout-session.js')
+    const forms = []
+    vi.stubGlobal('fetch', async (url, init = {}) => {
+      if (String(url).includes('/v1/promotion_codes')) return reply(200, { data: [promo()] })
+      const form = new URLSearchParams(init.body.toString())
+      forms.push(form)
+      return onSession ? onSession(form) : reply(200, { url: 'https://checkout.stripe.com/c/pay/cs_test_x' })
+    })
+    const request = new Request('https://www.spongehydration.com/api/create-checkout-session', {
+      method: 'POST',
+      body: JSON.stringify({ items: [{ id: 'sponge-clip', qty: 1, colors: ['black'] }], giftCode }),
+    })
+    const res = await createSession({ request, env: { STRIPE_SECRET_KEY: 'sk_test_dummy' } })
+    return { res, out: await res.json(), forms }
+  }
+
+  it('applies it and prefills their email, instead of showing the code field', async () => {
+    const { out, forms } = await checkout('GIFT-ABCD2345')
+    expect(out.giftApplied).toBe(true)
+    expect(forms[0].get('discounts[0][promotion_code]')).toBe('promo_123')
+    expect(forms[0].get('customer_email')).toBe('sub@example.com')
+    expect(forms[0].has('allow_promotion_codes')).toBe(false) // Stripe forbids both
+  })
+
+  it('without a gift link, checkout is unchanged: code field on, no email prefill', async () => {
+    const { out, forms } = await checkout(undefined)
+    expect(out.giftApplied).toBe(false)
+    expect(forms[0].get('allow_promotion_codes')).toBe('true')
+    expect(forms[0].has('customer_email')).toBe(false)
+    expect([...forms[0].keys()].some((k) => k.startsWith('discounts'))).toBe(false)
+  })
+
+  it('never blocks checkout: if Stripe rejects the gift, it retries without it', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { res, out, forms } = await checkout('GIFT-ABCD2345', (form) =>
+      form.has('discounts[0][promotion_code]')
+        ? reply(400, { error: { message: 'This promotion code has been redeemed.' } })
+        : reply(200, { url: 'https://checkout.stripe.com/c/pay/cs_test_y' })
+    )
+    expect(res.status).toBe(200)
+    expect(out.giftApplied).toBe(false)
+    expect(forms.at(-1).get('allow_promotion_codes')).toBe('true')
+  })
+
+  it('the gift email button carries the code', () => {
+    const html = giftEmailHtml({ code: 'GIFT-ABCD2345' })
+    expect(html).toContain('/products?gift=GIFT-ABCD2345')
+  })
+})

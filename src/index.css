@@ -386,6 +386,17 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 /* Product detail page */
 .pdp { display: grid; gap: 44px; }
 @media (min-width: 880px) { .pdp { grid-template-columns: 1fr 1fr; align-items: start; } }
+/* Single column (phones/small tablets): price, then color and the buy buttons,
+   then the reassurance line; the description and feature list follow. Before,
+   the buy button sat nearly two screens down, under all of that copy. */
+@media (max-width: 879px) {
+  .pdp { gap: 22px; }
+  .pdp__info { display: flex; flex-direction: column; }
+  .pdp__info > .eyebrow { align-self: flex-start; }
+  .pdp__colors, .pdp__buy, .pdp__soldout { order: 1; }
+  .pdp__meta { order: 2; margin-bottom: 22px; }
+  .pdp__desc, .pdp__compare, .pdp__list { order: 3; }
+}
 .pdp__media { display: grid; place-items: center; aspect-ratio: 1; border-radius: var(--radius-lg); font-size: 110px; background: radial-gradient(120% 100% at 50% 0, var(--aqua-100), var(--surface-deep)); box-shadow: var(--shadow-sm); }
 .pdp__info h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 900; margin: 12px 0 6px; }
 .pdp__tagline { color: var(--ink-soft); font-size: 18px; margin: 0 0 12px; }
@@ -671,7 +682,19 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .pdp__thumb { border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; aspect-ratio: 1; padding: 0; }
 .pdp__thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
 .pdp__thumb.is-active { border-color: var(--blue-500); box-shadow: 0 0 0 3px var(--aqua-100); }
-@media (max-width: 560px) { .pdp__thumbs { grid-template-columns: repeat(4, 1fr); } }
+/* Phones: the photos are landscape, so a square box wasted a third of the first
+   screen; thumbnails stay on one row. Together with the tighter top padding this
+   brings the price onto the first screen. */
+@media (max-width: 560px) {
+  .section--pdp { padding-top: 28px; }
+  .pdp__main { aspect-ratio: 4 / 3; }
+  .pdp__main img { padding: 8px; }
+  .pdp__thumbs { grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .pdp__thumb { border-radius: 9px; }
+  .pdp__thumb img { padding: 3px; }
+  .pdp__gallery { gap: 10px; }
+  .breadcrumb { margin-bottom: 14px; }
+}
 
 /* Team photos + founders */
 .team-card__photo { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; margin: 0 auto 14px; display: block; box-shadow: var(--shadow-sm); }
@@ -903,16 +926,20 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .footer__privacy-btn:hover { color: var(--aqua-300); }
 
 @media (max-width: 700px) {
-  .privacy-banner { padding: 14px 0 max(14px, env(safe-area-inset-bottom)); }
-  .privacy-banner__inner { flex-direction: column; align-items: stretch; gap: 12px; padding: 0 18px; }
+  /* Slim on phones: it used to take ~29% of the screen and sat on top of the
+     hero's buy button. One short line of text, three equal buttons in one row. */
+  .privacy-banner { padding: 10px 0 max(10px, env(safe-area-inset-bottom)); }
+  .privacy-banner__inner { flex-direction: column; align-items: stretch; gap: 8px; padding: 0 14px; }
+  .privacy-banner__text { font-size: 13px; line-height: 1.35; }
+  .privacy-banner__text strong { display: inline; font-size: 13px; margin: 0 4px 0 0; }
+  .privacy-banner__text p { display: inline; }
+  .privacy-banner__more { display: none; }
   /* The row layout's `flex: 1 1 380px` sets flex-basis on the main axis, which
      becomes HEIGHT once this is a column — forcing a 380px-tall text block. */
   .privacy-banner__text { flex: 0 0 auto; }
-  .privacy-banner__text p { font-size: 14px; }
-  .privacy-banner__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .privacy-banner__actions .btn { min-height: 44px; justify-content: center; padding: 11px 12px; }
-  /* Accept spans the full row so the affirmative action is not cramped. */
-  .privacy-banner__actions .btn--primary { grid-column: 1 / -1; }
+  .privacy-banner__text p { font-size: 13px; line-height: 1.4; }
+  .privacy-banner__actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; flex-wrap: nowrap; }
+  .privacy-banner__actions .btn { min-height: 44px; justify-content: center; padding: 8px 6px; font-size: 14px; white-space: nowrap; }
   .privacy-modal__panel { padding: 28px 20px 22px; }
   .privacy-modal__actions .btn { flex: 1 1 auto; justify-content: center; }
 }
@@ -1194,4 +1221,5 @@ button.eyebrow { border: 0; cursor: pointer; font-family: inherit; }
 .cart-top-checkout { display: none; margin-bottom: 24px; }
 .cart-top-checkout .checkout-form__terms { font-size: 12px; margin: 0 0 10px; }
 @media (max-width: 879px) { .cart-top-checkout { display: block; } }
+.cart-summary__gift { font-size: 13.5px; color: #0a7d3b; background: #ecfdf3; border: 1px solid #bbf7d0; border-radius: 10px; padding: 9px 12px; margin: 14px 0 0; }
 .cart-summary__pay { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12.5px; color: var(--muted); margin: 10px 0 0; text-align: center; }

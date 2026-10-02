@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
@@ -8,11 +8,15 @@ import { BulbIcon, CartIcon, LockIcon, ShieldIcon } from '../components/icons'
 import { shippingForCart } from '../shipping'
 import { useStripeCheckout } from '../cart/useStripeCheckout'
 import CheckoutTerms from '../components/CheckoutTerms'
+import { getGiftCode } from '../gift'
 
 export default function Cart() {
   const { items, subtotal, add, setColor, remove } = useCart()
   const { start, loading, error } = useStripeCheckout()
   const startCheckout = () => start({ track: true })
+  // Read after mount (localStorage is not available while prerendering).
+  const [giftCode, setGiftCode] = useState('')
+  useEffect(() => { setGiftCode(getGiftCode()) }, [])
 
   // The cart stores one unit per row so each clip can carry its own colour.
   // Presenting that raw means four trackers render as four identical rows, so
@@ -213,6 +217,9 @@ export default function Cart() {
             <div className="cart-summary__row"><span>Sales tax</span><span>Calculated at checkout</span></div>
             <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)} + tax</span></div>
             {error && <p style={{ color: 'crimson', fontSize: 14 }}>{error}</p>}
+            {giftCode && (
+              <p className="cart-summary__gift">Your 10% gift code <strong>{giftCode}</strong> will be applied at checkout.</p>
+            )}
             {/* Straight to Stripe from here: no intermediate /checkout page. */}
             <CheckoutTerms action="Checkout" refundLine={false} />
             <button

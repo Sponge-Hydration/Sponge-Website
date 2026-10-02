@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../cart/CartContext'
+import { useOrderNow } from '../cart/useOrderNow'
 import { CartIcon, CloseIcon, MenuIcon } from './icons'
 
 const links = [
@@ -14,6 +15,7 @@ const links = [
 export default function Header() {
   const { count } = useCart()
   const [open, setOpen] = useState(false)
+  const orderNow = useOrderNow()
 
   return (
     <header className="header">
@@ -38,7 +40,7 @@ export default function Header() {
             <CartIcon size={22} />
             {count > 0 && <span className="cart-badge">{count}</span>}
           </Link>
-          <Link to="/products" className="btn btn--primary header__order">Order now</Link>
+          <button type="button" className="btn btn--primary header__order" onClick={orderNow}>Order now</button>
           <button
             className="nav-toggle"
             aria-label="Toggle menu"

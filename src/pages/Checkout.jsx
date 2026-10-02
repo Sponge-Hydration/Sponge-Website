@@ -8,6 +8,7 @@ import { shippingForCart } from '../shipping'
 import { trackBeginCheckout, trackPurchase } from '../analytics'
 import { useStripeCheckout } from '../cart/useStripeCheckout'
 import CheckoutTerms from '../components/CheckoutTerms'
+import { clearGiftCode } from '../gift'
 import EmailSignup from '../components/EmailSignup'
 
 export default function Checkout() {
@@ -34,6 +35,7 @@ export default function Checkout() {
         trackPurchase({ sessionId, value: Number(total.toFixed(2)) })
       }
       clear()
+      clearGiftCode() // single use: it has been spent
       window.scrollTo(0, 0)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

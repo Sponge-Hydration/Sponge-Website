@@ -4,6 +4,7 @@ import { shippingForCart } from '../shipping'
 import { trackBeginCheckout } from '../analytics'
 import { getConsent } from '../consent'
 import { isInternal } from '../internal'
+import { clearGiftCode, getGiftCode } from '../gift'
 
 /**
  * Starts Stripe hosted Checkout for the current cart and redirects to it.
@@ -47,7 +48,9 @@ export function useStripeCheckout() {
         // webhook can honor it later. Browser state is gone by the time the
         // webhook runs, so this is the only way the server-side Meta event can
         // respect the same choice. Read at click time, not render time.
-        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal(), internal: isInternal() }),
+        // giftCode: a signup-gift code from the gift email's link, applied
+        // server-side so the shopper doesn't type it (validated against Stripe).
+        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal(), internal: isInternal(), giftCode: getGiftCode() || undefined }),
       })
       const raw = await res.text()
       let data
@@ -61,6 +64,9 @@ export function useStripeCheckout() {
       if (!res.ok || !data.url) {
         throw new Error(data.error || 'Could not start checkout.')
       }
+      // A stored gift code the server would not apply (used, expired, unknown)
+      // is forgotten, so the cart stops promising a discount that isn't coming.
+      if (data.giftApplied === false && getGiftCode()) clearGiftCode()
       window.location.href = data.url
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.')

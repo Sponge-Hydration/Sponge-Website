@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Seo, SITE } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
 import { colorById, colorOptions, productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
+import { BUY_NOW_EVENT } from '../cart/useOrderNow'
 import { trackAddToCart, trackViewItem } from '../analytics'
 import EmailSignup from '../components/EmailSignup'
 
@@ -47,6 +48,16 @@ export default function ProductDetail() {
     }
   }, [product?.id])
 
+  // The sticky buy bar asks this page to buy, so its Order now uses the color
+  // and quantity chosen here. A ref keeps the listener pointed at the latest
+  // buyNow without re-subscribing on every render.
+  const buyNowRef = useRef(null)
+  useEffect(() => {
+    const onBuy = () => buyNowRef.current?.()
+    window.addEventListener(BUY_NOW_EVENT, onBuy)
+    return () => window.removeEventListener(BUY_NOW_EVENT, onBuy)
+  }, [])
+
   if (!product) {
     return (
       <section className="section">
@@ -81,9 +92,10 @@ export default function ProductDetail() {
     trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
     navigate('/cart')
   }
+  buyNowRef.current = product.soldOut ? null : buyNow
 
   return (
-    <section className="section">
+    <section className="section section--pdp">
       <Seo
         title={`${product.name} · ${usd(product.price)} | Sponge`}
         description={`${product.short} ${product.ships}. ${seoTail}`}

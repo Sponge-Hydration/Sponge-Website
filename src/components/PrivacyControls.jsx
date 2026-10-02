@@ -110,8 +110,9 @@ export default function PrivacyControls() {
             <div className="privacy-banner__text">
               <strong>You decide what we measure.</strong>
               <p>
-                Analytics and advertising cookies load only if you allow them. Declining changes
-                nothing about how the site works. <Link to="/legal/privacy">Privacy policy</Link>.
+                Analytics and advertising cookies load only if you allow them.{' '}
+                <span className="privacy-banner__more">Declining changes nothing about how the site works.{' '}</span>
+                <Link to="/legal/privacy">Privacy policy</Link>.
               </p>
               {consent.gpc && (
                 <p className="privacy-banner__gpc">

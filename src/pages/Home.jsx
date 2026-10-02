@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { Eyebrow, SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import EmailSignup from '../components/EmailSignup'
 import ExitIntentCapture from '../components/ExitIntentCapture'
-import { useCart } from '../cart/CartContext'
+import { useOrderNow } from '../cart/useOrderNow'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
 // Imported rather than referenced from public/ so Vite emits them with a content
 // hash. Files in public/ are copied verbatim and served with max-age=14400, so
@@ -196,14 +196,9 @@ function HeroBackground() {
 }
 
 export default function Home() {
-  const { add } = useCart()
-  const navigate = useNavigate()
-  // "Order now": drop a single Sponge clip in the cart and take the visitor to
-  // the cart, where they can confirm colour/quantity before checking out.
-  const orderNow = () => {
-    add('sponge-clip', 1)
-    navigate('/cart')
-  }
+  // Every "Order now" on the site does the same thing: Sponge in the cart, then
+  // the cart (src/cart/useOrderNow.js).
+  const orderNow = useOrderNow()
   return (
     <>
       <Seo

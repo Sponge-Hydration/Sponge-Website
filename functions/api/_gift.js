@@ -76,3 +76,32 @@ export async function createGiftCode(env, { email, coupon, prefix, source, expir
   }
   throw new Error(`could not create gift code: ${lastError}`)
 }
+
+// Signup-gift codes only (GIFT-XXXXXXXX), in the same alphabet randomCode uses.
+const GIFT_CODE_RE = /^GIFT-[A-HJ-NP-Z2-9]{8}$/
+
+// Resolves a gift code that arrived via the gift email's link, so checkout can
+// apply it without the shopper typing it. Returns { id, email, code } only when
+// the code is a live, unused SIGNUP gift that was issued to a known email
+// address (we never auto-apply for someone whose email we don't already have).
+// Anything else, including any Stripe error, returns null and checkout carries
+// on normally with the promotion-code field.
+export async function lookupGiftCode(env, raw) {
+  const code = String(raw || '').trim().toUpperCase()
+  if (!GIFT_CODE_RE.test(code) || !env.STRIPE_SECRET_KEY) return null
+  try {
+    const res = await fetch(
+      `https://api.stripe.com/v1/promotion_codes?code=${encodeURIComponent(code)}&active=true&limit=1`,
+      { headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, 'Stripe-Version': STRIPE_VERSION } }
+    )
+    if (!res.ok) return null
+    const p = (await res.json()).data?.[0]
+    if (!p || p.code !== code || !p.active) return null
+    if (p.metadata?.source !== 'email-signup-gift' || !p.metadata?.email) return null
+    if (p.max_redemptions != null && p.times_redeemed >= p.max_redemptions) return null
+    return { id: p.id, email: p.metadata.email, code }
+  } catch {
+    return null
+  }
+}
+

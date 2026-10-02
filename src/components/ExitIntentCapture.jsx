@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import EmailSignup from './EmailSignup'
+import { useCart } from '../cart/CartContext'
 
 /**
  * Exit-intent email capture. Fires once per visitor when they look like they're
@@ -8,8 +9,12 @@ import EmailSignup from './EmailSignup'
  * Deliberately restrained so it never annoys:
  *  - shows at most once per visitor (localStorage flag), even across pages;
  *  - only arms after a few seconds, so it never fires on an instant bounce;
+ *  - never shown to someone with an item in their cart: they are buying, and
+ *    a popup would only get in the way;
  *  - desktop trigger is the mouse leaving through the top of the viewport;
- *  - mobile (no mouseout) falls back to a fast upward scroll near the top;
+ *  - phones (no mouseout) trigger when the visitor comes BACK to the tab after
+ *    leaving it. It used to be a fast upward scroll near the top, but that is
+ *    exactly what someone does to get back to the buy button;
  *  - dismissible by ×, Escape, or backdrop click.
  *
  * SSG-safe: every window/localStorage access is inside an effect, and it renders
@@ -21,6 +26,9 @@ export default function ExitIntentCapture() {
   const [open, setOpen] = useState(false)
   const armed = useRef(false)
   const closeRef = useRef(null)
+  const { items } = useCart()
+  const hasCart = useRef(false)
+  hasCart.current = items.length > 0
 
   useEffect(() => {
     let seen = false
@@ -30,26 +38,31 @@ export default function ExitIntentCapture() {
     const armTimer = setTimeout(() => { armed.current = true }, 5000)
     const markSeen = () => { try { localStorage.setItem(SEEN_KEY, '1') } catch { /* ignore */ } }
 
-    const trigger = () => { setOpen(true); markSeen(); cleanup() }
+    // A buyer is never interrupted; the popup stays available for a later visit.
+    const trigger = () => {
+      if (hasCart.current) return
+      setOpen(true); markSeen(); cleanup()
+    }
 
     const onMouseOut = (e) => {
       if (!armed.current) return
       if (e.clientY <= 0 && !e.relatedTarget) trigger()
     }
-    let lastY = typeof window !== 'undefined' ? window.scrollY : 0
-    const onScroll = () => {
-      if (!armed.current) return
-      const y = window.scrollY
-      if (lastY - y > 40 && y < 240) trigger()
-      lastY = y
+    // Touch devices: fire when they return to this tab after at least a few
+    // seconds away (the phone equivalent of heading for the tab bar).
+    const touch = window.matchMedia?.('(pointer: coarse)').matches
+    let hiddenAt = 0
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') { hiddenAt = Date.now(); return }
+      if (armed.current && hiddenAt && Date.now() - hiddenAt >= 3000) trigger()
     }
     function cleanup() {
       document.removeEventListener('mouseout', onMouseOut)
-      window.removeEventListener('scroll', onScroll)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
 
     document.addEventListener('mouseout', onMouseOut)
-    window.addEventListener('scroll', onScroll, { passive: true })
+    if (touch) document.addEventListener('visibilitychange', onVisibility)
     return () => { clearTimeout(armTimer); cleanup() }
   }, [])
 
