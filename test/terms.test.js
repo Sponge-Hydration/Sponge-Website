@@ -59,6 +59,22 @@ describe('where the Terms are presented', () => {
     expect(page.slice(notice, button)).not.toMatch(/<Link|<a /)
   })
 
+  it('every checkout button in the cart has its own notice directly above it', () => {
+    const page = src('src/pages/Cart.jsx')
+    const handler = 'onClick={startCheckout}'
+    let from = 0, buttons = 0
+    for (;;) {
+      const button = page.indexOf(handler, from)
+      if (button === -1) break
+      buttons++
+      const notice = page.lastIndexOf('<CheckoutTerms', button)
+      expect(notice).toBeGreaterThanOrEqual(from) // a notice since the previous button
+      expect(page.slice(notice, button)).not.toMatch(/<Link|<a /)
+      from = button + handler.length
+    }
+    expect(buttons).toBe(2) // mobile top button + the summary button
+  })
+
   it('links them from the Support column of the footer', () => {
     const footer = src('src/components/Footer.jsx')
     const support = footer.slice(footer.indexOf('<h4>Support</h4>'), footer.indexOf('</div>', footer.indexOf('<h4>Support</h4>')))

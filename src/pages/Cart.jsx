@@ -82,6 +82,20 @@ export default function Cart() {
     <section className="section">
       <Seo title="Your Cart | Sponge Hydration" description="Review your Sponge order before checkout." path="/cart" noindex />
       <div className="container">
+        {/* Phones/small tablets only (single-column layout): the summary and its
+            Checkout button sit below the items there, so offer one up top too. */}
+        <div className="cart-top-checkout">
+          <CheckoutTerms action="Checkout" compact />
+          <button
+            type="button"
+            className="btn btn--primary btn--lg btn--block"
+            onClick={startCheckout}
+            disabled={loading}
+          >
+            {loading ? 'Redirecting…' : `Checkout · ${usd(total)}`}
+          </button>
+          {error && <p style={{ color: 'crimson', fontSize: 14 }}>{error}</p>}
+        </div>
         <h1 className="page-title">Your cart</h1>
         <div className="cart-layout">
           <div className="cart-items">
