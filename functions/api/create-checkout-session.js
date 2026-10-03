@@ -8,6 +8,7 @@
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
 import { lookupGiftCode } from './_gift.js'
+import { PRICE_TEST, TEST_SKU, priceVariantFor } from './_pricing.js'
 import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams, termsCheckboxParams, heardAboutParams, isCustomFieldError } from './_checkout-terms.js'
 
 // Canonical catalog. Keep amounts in cents and in sync with src/data.js.
@@ -99,6 +100,8 @@ export async function onRequestPost({ request, env }) {
   const taxEnabled = env.STRIPE_TAX_ENABLED === 'true'
 
   const origin = new URL(request.url).origin
+  const variant = priceVariantFor(request, body)
+  const arm = PRICE_TEST[variant]
   const params = new URLSearchParams()
   params.set('mode', 'payment')
   params.set('success_url', `${origin}/checkout?status=success&session_id={CHECKOUT_SESSION_ID}`)
@@ -129,7 +132,8 @@ export async function onRequestPost({ request, env }) {
     const name = labels.length ? `${product.name} - ${labels.join(', ')}` : product.name
     params.append(`line_items[${line}][quantity]`, String(qty))
     params.append(`line_items[${line}][price_data][currency]`, 'usd')
-    params.append(`line_items[${line}][price_data][unit_amount]`, String(product.amount))
+    const unitAmount = item.id === TEST_SKU ? arm.trackerAmount : product.amount
+    params.append(`line_items[${line}][price_data][unit_amount]`, String(unitAmount))
     params.append(`line_items[${line}][price_data][product_data][name]`, name)
     params.append(`line_items[${line}][price_data][product_data][images][0]`, `${origin}${product.img}`)
     if (taxEnabled) {
@@ -148,12 +152,14 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'No valid items in cart.' }, 400)
   }
 
-  // Flat USPS Ground Advantage retail shipping, by total package weight.
-  const shipAmount = shippingCentsForWeight(totalWeightOz + BOX_OZ)
+  // Shipping follows the visitor's A/B arm for the whole order (free or flat $5).
+  // When the test ends, go back to the weight-based USPS rate:
+  //   const shipAmount = shippingCentsForWeight(totalWeightOz + BOX_OZ)
+  const shipAmount = arm.shippingAmount
   params.append('shipping_options[0][shipping_rate_data][type]', 'fixed_amount')
   params.append('shipping_options[0][shipping_rate_data][fixed_amount][amount]', String(shipAmount))
   params.append('shipping_options[0][shipping_rate_data][fixed_amount][currency]', 'usd')
-  params.append('shipping_options[0][shipping_rate_data][display_name]', 'USPS Ground Advantage')
+  params.append('shipping_options[0][shipping_rate_data][display_name]', arm.shippingName)
   if (taxEnabled) {
     // Let Stripe tax shipping per destination rules; txcd_92010001 = shipping.
     params.append('shipping_options[0][shipping_rate_data][tax_behavior]', 'exclusive')
@@ -183,6 +189,8 @@ export async function onRequestPost({ request, env }) {
   // Which Terms of Service were in force for this purchase (the /checkout notice
   // presents them on every order; the Stripe checkbox records assent on top).
   params.append('metadata[terms_version]', TERMS_VERSION)
+  // Which price A/B arm this buyer saw (src/pricing.js), for results by arm.
+  params.append('metadata[price_variant]', variant)
   // Team browsers flagged with ?internal=1 (src/internal.js), so the abandoned-
   // cart log can mark our own test checkouts.
   params.append('metadata[internal]', body?.internal === true ? '1' : '0')
@@ -259,5 +267,5 @@ export async function onRequestPost({ request, env }) {
     return json({ error: session?.error?.message || 'Stripe error.' }, 502)
   }
 
-  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout, giftApplied })
+  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout, giftApplied, priceVariant: variant })
 }

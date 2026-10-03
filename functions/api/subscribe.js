@@ -10,6 +10,7 @@
 import { sheetsConfigured, appendSubscriber, setSubscriberGiftCode } from './_sheets.js'
 import { giftConfigured, createGiftCode } from './_gift.js'
 import { gmailConfigured, sendGmail, giftEmailHtml } from './_integrations.js'
+import { priceVariantFor } from './_pricing.js'
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -27,8 +28,8 @@ const SOURCES = new Set(['footer', 'checkout', 'notify-coaster', 'notify-product
 
 // The signup "mystery gift": a single-use 10% code, created in Stripe and
 // emailed to the new subscriber.
-async function sendGift(env, email, siteUrl) {
-  const code = await createGiftCode(env, { email })
+async function sendGift(env, email, siteUrl, priceVariant) {
+  const code = await createGiftCode(env, { email, metadata: { price_variant: priceVariant } })
   // Record the code on the subscriber's row. Best effort: a sheet hiccup must
   // not stop the gift email going out (the code is in Stripe metadata anyway).
   try {
@@ -39,7 +40,7 @@ async function sendGift(env, email, siteUrl) {
   await sendGmail(env, {
     to: email,
     subject: 'Your mystery gift from Sponge is inside',
-    html: giftEmailHtml({ code, siteUrl }),
+    html: giftEmailHtml({ code, siteUrl, priceVariant }),
   })
 }
 
@@ -84,7 +85,9 @@ export async function onRequestPost(context) {
   if (result?.added && giftConfigured(env) && gmailConfigured(env)) {
     let siteUrl
     try { siteUrl = new URL(request.url).origin } catch { /* tests have no url */ }
-    const task = sendGift(env, email, siteUrl).catch((e) =>
+    // The price A/B arm they signed up under (cookie), for the email link.
+    const priceVariant = request.headers ? priceVariantFor(request, body) : 'B'
+    const task = sendGift(env, email, siteUrl, priceVariant).catch((e) =>
       console.warn('signup gift failed:', e?.message || e)
     )
     if (typeof context.waitUntil === 'function') context.waitUntil(task)

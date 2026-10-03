@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useCart } from './CartContext'
-import { shippingForCart } from '../shipping'
+import { cartShipping, getPriceVariant } from '../pricing'
 import { trackBeginCheckout } from '../analytics'
 import { getConsent } from '../consent'
 import { isInternal } from '../internal'
@@ -26,7 +26,7 @@ export function useStripeCheckout() {
     setError('')
     try {
       if (track) {
-        const total = subtotal + shippingForCart(items)
+        const total = subtotal + cartShipping(items)
         trackBeginCheckout(
           items.map((i) => ({ id: i.id, name: i.name, price: i.price, qty: 1 })),
           Number(total.toFixed(2))
@@ -50,7 +50,7 @@ export function useStripeCheckout() {
         // respect the same choice. Read at click time, not render time.
         // giftCode: a signup-gift code from the gift email's link, applied
         // server-side so the shopper doesn't type it (validated against Stripe).
-        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal(), internal: isInternal(), giftCode: getGiftCode() || undefined }),
+        body: JSON.stringify({ items: grouped, adConsent: getConsent().advertising && !isInternal(), internal: isInternal(), giftCode: getGiftCode() || undefined, priceVariant: getPriceVariant() }),
       })
       const raw = await res.text()
       let data

@@ -3,6 +3,8 @@ import { Seo } from '../components/useSEO'
 import { SectionHead, usd } from '../components/bits'
 import { visibleProducts } from '../data'
 import { useCart } from '../cart/CartContext'
+import AB from '../components/AB'
+import { PRICE_TEST, TEST_SKU } from '../pricing'
 
 export default function Products() {
   const { add } = useCart()
@@ -37,12 +39,12 @@ export default function Products() {
                 <h3><Link to={`/shop/p/${p.slug}`}>{p.name}</Link></h3>
                 <p>{p.short}</p>
                 <div className="product-card__price">
-                  <strong>{usd(p.price)}</strong>
+                  <strong>{p.id === TEST_SKU ? <AB a={usd(PRICE_TEST.A.trackerPrice)} b={usd(PRICE_TEST.B.trackerPrice)} /> : usd(p.price)}</strong>
                   {p.compareAt && <s>{usd(p.compareAt)}</s>}
                 </div>
                 {!p.soldOut && (
                   <div className="product-card__plus">
-                    + shipping &amp; tax{p.compareNote ? ` · ${p.compareNote}` : ''}
+                    <AB a="+ tax · Free shipping" b="+ $5 shipping & tax" />{p.compareNote ? ` · ${p.compareNote}` : ''}
                   </div>
                 )}
                 <div className="product-card__actions">

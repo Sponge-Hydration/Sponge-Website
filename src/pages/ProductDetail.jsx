@@ -8,6 +8,8 @@ import { useCart } from '../cart/CartContext'
 import { BUY_NOW_EVENT } from '../cart/useOrderNow'
 import { trackAddToCart, trackViewItem } from '../analytics'
 import EmailSignup from '../components/EmailSignup'
+import AB from '../components/AB'
+import { PRICE_TEST, TEST_SKU, priceFor } from '../pricing'
 
 // "View image 3" tells a screen reader user nothing about what they would be
 // looking at. Derive a description from the filename, which already encodes the
@@ -44,7 +46,7 @@ export default function ProductDetail() {
   // Declared before the not-found early return so hook order stays stable.
   useEffect(() => {
     if (product) {
-      trackViewItem({ id: product.id, name: product.name, price: product.price, qty: 1 })
+      trackViewItem({ id: product.id, name: product.name, price: priceFor(product), qty: 1 })
     }
   }, [product?.id])
 
@@ -74,6 +76,7 @@ export default function ProductDetail() {
   // One colour chosen here is applied to every clip in the item; multi-clip
   // products stay individually editable in the cart.
   const clips = product.clips ?? 1
+  const inTest = product.id === TEST_SKU // price A/B test (src/pricing.js)
   const colorsForCart = clips > 0 ? Array.from({ length: clips }, () => color) : null
   // The battery figure belongs to the clip tracker. The adhesive has no battery
   // and the Dot’s is unconfirmed, so neither page may quote it.
@@ -83,13 +86,13 @@ export default function ProductDetail() {
 
   const addToCart = () => {
     add(product.id, qty, colorsForCart)
-    trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
+    trackAddToCart({ id: product.id, name: product.name, price: priceFor(product), qty })
     setAdded(true)
     setTimeout(() => setAdded(false), 2200)
   }
   const buyNow = () => {
     add(product.id, qty, colorsForCart)
-    trackAddToCart({ id: product.id, name: product.name, price: product.price, qty })
+    trackAddToCart({ id: product.id, name: product.name, price: priceFor(product), qty })
     navigate('/cart')
   }
   buyNowRef.current = product.soldOut ? null : buyNow
@@ -97,7 +100,9 @@ export default function ProductDetail() {
   return (
     <section className="section section--pdp">
       <Seo
-        title={`${product.name} · ${usd(product.price)} | Sponge`}
+        // The Tracker's price differs by A/B arm (src/pricing.js), so its title
+        // carries no price rather than one half of the visitors would not see.
+        title={product.id === TEST_SKU ? `${product.name} | Sponge` : `${product.name} · ${usd(product.price)} | Sponge`}
         description={`${product.short} ${product.ships}. ${seoTail}`}
         path={`/shop/p/${product.slug}`}
         ogType="product"
@@ -177,7 +182,7 @@ export default function ProductDetail() {
             <p className="pdp__tagline">{product.tagline}</p>
 
             <div className="pdp__price">
-              <strong>{usd(product.price)}</strong>
+              <strong>{inTest ? <AB a={usd(PRICE_TEST.A.trackerPrice)} b={usd(PRICE_TEST.B.trackerPrice)} /> : usd(product.price)}</strong>
               {product.compareAt && <s>{usd(product.compareAt)}</s>}
               {product.compareAt && (
                 <span className="pdp__save">
@@ -185,7 +190,7 @@ export default function ProductDetail() {
                   {product.compareNote ? ` ${product.compareNote}` : ''}
                 </span>
               )}
-              {!product.soldOut && <span className="pdp__plus">+ shipping &amp; tax</span>}
+              {!product.soldOut && <span className="pdp__plus"><AB a="+ tax · Free shipping" b="+ $5 shipping & tax" /></span>}
             </div>
             <p className="pdp__desc">{product.short}</p>
             {product.compare && <p className="pdp__compare">{product.compare}</p>}
@@ -244,7 +249,7 @@ export default function ProductDetail() {
                   <span aria-live="polite">{qty}</span>
                   <button onClick={() => setQty((q) => q + 1)} aria-label="Increase quantity">+</button>
                 </div>
-                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now · {usd(product.price * qty)}</button>
+                <button className="btn btn--primary btn--lg" onClick={buyNow}>Order now · {inTest ? <AB a={usd(PRICE_TEST.A.trackerPrice * qty)} b={usd(PRICE_TEST.B.trackerPrice * qty)} /> : usd(product.price * qty)}</button>
                 <button className="btn btn--ghost btn--lg" onClick={addToCart}>
                   {added ? '✓ Added to cart' : 'Add to cart'}
                 </button>

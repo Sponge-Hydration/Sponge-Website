@@ -3,6 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      /* Price A/B test arm (see src/pricing.js and functions/_middleware.js).
+         The server sets the one-year cookie on every page response; this runs
+         before first paint to show that arm's prices, falls back to the arm
+         remembered in localStorage if cookies were cleared, and assigns one
+         itself only if the server did not (local dev). Crawlers always get B. */
+      (function () {
+        try {
+          var d = document.documentElement
+          if (/bot|crawl|spider|slurp|lighthouse|headless|mediapartners|facebookexternalhit|preview/i.test(navigator.userAgent)) {
+            d.setAttribute('data-price', 'ab-b')
+            return
+          }
+          var c = document.cookie
+          var m = c.match(/(?:^|; )sponge_ab_price=([AB])/)
+          var v = m ? m[1] : null
+          var ls = null
+          try { ls = localStorage.getItem('sponge-ab-price') } catch (e) {}
+          if (ls !== 'A' && ls !== 'B') ls = null
+          // The server just assigned a new arm (marker cookie), but this browser
+          // still remembers its original one (cookies cleared): keep the original.
+          if (/(?:^|; )sponge_ab_new=1/.test(c)) {
+            if (ls) v = ls
+            document.cookie = 'sponge_ab_new=; Max-Age=0; Path=/'
+          }
+          if (!v) v = ls
+          if (v !== 'A' && v !== 'B') v = Math.random() < 0.5 ? 'A' : 'B'
+          // Only write the cookie when it has to change: in Safari a script write
+          // replaces the server's one-year cookie with a 7-day one. The server
+          // re-issues it on the next page load either way.
+          if (!m || m[1] !== v) {
+            document.cookie = 'sponge_ab_price=' + v + '; Max-Age=31536000; Path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '')
+          }
+          try { localStorage.setItem('sponge-ab-price', v) } catch (e) {}
+          d.setAttribute('data-price', 'ab-' + v.toLowerCase())
+        } catch (e) {}
+      })()
+    </script>
     <meta name="theme-color" content="#0b6bcb" />
 
     <!-- Site-wide defaults. Per-page title, description, canonical, robots and

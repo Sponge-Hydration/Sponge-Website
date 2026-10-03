@@ -4,6 +4,8 @@ import { usd } from './bits'
 import { productById, productBySlug } from '../data'
 import { CONSENT_EVENT, getConsent } from '../consent'
 import { BUY_NOW_EVENT, useOrderNow } from '../cart/useOrderNow'
+import AB from './AB'
+import { PRICE_TEST, TEST_SKU } from '../pricing'
 
 // Below 620px the header's buy button is display:none and the mobile menu has
 // no purchase action, so on a 14,000px-tall homepage a phone visitor could
@@ -80,7 +82,9 @@ export default function StickyBuyBar() {
       <div className="buybar__info">
         <span className="buybar__name">{product.name}</span>
         <span className="buybar__meta">
-          {soldOut ? 'Sold out' : <>{usd(product.price)} + shipping &amp; tax</>}
+          {soldOut ? 'Sold out' : product.id === TEST_SKU
+            ? <AB a={`${usd(PRICE_TEST.A.trackerPrice)} · Free shipping`} b={`${usd(PRICE_TEST.B.trackerPrice)} + $5 shipping`} />
+            : <>{usd(product.price)} <AB a="· Free shipping" b="+ $5 shipping" /></>}
         </span>
       </div>
       {soldOut ? (

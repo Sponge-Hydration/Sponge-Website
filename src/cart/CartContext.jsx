@@ -1,3 +1,4 @@
+import { priceFor } from '../pricing'
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react'
 import { productById, clipsFor, DEFAULT_COLOR, isColorAvailable } from '../data'
 
@@ -110,7 +111,9 @@ export function CartProvider({ children }) {
           ...product,
           uid: u.uid,
           colors: normalizeColors(u.colors, product.clips ?? 1),
-          lineTotal: product.price,
+          // Tracker price follows the visitor's A/B arm (src/pricing.js).
+          price: priceFor(product),
+          lineTotal: priceFor(product),
         }
       })
       .filter(Boolean)

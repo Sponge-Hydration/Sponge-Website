@@ -5,7 +5,7 @@ import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { colorOptions, productById } from '../data'
 import { BulbIcon, CartIcon, LockIcon, ShieldIcon } from '../components/icons'
-import { shippingForCart } from '../shipping'
+import { cartShipping } from '../pricing'
 import { useStripeCheckout } from '../cart/useStripeCheckout'
 import CheckoutTerms from '../components/CheckoutTerms'
 import { getGiftCode } from '../gift'
@@ -44,7 +44,7 @@ export default function Cart() {
   // Show the real USPS charge here rather than deferring it to /checkout — the
   // shipping model is deterministic from the cart contents, so hiding it until
   // the payment step just turns a known cost into a surprise.
-  const shipping = shippingForCart(items)
+  const shipping = cartShipping(items) // A/B arm: free or flat $5 (src/pricing.js)
   const total = subtotal + shipping
 
   // Upsell: nudge customers with 4+ single clips toward the cheaper Family Pack.
@@ -213,7 +213,7 @@ export default function Cart() {
             <h3>Order summary</h3>
             <div className="cart-summary__row"><span>Items</span><span>{items.length}</span></div>
             <div className="cart-summary__row"><span>Subtotal</span><span>{usd(subtotal)}</span></div>
-            <div className="cart-summary__row"><span>Shipping (USPS Ground)</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
+            <div className="cart-summary__row"><span>Shipping</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>
             <div className="cart-summary__row"><span>Sales tax</span><span>Calculated at checkout</span></div>
             <div className="cart-summary__row cart-summary__total"><span>Total</span><span>{usd(total)} + tax</span></div>
             {error && <p style={{ color: 'crimson', fontSize: 14 }}>{error}</p>}

@@ -14,7 +14,7 @@ import { getGoogleAccessToken, serviceAccountConfigured } from './_google-sa.js'
 export const ABANDONED_TAB = 'Abandoned Carts'
 export const ABANDONED_HEADERS = [
   'Expired At (UTC)', 'Opened At (UTC)', 'Session', 'Email', 'Offers Opt-in',
-  'Items', 'Cart Value', 'Recovery Email', 'Internal',
+  'Items', 'Cart Value', 'Recovery Email', 'Internal', 'Price Variant',
 ]
 const SHEETS_SCOPE = 'https://www.googleapis.com/auth/spreadsheets'
 
@@ -62,6 +62,7 @@ export function abandonedRow(session, recovery) {
     ((session.amount_total || 0) / 100).toFixed(2),
     recoveryLabel(recovery),
     m.internal === '1' ? 'yes' : '',
+    m.price_variant || '',
   ]
 }
 

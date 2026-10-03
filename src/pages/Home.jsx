@@ -6,6 +6,7 @@ import Reviews from '../components/Reviews'
 import EmailSignup from '../components/EmailSignup'
 import ExitIntentCapture from '../components/ExitIntentCapture'
 import { useOrderNow } from '../cart/useOrderNow'
+import AB from '../components/AB'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
 // Imported rather than referenced from public/ so Vite emits them with a content
 // hash. Files in public/ are copied verbatim and served with max-age=14400, so
@@ -203,7 +204,7 @@ export default function Home() {
     <>
       <Seo
         title="Sponge Hydration Tracker | Smart Water Intake Tracker for Any Bottle"
-        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 2-week battery. Pre-order $59.99."
+        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 2-week battery. $64.99 delivered, before tax."
         path="/"
       />
       {/* Hero */}
@@ -225,7 +226,7 @@ export default function Home() {
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
-              <span>$59.99 + shipping &amp; tax · Ships to the US · 30-day money-back guarantee</span>
+              <span><AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Ships to the US · 30-day money-back guarantee</span>
             </div>
             <div className="hero__note">
               <span><i className="dot" />Works with any bottle</span>
@@ -281,7 +282,7 @@ export default function Home() {
           <p>
             That’s the problem. Reminders get swiped away. Tracking apps get abandoned in a week.
             Smart bottles start around $80 and ask you to give up the bottle you actually like.
-            Knowing was never the missing piece. Consequences were. Sponge is $59.99, clips onto
+            Knowing was never the missing piece. Consequences were. Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
             the bottle you already own, and locks the apps you choose until you’ve caught up.
           </p>
           <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
@@ -384,7 +385,7 @@ export default function Home() {
               Brutal? A little. It is also the part that is hard to ignore.
             </p>
             <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now · $59.99</button>
+              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
             </div>
             <div className="app-badges">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
@@ -493,9 +494,9 @@ export default function Home() {
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
             <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
-            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · $59.99</button>
+            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
             <p className="cta-band__note">
-              $59.99 + shipping &amp; tax · Cancel any time before it ships · 30 days to change
+              <AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Cancel any time before it ships · 30 days to change
               your mind once it arrives, and we pay return shipping
             </p>
           </div>
@@ -533,7 +534,7 @@ export default function Home() {
                   <td>Free</td>
                   <td>Around $80 and up</td>
                   <td>Around $30</td>
-                  <td className="compare__us">$59.99</td>
+                  <td className="compare__us"><AB a="$64.99" b="$59.99" /></td>
                 </tr>
                 <tr>
                   <th scope="row">Keep the bottle you own</th>
@@ -589,7 +590,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <SectionHead eyebrow="Before you buy" eyebrowTo="/how-it-works#faq" title="The honest answers">
-            The things worth knowing before you spend $59.99.
+            The things worth knowing before you spend <AB a="$64.99" b="$59.99" />.
           </SectionHead>
           <div className="objections">
             <article className="objection">
@@ -601,7 +602,7 @@ export default function Home() {
               </p>
             </article>
             <article className="objection">
-              <h3>“Why $59.99 when a reminder clip is $30?”</h3>
+              <h3>“Why <AB a="$64.99" b="$59.99" /> when a reminder clip is $30?”</h3>
               <p>
                 Because a reminder clip blinks at you. Sponge measures the water, syncs it, and
                 acts on it. If a blinking light is enough for you, genuinely buy the cheaper

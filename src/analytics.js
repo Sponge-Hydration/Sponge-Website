@@ -23,6 +23,7 @@
 //   server copy is gated on the same consent, carried through Stripe metadata.
 
 import { getConsent } from './consent'
+import { getPriceVariant } from './pricing'
 import { isInternal } from './internal'
 
 const GA4_ID = import.meta.env.VITE_GA4_ID || ''
@@ -84,6 +85,9 @@ function loadGa4() {
   // page_view is fired manually on route change, so SPA navigations are not
   // missed and the initial load is not counted twice.
   window.gtag('config', GA4_ID, { send_page_view: false })
+  // Price A/B arm (src/pricing.js) as a user property, so GA4 funnels can be
+  // split by arm. Register `price_variant` as a user-scoped custom dimension.
+  window.gtag('set', 'user_properties', { price_variant: getPriceVariant() })
   injectScript(`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`)
 }
 
@@ -102,6 +106,8 @@ function loadClarity() {
   t.src = `https://www.clarity.ms/tag/${CLARITY_ID}`
   insertBeforeFirstScript(t)
   window.clarity('consent')
+  // Tag sessions with the price A/B arm so replays can be filtered by it.
+  window.clarity('set', 'price_variant', getPriceVariant())
 }
 
 // Metricool (website stats for the social dashboard). `analytics` category.

@@ -4,7 +4,7 @@ import { Seo } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { useCart } from '../cart/CartContext'
 import { CartIcon, CheckCircleIcon, LockIcon, ShieldIcon } from '../components/icons'
-import { shippingForCart } from '../shipping'
+import { cartShipping } from '../pricing'
 import { trackBeginCheckout, trackPurchase } from '../analytics'
 import { useStripeCheckout } from '../cart/useStripeCheckout'
 import CheckoutTerms from '../components/CheckoutTerms'
@@ -16,7 +16,7 @@ export default function Checkout() {
   const [searchParams] = useSearchParams()
   const { start, loading, error } = useStripeCheckout()
 
-  const shipping = shippingForCart(items)
+  const shipping = cartShipping(items) // A/B arm: free or flat $5 (src/pricing.js)
   // Sales tax is destination-based and computed by Stripe on the hosted page
   // from the address the customer enters, so we can't show an exact figure here.
   const total = subtotal + shipping

@@ -18,6 +18,14 @@ Both copies also carry `REP_ZONE`, `SKU_WEIGHT_OZ`, `DEFAULT_ITEM_OZ`, and
 equivalent (dollars ↔ cents). If they drift, the checkout page quotes a
 different price than the customer is charged.
 
+## ⚠️ Price A/B test is LIVE (overrides shipping while it runs)
+
+`src/pricing.js` (dollars) and `PRICE_TEST` in `functions/api/_pricing.js`
+(cents) are a second mirrored pair: arm A = Tracker $64.99 + free shipping, arm B
+= Tracker $59.99 + flat $5 shipping, both for the whole order. While the test
+runs the weight-based model below is NOT charged (kept for when it ends).
+`test/price-test.test.js` checks the two copies match.
+
 ## Current model: real USPS Ground Advantage retail, flat by weight
 
 US only (`allowed_countries` locked to `US`). Package weight =

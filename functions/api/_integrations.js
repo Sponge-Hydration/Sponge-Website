@@ -113,7 +113,10 @@ function shippingBlock(order) {
 }
 
 // Reveal email for the signup "mystery gift". Plain wording, no em dashes.
-export function giftEmailHtml({ code, siteUrl = 'https://www.spongehydration.com' }) {
+export function giftEmailHtml({ code, siteUrl = 'https://www.spongehydration.com', priceVariant }) {
+  // The subscriber's price A/B arm rides along (?pv=), so the link shows them
+  // the same price on any device (functions/_middleware.js).
+  const pv = priceVariant === 'A' || priceVariant === 'B' ? `&pv=${priceVariant}` : ''
   return `<div style="background:#f4f6f8;padding:24px 12px;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;">
     <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e8edf2;border-radius:14px;overflow:hidden;">
       <div style="text-align:center;padding:28px 24px 12px;">
@@ -125,7 +128,7 @@ export function giftEmailHtml({ code, siteUrl = 'https://www.spongehydration.com
         <p style="font-size:14px;color:#444;margin:0 0 18px;">Your personal code:</p>
         <div style="display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:24px;font-weight:700;letter-spacing:.08em;background:#f0f7ff;border:2px dashed #0b6bcb;color:#0b6bcb;border-radius:10px;padding:14px 22px;">${code}</div>
         <p style="font-size:14px;color:#444;margin:20px 0 0;">Use the button below and it is applied for you at checkout. Or enter it in the <strong>promotion code</strong> field yourself. It works once, on one order.</p>
-        <div style="margin:24px 0 4px;"><a href="${siteUrl}/products?gift=${encodeURIComponent(code)}" style="display:inline-block;background:#0b6bcb;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 28px;border-radius:8px;">Shop with 10% off</a></div>
+        <div style="margin:24px 0 4px;"><a href="${siteUrl}/products?gift=${encodeURIComponent(code)}${pv}" style="display:inline-block;background:#0b6bcb;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 28px;border-radius:8px;">Shop with 10% off</a></div>
         <p style="font-size:12px;color:#8a95a1;margin-top:26px;border-top:1px solid #eef1f4;padding-top:16px;">This code is single use and cannot be combined with other codes. Questions? Just reply to this email.</p>
       </div>
     </div>

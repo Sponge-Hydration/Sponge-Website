@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Seo, SITE } from '../components/useSEO'
 import { blogBySlug, blogPosts } from '../data'
 import { useOrderNow } from '../cart/useOrderNow'
+import AB from '../components/AB'
 
 // Inline markup inside a body string: [3] or [3, 4] is a citation to the
 // numbered source list, and [label](/path) is an internal link. Anything else in
@@ -149,7 +150,7 @@ export default function BlogPost() {
           <div className="article__cta">
             <h3>Track your hydration automatically</h3>
             <p>Sponge clips onto any bottle and logs every sip for you. Build the habit without the willpower.</p>
-            <button type="button" className="btn btn--primary btn--lg" onClick={orderNow}>Order Sponge now · $59.99</button>
+            <button type="button" className="btn btn--primary btn--lg" onClick={orderNow}>Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
           </div>
         </article>
 
