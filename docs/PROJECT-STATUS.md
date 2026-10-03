@@ -51,7 +51,7 @@ stack/deploy/layout; this file is **current state + open to-dos**.
   abandoned checkouts, Clarity weekly roll-up, email signups, app actives), this week vs last week in PT.
   Daily `functions/api/clarity-snapshot.js` saves Clarity's 1-day export to the **`Clarity Daily`** tab of
   the order sheet (the API only covers 1–3 days). Both use `?key=<GA4_REPORT_TOKEN>`. Fired by claude.ai
-  scheduled tasks: weekly report `trig_01ShRot5RiU7HSQpuD756jxd` (Sun 7:46pm PT, writes + emails the
+  scheduled tasks: weekly report `trig_01CNCTBsn2yiTdPpXN4pb3U8` (Sun 7:46pm PT, writes + emails the
   analysis) and a daily Clarity snapshot task. Needs **`CLARITY_API_TOKEN`** set in Cloudflare prod.
   `&section=ga4|stripe|clarity|signups|app` returns one section (keeps each fetch small).
   **Scheduled cloud runs can't `curl` spongehydration.com** (the sandbox proxy returns 403 on CONNECT),
