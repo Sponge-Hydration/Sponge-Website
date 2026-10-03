@@ -189,3 +189,37 @@ describe('endpoints', () => {
     expect((await onRequest({ request: req('/api/weekly-site-report?key=k&section=nope'), env })).status).toBe(400)
   })
 })
+
+describe('price A/B test section', () => {
+  it('splits Stripe sessions by arm, excludes internal and untagged, computes conversion', async () => {
+    const { summarizePriceTest } = await import('../functions/api/weekly-site-report.js')
+    const s = (variant, paid, extra = {}) => ({
+      payment_status: paid ? 'paid' : 'unpaid', status: paid ? 'complete' : 'expired',
+      amount_total: variant === 'A' ? 6499 : 6499, amount_subtotal: variant === 'A' ? 6499 : 5999,
+      total_details: { amount_shipping: variant === 'A' ? 0 : 500 },
+      metadata: { price_variant: variant, qty_single: '1', ...extra },
+    })
+    const out = summarizePriceTest([
+      s('A', true), s('A', false), s('B', true), s('B', true), s('B', false),
+      s('A', true, { internal: '1' }), // team test: excluded
+      { payment_status: 'paid', metadata: {} }, // before the test: untagged
+    ])
+    expect(out.A).toMatchObject({ checkoutsStarted: 2, orders: 1, abandoned: 1, revenue: 64.99, shipping: 0, trackerUnits: 1, checkoutConversion: 50 })
+    expect(out.B).toMatchObject({ checkoutsStarted: 3, orders: 2, abandoned: 1, shipping: 10, trackerUnits: 2, checkoutConversion: 66.7 })
+    expect(out.internalSessionsExcluded).toBe(1)
+    expect(out.untaggedSessions).toBe(1)
+  })
+
+  it('refuses to call a winner on too little data, and detects a real difference', async () => {
+    const { twoProportion } = await import('../functions/api/weekly-site-report.js')
+    expect(twoProportion(3, 40, 1, 38).enoughData).toBe(false)
+    expect(twoProportion(0, 0, 1, 10).enoughData).toBe(false)
+    const big = twoProportion(60, 500, 30, 500)
+    expect(big.enoughData).toBe(true)
+    expect(big.pValue).toBeLessThan(0.01)
+    expect(big.note).toMatch(/Arm A converts better/)
+    const same = twoProportion(25, 500, 26, 500)
+    expect(same.pValue).toBeGreaterThan(0.5)
+    expect(same.note).toMatch(/No significant difference/)
+  })
+})

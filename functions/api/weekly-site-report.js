@@ -15,6 +15,8 @@
 //             plus a live last-3-days pull as a fallback
 //   signups   email-list signups from the Subscribers tab (counts only)
 //   app       app users / new signups / weekly actives from the retention API
+//   priceTest price A/B test (src/pricing.js): Stripe + GA4 funnel per arm,
+//             since the test started and this week, with a significance check
 //
 // Env: GA4_REPORT_TOKEN (trigger key), GOOGLE_SA_EMAIL / GOOGLE_SA_PRIVATE_KEY,
 //      GOOGLE_SHEET_ID, STRIPE_SECRET_KEY, CLARITY_API_TOKEN (optional),
@@ -25,11 +27,11 @@
 // Trigger:  GET /api/weekly-site-report?key=<GA4_REPORT_TOKEN>
 //           optional &end=YYYY-MM-DD to report the week ending that PT date,
 //           &live=0 to skip the live Clarity call (saves API quota)
-//           &section=traffic|videos|ga4|stripe|clarity|signups|app to return one section only
+//           &section=traffic|videos|ga4|stripe|clarity|signups|app|priceTest to return one section only
 
 import { getGoogleAccessToken, serviceAccountConfigured } from './_google-sa.js'
 import { aggregateSnapshots, fetchClarity, loadSnapshots, FRICTION_METRICS } from './_clarity.js'
-import { reportWindows, ptDate } from './_report-dates.js'
+import { reportWindows, ptDate, ptMidnight } from './_report-dates.js'
 import { loadClicks, loadLinkTable, summarizeClicks } from './_video-links.js'
 
 const DEFAULT_PROPERTY = '437571529'
@@ -59,6 +61,7 @@ export async function onRequest({ request, env }) {
     clarity: () => claritySection(env, win, live),
     signups: () => signupSection(env, win),
     app: () => appSection(win),
+    priceTest: () => priceTestSection(env, win),
   }
   const only = url.searchParams.get('section')
   if (only && !sections[only]) {
@@ -492,6 +495,129 @@ async function appSection(win) {
   const res = await fetch(RETENTION_API)
   if (!res.ok) throw new Error(`retention API ${res.status}`)
   return summarizeApp(await res.json(), win)
+}
+
+// --- Price A/B test ------------------------------------------------------------
+// A: Tracker $64.99 + free shipping. B: Tracker $59.99 + flat $5 shipping (whole
+// order in both). Stripe tags every session metadata[price_variant]; GA4 has the
+// user property price_variant (user-scoped custom dimension, registered by the
+// team on 2026-10-02, so GA4 per-arm data starts then).
+
+export const PRICE_TEST_START = '2026-10-02'
+const ARMS = ['A', 'B']
+
+// Group Stripe Checkout sessions by arm. Internal (team test) sessions are
+// excluded; sessions from before the test have no tag and are counted apart.
+export function summarizePriceTest(sessions) {
+  const blank = () => ({ checkoutsStarted: 0, orders: 0, abandoned: 0, revenue: 0, productSubtotal: 0, shipping: 0, trackerUnits: 0 })
+  const arms = { A: blank(), B: blank() }
+  let untagged = 0, internal = 0
+  for (const s of sessions) {
+    const md = s.metadata || {}
+    if (md.internal === '1') { internal++; continue }
+    const arm = arms[md.price_variant]
+    if (!arm) { untagged++; continue }
+    arm.checkoutsStarted++
+    const paid = s.payment_status === 'paid' || s.payment_status === 'no_payment_required'
+    if (paid) {
+      arm.orders++
+      arm.revenue += s.amount_total || 0
+      arm.productSubtotal += s.amount_subtotal || 0
+      arm.shipping += s.total_details?.amount_shipping || 0
+      arm.trackerUnits += Number(md.qty_single) || 0
+    } else if (s.status === 'expired') arm.abandoned++
+  }
+  for (const a of Object.values(arms)) {
+    for (const k of ['revenue', 'productSubtotal', 'shipping']) a[k] = Math.round(a[k]) / 100
+    a.checkoutConversion = a.checkoutsStarted ? Math.round((a.orders / a.checkoutsStarted) * 1000) / 10 : null
+    a.avgOrderValue = a.orders ? Math.round((a.revenue / a.orders) * 100) / 100 : 0
+  }
+  return { ...arms, untaggedSessions: untagged, internalSessionsExcluded: internal }
+}
+
+// Two-proportion z-test (two-sided). Plain-language enoughData flag so the
+// report never crowns a winner on a handful of orders.
+export function twoProportion(x1, n1, x2, n2) {
+  if (!n1 || !n2) return { enoughData: false, note: 'no data in one or both arms yet' }
+  const p1 = x1 / n1, p2 = x2 / n2, p = (x1 + x2) / (n1 + n2)
+  const se = Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2))
+  const z = se ? (p1 - p2) / se : 0
+  const pValue = se ? 2 * (1 - normCdf(Math.abs(z))) : 1
+  const enoughData = x1 + x2 >= 20 && n1 >= 100 && n2 >= 100
+  const r = (v) => Math.round(v * 10000) / 10000
+  return {
+    rateA: r(p1), rateB: r(p2), z: Math.round(z * 100) / 100, pValue: r(pValue),
+    enoughData,
+    note: !enoughData
+      ? 'Not enough data to call a winner (need 20+ conversions and 100+ in each arm).'
+      : pValue < 0.05 ? `Arm ${p1 > p2 ? 'A' : 'B'} converts better (p < 0.05).` : 'No significant difference yet (p >= 0.05).',
+  }
+}
+
+function normCdf(x) {
+  // Abramowitz-Stegun 7.1.26 erf approximation (error < 1.5e-7).
+  const t = 1 / (1 + 0.3275911 * (x / Math.SQRT2))
+  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-(x * x) / 2)
+  return 0.5 * (1 + y)
+}
+
+async function priceTestSection(env, win) {
+  const sinceStart = { start: PRICE_TEST_START, end: win.thisWeek.end, startMs: ptMidnight(PRICE_TEST_START), endMs: win.thisWeek.endMs }
+  const out = {
+    arms: { A: 'Tracker $64.99 + free shipping (whole order)', B: 'Tracker $59.99 + $5 flat shipping (whole order)' },
+    note: 'One Tracker is $64.99 delivered in both arms, so this measures framing (free shipping vs lower price). Stripe counts every buyer; GA4 only visitors who accepted analytics. Internal team test checkouts are excluded.',
+    since: PRICE_TEST_START,
+  }
+
+  // Stripe: every Checkout session in the window, split by arm.
+  if (env.STRIPE_SECRET_KEY) {
+    const sessionsIn = (w) => stripeGetAll(env, 'checkout/sessions', {
+      'created[gte]': String(Math.floor(w.startMs / 1000)),
+      'created[lt]': String(Math.floor(w.endMs / 1000)),
+    })
+    try {
+      const [all, week] = await Promise.all([sessionsIn(sinceStart), sessionsIn(win.thisWeek)])
+      const s = summarizePriceTest(all)
+      out.stripe = {
+        sinceStart: s,
+        thisWeek: summarizePriceTest(week),
+        checkoutConversionTest: twoProportion(s.A.orders, s.A.checkoutsStarted, s.B.orders, s.B.checkoutsStarted),
+      }
+    } catch (e) { out.stripe = { error: String(e?.message || e) } }
+  } else out.stripe = { error: 'STRIPE_SECRET_KEY not configured' }
+
+  // GA4: funnel users per arm (consenting visitors only).
+  if (serviceAccountConfigured(env)) {
+    try {
+      const property = env.GA4_PROPERTY_ID || DEFAULT_PROPERTY
+      const token = await getGoogleAccessToken(env, GA_SCOPE)
+      const web = { filter: { fieldName: 'platform', stringFilter: { value: 'web' } } }
+      const funnelFor = async (w) => {
+        const resp = await runReport(token, property, {
+          dateRanges: [{ startDate: w.start, endDate: w.end }],
+          dimensions: [{ name: 'customUser:price_variant' }, { name: 'eventName' }],
+          metrics: m('totalUsers'),
+          dimensionFilter: { andGroup: { expressions: [web, { filter: { fieldName: 'eventName', inListFilter: { values: FUNNEL } } }] } },
+          limit: 100,
+        })
+        const byArm = { A: {}, B: {} }
+        for (const row of resp.rows || []) {
+          const [arm, ev] = row.dimensionValues.map((d) => d.value)
+          if (byArm[arm]) byArm[arm][ev] = Number(row.metricValues[0].value)
+        }
+        return Object.fromEntries(ARMS.map((a) => [a, FUNNEL.map((step) => ({ step, users: byArm[a][step] || 0 }))]))
+      }
+      const [all, week] = await Promise.all([funnelFor(sinceStart), funnelFor(win.thisWeek)])
+      const users = (f, step) => f.find((x) => x.step === step)?.users || 0
+      out.ga4 = {
+        sinceStart: all,
+        thisWeek: week,
+        viewToPurchaseTest: twoProportion(users(all.A, 'purchase'), users(all.A, 'view_item'), users(all.B, 'purchase'), users(all.B, 'view_item')),
+      }
+    } catch (e) { out.ga4 = { error: String(e?.message || e) } }
+  } else out.ga4 = { error: 'service account not configured' }
+
+  return out
 }
 
 function json(obj, status = 200) {
