@@ -397,8 +397,17 @@ async function stripeSection(env, win) {
     ])
     return { ...summarizeOrders(complete, refunds), abandonedCheckouts: abandoned.length }
   }
-  const [thisWeek, lastWeek] = await Promise.all([week(win.thisWeek), week(win.lastWeek)])
+  const [thisWeek, lastWeek, priceTest] = await Promise.all([
+    week(win.thisWeek), week(win.lastWeek),
+    // The Sunday task already fetches this section, so the price A/B results
+    // ride along here too (also available alone as ?section=priceTest).
+    priceTestSection(env, win).catch((e) => ({ error: String(e?.message || e) })),
+  ])
   return {
+    priceTest: {
+      reportGuidance: 'Add a "PRICE TEST (A vs B)" section right after SALES: per arm, since the test started and this week, show checkouts started, orders, checkout conversion, revenue, AOV and tracker units, plus the GA4 funnel per arm. Then one verdict sentence that follows the enoughData / pValue / note fields exactly. If enoughData is false, say it is too early to call; never declare a winner otherwise. GA4 covers only visitors who accepted analytics.',
+      ...priceTest,
+    },
     mode: env.STRIPE_SECRET_KEY.startsWith('sk_live') || env.STRIPE_SECRET_KEY.startsWith('rk_live') ? 'live' : 'test',
     note: 'Orders = paid Stripe Checkout sessions created in the window. Abandoned = checkout sessions that expired unpaid (Stripe expires them after 24h). SKU keys: single = Tracker, dot = Sponge Dot, family = Family Pack, adhesive_3pack, coaster. heardAbout = answers to the optional "How did you hear about us?" checkout dropdown (started 2026-09-26).',
     thisWeek,
