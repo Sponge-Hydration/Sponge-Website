@@ -62,6 +62,8 @@ export async function onRequest({ request, env }) {
     signups: () => signupSection(env, win),
     app: () => appSection(win),
     priceTest: () => priceTestSection(env, win),
+    // Diagnostic: which Web Analytics site ids are receiving visits, by day.
+    trafficSites: () => trafficSitesSection(env, win),
   }
   const only = url.searchParams.get('section')
   if (only && !sections[only]) {
@@ -171,6 +173,31 @@ export function shapeCfWeek(acct) {
     countries: rows(acct?.countries, 'countryName', 8),
     ...timelines(acct?.hourly),
   }
+}
+
+// Diagnostic for "traffic dropped to zero": lists every Web Analytics site id
+// (siteTag) and hostname that received visits over the two report weeks. If the
+// beacon is live but `traffic` is empty, the site was probably re-created in
+// Cloudflare and now reports under a new siteTag.
+async function trafficSitesSection(env, win) {
+  if (!env.CF_ANALYTICS_TOKEN) throw new Error('CF_ANALYTICS_TOKEN not configured')
+  const res = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.CF_ANALYTICS_TOKEN}`, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      query: `query($a: string!, $st: Time!, $en: Time!) { viewer { accounts(filter: { accountTag: $a }) {
+        sites: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { siteTag requestHost date } }
+      } } }`,
+      variables: { a: env.CF_ACCOUNT_ID || CF_ACCOUNT, st: new Date(win.lastWeek.startMs).toISOString(), en: new Date(win.thisWeek.endMs).toISOString() },
+    }),
+  })
+  const text = await res.text()
+  if (!res.ok) throw new Error(`Cloudflare GraphQL ${res.status}: ${text.slice(0, 300)}`)
+  const j = JSON.parse(text)
+  if (j.errors?.length) throw new Error(`Cloudflare GraphQL: ${j.errors.map((e) => e.message).join('; ').slice(0, 300)}`)
+  const rows = (j.data?.viewer?.accounts?.[0]?.sites || []).map((r) => ({ ...r.dimensions, visits: r.sum.visits, pageViews: r.count }))
+  rows.sort((x, y) => (x.date < y.date ? -1 : x.date > y.date ? 1 : y.visits - x.visits))
+  return { configuredSiteTag: env.CF_WA_SITE_TAG || CF_SITE_TAG, rows }
 }
 
 async function trafficSection(env, win) {
