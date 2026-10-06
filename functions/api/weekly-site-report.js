@@ -22,7 +22,7 @@
 //      GOOGLE_SHEET_ID, STRIPE_SECRET_KEY, CLARITY_API_TOKEN (optional),
 //      GA4_PROPERTY_ID (optional, default 437571529),
 //      CF_ANALYTICS_TOKEN (Account Analytics: Read), CF_ACCOUNT_ID and
-//      CF_WA_SITE_TAG (optional; default to the Sponge account / site)
+//      CF_SITE_HOST (optional; default to the Sponge account / www host)
 //
 // Trigger:  GET /api/weekly-site-report?key=<GA4_REPORT_TOKEN>
 //           optional &end=YYYY-MM-DD to report the week ending that PT date,
@@ -88,18 +88,23 @@ export async function onRequest({ request, env }) {
 // --- Cloudflare Web Analytics (cookieless, consent-free traffic counts) ------
 
 const CF_ACCOUNT = '11011d90c39d9b8cfe4f46afe2b01267'
-const CF_SITE_TAG = '06ad41267e1046f58ff8d2585ab572f6' // spongehydration.com
+// Traffic is selected by HOSTNAME, not by Web Analytics site id (siteTag). The
+// site was re-created in Cloudflare on 2026-09-26, which gave it a new siteTag
+// (06ad41... -> abb20e...); the beacon kept working but a query pinned to the
+// old id silently returned ~0 for a week. The hostname survives a re-create, and
+// it also keeps *.pages.dev preview traffic out of the numbers.
+const CF_HOST = 'www.spongehydration.com'
 
 // No orderBy: sorted queries get sampled far more heavily (every value came
 // back a multiple of 10). Unsorted groups come back ~unsampled; we sort here.
-const CF_QUERY = `query($a: string!, $s: string!, $st: Time!, $en: Time!) {
+const CF_QUERY = `query($a: string!, $h: string!, $st: Time!, $en: Time!) {
   viewer { accounts(filter: { accountTag: $a }) {
-    total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } }
-    pages: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { requestPath } }
-    referrers: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { refererHost } }
-    devices: rumPageloadEventsAdaptiveGroups(limit: 20, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { deviceType } }
-    countries: rumPageloadEventsAdaptiveGroups(limit: 300, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { countryName } }
-    hourly: rumPageloadEventsAdaptiveGroups(limit: 5000, filter: { siteTag: $s, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { sum { visits } dimensions { datetimeHour refererHost } }
+    total: rumPageloadEventsAdaptiveGroups(limit: 1, filter: { requestHost: $h, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } }
+    pages: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { requestHost: $h, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { requestPath } }
+    referrers: rumPageloadEventsAdaptiveGroups(limit: 2000, filter: { requestHost: $h, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { refererHost } }
+    devices: rumPageloadEventsAdaptiveGroups(limit: 20, filter: { requestHost: $h, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { deviceType } }
+    countries: rumPageloadEventsAdaptiveGroups(limit: 300, filter: { requestHost: $h, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { count sum { visits } dimensions { countryName } }
+    hourly: rumPageloadEventsAdaptiveGroups(limit: 5000, filter: { requestHost: $h, datetime_geq: $st, datetime_lt: $en, bot: 0 }) { sum { visits } dimensions { datetimeHour refererHost } }
   } }
 }`
 
@@ -197,7 +202,7 @@ async function trafficSitesSection(env, win) {
   if (j.errors?.length) throw new Error(`Cloudflare GraphQL: ${j.errors.map((e) => e.message).join('; ').slice(0, 300)}`)
   const rows = (j.data?.viewer?.accounts?.[0]?.sites || []).map((r) => ({ ...r.dimensions, visits: r.sum.visits, pageViews: r.count }))
   rows.sort((x, y) => (x.date < y.date ? -1 : x.date > y.date ? 1 : y.visits - x.visits))
-  return { configuredSiteTag: env.CF_WA_SITE_TAG || CF_SITE_TAG, rows }
+  return { trafficSectionReadsHost: env.CF_SITE_HOST || CF_HOST, rows }
 }
 
 async function trafficSection(env, win) {
@@ -210,7 +215,7 @@ async function trafficSection(env, win) {
         query: CF_QUERY,
         variables: {
           a: env.CF_ACCOUNT_ID || CF_ACCOUNT,
-          s: env.CF_WA_SITE_TAG || CF_SITE_TAG,
+          h: env.CF_SITE_HOST || CF_HOST,
           st: new Date(w.startMs).toISOString(),
           en: new Date(w.endMs).toISOString(),
         },
