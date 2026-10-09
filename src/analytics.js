@@ -138,6 +138,11 @@ function loadAdTags() {
       insertBeforeFirstScript(t)
     }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js')
     /* eslint-enable */
+    // Send only the events this file sends on purpose. Left on, Meta's "automatic
+    // configuration" also reports button clicks (with the button's text) and page
+    // metadata, which is more than the privacy policy tells visitors Meta receives.
+    // Must be set before init.
+    window.fbq('set', 'autoConfig', false, META_PIXEL_ID)
     window.fbq('init', META_PIXEL_ID)
   }
 
