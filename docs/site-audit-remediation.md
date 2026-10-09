@@ -557,6 +557,13 @@ prevent or mitigate disease.
 - **Status:** **Complete**
 - **Evidence:** commit `d5bdf7c`. `prefers-reduced-motion` now renders the poster frame instead, and the video file is never fetched. Everyone else gets a pause/play control. Both paths verified in the browser: with the media query stubbed, no `<video>` element is created at all.
 
+### A-69 — Meta Pixel switched on; new link-preview image
+- **Request:** Nathan, 2026-10-08, while setting up a Meta ad: replace the site's link-preview image (he picked option A of three) and connect the pixel he had just created (id `29103492982601698`, pasted as Meta's stock snippet).
+- **Pixel:** the stock snippet was **not** installed — it loads for every visitor before they choose, which the consent design forbids. The id went into a committed `.env.production` (public by design; a Cloudflare build variable of the same name still overrides it), which activates the existing consent-gated loader in `src/analytics.js`: PageView, ViewContent, AddToCart, InitiateCheckout, Purchase, only for visitors who allow `advertising`, never under GPC, never for `?internal=1` browsers. Verified live in a headless browser: zero requests to Meta before consent; `fbevents.js` and a PageView for this id after it.
+- **Not done — needs someone with the Cloudflare account:** server-side Conversions API (`META_PIXEL_ID` + `META_CAPI_TOKEN` as Pages secrets). Without it, purchases are reported by the browser pixel only. The token is a secret and must be entered in Cloudflare, never in chat or the repo.
+- **Preview image:** `public/og-sponge-tracker-2026-10.jpg` (commit `4fe01d7`), a studio shot of both colours with "The hydration tracker that locks your apps." New file name because social platforms cache previews by URL; the old file stays so cached shares do not break. No price and no "every sip" on it.
+- **Status:** **Complete** (CAPI secrets outstanding)
+
 ### A-68 — Required Terms checkbox on Stripe Checkout; Customer Support page
 - **Request:** Nathan, 2026-09-23, after setting the Terms of Service and Privacy Policy URLs in Stripe Dashboard → Public details (and ticking "Display agreement to legal terms" in Checkout settings): "go ahead and add the checkbox", plus "a customer support page?".
 - **Checkbox:** `create-checkout-session.js` now sends `consent_collection[terms_of_service]=required` with custom text naming Sponge Hydration's Terms (arbitration and class waiver, Section 17) and Privacy Policy. **If Stripe ever rejects it because the dashboard terms URL is missing, the function retries once without the checkbox** so checkout never goes down; the /checkout notice still presents the Terms, and a warning is logged. Any other Stripe error is returned as before. Every session carries `metadata[terms_version]` (`TERMS_VERSION` in `functions/api/_checkout-terms.js` — bump it when the Terms change). The webhook copies `session.consent.terms_of_service` and the version into the team order email.
@@ -750,6 +757,7 @@ Recorded so later passes do not regress them.
 | 2026-09-22 | _this commit_ | A-66 — founding story corrected to Chris's grandfather; his dementia observation added |
 | 2026-09-23 | _this commit_ | A-67 — full Terms of Service, footer Support link, agreement notice at checkout |
 | 2026-09-23 | _this commit_ | A-68 — required Terms checkbox on Stripe Checkout (with safe fallback), /support page, Privacy Policy in footer Support |
+| 2026-10-08 | `4fe01d7`, _this commit_ | A-69 — new link-preview image; Meta Pixel id set (consent-gated), CAPI secrets outstanding |
 
 
 ---
