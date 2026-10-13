@@ -19,7 +19,7 @@ import heroPoster from '../media/hero-film-poster.jpg'
 // click these to learn more, so sending every card to the product page read as
 // a hard sell. A `to` beginning with # stays on this page.
 const features = [
-  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log every sip the moment you drink, no buttons, no manual logging, no guessing how much water you’ve had.', to: '/how-it-works', more: 'See how it measures' },
+  { icon: DropletIcon, title: 'Automatic sip tracking', text: 'On-device sensors log each drink when you set the bottle down, no buttons, no manual logging, no guessing how much water you’ve had.', to: '/how-it-works', more: 'See how it measures' },
   { icon: MagnetIcon, title: 'Clips to any bottle', text: 'A magnetic clip snaps onto the bottle you already own, from insulated steel to glass tumblers. No proprietary bottle to replace.', to: '/how-it-works#tutorials', more: 'Watch it attach' },
   { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.', to: '/how-it-works#faq-battery', more: 'Battery and charging' },
   { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends, and an iPhone home-screen widget, so most days you never open the app at all.', to: '#on-your-phone', more: 'See the app' },
@@ -42,7 +42,7 @@ const STEPS = [
   },
   {
     n: 2, title: 'Sip like normal',
-    text: 'Drink the way you already do. Sponge’s sensors automatically record every sip, zero logging.',
+    text: 'Drink the way you already do. Sponge’s sensors automatically record each drink, zero logging.',
     img: '/media/how/step2-sip-crop.jpg', w: 720, h: 438,
     alt: 'Drinking from a bottle held on its side, with the Sponge Clip visible on its base',
     video: '/media/how/step2-sip.mp4', label: 'someone drinking from a bottle with a Sponge on it',
@@ -205,7 +205,7 @@ export default function Home() {
     <>
       <Seo
         title="Sponge Hydration Tracker | Smart Water Intake Tracker for Any Bottle"
-        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 2-week battery. $64.99 delivered, before tax."
+        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs what you drink, syncs to the app, and locks distracting apps until you hit your goal. 2-week battery. $64.99 delivered, before tax."
         path="/"
       />
       {/* Hero */}
@@ -219,7 +219,7 @@ export default function Home() {
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your
-              water intake, every sip, from the bottle you already own. Clip it on, drink, and let
+              water intake from the bottle you already own. Clip it on, drink, and let
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
@@ -258,7 +258,7 @@ export default function Home() {
       {/* Product showcase */}
       <section className="section">
         <div className="container">
-          <SectionHead eyebrow="Meet Sponge" eyebrowTo="/blog/the-story-behind-sponge" title="One tracker. Every sip, counted.">
+          <SectionHead eyebrow="Meet Sponge" eyebrowTo="/blog/the-story-behind-sponge" title="One tracker. Your water, counted.">
             Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
           </SectionHead>
           <p style={{ textAlign: 'center', margin: '-18px 0 28px' }}>
@@ -453,7 +453,7 @@ export default function Home() {
                 alt="The Sponge app showing a day's intake: 78.3 oz total, plotted as a rising line that crosses a dashed 60 oz goal line in the early evening"
               />
               <figcaption>
-                <strong>And the whole day, drawn for you.</strong> Every sip lands on the
+                <strong>And the whole day, drawn for you.</strong> Each drink lands on the
                 curve as it happens. This one sat flat overnight, climbed all day, crossed its
                 60 oz goal in the early evening and finished at 78.3.
               </figcaption>
@@ -497,7 +497,7 @@ export default function Home() {
         <div className="container">
           <div className="cta-band">
             <h2>Stop guessing. Start tracking.</h2>
-            <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
+            <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts what you drink, and locks the apps you choose until you catch up.</p>
             <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
             <p className="cta-band__note">
               <AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Cancel any time before it ships · 30 days to change
