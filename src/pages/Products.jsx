@@ -1,11 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { SectionHead, usd } from '../components/bits'
-import { badgeOrders, productById, visibleProducts } from '../data'
+import { visibleProducts } from '../data'
 import { useCart } from '../cart/CartContext'
 import AB from '../components/AB'
-import { PRICE_TEST, TEST_SKU, priceFor } from '../pricing'
-import { trackAddToCart } from '../analytics'
+import { PRICE_TEST, TEST_SKU } from '../pricing'
 
 export default function Products() {
   const { add } = useCart()
@@ -13,9 +12,6 @@ export default function Products() {
 
   const buyNow = (id) => {
     add(id, 1)
-    // This button used to add without telling analytics at all.
-    const p = productById(id)
-    if (p) trackAddToCart({ id: p.id, name: p.name, price: priceFor(p), qty: 1 })
     navigate('/cart')
   }
 
@@ -34,22 +30,13 @@ export default function Products() {
 
         <div className="features">
           {visibleProducts.map((p) => (
-            // The whole card is one link to the product page: the title link is
-            // stretched over the card (.product-card__link::after). The buttons
-            // sit above it as siblings, so nothing interactive is nested.
             <article className="product-card" key={p.id}>
-              {badgeOrders(p) ? (
-                <button type="button" className="product-card__badge product-card__badge--order" onClick={() => buyNow(p.id)}>
-                  {p.badge}
-                </button>
-              ) : (
-                <div className="product-card__badge">{p.badge}</div>
-              )}
-              <div className="product-card__media">
-                <img src={p.img} alt="" loading="lazy" />
-              </div>
+              <div className="product-card__badge">{p.badge}</div>
+              <Link to={`/shop/p/${p.slug}`} className="product-card__media">
+                <img src={p.img} alt={p.name} loading="lazy" />
+              </Link>
               <div className="product-card__body">
-                <h3><Link to={`/shop/p/${p.slug}`} className="product-card__link">{p.name}</Link></h3>
+                <h3><Link to={`/shop/p/${p.slug}`}>{p.name}</Link></h3>
                 <p>{p.short}</p>
                 <div className="product-card__price">
                   <strong>{p.id === TEST_SKU ? <AB a={usd(PRICE_TEST.A.trackerPrice)} b={usd(PRICE_TEST.B.trackerPrice)} /> : usd(p.price)}</strong>

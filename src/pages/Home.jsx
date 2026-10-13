@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
-import { Eyebrow, SectionHead, usd } from '../components/bits'
-import { PRICE_TEST } from '../pricing'
+import { Eyebrow, SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import EmailSignup from '../components/EmailSignup'
 import ExitIntentCapture from '../components/ExitIntentCapture'
@@ -223,10 +222,7 @@ export default function Home() {
               the app keep you on track to your daily goal.
             </p>
             <div className="hero__cta">
-              {/* The price comes from src/pricing.js (A/B arm), never typed here. */}
-              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">
-                Pre-order now · <AB a={usd(PRICE_TEST.A.trackerPrice)} b={usd(PRICE_TEST.B.trackerPrice)} />
-              </button>
+              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now</button>
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
