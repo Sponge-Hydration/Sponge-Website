@@ -171,6 +171,10 @@ export const visibleProducts = products.filter((p) => !p.hidden)
 export const productById = (id) => products.find((p) => p.id === id)
 export const productBySlug = (slug) => products.find((p) => p.slug === slug)
 
+// A badge worded as an order label ("Order now") reads as a button, so the shop
+// and product pages render it as one. Every other badge is a plain label.
+export const badgeOrders = (p) => Boolean(p) && !p.soldOut && /^order now$/i.test(p.badge || '')
+
 // Color options a customer can choose for each Sponge clip.
 export const colorOptions = [
   { id: 'black', label: 'Black', hex: '#1a1a1a' },

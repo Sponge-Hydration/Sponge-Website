@@ -218,26 +218,33 @@ function totalValue(items) {
   return Number(items.reduce((sum, i) => sum + i.price * (i.qty || 1), 0).toFixed(2))
 }
 
-export function trackViewItem(item) {
-  if (typeof window === 'undefined' || !item) return
-  initAnalytics()
-  const c = allow()
-  const items = [item]
+// Which products have had a view actually SENT this page load, per consent
+// category. Memory only, nothing is stored; an id is recorded only when the
+// event really went out, so a view that was dropped for lack of consent is
+// never mistaken for one that was counted.
+const viewed = { analytics: new Set(), advertising: new Set() }
+
+function sendViewItem(item, c, onlyMissing) {
+  const items = [{ ...item, qty: 1 }]
   const value = totalValue(items)
-  if (c.analytics && GA4_ID && window.gtag) {
+  if (c.analytics && GA4_ID && window.gtag && !(onlyMissing && viewed.analytics.has(item.id))) {
+    viewed.analytics.add(item.id)
     window.gtag('event', 'view_item', {
       currency: 'USD',
       value,
-      items: [{ item_id: item.id, item_name: item.name, price: item.price, quantity: item.qty || 1 }],
+      items: [{ item_id: item.id, item_name: item.name, price: item.price, quantity: 1 }],
     })
   }
-  if (c.advertising) {
-    if (META_PIXEL_ID && window.fbq) {
+  if (c.advertising && !(onlyMissing && viewed.advertising.has(item.id))) {
+    const meta = Boolean(META_PIXEL_ID && window.fbq)
+    const tiktok = Boolean(TIKTOK_PIXEL_ID && window.ttq)
+    if (meta || tiktok) viewed.advertising.add(item.id)
+    if (meta) {
       window.fbq('track', 'ViewContent', {
         content_ids: contentIds(items), content_type: 'product', value, currency: 'USD',
       })
     }
-    if (TIKTOK_PIXEL_ID && window.ttq) {
+    if (tiktok) {
       window.ttq.track('ViewContent', {
         content_id: item.id, content_type: 'product', value, currency: 'USD',
       })
@@ -245,10 +252,27 @@ export function trackViewItem(item) {
   }
 }
 
+/**
+ * A product was viewed. `onlyMissing` sends it only to the categories that have
+ * not already had it this page load. A product page passes it when consent is
+ * granted while the page is open: the view that was dropped on arrival is then
+ * counted, without double-counting a category that already had it.
+ */
+export function trackViewItem(item, { onlyMissing = false } = {}) {
+  if (typeof window === 'undefined' || !item) return
+  initAnalytics()
+  sendViewItem(item, allow(), onlyMissing)
+}
+
 export function trackAddToCart(item) {
   if (typeof window === 'undefined' || !item) return
   initAnalytics()
   const c = allow()
+  // The funnel reads view_item -> add_to_cart, but an "Order now" in the header,
+  // on the homepage or in the shop grid adds a product whose page was never
+  // opened, which left add_to_cart higher than view_item. Whoever adds a product
+  // has seen it, so the view goes first for any category that has not had it.
+  sendViewItem(item, c, true)
   const items = [item]
   const value = totalValue(items)
   if (c.analytics && GA4_ID && window.gtag) {

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from './CartContext'
 import { productById } from '../data'
 import { trackAddToCart } from '../analytics'
+import { priceFor } from '../pricing'
 
 // Fired by the sticky buy bar on a product page; ProductDetail listens and runs
 // its own buy action, so the chosen color and quantity are respected.
@@ -21,7 +22,8 @@ export function useOrderNow(productId = 'sponge-clip') {
     if (!items.some((i) => i.id === productId)) {
       add(productId, 1)
       const p = productById(productId)
-      if (p) trackAddToCart({ id: p.id, name: p.name, price: p.price, qty: 1 })
+      // priceFor: the Tracker's price depends on the visitor's A/B arm.
+      if (p) trackAddToCart({ id: p.id, name: p.name, price: priceFor(p), qty: 1 })
     }
     navigate('/cart')
   }

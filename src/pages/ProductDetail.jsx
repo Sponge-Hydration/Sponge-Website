@@ -3,10 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Seo, SITE } from '../components/useSEO'
 import { usd } from '../components/bits'
 import { PhoneIcon, ShieldIcon, TruckIcon } from '../components/icons'
-import { colorById, colorOptions, productBySlug } from '../data'
+import { badgeOrders, colorById, colorOptions, productBySlug } from '../data'
 import { useCart } from '../cart/CartContext'
 import { BUY_NOW_EVENT } from '../cart/useOrderNow'
 import { trackAddToCart, trackViewItem } from '../analytics'
+import { CONSENT_EVENT } from '../consent'
 import EmailSignup from '../components/EmailSignup'
 import AB from '../components/AB'
 import { PRICE_TEST, TEST_SKU, priceFor } from '../pricing'
@@ -45,10 +46,20 @@ export default function ProductDetail() {
 
   // Declared before the not-found early return so hook order stays stable.
   useEffect(() => {
-    if (product) {
-      trackViewItem({ id: product.id, name: product.name, price: priceFor(product), qty: 1 })
-    }
+    if (!product) return undefined
+    const item = { id: product.id, name: product.name, price: priceFor(product), qty: 1 }
+    trackViewItem(item)
+    // On a first visit this runs before the visitor has answered the consent
+    // banner, so the view above is dropped. If they say yes while still on the
+    // page, count it then (only for the categories that have not had it).
+    const onConsent = () => trackViewItem(item, { onlyMissing: true })
+    window.addEventListener(CONSENT_EVENT, onConsent)
+    return () => window.removeEventListener(CONSENT_EVENT, onConsent)
   }, [product?.id])
+
+  // Larger view of the gallery image (native <dialog>: Esc and focus handling
+  // come with it).
+  const zoomRef = useRef(null)
 
   // The sticky buy bar asks this page to buy, so its Order now uses the color
   // and quantity chosen here. A ref keeps the listener pointed at the latest
@@ -156,9 +167,35 @@ export default function ProductDetail() {
 
         <div className="pdp">
           <div className="pdp__gallery">
-            <div className="pdp__main">
+            {/* The big photo is a button: people clicked it expecting a closer
+                look and nothing happened. It opens the same shot enlarged. */}
+            <button
+              type="button"
+              className="pdp__main"
+              onClick={() => zoomRef.current?.showModal?.()}
+              aria-label={`Enlarge photo: ${thumbLabel(gallery[activeImg] || '', activeImg)}`}
+            >
               <img src={gallery[activeImg]} alt={product.name} />
-            </div>
+            </button>
+            {/* Clicking the backdrop (the dialog element itself) closes it. */}
+            <dialog
+              ref={zoomRef}
+              className="pdp-zoom"
+              aria-label={`${product.name} photos`}
+              onClick={(e) => { if (e.target === e.currentTarget) e.currentTarget.close() }}
+            >
+              <div className="pdp-zoom__panel">
+                <img src={gallery[activeImg]} alt={thumbLabel(gallery[activeImg] || '', activeImg)} />
+                {gallery.length > 1 && (
+                  <div className="pdp-zoom__nav">
+                    <button type="button" className="btn btn--ghost" onClick={() => setActiveImg((i) => (i - 1 + gallery.length) % gallery.length)}>← Previous</button>
+                    <span aria-live="polite">{activeImg + 1} / {gallery.length}</span>
+                    <button type="button" className="btn btn--ghost" onClick={() => setActiveImg((i) => (i + 1) % gallery.length)}>Next →</button>
+                  </div>
+                )}
+                <button type="button" className="pdp-zoom__close" aria-label="Close photo" onClick={() => zoomRef.current?.close()}>×</button>
+              </div>
+            </dialog>
             {gallery.length > 1 && (
               <div className="pdp__thumbs">
                 {gallery.map((src, i) => (
@@ -177,7 +214,17 @@ export default function ProductDetail() {
           </div>
 
           <div className="pdp__info">
-            <span className="eyebrow">{product.badge}</span>
+            {/* A pill that says "Order now" was being clicked as a button (it is
+                one on the homepage). Where the badge is an order label it now
+                orders; any other badge stays a plain label. */}
+            {badgeOrders(product) ? (
+              <button type="button" className="eyebrow eyebrow--link" onClick={buyNow}>
+                {product.badge}
+                <span className="eyebrow__arrow" aria-hidden="true">→</span>
+              </button>
+            ) : (
+              <span className="eyebrow">{product.badge}</span>
+            )}
             <h1>{product.name}</h1>
             <p className="pdp__tagline">{product.tagline}</p>
 
