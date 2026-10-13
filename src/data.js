@@ -18,7 +18,7 @@ export const products = [
       '/media/gallery/g6-closeup.jpg',
       '/media/gallery/g5-packaging.jpg',
     ],
-    short: 'Magnetic clip-on hydration tracking device that logs what you drink from the bottle you already own.',
+    short: 'Magnetic clip-on hydration tracking device that auto-logs every sip from the bottle you already own.',
     compare: 'Smart bottles start around $80 and ask you to replace the bottle you already own. Sponge clips onto it.',
     features: [
       'Works with any water bottle',
@@ -46,7 +46,7 @@ export const products = [
     img: '/media/products/dot-placeholder-wide.jpg',
     gallery: ['/media/products/dot-placeholder.jpg'],
     short: 'A one-button logger for the bottle you already own. Finish the bottle, press the Dot, and a full bottle of water lands in the free Sponge Hydration app.',
-    compare: 'The Dot does not measure your sips. It logs a full bottle each time you press it, so it is only as complete as your presses. If you want your drinks measured automatically, that is the Sponge Hydration Tracker.',
+    compare: 'The Dot does not measure your sips. It logs a full bottle each time you press it, so it is only as complete as your presses. If you want every sip measured automatically, that is the Sponge Hydration Tracker.',
     features: [
       'One press logs one full bottle',
       'Set your bottle’s volume once, during setup in the app',
@@ -129,7 +129,7 @@ export const products = [
       '/media/products/coaster.jpg',
       '/media/products/coaster-side.jpg',
     ],
-    short: 'A coaster-style hydration tracker, set your bottle down on it and each drink is logged to the same free Sponge app.',
+    short: 'A coaster-style hydration tracker, set your bottle down on it and every sip is logged to the same free Sponge app.',
     features: [
       'Tracks any bottle you set on it',
       'Automatic sip tracking',
@@ -202,7 +202,7 @@ export const clipsFor = (id) => productById(id)?.clips ?? 1
 // `id` is the stable anchor for /how-it-works#faq-<id>. Links elsewhere on the
 // site (the homepage feature cards) point at these, so rename with care.
 export const faqs = [
-  { id: 'how-it-works', q: 'What is a hydration tracker and how does Sponge work?', a: 'A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each drink automatically and sync to the free Sponge app, so you never have to log water by hand.' },
+  { id: 'how-it-works', q: 'What is a hydration tracker and how does Sponge work?', a: 'A hydration tracker measures how much water you drink during the day. Sponge is a small clip-on hydration tracking device that snaps magnetically onto any water bottle. On-device sensors record each sip automatically and sync to the free Sponge app, so you never have to log water by hand.' },
   { id: 'any-bottle', q: 'Does the Sponge hydration tracking device work with any water bottle?', a: 'Yes. Sponge is built to clip onto the bottle you already own, insulated steel bottles, plastic tumblers, glass bottles and more. There is no special bottle to buy and nothing to refill differently.' },
   { id: 'battery', q: 'How long does the battery last?', a: 'Sponge lasts about two weeks on a single charge and recharges over USB-C in a couple of hours. Most people plug it in a couple of times a month.' },
   { id: 'app-lock', q: 'Can the hydration tracker really lock apps until I drink water?', a: 'Yes. In the app you pick which apps to gate, and Sponge keeps them locked until you reach your daily hydration goal, turning your phone into a gentle nudge to drink more water.' },
@@ -210,7 +210,7 @@ export const faqs = [
   { id: 'accuracy', q: 'Is it accurate?', a: 'Sponge measures real sips with on-device sensors rather than asking you to remember and self-report, which is where most hydration tracking breaks down. The app shows your intake in real time so you always know where you stand.' },
   { id: 'daily-goal', q: 'How is my daily water goal set?', a: 'When you sign up, the app asks for a few details about you and recommends a starting goal from them, so you are not guessing at a number on day one. You can change it whenever you like. Sponge does not adjust the goal for you afterwards based on your activity or the weather. The target stays where you set it, and the tracker measures how close you get.' },
   { id: 'setup', q: 'How do I set up my Sponge?', a: 'Charge it over USB-C, download the free Sponge app, and pair over Bluetooth. Then clip it onto your bottle. Setup takes about two minutes and the app walks you through calibrating your bottle size.' },
-  { id: 'sponge-dot', q: 'What is the Sponge Dot?', a: 'The Sponge Dot is a one-button logger for the bottle you already own. When you set it up, the Sponge Hydration app asks for your bottle’s volume. After that, every press logs one full bottle. The Dot does not measure sips, so it only knows what you press. If you want your drinks measured automatically, that is the Sponge Hydration Tracker. The Dot is $29.99 plus shipping and tax. It is still in development, and a pre-order can be canceled for a full refund any time before it ships.' },
+  { id: 'sponge-dot', q: 'What is the Sponge Dot?', a: 'The Sponge Dot is a one-button logger for the bottle you already own. When you set it up, the Sponge Hydration app asks for your bottle’s volume. After that, every press logs one full bottle. The Dot does not measure sips, so it only knows what you press. If you want every sip measured automatically, that is the Sponge Hydration Tracker. The Dot is $29.99 plus shipping and tax. It is still in development, and a pre-order can be canceled for a full refund any time before it ships.' },
   { id: 'price-and-shipping', q: 'How much does Sponge cost and when does it ship?', a: 'One Sponge comes to $64.99 delivered, before tax, and the companion app is free on iOS and Android. We build in production batches, and a batch runs once enough pre-orders are reserved to fill it, so rather than quote a delivery date we cannot stand behind, we email you when your batch enters production. You can cancel a pre-order for a full refund any time before it ships, and once it arrives you have 30 days to send it back.' },
   { id: 'returns', q: 'What is your return policy?', a: 'Every Sponge comes with a 30-day money-back guarantee. If it is not for you, contact support within 30 days of delivery for a full refund.' },
 ]
@@ -464,7 +464,7 @@ export const blogPosts = [
       'Urine color is the other practical check: pale straw suggests you are keeping up, consistently dark suggests you are not. It is imperfect (vitamins, some foods and some medications shift the color independently of hydration), but it is free and it is directional.',
       { h2: 'Where measurement comes in' },
       'Whatever target you land on, there is a gap that no guideline can close for you: most people have no idea how much they actually drank yesterday. Estimating your own intake from memory is exactly the kind of task human recall is bad at, because drinking is frequent, unremarkable and spread across the day.',
-      'That is the specific problem Sponge is built for. It clips to the bottle you already use and records each drink as you set the bottle down, so the number in the app is measured rather than remembered. You set your own daily goal; the tracker tells you honestly how close you got.',
+      'That is the specific problem Sponge is built for. It clips to the bottle you already use and records each sip as it happens, so the number in the app is measured rather than remembered. You set your own daily goal; the tracker tells you honestly how close you got.',
       { note: 'Sponge is a general wellness product. It measures how much you drink. It does not assess your hydration status, and it is not a medical device. If you have symptoms that concern you, or a condition that affects fluid balance, talk to a clinician rather than an app.' },
     ],
     sources: [
@@ -516,7 +516,7 @@ export const blogPosts = [
       },
       { h2: 'The practical check' },
       'Urine color remains the most useful everyday marker: pale straw is a reasonable sign you are keeping up, consistently dark is a reasonable sign you are not. It is imperfect (B vitamins, beetroot and some medications will change the color on their own), but it costs nothing and it points the right way.',
-      'The other check is simply knowing what you drank. Most people cannot reconstruct yesterday accurately, because drinking is frequent, forgettable and spread thinly across a day. That is a measurement problem, and it is the one Sponge exists to solve: the tracker clips to the bottle you already use and logs each drink as you set the bottle down, so when a flat afternoon arrives you can look at a real number instead of guessing at one.',
+      'The other check is simply knowing what you drank. Most people cannot reconstruct yesterday accurately, because drinking is frequent, forgettable and spread thinly across a day. That is a measurement problem, and it is the one Sponge exists to solve: the tracker clips to the bottle you already use and logs each sip as it happens, so when a flat afternoon arrives you can look at a real number instead of guessing at one.',
       { note: 'Sponge is a general wellness product that measures how much you drink. It does not measure hydration status, diagnose dehydration, or treat any condition. Persistent fatigue, headaches or changes in urination deserve a clinician, not an app.' },
     ],
     sources: [
