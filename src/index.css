@@ -1381,3 +1381,9 @@ html[data-price='ab-a'] .ab-b { display: none; }
 .ps__col .problem-turn { width: 100%; margin: 0 0 14px; padding: 14px 16px; border-left: 4px solid rgb(var(--ps)); border-radius: 0 12px 12px 0; background: rgba(var(--ps), 0.09); font-size: 16px; font-weight: 500; color: var(--ink-soft); line-height: 1.35; }
 .ps__col .problem-turn strong { display: block; margin-top: 2px; font-size: 24px; font-weight: 900; letter-spacing: -0.01em; color: var(--ink); }
 .problem-list--yes li::before { content: '✓'; background: rgba(43, 196, 216, 0.18); color: #2bc4d8; font-size: 13px; }
+
+/* Sections rise in as they scroll into view. The class is added by script (Home.jsx),
+   so with no script, or with reduced motion, everything is simply visible. */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }

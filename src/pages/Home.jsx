@@ -226,6 +226,19 @@ export default function Home() {
   // Every "Order now" on the site does the same thing: Sponge in the cart, then
   // the cart (src/cart/useOrderNow.js).
   const orderNow = useOrderNow()
+  // Sections below the first screen rise in as they are scrolled to. Done in an
+  // effect so the prerendered page and no-script visitors see everything.
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return undefined
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined
+    const els = [...document.querySelectorAll('main section, main .ps__col')]
+      .filter((el) => !el.matches('.hero, .trust') && el.getBoundingClientRect().top > window.innerHeight)
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) }
+    }, { rootMargin: '0px 0px -8% 0px' })
+    els.forEach((el) => { el.classList.add('reveal'); io.observe(el) })
+    return () => { io.disconnect(); els.forEach((el) => el.classList.remove('reveal', 'is-in')) }
+  }, [])
   return (
     <>
       <Seo
@@ -325,6 +338,10 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Section order (Nathan, 11-23, "re-organize to flow better"): hook, proof, problem and
+          solution, how it works, then App Lock straight away because it is the reason people
+          buy. After that the supporting detail (phone, features, comparison), then who it is
+          for, reviews, the honest answers, and the page ends on the ask. */}
       {/* How it works */}
       <section className="section" id="how">
         <div className="container">
@@ -333,65 +350,6 @@ export default function Home() {
           </SectionHead>
           <div className="steps">
             {STEPS.map((step) => <StepCard key={step.n} step={step} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* Email capture. Sits right after "How it works" because Clarity showed the
-          average homepage visit only scrolls ~40% of the page; at the bottom it was
-          seen by almost nobody. */}
-      <section className="section section--tint">
-        <div className="container">
-          <div className="home-capture">
-            <h2>Join the list, get a mystery gift</h2>
-            <p>
-              Leave your email and we’ll send you a mystery gift right away. After that it’s one
-              honest email a month: when the next batch opens, and what the hydration research
-              actually says. Unsubscribe anytime.
-            </p>
-            <EmailSignup
-              source="homepage"
-              label="Email address"
-              cta="Send my mystery gift"
-              done="You’re in. Check your inbox for your mystery gift."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Lifestyle band */}
-      {/* aria-hidden belongs on the decorative photo only — putting it on the
-          section also hid the visible headline from screen readers. */}
-      <section className="lifestyle-band">
-        {/* Cropped from the source above y=1730, where a generative-AI sparkle
-            and a faded watermark box sit — neither is inside this crop. Authored
-            at 2.756, the band's widest rendered aspect. */}
-        <img src="/media/lifestyle/band-track.jpg" alt="" aria-hidden="true" width="1400" height="508" decoding="async" />
-        <div className="lifestyle-band__overlay">
-          <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="section" id="features">
-        <div className="container">
-          <SectionHead eyebrow="Features" eyebrowTo="/how-it-works#faq" title="Everything a hydration tracking device should be">
-            Effortless to use, impossible to forget, and built around the bottle you already carry.
-          </SectionHead>
-          <div className="features">
-            {features.map((f) => {
-              const inner = (
-                <>
-                  <div className="feature__icon" aria-hidden="true"><f.icon size={30} /></div>
-                  <h3>{f.title}</h3>
-                  <p>{f.text}</p>
-                  <span className="feature__more">{f.more} →</span>
-                </>
-              )
-              return f.to.startsWith('#')
-                ? <a href={f.to} className="feature feature--link" key={f.title}>{inner}</a>
-                : <Link to={f.to} className="feature feature--link" key={f.title}>{inner}</Link>
-            })}
           </div>
         </div>
       </section>
@@ -435,7 +393,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Personas */}
+      {/* Email capture. Kept in the top half of the page because Clarity showed the
+          average homepage visit only scrolls ~40% of the page; at the bottom it was
+          seen by almost nobody. */}
+      <section className="section">
+        <div className="container">
+          <div className="home-capture">
+            <h2>Join the list, get a mystery gift</h2>
+            <p>
+              Leave your email and we’ll send you a mystery gift right away. After that it’s one
+              honest email a month: when the next batch opens, and what the hydration research
+              actually says. Unsubscribe anytime.
+            </p>
+            <EmailSignup
+              source="homepage"
+              label="Email address"
+              cta="Send my mystery gift"
+              done="You’re in. Check your inbox for your mystery gift."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Lifestyle band */}
+      {/* aria-hidden belongs on the decorative photo only — putting it on the
+          section also hid the visible headline from screen readers. */}
+      <section className="lifestyle-band">
+        {/* Cropped from the source above y=1730, where a generative-AI sparkle
+            and a faded watermark box sit — neither is inside this crop. Authored
+            at 2.756, the band's widest rendered aspect. */}
+        <img src="/media/lifestyle/band-track.jpg" alt="" aria-hidden="true" width="1400" height="508" decoding="async" />
+        <div className="lifestyle-band__overlay">
+          <p className="lifestyle-band__quote">Hydration that keeps up with you, on the court, at the desk, everywhere.</p>
+        </div>
+      </section>
+
       {/* Widget and Apple Health sync are both confirmed capabilities of the
           shipping app - Apple Health left TestFlight and went live on the App
           Store (Nathan, 2026-11-23), so the future-tense wording that used to be
@@ -500,42 +492,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" id="who">
+      {/* Features */}
+      <section className="section" id="features">
         <div className="container">
-          <SectionHead eyebrow="Who it’s for" title="Built for anyone who keeps forgetting to drink water">
-            One simple hydration tracker, a lot of people it quietly helps every day.
+          <SectionHead eyebrow="Features" eyebrowTo="/how-it-works#faq" title="Everything a hydration tracking device should be">
+            Effortless to use, impossible to forget, and built around the bottle you already carry.
           </SectionHead>
-          <div className="personas">
-            <article className="persona">
-              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two water bottles with Sponge trackers clipped to their bases on an outdoor basketball court" width="740" height="370" decoding="async" loading="lazy" />
-              <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with automatic intake data instead of end-of-day guesswork.</p></div>
-            </article>
-            <article className="persona">
-              <img className="persona__img" src="/media/personas/professional.jpg" alt="A water bottle with a Sponge tracker at its base beside a laptop, next to a phone showing 52.3 oz logged in the Sponge app" width="740" height="370" decoding="async" loading="lazy" />
-              <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
-            </article>
-            <Link to="/caregivers" className="persona">
-              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="A hand holding a Sponge tracker on a kitchen counter beside a Sponge-branded water bottle" width="740" height="370" decoding="async" loading="lazy" />
-              <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Effortless tracking on a loved one’s own bottle. A shared caregiver view is in development. See our caregiver program →</p></div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Reviews, live from Airtable, hidden when empty */}
-      <Reviews />
-
-      {/* CTA band */}
-      <section className="section">
-        <div className="container">
-          <div className="cta-band">
-            <h2>Stop guessing. Start tracking.</h2>
-            <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
-            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
-            <p className="cta-band__note">
-              <BlackFridayInline /><AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Cancel any time before it ships · 30 days to change
-              your mind once it arrives, and we pay return shipping
-            </p>
+          <div className="features">
+            {features.map((f) => {
+              const inner = (
+                <>
+                  <div className="feature__icon" aria-hidden="true"><f.icon size={30} /></div>
+                  <h3>{f.title}</h3>
+                  <p>{f.text}</p>
+                  <span className="feature__more">{f.more} →</span>
+                </>
+              )
+              return f.to.startsWith('#')
+                ? <a href={f.to} className="feature feature--link" key={f.title}>{inner}</a>
+                : <Link to={f.to} className="feature feature--link" key={f.title}>{inner}</Link>
+            })}
           </div>
         </div>
       </section>
@@ -623,6 +599,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Personas */}
+      <section className="section" id="who">
+        <div className="container">
+          <SectionHead eyebrow="Who it’s for" title="Built for anyone who keeps forgetting to drink water">
+            One simple hydration tracker, a lot of people it quietly helps every day.
+          </SectionHead>
+          <div className="personas">
+            <article className="persona">
+              <img className="persona__img" src="/media/personas/athlete.jpg" alt="Two water bottles with Sponge trackers clipped to their bases on an outdoor basketball court" width="740" height="370" decoding="async" loading="lazy" />
+              <div className="persona__body"><h3>Athletes &amp; active people</h3><p>Dial in hydration around training and recovery with automatic intake data instead of end-of-day guesswork.</p></div>
+            </article>
+            <article className="persona">
+              <img className="persona__img" src="/media/personas/professional.jpg" alt="A water bottle with a Sponge tracker at its base beside a laptop, next to a phone showing 52.3 oz logged in the Sponge app" width="740" height="370" decoding="async" loading="lazy" />
+              <div className="persona__body"><h3>Busy professionals</h3><p>Back-to-back days make it easy to forget to drink. Sponge tracks for you and nudges before you fall behind.</p></div>
+            </article>
+            <Link to="/caregivers" className="persona">
+              <img className="persona__img" src="/media/personas/caregiver.jpg" alt="A hand holding a Sponge tracker on a kitchen counter beside a Sponge-branded water bottle" width="740" height="370" decoding="async" loading="lazy" />
+              <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Effortless tracking on a loved one’s own bottle. A shared caregiver view is in development. See our caregiver program →</p></div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews, live from Airtable, hidden when empty */}
+      <Reviews />
+
       {/* Objection handling — the questions people actually stall on. */}
       <section className="section">
         <div className="container">
@@ -662,6 +664,21 @@ export default function Home() {
                 one tracker between them.
               </p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA band */}
+      <section className="section">
+        <div className="container">
+          <div className="cta-band">
+            <h2>Stop guessing. Start tracking.</h2>
+            <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
+            <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
+            <p className="cta-band__note">
+              <BlackFridayInline /><AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Cancel any time before it ships · 30 days to change
+              your mind once it arrives, and we pay return shipping
+            </p>
           </div>
         </div>
       </section>
