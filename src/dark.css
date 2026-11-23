@@ -24,17 +24,33 @@
 html { background: #0a1b2a; }
 body { background: radial-gradient(120% 900px at 50% 0%, #12406f 0%, #0a1b2a 62%) no-repeat #0a1b2a; }
 .footer { background: #050e18; }
-.bf__card { background: radial-gradient(120% 80% at 50% 0%, #12406f 0%, #0a1b2a 62%); border: 1px solid rgba(255, 255, 255, 0.12); }
-.bf__tag { color: #0a1b2a; }
 .eyebrow--bf { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); }
 .btn--ghost { color: #fff; border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.06); }
 .section--deep, .cta-band, .app-strip { border: 1px solid rgba(255, 255, 255, 0.1); }
 .bf-cart-note { color: #fff; }
 .cart-summary__row--discount { color: #5fe0a4; }
-.header { background: rgba(10, 27, 42, 0.78); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
 .buybar { background: rgba(10, 27, 42, 0.94); }
 .hero__video-toggle { color: #0a1b2a; }
 .app-badges a { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); }
 .hero { background: radial-gradient(110% 90% at 85% -10%, #164a80 0%, rgba(10, 27, 42, 0) 62%); }
 .hero--sub { background: radial-gradient(120% 90% at 80% -10%, #164a80, rgba(10, 27, 42, 0) 60%); }
 .hero h1 .accent { background: linear-gradient(90deg, #6fe0e8, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Header stays light so the navy logo reads (Nathan, 11-23). Light values are restored inside it. */
+.header {
+  --ink: #0a1b2a; --ink-soft: #3d5366; --muted: #6b7f90; --line: #e4ecf2; --card: #ffffff;
+  --surface: #ffffff; --surface-tint: #f3f8fc; --blue-900: #07294d; --blue-700: #0a4ea0; --blue-600: #0b6bcb;
+  color: var(--ink); background: rgba(255, 255, 255, 0.92); border-bottom: 1px solid #e4ecf2;
+}
+
+/* Black Friday pop-up is white, so it stands off the dark page (Nathan, 11-23). */
+.bf__card { background: #fff; color: #0a1b2a; border: 0; }
+.bf__close { color: rgba(10, 27, 42, 0.55); }
+.bf__close:hover { color: #0a1b2a; }
+.bf__tag { background: #0a1b2a; color: #fff; }
+.bf__timer { color: #0b6bcb; }
+.bf__amount { background: linear-gradient(90deg, #0b6bcb, #2bc4d8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bf__price { color: #3d5366; }
+.bf__price strong { color: #0a1b2a; }
+.bf__code { color: #0a1b2a; background: #f3f8fc; border-color: rgba(10, 27, 42, 0.3); }
+.bf__fine { color: #6b7f90; }
