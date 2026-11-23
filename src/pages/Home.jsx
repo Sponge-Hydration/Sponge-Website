@@ -274,18 +274,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Product showcase */}
-      <section className="section">
-        <div className="container">
-          <SectionHead eyebrow="Meet Sponge" eyebrowTo="/blog/the-story-behind-sponge" title="One tracker. Every sip, counted.">
-            Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
-          </SectionHead>
-          <p className="showcase__more">
-            <Link to="/blog/the-story-behind-sponge" className="section-head__more">Read how Sponge started →</Link>
-          </p>
-          <div className="showcase showcase--photo">
+      {/* Problem and solution, side by side (Nathan, 11-23): the two stacked sections
+          left a lot of empty space. Same words as before, so SEO copy is unchanged. */}
+      <section className="section section--tint">
+        <div className="container ps">
+          <div className="ps__col ps__col--problem">
+            <Eyebrow to="/blog/the-dehydration-problem">The problem</Eyebrow>
+            <h2>You already know you should drink more water</h2>
+            <p>That’s the problem.</p>
+            <ul className="problem-list">
+              <li>Reminders get swiped away.</li>
+              <li>Tracking apps get abandoned in a week.</li>
+              <li>Smart bottles start around $80 and ask you to give up the bottle you actually like.</li>
+            </ul>
+            <p className="problem-turn">Knowing was never the missing piece. <strong>Consequences were.</strong></p>
+            <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
+          </div>
+          <div className="ps__col ps__col--solution">
+            <Eyebrow to="/blog/the-story-behind-sponge">Our solution</Eyebrow>
+            <h2>One tracker. Every sip, counted.</h2>
+            <p>Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.</p>
             <img
-              className="showcase__img"
+              className="ps__img"
               src="/media/lifestyle/meet-sponge.webp"
               alt="A black Sponge Clip in its open box beside a boxed white one, showing the embossed logo and chrome ring."
               width="1000"
@@ -293,28 +303,12 @@ export default function Home() {
               loading="lazy"
               decoding="async"
             />
+            <p>
+              Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
+              the bottle you already own, and locks the apps you choose until you’ve caught up.
+            </p>
+            <Link to="/blog/the-story-behind-sponge" className="section-head__more">Read how Sponge started →</Link>
           </div>
-        </div>
-      </section>
-
-      {/* Problem */}
-      <section className="section section--tint">
-        <div className="container section-head">
-          <Eyebrow to="/blog/the-dehydration-problem">The problem</Eyebrow>
-          <h2>You already know you should drink more water</h2>
-          {/* Same words as the old single paragraph (SEO), laid out to scan. */}
-          <p>That’s the problem.</p>
-          <ul className="problem-list">
-            <li>Reminders get swiped away.</li>
-            <li>Tracking apps get abandoned in a week.</li>
-            <li>Smart bottles start around $80 and ask you to give up the bottle you actually like.</li>
-          </ul>
-          <p className="problem-turn">Knowing was never the missing piece. <strong>Consequences were.</strong></p>
-          <p>
-            Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
-            the bottle you already own, and locks the apps you choose until you’ve caught up.
-          </p>
-          <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
         </div>
       </section>
 
