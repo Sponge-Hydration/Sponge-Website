@@ -279,6 +279,15 @@ export default function Home() {
       <section className="section section--tint">
         <div className="container ps">
           <div className="ps__col ps__col--problem">
+            <img
+              className="ps__img"
+              src="/media/lifestyle/desk.jpg"
+              alt="A full water bottle sitting untouched on a kitchen counter."
+              width="1400"
+              height="1400"
+              loading="lazy"
+              decoding="async"
+            />
             <Eyebrow to="/blog/the-dehydration-problem">The problem</Eyebrow>
             <h2>You already know you should drink more water</h2>
             <p>That’s the problem.</p>
@@ -290,10 +299,8 @@ export default function Home() {
             <p className="problem-turn">Knowing was never the missing piece. <strong>Consequences were.</strong></p>
             <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
           </div>
+          <div className="ps__arrow" aria-hidden="true">→</div>
           <div className="ps__col ps__col--solution">
-            <Eyebrow to="/blog/the-story-behind-sponge">Our solution</Eyebrow>
-            <h2>One tracker. Every sip, counted.</h2>
-            <p>Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.</p>
             <img
               className="ps__img"
               src="/media/lifestyle/meet-sponge.webp"
@@ -303,6 +310,9 @@ export default function Home() {
               loading="lazy"
               decoding="async"
             />
+            <Eyebrow to="/blog/the-story-behind-sponge">Our solution</Eyebrow>
+            <h2>One tracker. Every sip, counted.</h2>
+            <p>Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.</p>
             <p>
               Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
               the bottle you already own, and locks the apps you choose until you’ve caught up.
