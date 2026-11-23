@@ -510,7 +510,7 @@ export default function Home() {
             </article>
             <Link to="/caregivers" className="persona">
               <img className="persona__img" src="/media/personas/caregiver.jpg" alt="A hand holding a Sponge tracker on a kitchen counter beside a Sponge-branded water bottle" width="740" height="370" decoding="async" loading="lazy" />
-              <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Keep an eye on a loved one’s hydration with effortless tracking and shared progress. See our caregiver program →</p></div>
+              <div className="persona__body"><h3>Caregivers &amp; families</h3><p>Effortless tracking on a loved one’s own bottle. A shared caregiver view is in development. See our caregiver program →</p></div>
             </Link>
           </div>
         </div>
