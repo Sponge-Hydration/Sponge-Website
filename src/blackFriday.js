@@ -12,9 +12,9 @@
 // everyday price, so "$10 off" is the only claim the numbers support.
 
 export const BLACK_FRIDAY = {
-  // OFF until Nathan confirms BLACKFRIDAY10 exists in Stripe live mode (11-22).
-  // Flip to true to show the pop-up, hero pill and cart note to everyone.
-  live: false,
+  // ON: Nathan confirmed BLACKFRIDAY10 is live in Stripe (11-23).
+  // Set to false to hide the pop-up, hero pill and cart note.
+  live: true,
   code: 'BLACKFRIDAY10',
   amountOff: 10,
   // 11:59:59 PM PST on Fri Nov 27 2026 = 07:59:59 UTC Sat Nov 28.
