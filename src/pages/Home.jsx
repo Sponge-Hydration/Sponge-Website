@@ -354,24 +354,12 @@ export default function Home() {
       </section>
 
       {/* Section order (Nathan, 11-23, "re-organize to flow better"): hook, proof, problem and
-          solution, how it works, then App Lock straight away because it is the reason people
-          buy. After that the supporting detail (phone, features, comparison), then who it is
+          solution, then App Lock straight away because it is the reason people buy (above
+          How it works: Nathan, 11-23), then how it works. After that the supporting detail (phone, features, comparison), then who it is
           for, reviews, the honest answers, and the page ends on the ask. */}
-      {/* How it works */}
-      <section className="section" id="how">
-        <div className="container">
-          <SectionHead eyebrow="How it works" eyebrowTo="/how-it-works" title="Clip, sip, repeat">
-            A genuinely passive hydration tracker. Three steps, then it disappears into your day.
-          </SectionHead>
-          <div className="steps">
-            {STEPS.map((step) => <StepCard key={step.n} step={step} />)}
-          </div>
-        </div>
-      </section>
-
       {/* App Lock: a click-through of the real screens instead of one screenshot and a
           paragraph (Nathan, 11-23). The step titles keep the old checklist's words. */}
-      <section className="section section--tint" id="locks">
+      <section className="section" id="locks">
         <div className="container">
           <div className="section-head">
             <span className="eyebrow">Hydration Locks</span>
@@ -394,6 +382,18 @@ export default function Home() {
                 ▶ Get it on Google Play
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="section section--tint" id="how">
+        <div className="container">
+          <SectionHead eyebrow="How it works" eyebrowTo="/how-it-works" title="Clip, sip, repeat">
+            A genuinely passive hydration tracker. Three steps, then it disappears into your day.
+          </SectionHead>
+          <div className="steps">
+            {STEPS.map((step) => <StepCard key={step.n} step={step} />)}
           </div>
         </div>
       </section>
