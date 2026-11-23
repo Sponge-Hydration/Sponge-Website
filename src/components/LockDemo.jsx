@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 // Click-through walk of Hydration Locks (Nathan, 2026-11-23: "an interactive app
 // preview or slideshow that you can click through depicting how it works").
 // Every screen is a real, unretouched app screenshot, cropped only to remove the
-// status bar (step 4 is shown whole, or its header is cut off). All five images are in the prerendered page, so nothing depends on
+// status bar (step 4 is shown whole, or its header is cut off). Steps 2 to 5 are
+// one matching set at an 80 oz unlock goal (Nathan's 11-23 screenshots). All five images are in the prerendered page, so nothing depends on
 // script to be seen; script only decides which one is on top.
 export const LOCK_STEPS = [
   {
@@ -15,26 +16,26 @@ export const LOCK_STEPS = [
   {
     img: '/media/app/locks-step2.webp',
     title: 'Set the amount that unlocks each one',
-    body: 'Here TikTok opens at 60 oz. Nothing drunk yet, so it is locked.',
-    alt: 'Sponge Mode with the lock switched on and TikTok set to unlock at 60 oz, 60 oz remaining.',
+    body: 'Here Instagram opens at 80 oz.',
+    alt: 'The unlock goal picker for Instagram in the Sponge app, set to 80 oz.',
   },
   {
     img: '/media/app/locks-step3.webp',
     title: 'Open a locked app and Sponge is in the way',
     body: 'It tells you exactly how much water is left before it opens.',
-    alt: 'The Sponge Lock screen shown over a locked app: 71 of 80 oz completed, 9 oz left to unlock.',
+    alt: 'The Sponge Lock screen shown over a locked app: 26 of 80 oz completed, 54 oz left to unlock.',
   },
   {
     img: '/media/app/locks-step4.webp',
     title: 'Drink, and the Sponge on your bottle counts it',
     body: 'No logging and no buttons. The ring fills as you sip.',
-    alt: 'The Sponge home screen with the ring full at 83.0 oz, 100% of the goal.',
+    alt: 'The Sponge home screen with the ring full at 89.9 oz, 100% of the goal.',
   },
   {
     img: '/media/app/locks-step5.webp',
     title: 'They unlock as you drink, sip by sip',
     body: 'Reach the amount you set and the app opens.',
-    alt: 'Sponge Mode showing Social, TikTok and Instagram all unlocked, 0 oz remaining.',
+    alt: 'Sponge Mode showing Instagram and TikTok unlocked at 80 oz, 0 oz remaining.',
   },
 ]
 
