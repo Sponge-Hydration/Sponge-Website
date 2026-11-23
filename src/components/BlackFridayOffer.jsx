@@ -93,7 +93,7 @@ export default function BlackFridayOffer() {
           Claim ${BLACK_FRIDAY.amountOff} off
         </button>
         <p className="bf__fine">
-          Through {BLACK_FRIDAY.endsLabel}, 11:59 PM PT. Enter the code at checkout. Pre-order:
+          Through {BLACK_FRIDAY.endsLabel}, 11:59 PM PT. Applied automatically at checkout. Pre-order:
           cancel any time before it ships.
         </p>
       </div>
@@ -102,14 +102,29 @@ export default function BlackFridayOffer() {
 }
 
 /** Cart reminder: shown while the offer runs, so the code is not forgotten at checkout. */
-export function BlackFridayCartNote() {
+/** True once mounted in the browser while the offer runs (false while prerendering). */
+export function useBlackFriday() {
   const [show, setShow] = useState(false)
   useEffect(() => { setShow(blackFridayActive()) }, [])
+  return show
+}
+
+// `applied`: the cart has a tracker, so checkout takes the $10 off by itself.
+export function BlackFridayCartNote({ applied = false }) {
+  const show = useBlackFriday()
   if (!show) return null
+  if (applied) {
+    return (
+      <p className="bf-cart-note">
+        <strong>Black Friday: ${BLACK_FRIDAY.amountOff} off applied.</strong> Nothing to type at
+        checkout. Ends {BLACK_FRIDAY.endsLabel}.
+      </p>
+    )
+  }
   return (
     <p className="bf-cart-note">
-      <strong>Black Friday:</strong> enter <code>{BLACK_FRIDAY.code}</code> at checkout
-      for ${BLACK_FRIDAY.amountOff} off. Ends {BLACK_FRIDAY.endsLabel}.
+      <strong>Black Friday:</strong> add a Sponge tracker and ${BLACK_FRIDAY.amountOff} comes
+      off at checkout. Ends {BLACK_FRIDAY.endsLabel}.
     </p>
   )
 }

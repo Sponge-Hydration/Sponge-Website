@@ -227,20 +227,24 @@ describe('gift code from the gift email link (auto-applied at checkout)', () => 
     expect(await lookupGiftCode(ENV, 'GIFT-ABCD2345')).toBeNull()
   })
 
-  const checkout = async (giftCode, onSession) => {
+  const AFTER_SALE = Date.parse('2026-12-05T00:00:00Z')
+  const DURING_SALE = Date.parse('2026-11-24T20:00:00Z')
+  const checkout = async (giftCode, onSession, { now = AFTER_SALE, items = [{ id: 'sponge-clip', qty: 1, colors: ['black'] }], promoFound = true } = {}) => {
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(now)
     const { onRequestPost: createSession } = await import('../functions/api/create-checkout-session.js')
     const forms = []
     vi.stubGlobal('fetch', async (url, init = {}) => {
-      if (String(url).includes('/v1/promotion_codes')) return reply(200, { data: [promo()] })
+      if (String(url).includes('/v1/promotion_codes')) return promoFound ? reply(200, { data: [promo()] }) : reply(200, { data: [] })
       const form = new URLSearchParams(init.body.toString())
       forms.push(form)
       return onSession ? onSession(form) : reply(200, { url: 'https://checkout.stripe.com/c/pay/cs_test_x' })
     })
     const request = new Request('https://www.spongehydration.com/api/create-checkout-session', {
       method: 'POST',
-      body: JSON.stringify({ items: [{ id: 'sponge-clip', qty: 1, colors: ['black'] }], giftCode }),
+      body: JSON.stringify({ items, giftCode }),
     })
     const res = await createSession({ request, env: { STRIPE_SECRET_KEY: 'sk_test_dummy' } })
+    clock.mockRestore()
     return { res, out: await res.json(), forms }
   }
 
@@ -262,6 +266,25 @@ describe('gift code from the gift email link (auto-applied at checkout)', () => 
     expect(forms[0].get('allow_promotion_codes')).toBe('true')
     expect(forms[0].has('customer_email')).toBe(false)
     expect([...forms[0].keys()].some((k) => k.startsWith('discounts'))).toBe(false)
+  })
+
+  it('Black Friday: during the sale a tracker cart gets the code applied, nothing to type', async () => {
+    const { out, forms } = await checkout(undefined, undefined, { now: DURING_SALE })
+    expect(out.saleApplied).toBe(true)
+    expect(out.giftApplied).toBe(false)
+    expect(forms[0].get('discounts[0][promotion_code]')).toBe('promo_123')
+    expect(forms[0].has('allow_promotion_codes')).toBe(false)
+    expect(forms[0].has('customer_email')).toBe(false)
+  })
+
+  it('Black Friday: not applied to an adhesive-only cart, or when Stripe has no such code', async () => {
+    const adhesive = await checkout(undefined, undefined, { now: DURING_SALE, items: [{ id: 'sponge-adhesive-3pack', qty: 1 }] })
+    expect(adhesive.out.saleApplied).toBe(false)
+    expect(adhesive.forms[0].get('allow_promotion_codes')).toBe('true')
+    const missing = await checkout(undefined, undefined, { now: DURING_SALE, promoFound: false })
+    expect(missing.out.saleApplied).toBe(false)
+    expect(missing.forms[0].get('allow_promotion_codes')).toBe('true')
+    expect([...missing.forms[0].keys()].some((k) => k.startsWith('discounts'))).toBe(false)
   })
 
   it('never blocks checkout: if Stripe rejects the gift, it retries without it', async () => {

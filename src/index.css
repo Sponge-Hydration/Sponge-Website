@@ -450,6 +450,7 @@ h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
 .cart-summary { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow-sm); position: sticky; top: 90px; }
 .cart-summary h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
 .cart-summary__row { display: flex; justify-content: space-between; padding: 9px 0; color: var(--ink-soft); font-size: 15px; }
+.cart-summary__row--discount { color: #0a7a4b; font-weight: 600; }
 .cart-summary__line { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; font-size: 14px; color: var(--ink-soft); }
 .cart-summary__total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 14px; font-weight: 900; font-size: 18px; color: var(--ink); }
 .cart-summary .btn { margin-top: 14px; }

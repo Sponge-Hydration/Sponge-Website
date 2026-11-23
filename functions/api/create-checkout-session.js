@@ -8,6 +8,26 @@
 // Pages dashboard for production, and in .dev.vars for `wrangler pages dev`).
 
 import { lookupGiftCode } from './_gift.js'
+import { BLACK_FRIDAY, BF_SKUS, saleRunning } from '../../src/blackFriday.js'
+
+// Black Friday: while the sale runs, find the Stripe promotion code so it can
+// be applied for the shopper. Any failure returns null and checkout carries on
+// at full price with the promo-code field showing.
+async function lookupSalePromo(env, skuCounts) {
+  if (!saleRunning() || !env.STRIPE_SECRET_KEY) return null
+  if (!BF_SKUS.some((id) => skuCounts[id] > 0)) return null
+  try {
+    const r = await fetch(
+      `https://api.stripe.com/v1/promotion_codes?code=${encodeURIComponent(BLACK_FRIDAY.code)}&active=true&limit=1`,
+      { headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` } },
+    )
+    if (!r.ok) return null
+    const id = (await r.json())?.data?.[0]?.id
+    return typeof id === 'string' ? { id } : null
+  } catch {
+    return null
+  }
+}
 import { PRICE_TEST, TEST_SKU, priceVariantFor } from './_pricing.js'
 import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams, termsCheckboxParams, heardAboutParams, isCustomFieldError } from './_checkout-terms.js'
 
@@ -224,13 +244,16 @@ export async function onRequestPost({ request, env }) {
   // dropped for that session. If Stripe refuses the session for any other
   // reason while a gift is applied, it is retried without the gift.
   const gift = await lookupGiftCode(env, body?.giftCode)
-  let giftApplied = Boolean(gift)
+  // A gift code wins; otherwise the Black Friday code is applied the same way.
+  const sale = gift ? null : await lookupSalePromo(env, skuCounts)
+  const promo = gift || sale
+  let giftApplied = Boolean(promo)
   const build = (terms, recovery) => {
     const form = new URLSearchParams(params)
     if (giftApplied) {
       form.delete('allow_promotion_codes')
-      form.set('discounts[0][promotion_code]', gift.id)
-      form.set('customer_email', gift.email)
+      form.set('discounts[0][promotion_code]', promo.id)
+      if (gift) form.set('customer_email', gift.email)
     }
     if (terms) for (const [k, v] of Object.entries(termsCheckboxParams(origin))) form.set(k, v)
     if (recovery) for (const [k, v] of Object.entries(recoveryParams())) form.set(k, v)
@@ -267,5 +290,5 @@ export async function onRequestPost({ request, env }) {
     return json({ error: session?.error?.message || 'Stripe error.' }, 502)
   }
 
-  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout, giftApplied, priceVariant: variant })
+  return json({ url: session.url, termsCheckbox, cartRecovery, heardAbout, giftApplied: giftApplied && Boolean(gift), saleApplied: giftApplied && Boolean(sale), priceVariant: variant })
 }

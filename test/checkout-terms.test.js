@@ -63,6 +63,8 @@ describe('the terms checkbox on the Stripe session', () => {
   })
 
   it('does not retry on an unrelated Stripe error', async () => {
+    // After the Black Friday sale, so the only Stripe call is the session itself.
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-12-05T00:00:00Z'))
     let n = 0
     vi.stubGlobal('fetch', async () => {
       n++
@@ -71,6 +73,7 @@ describe('the terms checkbox on the Stripe session', () => {
     const res = await onRequestPost({ request: request(), env })
     expect(res.status).toBe(502)
     expect(n).toBe(1)
+    clock.mockRestore()
   })
 })
 
