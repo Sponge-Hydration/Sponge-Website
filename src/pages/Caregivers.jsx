@@ -7,8 +7,10 @@ export default function Caregivers() {
   return (
     <>
       <Seo
-        title="Sponge for Caregivers | Remote Hydration Monitoring for Loved Ones"
-        description="Help an aging parent or loved one stay hydrated. The Sponge caregiver program tracks their water intake automatically and alerts you if they fall behind, no app skills required on their end."
+        title="Sponge for Caregivers | Hydration Tracking for Loved Ones"
+        // The caregiver view and alerts are in development (Nathan, 2026-11-23): this
+        // page must not describe them as available until they ship.
+        description="Help an aging parent or loved one stay hydrated. Sponge tracks their water intake automatically. A caregiver view with behind-goal alerts is in development."
         path="/caregivers"
       />
       <div
@@ -37,8 +39,9 @@ export default function Caregivers() {
           <p className="hero__sub">
             Not drinking enough is common in older adults and easy to miss, and older people who
             arrive in hospital dehydrated do measurably worse than those who don’t.<sup><a href="#src-1">1</a></sup>{' '}
-            Sponge lets you see a loved one’s intake from your own phone, without asking them to
-            learn an app or log a thing.
+            Sponge tracks what they drink without asking them to learn an app or log a thing. A
+            caregiver view, so you can see a loved one’s intake from your own phone, is in
+            development.
           </p>
           <p className="hero__disclaimer">
             Sponge is a general wellness product. It is not a medical device, it does not diagnose,
@@ -60,15 +63,16 @@ export default function Caregivers() {
       <section className="section section--tint">
         <div className="container">
           <SectionHead eyebrow="How it helps" title="Hydration monitoring that respects their independence">
-            They keep their normal bottle and routine. You get visibility and alerts.
+            They keep their normal bottle and routine. The caregiver view and alerts are in
+            development.
           </SectionHead>
           <div className="features">
-            <article className="feature"><div className="feature__icon" aria-hidden="true"><EyeIcon size={30} /></div><h3>Remote visibility</h3><p>See your loved one’s daily intake from your own phone, wherever you are. No need to call and ask.</p></article>
-            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Behind-goal alerts</h3><p>Get notified when they’re behind the daily goal they set, so you can check in. It tracks drinking, not health. It won’t tell you anything clinical.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><EyeIcon size={30} /></div><h3>Remote visibility (in development)</h3><p>You will be able to see your loved one’s daily intake from your own phone, wherever you are. No need to call and ask.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><BellIcon size={30} /></div><h3>Behind-goal alerts (in development)</h3><p>You will get notified when they’re behind the daily goal they set, so you can check in. It tracks drinking, not health. It won’t tell you anything clinical.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><SparklesIcon size={30} /></div><h3>Zero learning curve</h3><p>They just drink from their usual bottle. Nothing to set up, charge daily, or remember.</p></article>
-            <article className="feature"><div className="feature__icon" aria-hidden="true"><UsersIcon size={30} /></div><h3>Shared family dashboard</h3><p>Multiple family members can follow along and split the caregiving load.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><UsersIcon size={30} /></div><h3>Shared family dashboard (in development)</h3><p>Multiple family members will be able to follow along and split the caregiving load.</p></article>
             <article className="feature"><div className="feature__icon" aria-hidden="true"><TrendingUpIcon size={30} /></div><h3>Trends over time</h3><p>Spot patterns, like dips on hot days, and share clear data with their doctor.</p></article>
-            <article className="feature"><div className="feature__icon" aria-hidden="true"><ShieldIcon size={30} /></div><h3>Private & secure</h3><p>Data is shared only with the family members you invite. You stay in control.</p></article>
+            <article className="feature"><div className="feature__icon" aria-hidden="true"><ShieldIcon size={30} /></div><h3>Private & secure</h3><p>When sharing arrives, data will go only to the family members you invite. You stay in control.</p></article>
           </div>
         </div>
       </section>

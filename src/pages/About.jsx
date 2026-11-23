@@ -7,7 +7,7 @@ export default function About() {
     <>
       <Seo
         title="About Sponge | Why We Built a Smarter Hydration Tracker"
-        description="Sponge was founded to make hydration effortless. Learn our story and mission to help people drink more water with a clip-on hydration tracking device that works with any bottle."
+        description="Sponge was founded to make hydration effortless. Our story, and why we built a clip-on hydration tracker that works with any water bottle."
         path="/about"
       />
       <section className="hero hero--sub">

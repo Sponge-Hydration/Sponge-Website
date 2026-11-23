@@ -19,7 +19,7 @@ export default function Products() {
     <section className="section">
       <Seo
         title="Shop Sponge | Hydration Tracker, Sponge Dot & Accessories"
-        description="Order the Sponge hydration tracking device, the family pack, or the Sponge Dot, a one-press bottle logger. Add magnetic adhesive mounts for every bottle. Free app, 30-day money-back guarantee."
+        description="Order the Sponge hydration tracker, the family pack or the Sponge Dot, a one-press bottle logger. Free app, 30-day money-back guarantee."
         path="/products"
       />
       <div className="container">

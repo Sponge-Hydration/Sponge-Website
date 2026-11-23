@@ -10,6 +10,8 @@ import { trackAddToCart, trackViewItem } from '../analytics'
 import EmailSignup from '../components/EmailSignup'
 import AB from '../components/AB'
 import { PRICE_TEST, TEST_SKU, priceFor } from '../pricing'
+import { BF_SKUS } from '../blackFriday'
+import { BlackFridayProductNote } from '../components/BlackFridayOffer'
 
 // "View image 3" tells a screen reader user nothing about what they would be
 // looking at. Derive a description from the filename, which already encodes the
@@ -22,6 +24,16 @@ const THUMB_LABELS = [
   [/closeup/, 'Close-up of the status light and USB-C port'],
   [/packaging/, 'What comes in the box'],
 ]
+// The thumbnail strip shows each shot about 50-90px wide. Pointing it at the
+// full 1100px gallery files made a phone download six of them before the first
+// tap. Small copies live in public/media/thumbs/ under the same file name
+// (240px wide WebP, made with ffmpeg: scale=240:-2, quality 82).
+// test/gallery-thumbs.test.js fails if a gallery image has no thumbnail.
+export function thumbSrc(src) {
+  const name = src.split('/').pop().replace(/\.\w+$/, '')
+  return `/media/thumbs/${name}.webp`
+}
+
 function thumbLabel(src, i) {
   const hit = THUMB_LABELS.find(([re]) => re.test(src))
   return hit ? hit[1] : `Product image ${i + 1}`
@@ -84,6 +96,12 @@ export default function ProductDetail() {
     ? "Free app, 2-week battery, 30-day money-back guarantee."
     : "Free app, 30-day money-back guarantee."
 
+  // What it is, then the ships line (the pre-order disclosure), then the selling
+  // points only if all of it still fits in the 160 characters a search result
+  // shows. The disclosure must never be the part that gets cut off.
+  const seoBase = `${product.seoShort || product.short} ${product.ships}.`
+  const seoDescription = `${seoBase} ${seoTail}`.length <= 160 ? `${seoBase} ${seoTail}` : seoBase
+
   const addToCart = () => {
     add(product.id, qty, colorsForCart)
     trackAddToCart({ id: product.id, name: product.name, price: priceFor(product), qty })
@@ -103,7 +121,7 @@ export default function ProductDetail() {
         // The Tracker's price differs by A/B arm (src/pricing.js), so its title
         // carries no price rather than one half of the visitors would not see.
         title={product.id === TEST_SKU ? `${product.name} | Sponge` : `${product.name} · ${usd(product.price)} | Sponge`}
-        description={`${product.short} ${product.ships}. ${seoTail}`}
+        description={seoDescription}
         path={`/shop/p/${product.slug}`}
         ogType="product"
         jsonLd={[
@@ -169,7 +187,7 @@ export default function ProductDetail() {
                     aria-label={thumbLabel(src, i)}
                     aria-current={i === activeImg || undefined}
                   >
-                    <img src={src} alt="" loading="lazy" />
+                    <img src={thumbSrc(src)} alt="" loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>
@@ -192,6 +210,7 @@ export default function ProductDetail() {
               )}
               {!product.soldOut && <span className="pdp__plus"><AB a="+ tax · Free shipping" b="+ $5 shipping & tax" /></span>}
             </div>
+            {!product.soldOut && BF_SKUS.includes(product.id) && <BlackFridayProductNote delivered={inTest} />}
             <p className="pdp__desc">{product.short}</p>
             {product.compare && <p className="pdp__compare">{product.compare}</p>}
 

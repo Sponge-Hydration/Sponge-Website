@@ -46,6 +46,9 @@ export const products = [
     img: '/media/products/dot-placeholder-wide.jpg',
     gallery: ['/media/products/dot-placeholder.jpg'],
     short: 'A one-button logger for the bottle you already own. Finish the bottle, press the Dot, and a full bottle of water lands in the free Sponge Hydration app.',
+    // Shorter than `short`, for the meta description only: with the ships line
+    // it has to fit in 160 characters or search results cut the disclosure off.
+    seoShort: 'One button on the bottle you already own. Finish the bottle, press the Dot, and it lands in the free Sponge app.',
     compare: 'The Dot does not measure your sips. It logs a full bottle each time you press it, so it is only as complete as your presses. If you want every sip measured automatically, that is the Sponge Hydration Tracker.',
     features: [
       'One press logs one full bottle',
@@ -95,9 +98,11 @@ export const products = [
     compareAt: 239.96,
     compareNote: 'if bought separately',
     badge: 'Save $20',
-    img: '/media/products/family.png',
+    // WebP copy of family.png: same picture, 29 KB instead of 192 KB. The PNG
+    // stays in public/ because the Stripe checkout image and old links use it.
+    img: '/media/products/family.webp',
     gallery: [
-      '/media/products/family.png',
+      '/media/products/family.webp',
       '/media/gallery/g5-packaging.jpg',
       '/media/gallery/g1-white-vertical.jpg',
       '/media/gallery/g2-black-vertical.jpg',
@@ -106,6 +111,7 @@ export const products = [
     // development, not shipped. It was listed here as an included feature until
     // 2026-09-22. Do not restore it until it actually ships.
     short: 'Four Sponge trackers for the household, one on each person’s bottle. A shared caregiver view, so family can see how a loved one is doing, is in development.',
+    seoShort: 'Four Sponge trackers for the household, one on each person’s bottle. A shared caregiver view is in development.',
     features: [
       'Four Sponge hydration trackers',
       'One for each person’s bottle',
@@ -202,7 +208,7 @@ export const faqs = [
   { id: 'any-bottle', q: 'Does the Sponge hydration tracking device work with any water bottle?', a: 'Yes. Sponge is built to clip onto the bottle you already own, insulated steel bottles, plastic tumblers, glass bottles and more. There is no special bottle to buy and nothing to refill differently.' },
   { id: 'battery', q: 'How long does the battery last?', a: 'Sponge lasts about two weeks on a single charge and recharges over USB-C in a couple of hours. Most people plug it in a couple of times a month.' },
   { id: 'app-lock', q: 'Can the hydration tracker really lock apps until I drink water?', a: 'Yes. In the app you pick which apps to gate, and Sponge keeps them locked until you reach your daily hydration goal, turning your phone into a gentle nudge to drink more water.' },
-  { id: 'apple-health', q: 'Does it work with Apple Health?', a: 'Not yet. Apple Health sync is in testing now and ships with the next app update. Today there is a home-screen widget that shows how much you have had and how far you have to go, so on most days you never need to open the app.' },
+  { id: 'apple-health', q: 'Does it work with Apple Health?', a: 'Yes. Sponge writes your intake straight into Apple Health on iPhone, so it sits with the rest of your health data instead of in a silo. There is also a home-screen widget that shows how much you have had and how far you have to go, so on most days you never need to open the app.' },
   { id: 'accuracy', q: 'Is it accurate?', a: 'Sponge measures real sips with on-device sensors rather than asking you to remember and self-report, which is where most hydration tracking breaks down. The app shows your intake in real time so you always know where you stand.' },
   { id: 'daily-goal', q: 'How is my daily water goal set?', a: 'When you sign up, the app asks for a few details about you and recommends a starting goal from them, so you are not guessing at a number on day one. You can change it whenever you like. Sponge does not adjust the goal for you afterwards based on your activity or the weather. The target stays where you set it, and the tracker measures how close you get.' },
   { id: 'setup', q: 'How do I set up my Sponge?', a: 'Charge it over USB-C, download the free Sponge app, and pair over Bluetooth. Then clip it onto your bottle. Setup takes about two minutes and the app walks you through calibrating your bottle size.' },
@@ -250,6 +256,8 @@ export const blogPosts = [
     slug: 'the-story-behind-sponge',
     title: 'The Story Behind Sponge',
     excerpt: 'Sponge started with an ambulance ride that an IV fixed in under an hour. Here is how two grandparents, a coaster and a lot of water bottles turned into the tracker we make today.',
+    // The excerpt, cut to fit the 160 characters a search result shows.
+    seoDescription: 'Sponge started with an ambulance ride that an IV fixed in under an hour. How two grandparents, a coaster and a lot of water bottles became today’s tracker.',
     date: '2026-09-22',
     readTime: '5 min read',
     tag: 'Our story',
@@ -287,11 +295,10 @@ export const blogPosts = [
       'Measuring solves half the problem. A number on a screen tells you that you are behind; it does not make you do anything about it. Reminders are the same, and they are easy to swipe away.',
       'So we built App Lock. You choose the apps you lose time to, and they stay locked until you have hit your water goal. It is a little brutal. It is also the most direct way we know to turn a good intention into something you actually do.',
       { h2: 'Where we are going' },
-      'We are a small team and we build in batches. Three things are in progress right now:',
+      'We are a small team and we build in batches. Apple Health sync shipped in the latest app update, so your intake now lands with the rest of your health data. Two more things are in progress right now:',
       {
         ul: [
           'A caregiver view, so family and care staff can see who is falling behind: the tool Chris’s family never had.',
-          'Apple Health sync, in testing now and shipping with the next app update.',
           'The Sponge Dot, a one-button logger for people who want something simpler than measurement.',
         ],
       },
@@ -312,7 +319,10 @@ export const blogPosts = [
   {
     slug: 'the-dehydration-problem',
     title: 'The Dehydration Problem: Who It Hurts, Why the Usual Fixes Fail, and What We Are Doing About It',
+    // The whole <title> tag, for headlines too long for a search result.
+    seoTitle: 'The Dehydration Problem: Who It Hurts, Why Fixes Fail | Sponge',
     excerpt: 'Dehydration sends older adults to hospital, shows up in kidney stones, infections and headaches, and is remarkably hard to spot. Here is what the research actually says, including where it is weaker than the headlines.',
+    seoDescription: 'Dehydration sends older adults to hospital and is remarkably hard to spot. What the research actually says, including where it is weaker than the headlines.',
     date: '2026-09-22',
     readTime: '11 min read',
     tag: 'The problem',
@@ -472,6 +482,7 @@ export const blogPosts = [
   {
     slug: 'signs-of-dehydration',
     title: 'The Signs of Mild Dehydration That Hold Up, and the Ones That Do Not',
+    seoTitle: 'Signs of Mild Dehydration: Which Ones Hold Up | Sponge Blog',
     excerpt: 'Plenty of symptoms get blamed on dehydration. Only some of them survive contact with the research. Here is the honest version.',
     date: '2026-05-12',
     readTime: '4 min read',
@@ -525,6 +536,7 @@ export const blogPosts = [
   {
     slug: 'smart-bottle-vs-clip-on-tracker',
     title: 'Smart Water Bottle vs. Clip-On Tracker: Which Actually Gets Used?',
+    seoTitle: 'Smart Water Bottle vs. Clip-On Tracker | Sponge Blog',
     excerpt: 'Both measure what you drink. The difference is what happens on the days you reach for a different bottle.',
     date: '2026-04-30',
     readTime: '3 min read',
