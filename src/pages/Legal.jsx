@@ -7,6 +7,7 @@ import { openPrivacyPreferences } from '../components/PrivacyControls'
 const PAGES = {
   terms: {
     title: 'Terms of Service',
+    description: 'The terms for buying and using Sponge: orders, pre-orders, returns, warranty and how disputes are resolved, including individual arbitration.',
     updated: 'September 23, 2026',
     // Drafted 2026-09-23 at Nathan's request to be strongly protective of the
     // company. NOT reviewed by a lawyer yet — have counsel review before relying
@@ -52,7 +53,7 @@ const PAGES = {
       'Only invite people you want to see your information, and only track or view another person’s information with their permission, or the permission of someone legally entitled to give it for them.',
 
       { h: '7. Beta and in-development features and products' },
-      'We may offer features or products that are described as beta, preview, testing, coming soon or in development (for example, Apple Health sync, the shared caregiver view and the Sponge Dot). They are provided “as is”, may not work as described, may change or be discontinued at any time, and may never be released. A pre-order for a product in development is covered by the Pre-Order Policy, including your right to cancel for a full refund before it ships.',
+      'We may offer features or products that are described as beta, preview, testing, coming soon or in development (for example, the shared caregiver view and the Sponge Dot). They are provided “as is”, may not work as described, may change or be discontinued at any time, and may never be released. A pre-order for a product in development is covered by the Pre-Order Policy, including your right to cancel for a full refund before it ships.',
 
       { h: '8. Orders, pricing and payment' },
       'When you place an order you are making an offer to buy. We may refuse, limit or cancel any order, or any part of one, at any time (including after we have charged you), for example because a product is unavailable, we suspect fraud or resale, or there was an error in the price or description. If we cancel, we refund what you paid for the canceled items. We may limit quantities per person, household or order.',
@@ -155,6 +156,7 @@ const PAGES = {
   },
   privacy: {
     title: 'Privacy Policy',
+    description: 'What Sponge Hydration collects, how it is used and who processes it, plus how to control analytics and advertising cookies or make a privacy request.',
     updated: 'August 2026',
     body: [
       'This policy explains what Sponge Hydration LLC collects, why, who we hand it to, and what you can tell us to stop. It covers spongehydration.com and the Sponge mobile app. We have written it in plain English on purpose.',
@@ -252,6 +254,7 @@ const PAGES = {
   },
   'pre-order': {
     title: 'Pre-Order Policy',
+    description: 'Sponge is sold as a pre-order and built in batches. Your price is locked, and you can cancel for a full refund any time before it ships.',
     updated: 'August 2026',
     body: [
       'Sponge is currently sold as a pre-order. We manufacture in production batches, and a batch is built once enough pre-orders are reserved to fill one. Because of that, we do not commit to a delivery date when you order. We would rather tell you that plainly than give you a date we cannot stand behind.',
@@ -264,6 +267,7 @@ const PAGES = {
   },
   returns: {
     title: 'Return Policy',
+    description: 'Every Sponge has a 30-day money-back guarantee from delivery. Email us for a prepaid U.S. return label and a full refund.',
     updated: 'August 2026',
     body: [
       'Every Sponge comes with a 30-day money-back guarantee. If you’re not happy, contact us within 30 days of delivery for a full refund.',
@@ -274,6 +278,7 @@ const PAGES = {
   },
   warranty: {
     title: 'Warranty Policy',
+    description: 'Sponge devices carry a 1-year limited warranty against manufacturing defects from the date of delivery. We repair or replace at no cost.',
     updated: 'June 2026',
     body: [
       'Sponge devices are covered by a 1-year limited warranty against manufacturing defects from the date of delivery.',
@@ -362,7 +367,7 @@ export default function Legal() {
 
   return (
     <section className="section">
-      <Seo title={`${page.title} | Sponge Hydration`} description={`${page.title} for Sponge Hydration.`} path={`/legal/${doc}`} />
+      <Seo title={`${page.title} | Sponge Hydration`} description={page.description || `${page.title} for Sponge Hydration.`} path={`/legal/${doc}`} />
       <div className="container prose">
         <h1 style={{ fontSize: 34, fontWeight: 800, marginBottom: 8 }}>{page.title}</h1>
         <p style={{ color: 'var(--muted)', marginBottom: 24 }}>Last updated {page.updated}</p>

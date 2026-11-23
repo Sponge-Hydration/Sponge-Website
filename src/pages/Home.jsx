@@ -5,7 +5,7 @@ import { Eyebrow, SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import EmailSignup from '../components/EmailSignup'
 import ExitIntentCapture from '../components/ExitIntentCapture'
-import BlackFridayOffer from '../components/BlackFridayOffer'
+import BlackFridayOffer, { BlackFridayInline } from '../components/BlackFridayOffer'
 import { BLACK_FRIDAY, BF_OPEN_EVENT, blackFridayActive } from '../blackFriday'
 import { useOrderNow } from '../cart/useOrderNow'
 import AB from '../components/AB'
@@ -25,7 +25,7 @@ const features = [
   { icon: BatteryIcon, title: '2-week battery', text: 'Roughly a fortnight between charges, then top up in a couple of hours over USB-C. Most people plug it in twice a month.', to: '/how-it-works#faq-battery', more: 'Battery and charging' },
   { icon: PhoneIcon, title: 'Free app, plus a widget', text: 'A clean dashboard with daily goals, streaks and trends, and an iPhone home-screen widget, so most days you never open the app at all.', to: '#on-your-phone', more: 'See the app' },
   { icon: LockIcon, title: 'Hydration Locks', text: 'Choose the apps you lose hours to and set what unlocks each one. They stay shut until the water is actually gone.', to: '#locks', more: 'How Hydration Locks work' },
-  { icon: HeartIcon, title: 'Apple Health sync (next update)', text: 'Writing your intake straight into Apple Health on iPhone is in testing now and ships with the next app update.', to: '/how-it-works#faq-apple-health', more: 'Apple Health status' },
+  { icon: HeartIcon, title: 'Apple Health sync', text: 'Your intake is written straight into Apple Health on iPhone, so it sits with the rest of your health data instead of in a silo.', to: '/how-it-works#faq-apple-health', more: 'How Apple Health sync works' },
 ]
 
 // The three how-it-works cards each play a short, silent clip of their step.
@@ -230,7 +230,8 @@ export default function Home() {
     <>
       <Seo
         title="Sponge Hydration Tracker | Smart Water Intake Tracker for Any Bottle"
-        description="Sponge is a smart hydration tracker that clips onto any water bottle and automatically tracks your water intake. Logs every sip, syncs to the app, and locks distracting apps until you hit your goal. 2-week battery. $64.99 delivered, before tax."
+        // Kept to 160 characters so search results show all of it, price included.
+        description="Sponge is a smart hydration tracker that clips onto any water bottle and logs every sip automatically. Locks distracting apps until you drink. $64.99 delivered."
         path="/"
       />
       {/* Hero */}
@@ -249,7 +250,7 @@ export default function Home() {
               <a href="#how" className="btn btn--ghost btn--lg">See how it works</a>
             </div>
             <div className="hero__rating">
-              <span><AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Ships to the US · 30-day money-back guarantee</span>
+              <span><BlackFridayInline /><AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Ships to the US · 30-day money-back guarantee</span>
             </div>
             <div className="hero__note">
               <span><i className="dot" />Works with any bottle</span>
@@ -429,9 +430,10 @@ export default function Home() {
       </section>
 
       {/* Personas */}
-      {/* Widget is a confirmed capability of the shipping app. Apple Health sync is
-          in TestFlight and NOT yet released - it must stay future-tense here
-          and in the FAQ until it ships. Screenshots are real, unretouched. */}
+      {/* Widget and Apple Health sync are both confirmed capabilities of the
+          shipping app - Apple Health left TestFlight and went live on the App
+          Store (Nathan, 2026-11-23), so the future-tense wording that used to be
+          required here and in the FAQ is gone. Screenshots are real, unretouched. */}
       <section className="section" id="on-your-phone">
         <div className="container">
           <SectionHead eyebrow="On your phone" title="It lives where you already look">
@@ -486,8 +488,8 @@ export default function Home() {
             </div>
           </div>
           <p className="phone-pair__note">
-            <strong>Apple Health sync</strong> is in testing now and arrives with the next app
-            update, so your intake will sit with the rest of your health data rather than in a silo.
+            <strong>Apple Health sync</strong> is live, so your intake sits with the rest of your
+            health data rather than in a silo.
           </p>
         </div>
       </section>
@@ -525,7 +527,7 @@ export default function Home() {
             <p>Over 100 Sponge products have shipped to real customers. Yours clips onto the bottle you already own, counts every sip, and locks the apps you choose until you catch up.</p>
             <button type="button" className="btn btn--ghost btn--lg" onClick={orderNow}>Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
             <p className="cta-band__note">
-              <AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Cancel any time before it ships · 30 days to change
+              <BlackFridayInline /><AB a="$64.99 + tax · Free shipping" b="$59.99 + $5 shipping & tax" /> · Cancel any time before it ships · 30 days to change
               your mind once it arrives, and we pay return shipping
             </p>
           </div>
@@ -584,7 +586,7 @@ export default function Home() {
                   <td className="no">Some do</td>
                   <td className="yes">Yes</td>
                   <td className="no">Nothing to sync</td>
-                  <td className="compare__us">In the next update</td>
+                  <td className="compare__us yes">Yes</td>
                 </tr>
                 <tr>
                   <th scope="row">Does something when you fall behind</th>

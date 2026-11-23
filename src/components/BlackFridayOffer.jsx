@@ -109,6 +109,41 @@ export function useBlackFriday() {
   return show
 }
 
+/**
+ * Product page note, under the price of a tracker in the offer. Without it the
+ * discount only shows on the home page pill and in the cart, so a visitor who
+ * lands on the product page never learns about it. `delivered` adds the
+ * after-discount delivered price (the single Tracker only: it is the same in
+ * both price-test arms).
+ */
+export function BlackFridayProductNote({ delivered = false }) {
+  const show = useBlackFriday()
+  if (!show) return null
+  const sale = BLACK_FRIDAY.deliveredPrice - BLACK_FRIDAY.amountOff
+  return (
+    <p className="bf-cart-note bf-pdp-note">
+      <strong>Black Friday: ${BLACK_FRIDAY.amountOff} off.</strong> Taken off automatically at
+      checkout, no code to type.{delivered ? ` ${usd(sale)} delivered, before tax.` : ''} Ends{' '}
+      {BLACK_FRIDAY.endsLabel}.
+    </p>
+  )
+}
+
+/**
+ * A few words to lead a price line on the home page ("$64.99 + tax · …"), so the
+ * full price is never shown there without the offer beside it. Renders nothing
+ * while prerendering and after the offer ends.
+ */
+export function BlackFridayInline() {
+  const show = useBlackFriday()
+  if (!show) return null
+  return (
+    <>
+      <strong>Black Friday: ${BLACK_FRIDAY.amountOff} off at checkout</strong>{' · '}
+    </>
+  )
+}
+
 // `applied`: the cart has a tracker, so checkout takes the $10 off by itself.
 export function BlackFridayCartNote({ applied = false }) {
   const show = useBlackFriday()

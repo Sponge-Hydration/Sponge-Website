@@ -90,7 +90,7 @@ export default function Cart() {
 
 
   return (
-    <section className="section">
+    <section className="section section--cart">
       <Seo title="Your Cart | Sponge Hydration" description="Review your Sponge order before checkout." path="/cart" noindex />
       <div className="container">
         {/* Phones/small tablets only (single-column layout): the summary and its

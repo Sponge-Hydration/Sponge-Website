@@ -64,8 +64,8 @@ export default function BlogPost() {
   return (
     <section className="section">
       <Seo
-        title={`${post.title} | Sponge Blog`}
-        description={post.excerpt}
+        title={post.seoTitle || `${post.title} | Sponge Blog`}
+        description={post.seoDescription || post.excerpt}
         path={`/blog/${post.slug}`}
         ogType="article"
         jsonLd={[

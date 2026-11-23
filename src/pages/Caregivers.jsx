@@ -8,7 +8,7 @@ export default function Caregivers() {
     <>
       <Seo
         title="Sponge for Caregivers | Remote Hydration Monitoring for Loved Ones"
-        description="Help an aging parent or loved one stay hydrated. The Sponge caregiver program tracks their water intake automatically and alerts you if they fall behind, no app skills required on their end."
+        description="Help an aging parent or loved one stay hydrated. Sponge tracks their water intake automatically and alerts you if they fall behind. No app skills needed."
         path="/caregivers"
       />
       <div
