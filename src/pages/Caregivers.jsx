@@ -82,7 +82,7 @@ export default function Caregivers() {
             Four trackers, one for each bottle in the house. The shared caregiver view, so the whole
             family can follow along, is in development.
           </p>
-          <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack · $199.99</Link>
+          <Link to="/shop/p/sponge-family-pack" className="btn btn--ghost btn--lg">Shop the Family Pack · $219.96</Link>
         </div>
       </section>
 

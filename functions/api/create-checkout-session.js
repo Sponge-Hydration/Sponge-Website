@@ -15,7 +15,7 @@ import { TERMS_VERSION, isTermsSetupError, isRecoverySetupError, recoveryParams,
 // The 2-Pack is retired and the Coaster is sold out - neither is purchasable.
 const CATALOG = {
   'sponge-clip': { name: 'Sponge Hydration Tracker', amount: 5999, img: '/media/products/single.jpg' },
-  'sponge-family': { name: 'Sponge Family Pack', amount: 19999, img: '/media/products/family.png' },
+  'sponge-family': { name: 'Sponge Family Pack', amount: 21996, img: '/media/products/family.png' },
   'sponge-adhesive-3pack': { name: 'Magnetic Adhesive 3-Pack', amount: 1499, img: '/media/products/adhesive-3pack.jpg' },
   'sponge-dot': { name: 'Sponge Dot', amount: 2999, img: '/media/products/dot-placeholder-wide.jpg' },
 }

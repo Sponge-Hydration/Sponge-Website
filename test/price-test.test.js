@@ -144,7 +144,7 @@ describe('Stripe charges the price that arm was shown', () => {
     const { out, form } = await create('A', [{ id: 'sponge-clip', qty: 1, colors: ['black'] }, { id: 'sponge-family', qty: 1 }])
     expect(out.priceVariant).toBe('A')
     expect(unit(form, 'Sponge Hydration Tracker')).toBe(6499)
-    expect(unit(form, 'Sponge Family Pack')).toBe(19999) // unchanged
+    expect(unit(form, 'Sponge Family Pack')).toBe(21996) // unchanged by the price test
     expect(form.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]')).toBe('0')
     expect(form.get('metadata[price_variant]')).toBe('A')
   })
