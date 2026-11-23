@@ -12,6 +12,9 @@
 // everyday price, so "$10 off" is the only claim the numbers support.
 
 export const BLACK_FRIDAY = {
+  // OFF until Nathan confirms BLACKFRIDAY10 exists in Stripe live mode (11-22).
+  // Flip to true to show the pop-up, hero pill and cart note to everyone.
+  live: false,
   code: 'BLACKFRIDAY10',
   amountOff: 10,
   // 11:59:59 PM PST on Fri Nov 27 2026 = 07:59:59 UTC Sat Nov 28.
@@ -29,7 +32,7 @@ export function blackFridayActive(now = Date.now()) {
   if (typeof window === 'undefined') return false
   // ?bf=1 previews the offer after it ends, for screenshots and QA.
   if (/[?&]bf=1\b/.test(window.location.search)) return true
-  return now < BLACK_FRIDAY.endsAt
+  return BLACK_FRIDAY.live && now < BLACK_FRIDAY.endsAt
 }
 
 export function timeLeft(now = Date.now()) {
