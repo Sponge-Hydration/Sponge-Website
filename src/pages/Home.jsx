@@ -209,7 +209,7 @@ function HeroPill({ orderNow }) {
   if (bf) {
     return (
       <button type="button" className="eyebrow eyebrow--link eyebrow--bf" onClick={() => window.dispatchEvent(new Event(BF_OPEN_EVENT))}>
-        Black Friday · ${BLACK_FRIDAY.amountOff} off until Nov 27
+        Black Friday · ${BLACK_FRIDAY.amountOff} off until {BLACK_FRIDAY.endsShort}
         <span className="eyebrow__arrow" aria-hidden="true">→</span>
       </button>
     )

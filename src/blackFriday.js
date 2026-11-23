@@ -17,9 +17,11 @@ export const BLACK_FRIDAY = {
   live: true,
   code: 'BLACKFRIDAY10',
   amountOff: 10,
-  // 11:59:59 PM PST on Fri Nov 27 2026 = 07:59:59 UTC Sat Nov 28.
-  endsAt: Date.parse('2026-11-28T07:59:59Z'),
-  endsLabel: 'Fri, Nov 27',
+  // Extended by Nathan 11-23 to run through Sunday.
+  // 11:59:59 PM PST on Sun Nov 29 2026 = 07:59:59 UTC Mon Nov 30.
+  endsAt: Date.parse('2026-11-30T07:59:59Z'),
+  endsLabel: 'Sun, Nov 29',
+  endsShort: 'Nov 29',
   deliveredPrice: 64.99, // same in both price-test arms (src/pricing.js)
 }
 
