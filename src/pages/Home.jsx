@@ -5,6 +5,8 @@ import { Eyebrow, SectionHead } from '../components/bits'
 import Reviews from '../components/Reviews'
 import EmailSignup from '../components/EmailSignup'
 import ExitIntentCapture from '../components/ExitIntentCapture'
+import BlackFridayOffer from '../components/BlackFridayOffer'
+import { BLACK_FRIDAY, BF_OPEN_EVENT, blackFridayActive } from '../blackFriday'
 import { useOrderNow } from '../cart/useOrderNow'
 import AB from '../components/AB'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
@@ -196,6 +198,30 @@ function HeroBackground() {
   )
 }
 
+/**
+ * The hero pill. Prerenders the normal "Order now" pill (so crawlers and the
+ * first paint never show a sale that may have ended), then swaps to the Black
+ * Friday pill in the browser while the offer runs. Tapping it reopens the offer.
+ */
+function HeroPill({ orderNow }) {
+  const [bf, setBf] = useState(false)
+  useEffect(() => { setBf(blackFridayActive()) }, [])
+  if (bf) {
+    return (
+      <button type="button" className="eyebrow eyebrow--link eyebrow--bf" onClick={() => window.dispatchEvent(new Event(BF_OPEN_EVENT))}>
+        Black Friday · ${BLACK_FRIDAY.amountOff} off until Nov 27
+        <span className="eyebrow__arrow" aria-hidden="true">→</span>
+      </button>
+    )
+  }
+  return (
+    <button type="button" className="eyebrow eyebrow--link" onClick={orderNow}>
+      Order now · Cancel any time before it ships
+      <span className="eyebrow__arrow" aria-hidden="true">→</span>
+    </button>
+  )
+}
+
 export default function Home() {
   // Every "Order now" on the site does the same thing: Sponge in the cart, then
   // the cart (src/cart/useOrderNow.js).
@@ -211,10 +237,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="container hero__grid">
           <div className="hero__copy">
-            <button type="button" className="eyebrow eyebrow--link" onClick={orderNow}>
-              Order now · Cancel any time before it ships
-              <span className="eyebrow__arrow" aria-hidden="true">→</span>
-            </button>
+            <HeroPill orderNow={orderNow} />
             <h1>The smart <span className="accent">hydration tracker</span> for any water bottle</h1>
             <p className="hero__sub">
               Sponge is a clip-on hydration tracking device that automatically tracks your
@@ -257,7 +280,7 @@ export default function Home() {
           <SectionHead eyebrow="Meet Sponge" eyebrowTo="/blog/the-story-behind-sponge" title="One tracker. Every sip, counted.">
             Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.
           </SectionHead>
-          <p style={{ textAlign: 'center', margin: '-18px 0 28px' }}>
+          <p className="showcase__more">
             <Link to="/blog/the-story-behind-sponge" className="section-head__more">Read how Sponge started →</Link>
           </p>
           <div className="showcase showcase--photo">
@@ -279,10 +302,16 @@ export default function Home() {
         <div className="container section-head">
           <Eyebrow to="/blog/the-dehydration-problem">The problem</Eyebrow>
           <h2>You already know you should drink more water</h2>
+          {/* Same words as the old single paragraph (SEO), laid out to scan. */}
+          <p>That’s the problem.</p>
+          <ul className="problem-list">
+            <li>Reminders get swiped away.</li>
+            <li>Tracking apps get abandoned in a week.</li>
+            <li>Smart bottles start around $80 and ask you to give up the bottle you actually like.</li>
+          </ul>
+          <p className="problem-turn">Knowing was never the missing piece. <strong>Consequences were.</strong></p>
           <p>
-            That’s the problem. Reminders get swiped away. Tracking apps get abandoned in a week.
-            Smart bottles start around $80 and ask you to give up the bottle you actually like.
-            Knowing was never the missing piece. Consequences were. Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
+            Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
             the bottle you already own, and locks the apps you choose until you’ve caught up.
           </p>
           <Link to="/blog/the-dehydration-problem" className="section-head__more">The research behind the problem →</Link>
@@ -630,6 +659,7 @@ export default function Home() {
       </section>
 
       <ExitIntentCapture />
+      <BlackFridayOffer />
     </>
   )
 }

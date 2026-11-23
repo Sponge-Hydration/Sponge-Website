@@ -8,6 +8,7 @@ import { BulbIcon, CartIcon, LockIcon, ShieldIcon } from '../components/icons'
 import { cartShipping } from '../pricing'
 import { useStripeCheckout } from '../cart/useStripeCheckout'
 import CheckoutTerms from '../components/CheckoutTerms'
+import { BlackFridayCartNote } from '../components/BlackFridayOffer'
 import { getGiftCode } from '../gift'
 
 export default function Cart() {
@@ -211,6 +212,7 @@ export default function Cart() {
 
           <aside className="cart-summary">
             <h3>Order summary</h3>
+            <BlackFridayCartNote />
             <div className="cart-summary__row"><span>Items</span><span>{items.length}</span></div>
             <div className="cart-summary__row"><span>Subtotal</span><span>{usd(subtotal)}</span></div>
             <div className="cart-summary__row"><span>Shipping</span><span>{shipping === 0 ? 'Free' : usd(shipping)}</span></div>

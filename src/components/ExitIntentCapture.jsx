@@ -41,6 +41,8 @@ export default function ExitIntentCapture() {
     // A buyer is never interrupted; the popup stays available for a later visit.
     const trigger = () => {
       if (hasCart.current) return
+      // The Black Friday offer already showed this visit: one pop-up per visit.
+      if (window.__spongeBfShown) return
       setOpen(true); markSeen(); cleanup()
     }
 

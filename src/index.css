@@ -1229,3 +1229,91 @@ button.eyebrow { border: 0; cursor: pointer; font-family: inherit; }
 .ab-a { display: none; }
 html[data-price='ab-a'] .ab-a { display: inline; }
 html[data-price='ab-a'] .ab-b { display: none; }
+
+/* ── Nov 2026 mobile homepage pass (branch bf-mobile-home) ─────────────────
+   Phone hero: picture first, words second. The H1 and every word of copy stay
+   in the HTML in the same order for search; only the visual order changes.
+   Order on a phone: pill, H1, the film, Order button, price line, secondary
+   link, then the paragraph and the feature chips. The film is capped at a third
+   of the screen so the Order button still lands on the first screen. */
+.showcase__more { text-align: center; margin: -18px 0 28px; }
+@media (max-width: 700px) {
+  .hero__grid { display: flex; flex-direction: column; align-items: center; gap: 0; padding-bottom: 44px; }
+  .hero__copy { display: contents; }
+  .hero__copy h1 { font-size: clamp(29px, 8vw, 36px); line-height: 1.08; margin: 14px 0 16px; }
+  .hero__media { order: 1; width: auto; margin: 0 auto 20px; }
+  .hero__media .hero__film { width: auto; height: min(32vh, 300px); border-radius: 20px; }
+  .hero__copy .hero__cta .btn--primary { order: 2; width: 100%; max-width: 360px; justify-content: center; }
+  .hero__copy .hero__rating { order: 3; }
+  .hero__copy .hero__cta .btn--ghost { order: 4; }
+  .hero__copy .hero__sub { order: 5; margin: 22px 0 0; font-size: 16px; color: var(--muted); }
+  .hero__copy .hero__note { order: 6; gap: 8px; margin-top: 16px; }
+  .hero__note span { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; font-size: 13px; }
+
+  /* Sections below the hero: left-aligned on phones. Centred blocks of 4+ lines
+     are slow to read because every line starts somewhere new. */
+  .section-head { text-align: left; margin-bottom: 36px; }
+  .section-head h2 { font-size: 28px; line-height: 1.12; }
+  .section-head p { font-size: 17px; }
+  .showcase__more { text-align: left; margin: -10px 0 22px; }
+}
+
+/* "The problem": the three failures as a list, then the turn. Same words as the
+   old single paragraph. */
+.section-head p + p, .problem-list + p { margin-top: 14px; }
+.problem-list { list-style: none; padding: 0; margin: 16px 0 0; display: inline-grid; gap: 10px; text-align: left; }
+.problem-list li { position: relative; padding-left: 32px; font-size: 17px; color: var(--ink-soft); line-height: 1.45; }
+.problem-list li::before {
+  content: '×'; position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 15px; font-weight: 800; line-height: 1;
+  background: #fde9e7; color: #c2413a;
+}
+.section-head .problem-turn { font-size: 20px; color: var(--ink); }
+.problem-turn strong { color: var(--blue-600); }
+
+/* Black Friday pill + offer sheet. */
+.eyebrow--bf { background: var(--ink); color: #fff; }
+.eyebrow--bf:hover { background: var(--blue-600); }
+.bf {
+  position: fixed; inset: 0; z-index: 1001; background: rgba(10, 20, 30, 0.5);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: bf-fade 0.2s ease-out;
+}
+.bf__card {
+  position: relative; width: 100%; max-width: 400px; padding: 24px 24px 20px; text-align: center;
+  color: #fff; border-radius: 26px; box-shadow: var(--shadow-lg);
+  background: radial-gradient(120% 80% at 50% 0%, #12406f 0%, var(--ink) 62%);
+  animation: bf-pop 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.bf__close { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 0; background: none; color: rgba(255,255,255,0.8); font-size: 30px; line-height: 1; cursor: pointer; }
+.bf__close:hover { color: #fff; }
+.bf__top { display: flex; align-items: center; gap: 10px; padding-right: 36px; }
+.bf__tag { background: #fff; color: var(--ink); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; }
+.bf__timer { font-size: 13px; font-weight: 700; color: var(--aqua-300); font-variant-numeric: tabular-nums; }
+.bf__title { margin: 18px 0 4px; font-size: 22px; font-weight: 800; }
+.bf__amount {
+  display: block; font-size: 64px; font-weight: 900; line-height: 1; letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--aqua-300), #fff); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.bf__price { margin: 0; font-size: 16px; color: rgba(255,255,255,0.78); }
+.bf__price s { opacity: 0.7; }
+.bf__price strong { font-size: 20px; color: #fff; }
+.bf__code {
+  width: 100%; margin: 16px 0 14px; padding: 12px 14px; border-radius: 14px; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; font: inherit; color: #fff;
+  background: rgba(255,255,255,0.07); border: 1.5px dashed rgba(255,255,255,0.45);
+}
+.bf__code span { font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.08em; }
+.bf__code strong { font-size: 18px; letter-spacing: 0.06em; }
+.bf__code em { margin-left: auto; font-style: normal; font-size: 12px; opacity: 0.8; }
+.bf__fine { margin: 12px 0 0; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.62); }
+@media (max-width: 600px) {
+  /* A bottom sheet on phones: the page stays visible above it. */
+  .bf { align-items: flex-end; padding: 0; }
+  .bf__card { max-width: none; border-radius: 24px 24px 0 0; padding-bottom: max(20px, env(safe-area-inset-bottom)); animation-name: bf-up; }
+}
+@keyframes bf-fade { from { opacity: 0; } }
+@keyframes bf-pop { from { opacity: 0; transform: scale(0.94); } }
+@keyframes bf-up { from { transform: translateY(100%); } }
+.bf-cart-note { margin: 4px 0 14px; padding: 10px 12px; border-radius: 12px; background: var(--aqua-100); font-size: 14px; line-height: 1.4; color: var(--ink); }
+.bf-cart-note code { font-weight: 800; font-family: inherit; letter-spacing: 0.04em; }
