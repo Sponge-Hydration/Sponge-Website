@@ -8,6 +8,7 @@ import ExitIntentCapture from '../components/ExitIntentCapture'
 import BlackFridayOffer, { BlackFridayInline } from '../components/BlackFridayOffer'
 import { BLACK_FRIDAY, BF_OPEN_EVENT, blackFridayActive } from '../blackFriday'
 import { useOrderNow } from '../cart/useOrderNow'
+import LockDemo from '../components/LockDemo'
 import AB from '../components/AB'
 import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } from '../components/icons'
 // Imported rather than referenced from public/ so Vite emits them with a content
@@ -354,33 +355,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* App-lock split */}
+      {/* App Lock: a click-through of the real screens instead of one screenshot and a
+          paragraph (Nathan, 11-23). The step titles keep the old checklist's words. */}
       <section className="section section--tint" id="locks">
-        <div className="container split">
-          <div className="split__media">
-            <img className="appshot" src="/media/app/hydration-locks.webp" width="600" height="1066" decoding="async" loading="lazy" alt="The Sponge app's Hydration Locks screen, with Facebook, LinkedIn and Reddit each locked until a set amount of water is reached" />
-          </div>
-          <div>
+        <div className="container">
+          <div className="section-head">
             <span className="eyebrow">Hydration Locks</span>
-            <h2 style={{ fontSize: 'clamp(26px,3.6vw,38px)', fontWeight: 800, margin: '16px 0 14px' }}>
-              Water is the password
-            </h2>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 18, margin: '0 0 8px' }}>
+            <h2>Water is the password</h2>
+            <p>
               Pick the apps you lose hours to. Sponge locks them, and they open when the water is
               actually gone, not when you promise it will be, and not when you tap “ignore”.
               Every other hydration tracker hands you a number. This one does something with it.
             </p>
-            <ul className="checklist">
-              <li><span className="tick">✓</span> Choose which apps to put behind your daily goal</li>
-              <li><span className="tick">✓</span> Set the amount that unlocks each one</li>
-              <li><span className="tick">✓</span> They unlock as you drink, sip by sip</li>
-            </ul>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 15.5, margin: '14px 0 0' }}>
-              Brutal? A little. It is also the part that is hard to ignore.
-            </p>
-            <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
-            </div>
+          </div>
+          <LockDemo />
+          <div className="lockdemo__after">
+            <p>Brutal? A little. It is also the part that is hard to ignore.</p>
+            <button type="button" onClick={orderNow} className="btn btn--primary btn--lg">Order Sponge now · <AB a="$64.99" b="$59.99" /></button>
             <div className="app-badges">
               <a href="https://apps.apple.com/us/app/sponge-hydration/id6566195232" target="_blank" rel="noopener noreferrer">
                  Download on the App Store
