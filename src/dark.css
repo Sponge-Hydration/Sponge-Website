@@ -54,3 +54,10 @@ body { background: radial-gradient(120% 900px at 50% 0%, #12406f 0%, #0a1b2a 62%
 .bf__price strong { color: #0a1b2a; }
 .bf__code { color: #0a1b2a; background: #f3f8fc; border-color: rgba(10, 27, 42, 0.3); }
 .bf__fine { color: #6b7f90; }
+
+/* Stats band between sections stays light, like the header (Nathan, 11-23). */
+.trust {
+  --ink: #0a1b2a; --ink-soft: #3d5366; --muted: #6b7f90; --line: #e4ecf2; --card: #ffffff;
+  --surface: #ffffff; --surface-tint: #f3f8fc; --blue-900: #07294d; --blue-700: #0a4ea0; --blue-600: #0b6bcb;
+  color: var(--ink); background: #f3f8fc; border-color: #e4ecf2;
+}
