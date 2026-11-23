@@ -530,6 +530,8 @@ export default function Home() {
             difference.
           </SectionHead>
 
+          {/* Sponge is the first column (Dominic, 11-23): on a phone the table scrolls sideways,
+              and Sponge used to be the column you had to scroll to. */}
           <div className="compare-wrap">
             <table className="compare">
               <caption className="sr-only">
@@ -540,54 +542,54 @@ export default function Home() {
                   <th scope="col">
                     <span className="compare__sr">Approach</span>
                   </th>
+                  <th scope="col" className="compare__us">Sponge</th>
                   <th scope="col">A reminder app</th>
                   <th scope="col">A smart bottle</th>
                   <th scope="col">A clip-on reminder</th>
-                  <th scope="col" className="compare__us">Sponge</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">Roughly what it costs</th>
+                  <td className="compare__us"><AB a="$64.99" b="$59.99" /></td>
                   <td>Free</td>
                   <td>Around $80 and up</td>
                   <td>Around $30</td>
-                  <td className="compare__us"><AB a="$64.99" b="$59.99" /></td>
                 </tr>
                 <tr>
                   <th scope="row">Keep the bottle you own</th>
+                  <td className="compare__us yes">Yes</td>
                   <td className="yes">Yes</td>
                   <td className="no">No, it replaces it</td>
                   <td className="yes">Yes</td>
-                  <td className="compare__us yes">Yes</td>
                 </tr>
                 <tr>
                   <th scope="row">Measures what you actually drink</th>
+                  <td className="compare__us yes">Yes, automatically</td>
                   <td className="no">No, you log it by hand</td>
                   <td className="yes">Yes</td>
                   <td className="no">No, it only reminds you</td>
-                  <td className="compare__us yes">Yes, automatically</td>
                 </tr>
                 <tr>
                   <th scope="row">Syncs to Apple Health</th>
+                  <td className="compare__us yes">Yes</td>
                   <td className="no">Some do</td>
                   <td className="yes">Yes</td>
                   <td className="no">Nothing to sync</td>
-                  <td className="compare__us yes">Yes</td>
                 </tr>
                 <tr>
                   <th scope="row">Does something when you fall behind</th>
+                  <td className="compare__us yes">Locks the apps you chose</td>
                   <td className="no">Sends a notification</td>
                   <td className="no">Lights up</td>
                   <td className="no">Blinks</td>
-                  <td className="compare__us yes">Locks the apps you chose</td>
                 </tr>
                 <tr>
                   <th scope="row">Still in use after a month</th>
+                  <td className="compare__us">That’s what Hydration Locks are for</td>
                   <td className="no">Rarely</td>
                   <td>Depends on you</td>
                   <td>Depends on you</td>
-                  <td className="compare__us">That’s what Hydration Locks are for</td>
                 </tr>
               </tbody>
             </table>
