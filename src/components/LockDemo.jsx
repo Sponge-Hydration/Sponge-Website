@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 // Click-through walk of Hydration Locks (Nathan, 2026-11-23: "an interactive app
 // preview or slideshow that you can click through depicting how it works").
 // Every screen is a real, unretouched app screenshot, cropped only to remove the
-// status bar. All five images are in the prerendered page, so nothing depends on
+// status bar (step 4 is shown whole, or its header is cut off). All five images are in the prerendered page, so nothing depends on
 // script to be seen; script only decides which one is on top.
 export const LOCK_STEPS = [
   {
