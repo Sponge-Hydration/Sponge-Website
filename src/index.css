@@ -1360,3 +1360,20 @@ html[data-price='ab-a'] .ab-b { display: none; }
   .ps__img { width: calc(100% + 44px); margin: 0 -22px 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .ps__col, .ps__img { transition: none; } .ps__col:hover { transform: none; } }
+
+/* Header brand: the SPONGE wordmark on wider screens, the icon alone on phones. */
+.brand__wordmark { height: 30px; width: auto; display: block; }
+.brand__logo--solo { display: none; }
+@media (max-width: 619px) {
+  .brand__wordmark { display: none; }
+  .brand__logo--solo { display: block; width: 36px; height: 36px; }
+}
+
+/* Problem card text: a lead line, three separated rows, then the turn as a pull-quote. */
+.ps__col h2 + p { font-weight: 700; color: rgb(var(--ps)); font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+.ps__col .problem-list { display: grid; width: 100%; gap: 0; margin: 0 0 18px; border-top: 1px solid var(--line); }
+.ps__col .problem-list li { padding: 13px 0 13px 36px; border-bottom: 1px solid var(--line); font-size: 16.5px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.ps__col .problem-list li::before { top: 13px; }
+.ps__col .problem-turn { width: 100%; margin: 0 0 14px; padding: 14px 16px; border-left: 4px solid rgb(var(--ps)); border-radius: 0 12px 12px 0; background: rgba(var(--ps), 0.09); font-size: 16px; font-weight: 500; color: var(--ink-soft); line-height: 1.35; }
+.ps__col .problem-turn strong { display: block; margin-top: 2px; font-size: 24px; font-weight: 900; letter-spacing: -0.01em; color: var(--ink); }
+.problem-list--yes li::before { content: '✓'; background: rgba(43, 196, 216, 0.18); color: #2bc4d8; font-size: 13px; }

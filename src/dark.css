@@ -61,3 +61,4 @@ body { background: radial-gradient(120% 900px at 50% 0%, #12406f 0%, #0a1b2a 62%
   --surface: #ffffff; --surface-tint: #f3f8fc; --blue-900: #07294d; --blue-700: #0a4ea0; --blue-600: #0b6bcb;
   color: var(--ink); background: #f3f8fc; border-color: #e4ecf2;
 }
+.header .nav-toggle { color: #0a1b2a; }

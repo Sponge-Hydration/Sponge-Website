@@ -21,8 +21,9 @@ export default function Header() {
     <header className="header">
       <div className="container header__inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
-          <img className="brand__logo" src="/media/logo/mark.png" alt="" aria-hidden="true" />
-          Sponge
+          {/* Wordmark on wider screens, the icon alone on phones (Nathan, 11-23). */}
+          <img className="brand__wordmark" src="/media/logo/wordmark.png" alt="Sponge" width="450" height="112" />
+          <img className="brand__logo brand__logo--solo" src="/media/logo/mark.png" alt="Sponge" />
         </Link>
 
         <nav className={`nav nav--links${open ? ' is-open' : ''}`} aria-label="Primary">

@@ -312,11 +312,13 @@ export default function Home() {
             />
             <Eyebrow to="/blog/the-story-behind-sponge">Our solution</Eyebrow>
             <h2>One tracker. Every sip, counted.</h2>
-            <p>Sponge clips onto the bottle you already carry and quietly logs your hydration all day long.</p>
-            <p>
-              Sponge is <AB a="$64.99 with free shipping" b="$59.99" />, clips onto
-              the bottle you already own, and locks the apps you choose until you’ve caught up.
-            </p>
+            <p>That’s Sponge.</p>
+            <ul className="problem-list problem-list--yes">
+              <li>Clips onto the bottle you already carry.</li>
+              <li>Quietly logs your hydration all day long.</li>
+              <li>Locks the apps you choose until you’ve caught up.</li>
+            </ul>
+            <p className="problem-turn">No new bottle to buy. <strong>Sponge is <AB a="$64.99 with free shipping" b="$59.99" />.</strong></p>
             <Link to="/blog/the-story-behind-sponge" className="section-head__more">Read how Sponge started →</Link>
           </div>
         </div>
