@@ -1,4 +1,4 @@
-/* Dark theme trial (branch dark-theme, Nov 23 2026): the Black Friday pop-up's look applied site-wide.
+/* Dark theme (Nov 23 2026, approved by Nathan): the Black Friday pop-up look applied site-wide.
    Only variable overrides plus the few rules that used a dark colour as a background.
    To drop the theme, remove the import in main.jsx. */
 :root {
@@ -75,3 +75,7 @@ body { background: radial-gradient(120% 900px at 50% 0%, #12406f 0%, #0a1b2a 62%
 }
 .faq__item:hover { border-color: rgba(43, 196, 216, 0.6); }
 .section--tint { border-top: 1px solid rgba(255, 255, 255, 0.06); border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+
+/* Two spots where a now-lighter blue sat behind or on white. */
+.skip-link { color: #0a4ea0; }
+.compare thead .compare__us { background: #0b6bcb; }
