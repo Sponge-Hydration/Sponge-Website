@@ -14,6 +14,7 @@ import Team from './pages/Team'
 import Contact from './pages/Contact'
 import Support from './pages/Support'
 import ReviewsPage from './pages/ReviewsPage'
+import Feedback from './pages/Feedback'
 import Account from './pages/Account'
 import OrderStatus from './pages/OrderStatus'
 import Legal from './pages/Legal'
@@ -51,6 +52,7 @@ export const routes = [
       { path: 'contact', element: <Contact /> },
       { path: 'support', element: <Support /> },
       { path: 'reviews', element: <ReviewsPage /> },
+      { path: 'feedback', element: <Feedback /> },
       { path: 'account', element: <Account /> },
       { path: 'order-status', element: <OrderStatus /> },
       // Prerendered to dist/404.html; Cloudflare Pages serves it with a real 404

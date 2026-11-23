@@ -42,6 +42,7 @@ export default function Footer() {
             <Link to="/team">Team</Link>
             <Link to="/blog">Blog</Link>
             <Link to="/reviews">Reviews</Link>
+            <Link to="/feedback">Give feedback</Link>
             <Link to="/caregivers">Caregivers</Link>
             <Link to="/contact">Contact</Link>
           </div>

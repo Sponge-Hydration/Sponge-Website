@@ -107,6 +107,12 @@ export default function Support() {
             <p><strong>Hours</strong><br />Mon–Fri, 9am–6pm ET. We reply within one business day.</p>
             <p><strong>Help us help you</strong><br />Include your order number and the email address you ordered with.</p>
             <Link to="/contact" className="btn btn--primary btn--lg btn--block">Send us a message</Link>
+            <p style={{ marginTop: 18 }}>
+              <strong>Not a problem, just feedback?</strong><br />
+              Tell us what to fix or build next in the{' '}
+              <Link to="/feedback">feedback survey</Link>. It takes about two minutes and
+              the founders read every one.
+            </p>
           </aside>
         </div>
       </section>

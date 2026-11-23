@@ -1,58 +1,16 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Seo } from '../components/useSEO'
 import { SectionHead } from '../components/bits'
 import { ReviewCard } from '../components/Reviews'
-import { CheckCircleIcon } from '../components/icons'
+import FeedbackSurvey from '../components/FeedbackSurvey'
 import { reviews as bakedReviews } from '../data'
 
-const RATING_CATEGORIES = [
-  { key: 'device', label: 'The device' },
-  { key: 'app', label: 'The app' },
-  { key: 'setup', label: 'Setup' },
-  { key: 'packaging', label: 'Packaging' },
-]
-const RATING_WORDS = ['Great', 'Good', 'Okay', 'Poor']
-// Options match the existing Airtable reviews table exactly.
-const DISCOVERY_OPTIONS = ['Instagram', 'TikTok', 'Friend or family', 'Online search', 'Other']
-const USE_CASES = [
-  'Fitness and training',
-  'Daily habit building',
-  'Focus and energy',
-  'Preventive health',
-  'App-lock feature',
-  'Gift for someone',
-]
-
-// Interactive 1-5 star picker.
-function StarPicker({ value, onChange }) {
-  const [hover, setHover] = useState(0)
-  return (
-    <div className="star-picker" role="radiogroup" aria-label="Overall rating">
-      {[1, 2, 3, 4, 5].map((n) => (
-        <button
-          type="button"
-          key={n}
-          role="radio"
-          aria-checked={value === n}
-          aria-label={`${n} star${n > 1 ? 's' : ''}`}
-          className={`star-picker__star${n <= (hover || value) ? ' is-on' : ''}`}
-          onMouseEnter={() => setHover(n)}
-          onMouseLeave={() => setHover(0)}
-          onClick={() => onChange(n)}
-        >
-          ★
-        </button>
-      ))}
-    </div>
-  )
-}
-
+// /reviews - the public review wall, with the same survey that /feedback uses
+// underneath it. The form itself lives in components/FeedbackSurvey.jsx so the
+// two pages cannot drift apart from the Airtable columns.
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState(bakedReviews.filter((r) => r.quote))
-  const [overall, setOverall] = useState(0)
-  const [useCases, setUseCases] = useState([])
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
-  const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
     let cancelled = false
@@ -68,52 +26,6 @@ export default function ReviewsPage() {
       cancelled = true
     }
   }, [])
-
-  const toggleUseCase = (uc) =>
-    setUseCases((prev) => (prev.includes(uc) ? prev.filter((x) => x !== uc) : [...prev, uc]))
-
-  const submit = async (e) => {
-    e.preventDefault()
-    if (!overall) {
-      setStatus('error')
-      setErrorMsg('Please choose an overall star rating.')
-      return
-    }
-    setStatus('sending')
-    setErrorMsg('')
-    const form = new FormData(e.target)
-    try {
-      const res = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          overall,
-          device: form.get('device') || '',
-          app: form.get('app') || '',
-          setup: form.get('setup') || '',
-          packaging: form.get('packaging') || '',
-          discovery: form.get('discovery') || '',
-          useCases,
-          feedback: form.get('feedback') || '',
-          email: form.get('email') || '',
-          nps: form.get('nps') || '',
-          website: form.get('website') || '', // honeypot
-        }),
-      })
-      let data = null
-      try {
-        data = await res.json()
-      } catch {
-        /* non-JSON (plain Vite dev server without functions) */
-      }
-      if (!res.ok || !data?.ok) throw new Error(data?.error || 'Could not submit your review.')
-      setStatus('sent')
-      window.scrollTo(0, 0)
-    } catch (err) {
-      setStatus('error')
-      setErrorMsg(err.message || 'Could not submit your review.')
-    }
-  }
 
   return (
     <section className="section">
@@ -137,93 +49,13 @@ export default function ReviewsPage() {
 
         <div className="review-form-wrap">
           <h2 className="review-form__title">Leave a review</h2>
-          {status === 'sent' ? (
-            <div className="empty-state" style={{ padding: '40px 20px' }}>
-              <div className="empty-state__icon" aria-hidden="true"><CheckCircleIcon size={56} /></div>
-              <h2>Thank you!</h2>
-              <p>Your review was submitted. We read every one, thanks for helping make Sponge better.</p>
-            </div>
-          ) : (
-            <form className="checkout-form review-form" onSubmit={submit}>
-              <div className="review-form__field">
-                <label className="review-form__label">Overall rating *</label>
-                <StarPicker value={overall} onChange={setOverall} />
-              </div>
-
-              <div className="review-form__ratings">
-                {RATING_CATEGORIES.map((c) => (
-                  <label key={c.key}>
-                    {c.label}
-                    <select name={c.key} defaultValue="">
-                      <option value="">Select</option>
-                      {RATING_WORDS.map((w) => (
-                        <option key={w}>{w}</option>
-                      ))}
-                    </select>
-                  </label>
-                ))}
-              </div>
-
-              <label>
-                How did you hear about us?
-                <select name="discovery" defaultValue="">
-                  <option value="">Choose one</option>
-                  {DISCOVERY_OPTIONS.map((d) => (
-                    <option key={d}>{d}</option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                How likely are you to recommend Sponge to a friend? (0-10)
-                <select name="nps" defaultValue="">
-                  <option value="">Prefer not to say</option>
-                  {Array.from({ length: 11 }, (_, n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </label>
-
-              <div className="review-form__field">
-                <span className="review-form__label">What do you use Sponge for?</span>
-                <div className="review-form__chips">
-                  {USE_CASES.map((uc) => (
-                    <button
-                      type="button"
-                      key={uc}
-                      className={`chip${useCases.includes(uc) ? ' is-on' : ''}`}
-                      aria-pressed={useCases.includes(uc)}
-                      onClick={() => toggleUseCase(uc)}
-                    >
-                      {uc}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <label>
-                Your review *
-                <textarea name="feedback" required rows={5} placeholder="What do you love, and what could be better?" />
-              </label>
-
-              <label>
-                Email <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional, only so we can follow up, never published)</span>
-                <input name="email" type="email" placeholder="you@email.com" />
-              </label>
-
-              {/* Honeypot, hidden from real users, catches bots. */}
-              <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }} />
-
-              {status === 'error' && (
-                <p role="alert" style={{ color: 'crimson' }}>{errorMsg}</p>
-              )}
-
-              <button type="submit" className="btn btn--primary btn--lg" disabled={status === 'sending'}>
-                {status === 'sending' ? 'Submitting…' : 'Submit review'}
-              </button>
-            </form>
-          )}
+          <FeedbackSurvey variant="review" />
         </div>
+
+        <p className="feedback-note">
+          Rather tell us privately what to fix? The same questions, framed for owners, are
+          on the <Link to="/feedback">feedback survey</Link>.
+        </p>
       </div>
     </section>
   )
