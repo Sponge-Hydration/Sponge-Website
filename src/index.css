@@ -1239,12 +1239,13 @@ html[data-price='ab-a'] .ab-b { display: none; }
 .showcase__more { text-align: center; margin: -18px 0 28px; }
 @media (max-width: 700px) {
   .hero__grid { display: flex; flex-direction: column; align-items: center; gap: 0; padding-bottom: 44px; }
-  .hero__copy { display: contents; }
+  .hero__copy, .hero__copy .hero__cta { display: contents; }
+  .eyebrow--bf { font-size: 11px; letter-spacing: 0.05em; white-space: nowrap; }
   .hero__copy h1 { font-size: clamp(29px, 8vw, 36px); line-height: 1.08; margin: 14px 0 16px; }
   .hero__media { order: 1; width: auto; margin: 0 auto 20px; }
   .hero__media .hero__film { width: auto; height: min(32vh, 300px); border-radius: 20px; }
   .hero__copy .hero__cta .btn--primary { order: 2; width: 100%; max-width: 360px; justify-content: center; }
-  .hero__copy .hero__rating { order: 3; }
+  .hero__copy .hero__rating { order: 3; margin: 12px 0 14px; text-align: center; }
   .hero__copy .hero__cta .btn--ghost { order: 4; }
   .hero__copy .hero__sub { order: 5; margin: 22px 0 0; font-size: 16px; color: var(--muted); }
   .hero__copy .hero__note { order: 6; gap: 8px; margin-top: 16px; }
