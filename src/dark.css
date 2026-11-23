@@ -1,0 +1,40 @@
+/* Dark theme trial (branch dark-theme, Nov 23 2026): the Black Friday pop-up's look applied site-wide.
+   Only variable overrides plus the few rules that used a dark colour as a background.
+   To drop the theme, remove the import in main.jsx. */
+:root {
+  color-scheme: dark;
+  --ink: #f3f8fc;
+  --ink-soft: #b9c9d6;
+  --muted: #8a9cad;
+  --line: rgba(255, 255, 255, 0.12);
+  --surface: #0a1b2a;
+  --surface-tint: rgba(255, 255, 255, 0.035);
+  --surface-deep: #11304f;
+  --card: #0f2438;
+  --aqua-100: rgba(111, 224, 232, 0.12);
+  --blue-900: #eaf3fb;
+  --blue-700: #8ecbff;
+  --blue-600: #4aa8f5;
+  --grad-brand: linear-gradient(135deg, #0b6bcb, #2bc4d8);
+  --grad-deep: linear-gradient(160deg, #12406f, #0a1b2a);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.55);
+}
+html { background: #0a1b2a; }
+body { background: radial-gradient(120% 900px at 50% 0%, #12406f 0%, #0a1b2a 62%) no-repeat #0a1b2a; }
+.footer { background: #050e18; }
+.bf__card { background: radial-gradient(120% 80% at 50% 0%, #12406f 0%, #0a1b2a 62%); border: 1px solid rgba(255, 255, 255, 0.12); }
+.bf__tag { color: #0a1b2a; }
+.eyebrow--bf { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); }
+.btn--ghost { color: #fff; border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.06); }
+.section--deep, .cta-band, .app-strip { border: 1px solid rgba(255, 255, 255, 0.1); }
+.bf-cart-note { color: #fff; }
+.cart-summary__row--discount { color: #5fe0a4; }
+.header { background: rgba(10, 27, 42, 0.78); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.buybar { background: rgba(10, 27, 42, 0.94); }
+.hero__video-toggle { color: #0a1b2a; }
+.app-badges a { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); }
+.hero { background: radial-gradient(110% 90% at 85% -10%, #164a80 0%, rgba(10, 27, 42, 0) 62%); }
+.hero--sub { background: radial-gradient(120% 90% at 80% -10%, #164a80, rgba(10, 27, 42, 0) 60%); }
+.hero h1 .accent { background: linear-gradient(90deg, #6fe0e8, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
