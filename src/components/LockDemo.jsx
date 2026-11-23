@@ -41,6 +41,51 @@ export const LOCK_STEPS = [
 
 const AUTO_MS = 3800
 
+// Step 4 only: the ring closes from 89% to 100% and the total counts up, as if a
+// drink had just been logged (Nathan, 11-23). It is drawn over the real screenshot
+// in that screenshot's own coordinates (1179 x 2556, measured from the file), ends
+// on the screenshot's own numbers (89.9 oz, 100%), then fades away to show it.
+const RING = { cx: 589.5, cy: 1295, r: 530, w: 60, disc: 471.5, goal: 80, from: 71.2, to: 89.9 }
+const RING_C = 2 * Math.PI * RING.r
+
+function RingFill() {
+  const [t, setT] = useState(0)
+  const [done, setDone] = useState(false)
+  useEffect(() => {
+    let raf
+    let start
+    const tick = (now) => {
+      if (start === undefined) start = now + 450
+      const k = Math.min(1, Math.max(0, (now - start) / 1700))
+      setT(1 - (1 - k) ** 3)
+      if (k < 1) raf = requestAnimationFrame(tick)
+      else setDone(true)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+  const oz = RING.from + (RING.to - RING.from) * t
+  const pct = Math.min(1, oz / RING.goal)
+  return (
+    <svg className={`lockdemo__ring${done ? ' is-done' : ''}`} viewBox="0 0 600 1199" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g transform="translate(23.47 0) scale(0.46909)" fontFamily="-apple-system, 'SF Pro Display', Inter, system-ui, sans-serif">
+        <rect x="0" y="630" width="1179" height="1250" fill="#000" />
+        <circle cx={RING.cx} cy={RING.cy} r={RING.r} fill="none" stroke="#1e2125" strokeWidth={RING.w} />
+        <circle
+          cx={RING.cx} cy={RING.cy} r={RING.r} fill="none" stroke="#5cb8ff" strokeWidth={RING.w} strokeLinecap="round"
+          transform={`rotate(-90 ${RING.cx} ${RING.cy})`} strokeDasharray={`${pct * RING_C} ${RING_C}`}
+        />
+        <circle cx={RING.cx} cy={RING.cy} r={RING.disc} fill="rgb(27,55,76)" />
+        <text x={RING.cx} y="707" textAnchor="middle" fontSize="76" fontWeight="700" fill="#5cb8ff">{Math.floor(pct * 100)}%</text>
+        <text x={RING.cx} y="1401" textAnchor="middle" fontWeight="800" fill="#fff">
+          <tspan fontSize="300" letterSpacing="-6">{oz.toFixed(1)}</tspan>
+          <tspan fontSize="130" dx="14">oz</tspan>
+        </text>
+      </g>
+    </svg>
+  )
+}
+
 export default function LockDemo() {
   const [step, setStep] = useState(0)
   const [auto, setAuto] = useState(false)
@@ -62,6 +107,10 @@ export default function LockDemo() {
     return () => clearTimeout(t)
   }, [auto, step, n])
 
+  // Not with reduced motion: the still screenshot already shows the end state.
+  const [motion, setMotion] = useState(false)
+  useEffect(() => { setMotion(!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) }, [])
+
   const go = (i) => { setAuto(null); setStep(((i % n) + n) % n) }
 
   return (
@@ -80,6 +129,7 @@ export default function LockDemo() {
               decoding="async"
             />
           ))}
+          {motion && step === 3 && <RingFill />}
         </button>
         <div className="lockdemo__nav">
           <button type="button" className="lockdemo__arrow" onClick={() => go(step - 1)} aria-label="Previous step">←</button>

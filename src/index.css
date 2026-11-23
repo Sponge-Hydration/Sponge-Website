@@ -1426,3 +1426,5 @@ html[data-price='ab-a'] .ab-b { display: none; }
   .lockdemo__step.is-on { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .lockdemo__shot, .lockdemo__step { transition: none; } }
+.lockdemo__ring { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 34px; transition: opacity 0.5s ease 0.35s; }
+.lockdemo__ring.is-done { opacity: 0; }
