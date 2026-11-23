@@ -14,6 +14,7 @@ import { DropletIcon, MagnetIcon, BatteryIcon, PhoneIcon, LockIcon, HeartIcon } 
 // hash. Files in public/ are copied verbatim and served with max-age=14400, so
 // reusing one filename across revisions left browsers on a stale cut for hours.
 import heroFilm from '../media/hero-film.mp4'
+import heroFilmMobile from '../media/hero-film-mobile.mp4'
 import heroPoster from '../media/hero-film-poster.jpg'
 
 // Each feature card opens the detail behind it (Nathan, 2026-09-22): people
@@ -188,6 +189,19 @@ function HeroBackground() {
         playsInline
         poster={heroPoster}
       >
+        {/* Phones get a smaller cut of the same film. Below 700px the panel is at
+            most 300 CSS px tall (index.css), so 480x854 still covers a 3x screen,
+            and the file is 1.4 MB instead of 2.5 MB. The browser picks the first
+            source whose media query matches when the page loads; wider screens
+            fall through to the full file. Browsers too old to read `media` on a
+            video source (Chrome and Firefox before v120) take the first one, so
+            they show the smaller cut everywhere, which is only slightly softer.
+            Made from hero-film.mp4 with: ffmpeg -i hero-film.mp4 -an
+            -vf scale=480:854:flags=lanczos -c:v libx264 -preset veryslow -crf 30
+            -pix_fmt yuv420p -movflags +faststart hero-film-mobile.mp4
+            (VMAF 89 against the full film at phone size). Re-make it whenever
+            hero-film.mp4 changes. */}
+        <source src={heroFilmMobile} type="video/mp4" media="(max-width: 700px)" />
         <source src={heroFilm} type="video/mp4" />
       </video>
       <button type="button" className="hero__video-toggle" onClick={toggle}>
